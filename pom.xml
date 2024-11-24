@@ -158,7 +158,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.neptune.cbawrapper.CbaWrapperApplication</mainClass>
+					<mainClass>com.neptune.cbawrapper.CbawrapperApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
