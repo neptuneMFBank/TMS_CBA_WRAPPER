@@ -1,0 +1,519 @@
+syntax = "proto3";
+
+package auth;
+
+service AuthService {
+
+  rpc Create3ppUser(Create3ppUserRequest) returns (CreateUserResponse) {}
+
+  rpc Login3ppUser(LoginRequest) returns (LoginResponse) {}
+
+  rpc Resend3ppVerifyEmailOtp(ResendVerifyEmailOtpRequest) returns (OtpResponse) {}
+
+  rpc Verify3ppPhoneNumberOtp(VerifyPhoneNumberOtpRequest) returns (Empty) {}
+
+  rpc Verify3ppEmailOtp(VerifyEmailOtpRequest) returns (Empty) {}
+
+  rpc Forgot3ppPasswordOtp(ForgotPasswordOtpRequest) returns (OtpResponse) {}
+
+  rpc Verify3ppResetPasswordOtp(VerifyResetPasswordOtpRequest) returns (Empty) {}
+
+  rpc Authenticate3ppAccess(AuthenticateUserRequest) returns (AuthenticateUserResponse) {}
+
+  rpc GenerateApiKey(GenerateApiKeyRequest) returns (GenerateApiKeyResponse) {}
+
+  rpc RegenerateApiKey(RegenerateApiKeyRequest) returns (RegenerateApiKeyResponse) {}
+
+  rpc AuthenticateApiKey(AuthenticateApiKeyRequest) returns (AuthenticateApiKeyResponse) {}
+
+  rpc TwoFactorAuth(TwoFactorAuthRequest) returns (TwoFactorAuthResponse) {}
+
+  rpc Get3ppPhoneNumberOtp(GetPhoneNumberOtpRequest) returns (OtpResponse){}
+
+  rpc Create3ppWebhookData(Create3ppWebhookRequest) returns (Empty){}
+
+  rpc Get3ppWebhookData(Get3ppWebhookRequest) returns (Get3ppWebhookResponse){}
+
+  rpc Update3ppWebhookData(Update3ppWebhookRequest) returns (Empty){}
+
+  rpc Get3ppUserData(Get3ppUserDataRequest) returns (Get3ppUserDataResponse){}
+
+
+  rpc Get2faQrCodeUrl(Get2faQrCodeUrlRequest) returns (Get2faQrCodeUrlResponse){}
+
+  // rpc GetRolePrivileges(GetRolePrivilegesRequest) returns (GetPrivilegesResponse){}
+  // rpc GetEmployeeRoles(GetEmployeeRolesRequest) returns (GetEmployeeRolesResponse){}
+  rpc Get3ppByUniqueData(GetByUniqueDataRequest) returns (GetByUniqueDataResponse){}
+
+
+}
+
+message GetByUniqueDataRequest {
+  string unique_data = 1;
+}
+
+message GetByUniqueDataResponse {
+  ThirdPartyUser user = 1;
+}
+
+message Get2faQrCodeUrlRequest {
+  string token = 1;
+}
+
+message Get2faQrCodeUrlResponse {
+  string otpauth_url = 1;
+}
+
+message Meta {
+  string password_updated = 1;
+  bool phone_verified = 2;
+}
+
+message Get3ppUserDataResponse {
+  ThirdPartyUser user = 1;
+  Meta metadata = 2;
+}
+
+message Create3ppWebhookRequest {
+  string token = 1;
+  string url = 2;
+}
+
+message Get3ppWebhookRequest {
+  string token = 1;
+  string id = 2;
+}
+
+message Get3ppWebhookResponse {
+  string token = 1;
+  string url = 2;
+}
+
+message Get3ppUserDataRequest {
+  string token = 1;
+}
+
+message Update3ppWebhookRequest {
+  string url = 1;
+  string token = 2;
+}
+
+
+message GetPhoneNumberOtpRequest {
+  string phone_number = 1;
+}
+
+message VerifyPhoneNumberOtpRequest {
+  string phone_number = 1;
+  string otp = 2;
+}
+
+message TwoFactorAuthResponse {
+  string access_token = 1;
+}
+
+message RegenerateApiKeyRequest {
+  string token = 1;
+}
+
+message RegenerateApiKeyResponse {
+  string api_key = 1;
+  string client_id = 2;
+}
+
+message TwoFactorAuthRequest {
+  string otp = 1;
+  string token = 2;
+}
+
+message AuthenticateApiKeyRequest {
+  string api_key = 1;
+  string client_id = 2;
+}
+message ThirdPartyUser {
+  string id= 1;
+  string first_name= 2;
+  string last_name= 3;
+  string business_name= 4;
+  string email=5;
+  string phone_number=6;
+  string active_status=7;
+  bool phone_number_verified = 8;
+  bool email_verified = 9;
+  bool bvn_verified = 10;
+  string status=16;
+  string channel_code = 17;
+  string settlement_account_number = 18;
+  string created_at = 19;
+  string updated_at = 20;
+}
+
+message AuthenticateApiKeyResponse {
+  bool authenticated = 1;
+  ThirdPartyUser user = 2;
+}
+
+message GenerateApiKeyRequest {
+  string token = 1;
+}
+
+message GenerateApiKeyResponse {
+  string api_key = 1;
+  string client_id = 2;
+}
+
+message Create3ppUserRequest {
+  string email = 1;
+  string phone_number = 2;
+  string country = 3;
+  string address = 4;
+  string password = 6;
+  string business_name = 7;
+  string settlement_account_number = 8;
+}
+
+message CreateUserResponse {
+  string email = 1;
+  string idxsb = 2;
+  string mfa_secret = 3;
+  string mfa_url = 4;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  string two_fa_token = 2;
+}
+
+message ResendVerifyEmailOtpRequest {
+  string email = 1;
+}
+
+message VerifyEmailOtpRequest {
+  string email = 1;
+  string otp = 2;
+}
+
+message OtpResponse {
+  string idxsb = 1;
+}
+
+
+message VerifyResetPasswordOtpRequest {
+  string phone_number = 1;
+  string otp = 2;
+  string password = 3;
+}
+
+message Empty {}
+
+message ForgotPasswordOtpRequest{
+  string phone_number = 1;
+}
+
+message AuthenticateUserRequest {
+  string token = 1;
+  // UserType user_type = 2;
+}
+
+message AuthenticateUserResponse {
+  AdminUser user = 1;
+}
+
+message AdminUser {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone_number = 4;
+  bool email_verified = 5;
+  bool bvn_verified = 6;
+  bool phone_number_verified = 7;
+  string pass_updated = 8;
+  string account_status = 9;
+  string question = 10;
+  bool selfie_verified = 11;
+  string email = 12;
+  string role = 13;
+  string photo = 14;
+  string provider = 15;
+  string created_at = 16;
+  string updated_at = 17;
+  repeated Department departments = 18;
+  repeated Privilege employee_privileges = 19;
+  repeated Supervision supervisor_role = 20;
+  repeated Authorization authorizations = 21;
+  bool has_posting_right = 22;
+  Limit limit = 23;
+  repeated Supervision supervisions = 24;
+  Ledger accessible_ledger = 25;
+}
+
+message SubMenu {
+  string id = 1;
+  string sub_menu_name = 2;
+  string description = 3;
+  SubMenu menu = 4;
+  repeated Privilege sub_menu_privileges = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message Employee {
+  string id = 1;
+  string first_name = 2;
+  string phone_number = 3;
+  string email = 4;
+  string last_name = 5;
+  repeated Department departments = 6;
+  string date_of_birth = 7;
+  string sex = 8;
+  repeated Privilege employee_privileges = 9;
+  repeated Supervision supervisions = 10;
+  repeated Supervision supervisor_role = 11;
+  repeated Authorization authorizations = 12;
+  string role = 13;
+  bool has_posting_right = 14;
+  Limit limit = 15;
+  string created_at = 16;
+  string updated_at = 17;
+  string deleted_at = 18;
+  Ledger accessible_ledger = 19;
+  AuthAndApprovalData approval_data = 20;
+  AuthAndApprovalData authorizer_data = 21;
+  bool approved = 22;
+}
+
+message Authorization {
+  string id = 1;
+  AuthEnum authorization_type = 2;
+  repeated Employee employee = 3;
+  Country country = 4;
+  Department department = 5;
+  string description = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+enum AuthEnum {
+  Initiator = 0;
+  Authorizer = 1;
+  Approval = 2;
+}
+
+message Supervision {
+  string id = 1;
+  string description = 2;
+  Employee supervisor = 3;
+  repeated Employee supervisees = 4;
+  Department department = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message AuthAndApprovalData {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+}
+
+message GlNode {
+  string id = 1;
+  string node_name = 2;
+  string created_by = 3;
+  Branch branch = 4;
+  GlType gl_type = 5;
+  Country country = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message GlType {
+  string id = 1;
+  string gl_type_name = 2;
+  string created_by = 3;
+  string gl_type_code = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message Branch {
+  string id = 1;
+  string branch_name = 2;
+  Country country = 3;
+  City city = 4;
+  string address = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message Lga {
+  string id = 1;
+  string lga_name = 2;
+  string description = 3;
+  State state = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message Region {
+  string id = 1;
+  string region_name = 2;
+  string description = 3;
+  Country country = 4;
+  repeated State states = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message State {
+  string id = 1;
+  string state_name = 2;
+  string description = 3;
+  Region region = 4;
+  repeated City cities = 5;
+  repeated Lga lgas = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message City {
+  string id = 1;
+  string city_name = 2;
+  string description = 3;
+  State state = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message Country {
+  string id = 1;
+  string country_name = 2;
+  string region = 3;
+  repeated Region regions = 4;
+  string currency = 5;
+}
+
+message GlClass {
+  string id = 1;
+  string class_name = 2;
+  string created_by = 3;
+  string gl_class_code = 4;
+  GlNode gl_node = 5;
+  Branch branch = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message Ledger {
+  Product product = 1;
+  string ledger_name = 2;
+  string total_debit_balance = 3;
+  string total_credit_balance = 4;
+  GlClass gl_class = 5;
+  string id = 6;
+  string ledger_code = 7;
+  string created_at = 8;
+  string updated_at = 9;
+  bool immutable = 10;
+}
+
+message Product {
+  string  id = 1;
+  string product_name = 2;
+  string created_by = 3;
+  string product_code = 4;
+  string interest_rate = 5;
+  repeated Ledger ledgers = 6;
+  repeated Charge charges =7;
+  ProductConfig product_config  = 8;
+  string product_type = 9;
+  string created_at = 10;
+  string updated_at = 11;
+  string description = 12;
+  string credit_interest = 13;
+  string debit_interest = 14;
+  string short_name = 15;
+}
+
+message Charge {
+  string id = 1;
+  string charge_name = 2;
+  string charge_code = 3;
+  string charge_basis = 4;
+  string charge_amount = 5;
+  string liquidation_mode = 6;
+  string liquidation_period = 7;
+  string created_by = 8;
+  string charge_category = 9;
+  string charge_type = 10;
+  string product_type = 11;
+  string ledger_code = 12;
+  Ledger ledger = 13;
+}
+
+message ProductConfig {
+  string allow_detail_check = 1;
+  string lock_status = 2;
+  string default_rate = 3;
+  string penal_rate = 4;
+  string minimum_investment = 5;
+  string minimum_tenor = 6;
+  string minimum_deposit = 7;
+  string product_group_days = 8;
+  string product_group = 9;
+  string auto_top_up = 10;
+  string allow_lock_increase = 11;
+  string auto_top_up_frequency = 12;
+  string allow_history_check = 13;
+  string product_group_description = 14;
+}
+
+message Limit {
+  string id = 1;
+  string currency = 2;
+  string description = 3;
+  string deposit_debit_limit = 4;
+  string loan_debit_limit = 5;
+  string gl_debit_limit = 6;
+  string deposit_credit_limit = 7;
+  string loan_credit_limit = 8;
+  string gl_credit_limit = 9;
+  Employee employee = 10;
+  string created_at = 11;
+  string updated_at = 12;
+}
+
+message Privilege {
+  string id = 1;
+  Employee employee = 2;
+  SubMenu sub_menu = 3;
+  Menu menu = 4;
+  string privilege = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string access_level = 8;
+}
+
+message Menu {
+  string id = 1;
+  string menu_name = 2;
+  string description = 3;
+  repeated Department departments = 4;
+  repeated SubMenu sub_menus = 5;
+  repeated Privilege menu_privileges = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message Department {
+  string id = 1;
+  string department_name = 2;
+  string description = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  repeated Menu menus  = 6;
+}

@@ -1,0 +1,190 @@
+
+
+syntax = "proto3";
+
+package customers;
+
+import "google/protobuf/timestamp.proto";
+
+service CustomerService {
+  rpc CreatBulkCorporateAccount(CreateBulkCorpAccountRequest) returns (CreateBulkCorpCustomerResponse){}
+}
+
+message CreateBulkCorpAccountRequest {
+  repeated CreateCorporateAccountRequest customer_data = 1;
+}
+
+message CreateBulkCorpCustomerResponse {
+  repeated CreateBulkCustomerResponse response = 1;
+  repeated CreateBulkCustomerErrResponse errorData = 2;
+}
+
+message CreateBulkCustomerResponse {
+  string id = 1;
+  string account_number = 2;
+  string tin = 3;
+}
+
+message CreateBulkCustomerErrResponse {
+  string tin = 1;
+  string reason = 2;
+}
+
+
+message ResponseStatus {
+  int32 code = 1;
+  string message = 2;
+}
+
+message CreateCorporateAccountRequest {
+  string company_name = 1;
+  string company_registration_no = 2;
+  string date_of_registration = 3;
+  string country_of_registration = 4;
+  string company_address = 5;
+  string state = 6;
+  string city = 7;
+  string country = 8;
+  string last_name = 9;
+  string bvn = 10;
+  string tin = 11;
+  string address = 12;
+  repeated CreateDirectorRequest director_data = 13;
+  string principal_officer_middle_name = 14;
+  string sex = 15;
+  string date_of_birth = 16;
+  string title = 17;
+  string contact_phone_number = 18;
+  string alternate_phone = 19;
+  string office_phone_number = 20;
+  string email_address = 21;
+  string nin = 22;
+  string id_type = 23;
+  string date_of_expiration = 24;
+  string place_of_issuance = 25;
+  string id_number = 26;
+  string country_of_issuance = 27;
+  string date_of_issuance = 28;
+  string fathers_name = 29;
+  string mothers_name = 30;
+  string nationality = 31;
+  string business_category = 32;
+  string ownership_structure = 33;
+  string Product = 34;
+  string branch_id = 35;
+  // string account_number = 35;
+  string signature = 36;
+  string Photo_upload = 37;
+  string introducer = 38;
+  string rsm = 39;
+  string restriction = 40;
+  string principal_officer_lastname = 41;
+  string principal_officer_first_name = 42;
+  string primary_company_address = 43;
+  string  primary_company_state = 44;
+  string  primary_company_city = 45;
+  string  primary_company_country = 46;
+  string first_name = 47;
+  string middle_name = 48;
+  string product_id = 49;
+  bool block_view = 50; // true or false
+  repeated CreateDocumentData documents = 51; // array of doc data
+  string no_of_signatory = 52;
+  bool sms_notification = 53; // true or false
+  bool email_notification = 54;
+  repeated Reference referenceData = 55;
+  repeated CreateSignatoryRequest signatoriesData = 56;
+  // CreateCorporateOptions options = 57;
+  CustomerOptions customer_options = 57;
+  CustomerProductOptions product_options = 58;
+  bool is_linked_account = 59;
+  string linked_account_number = 60;
+  string creation_channel_code = 61;
+  string primary_company_lga = 62; // 22/07/24
+  string sector_code = 63;
+  string driving_license = 64;
+}
+
+message CustomerProductOptions {
+  string product_created_at = 1;
+  string old_account_number = 2;
+  string account_number = 3;
+}
+message Reference {
+  string reference_lastname = 1;
+  string reference_first_name = 2;
+  string reference_middle_name = 3;
+  string bank_name = 4;
+  string bank_address = 5;
+  string account_number = 6;
+  string phone_number = 7;
+  string email = 8;
+  string reference_form = 9;
+  string father_name = 10;
+  string mother_name = 11;
+  string nationality = 12;
+  bool reference_verified = 13;
+}
+
+message CustomerOptions {
+  string customer_created_at = 1;
+  string is_active = 2;
+}
+
+message CreateSignatoryRequest{
+  string last_name = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string sex = 4;
+  string date_of_birth = 5;
+  string title = 6;
+  string contact_phone_number = 7;
+  string alternate_phone = 8;
+  string email_address = 9;
+  string bvn = 10;
+  string address = 11;
+  string signature = 12;
+  string passport_photograph = 14;
+  string nin = 15;
+  string customer_id = 16;
+  repeated CreateDocumentData documents_and_identity = 17;
+  string father_name = 18;
+  string mother_name = 19;
+  string nationality = 20;
+}
+
+
+message CreateDirectorRequest{
+  string last_name = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string sex = 4;
+  string date_of_birth = 5;
+  string title = 6;
+  string contact_phone = 7;
+  string alternate_phone = 8;
+  string email = 9;
+  string bvn = 10;
+  string address = 11;
+  string signature = 12;
+  string passport_photograph = 14;
+  string nin = 15;
+  string customer_id = 16;
+  bool is_principal = 17;
+  repeated CreateDocumentData documents_and_identity = 18;
+}
+
+message CreateDocumentData {
+  string document_name = 1;
+  string document_url = 2;
+  string expiration_date = 3;
+  string document_number = 4;
+  string country_of_issuance = 5;
+  string date_of_issuance  = 6;
+  string place_of_issuance = 7;
+}
+
+message CreateCustomerResponse {
+  string id = 1;
+  string account_number = 2;
+}
