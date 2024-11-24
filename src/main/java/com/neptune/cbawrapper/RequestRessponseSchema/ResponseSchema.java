@@ -70,11 +70,12 @@ public class ResponseSchema<T> {
         this.mfa_url = mfa_url;
     }
 
-    public T getResponseData() {
+
+    public List<T> getResponseData() {
         return responseData;
     }
 
-    public void setResponseData(T responseData) {
+    public void setResponseData(List<T> responseData) {
         this.responseData = responseData;
     }
 
