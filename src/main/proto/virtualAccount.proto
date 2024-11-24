@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option java_multiple_files= true;
+option java_package = "com.virtualAccountApplication.createAccount.proto";
+option java_outer_classname = "accountService";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service CreateAccountService {
+  rpc CreateAccount(CreateAccountRequest)returns(CreateAccountResponse){};
+}
+
+message CreateAccountRequest {
+  oneof account_data {
+    DynamicAccountMessage dynamic_account= 1;
+    StaticAccountMessage static_account = 2;
+  };
+  AccountTypes account_type = 6;
+  string parent_id = 7;
+  string secondary_parent_account_number = 8;
+}
+
+message DynamicAccountMessage {
+  int32 number_of_accounts = 1;
+  string bvn = 2;
+  string nin = 3;
+  string account_name = 4;
+}
+
+message StaticAccountMessage {
+  string phone_number = 1;
+  string account_name = 2;
+  string email = 3;
+  string bvn = 4;
+  string nin = 5;
+}
+
+message CreateAccountResponse {
+  oneof AccountCreationResponses{
+    AccountCreationResponse static_account_creation_response = 1;
+    DynamicAccountCreationResponse dynamic_account_creation_response = 2;
+  }
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message DynamicAccountCreationResponse {
+  repeated AccountCreationResponse account_data = 1;
+}
+
+message AccountCreationResponse {
+  string account_name = 1;
+  string account_number = 2;
+}
+
+enum AccountTypes {
+  STATIC = 0;
+  DYNAMIC = 1;
+}
