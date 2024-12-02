@@ -1,17 +1,15 @@
 package com.neptune.cbawrapper.Services;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neptune.cba.transaction.debit_credit.DebitCreditResponse;
+import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.*;
-import com.neptune.cbawrapper.Repository.AuthCredentialsRepository;
-import com.neptune.cbawrapper.Repository.CustomersRepository;
-import com.neptune.cbawrapper.Repository.ErrorLogsRepository;
-import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
-import com.neptune.cbawrapper.RequestRessponseSchema.CorePayUpdateCustomerRes;
-import com.neptune.cbawrapper.RequestRessponseSchema.CustomerData;
-import com.neptune.cbawrapper.RequestRessponseSchema.Data;
+import com.neptune.cbawrapper.Repository.*;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
+import com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse;
 import customers.Customer;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,19 +20,20 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 @Controller
-@RequiredArgsConstructor
 public class Cron {
 
     @Autowired
     private CorePayRestController corePayRestController;
+
+    @Autowired
+    private TmsCoreWalletAccount tmsCoreWalletAccount;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -43,44 +42,65 @@ public class Cron {
     private final CustomersRepository customersRepository;
     private final CustomerService customerService;
     private final ErrorLogsRepository errorLogsRepository;
+    private final Helpers helpers;
     private final AuthCredentialsRepository authCredentialsRepository;
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
+    private final DebitCreditService debitCreditService;
+    private final TransactionCoreController transactionCoreController;
+    private final PlatformChargeRepository platformChargeRepository;
+    private final CbaTransactionRequestsRepository cbaTransactionRequestsRepository;
+    private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    @Scheduled(cron = "0 */1 * * * *")
+    public Cron(CustomersRepository customersRepository, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
+        this.customersRepository = customersRepository;
+        this.customerService = customerService;
+        this.errorLogsRepository = errorLogsRepository;
+        this.helpers = helpers;
+        this.authCredentialsRepository = authCredentialsRepository;
+        this.virtualAccountService = virtualAccountService;
+        this.virtualAccountRepository = virtualAccountRepository;
+        this.debitCreditService = debitCreditService;
+        this.transactionCoreController = transactionCoreController;
+        this.platformChargeRepository = platformChargeRepository;
+        this.cbaTransactionRequestsRepository = cbaTransactionRequestsRepository;
+        this.businessPlatformChargesRepository = businessPlatformChargesRepository;
+    }
+
+    @Scheduled(cron = "0 */3 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
-        //TODO: get customers from corePay
-        PendingRequestResponse customersModels = corePayRestController.getPending();
+            //TODO: get customers from corePay
+            PendingRequestResponse customersModels = corePayRestController.getPending();
 
-        if (customersModels.getTotalFilteredRecords() <= 0 || customersModels.getPageItems().isEmpty()) {
-            return;
-        }
-        log.info("getCustomersFromCorePay 1: {}", customersModels.getTotalFilteredRecords());
-        log.info("getCustomersFromCorePay 2: {}", Arrays.toString(customersModels.getPageItems().toArray()));
+            if (customersModels.getTotalFilteredRecords() <= 0 || customersModels.getPageItems().isEmpty()) {
+                return;
+            }
+            log.info("getCustomersFromCorePay 1: {}", customersModels.getTotalFilteredRecords());
+            log.info("getCustomersFromCorePay 2: {}", Arrays.toString(customersModels.getPageItems().toArray()));
 
-        List<String> data2 = customersModels.getPageItems()
-                .stream()
-                .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
-                .collect(Collectors.toList()); // Collects the result into a List
-        log.info("getCustomersFromCorePay data2: {}", Arrays.toString(data2.toArray()));
+            List<String> data2 = customersModels.getPageItems()
+                    .stream()
+                    .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
+                    .collect(Collectors.toList()); // Collects the result into a List
+            log.info("getCustomersFromCorePay data2: {}", Arrays.toString(data2.toArray()));
 
-        List<String> customerTin = customersRepository.findByAccountId(
-                data2
-        ).stream().map(CustomersModel::getTin).toList();
-        log.info("getCustomersFromCorePay customerTin: {}", Arrays.toString(customerTin.toArray()));
+            List<String> customerTin = customersRepository.findByAccountId(
+                    data2
+            ).stream().map(CustomersModel::getTin).toList();
+            log.info("getCustomersFromCorePay customerTin: {}", Arrays.toString(customerTin.toArray()));
 
-        //TODO: create a new list from customersModels, then remove all customer thing from mongodb and create customer from what is left
-        List<String> resultList = data2.stream()
-                .filter(item -> !customerTin.contains(item)) // Retain only elements not in listB
-                .toList();
-        log.info("getCustomersFromCorePay resultList: {}", Arrays.toString(resultList.toArray()));
+            //TODO: create a new list from customersModels, then remove all customer thing from mongodb and create customer from what is left
+            List<String> resultList = data2.stream()
+                    .filter(item -> !customerTin.contains(item)) // Retain only elements not in listB
+                    .toList();
+            log.info("getCustomersFromCorePay resultList: {}", Arrays.toString(resultList.toArray()));
 
-        //TODO: check if customer with TIN already exists on middleware if not save customer
-        for (int i = 0; i < customersModels.getPageItems().size(); i++) {
-             tin = customersModels.getPageItems().get(i).getTin();
-            String fullName = customersModels.getPageItems().get(i).getDisplayName();
+            //TODO: check if customer with TIN already exists on middleware if not save customer
+            for (int i = 0; i < customersModels.getPageItems().size(); i++) {
+                tin = customersModels.getPageItems().get(i).getTin();
+                String fullName = customersModels.getPageItems().get(i).getDisplayName();
                 if (StringUtils.isNotBlank(tin) && resultList.contains(tin)) {
                     CustomersModel customersModel2 = getCustomersModel(customersModels, i);
                     customersRepository.save(customersModel2);
@@ -91,8 +111,7 @@ public class Cron {
                     errorLogsModel.setUpdatedAt(Instant.now());
                     errorLogsRepository.save(errorLogsModel);
                 }
-
-        }
+            }
 
         } catch (Exception e) {
             log.warn("savingsEntityRecord: ", e);
@@ -129,7 +148,68 @@ public class Cron {
         return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId());
     }
 
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
+    public void updateCustomerAccountNumFromCba() {
+        try {
+            //TODO: get customers without account number and send them to CBA to generate account numbers for them
+            List<CustomersModel> customersModels = customersRepository.getCustomersWithoutAccountId();
+            System.out.println("customersModels = " + customersModels.size());
+            if (customersModels.isEmpty()) {
+                return;
+            }
+
+            //TODO add error logging to the db
+            Customer.CreateBulkCorpCustomerResponse response = customerService.createCustomers(customersModels);
+            if (response == null) {
+                return;
+            }
+            List<Customer.CreateBulkCustomerErrResponse> errorResponse = response.getErrorDataList();
+
+            System.out.println("response = " + response);
+            System.out.println("errorResponse = " + errorResponse);
+
+            if (!errorResponse.isEmpty()) {
+                for (Customer.CreateBulkCustomerErrResponse response1 : errorResponse) {
+                    ErrorLogsModel errorLogsModel = new ErrorLogsModel(response1.getTin(), response1.getReason());
+                    errorLogsModel.setType("CBA_CREATION");
+                    errorLogsRepository.save(errorLogsModel);
+                }
+            }
+
+            //TODO: update the generated account number to the customer's entry on the database
+            List<String> data2 = customersModels
+                    .stream()
+                    .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
+                    .collect(Collectors.toList()); //
+
+            Map<String, List<CustomersModel>> customers = customersRepository.findByAccountId(
+                    data2
+            ).stream().collect(Collectors.groupingBy(CustomersModel::getTin));
+
+            if (customers.isEmpty()) {
+                return;
+            }
+
+            for (int i = 0; i < response.getResponseList().size(); i++) {
+                Optional<CustomersModel> customersModel = customers.get(response.getResponseList().get(i).getTin()).stream().findFirst();
+                final String accountNumber = response.getResponseList().get(i).getAccountNumber();
+                if (customersModel.isPresent() && StringUtils.isNotBlank(accountNumber)) {
+                    customersModel.get().setAccount_num(accountNumber);
+                    customersModel.get().setCba_customer_id(response.getResponseList().get(i).getId());
+                    customersRepository.save(customersModel.get());
+                }
+            }
+        } catch (Exception e) {
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("tin", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CBA_ACCOUNT_UPDATE");
+            errorLogsRepository.save(errorLogsModel);
+        }
+
+    }
+
+    @Scheduled(cron = "0 */3 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -173,82 +253,43 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
-    public void updateCustomerAccountNumFromCba() {
+
+    @Scheduled(cron = "0 */5 * * * *")
+    public void getVirtualTerminalRecords() {
         try {
-            //TODO: get customers without account number and send them to CBA to generate account numbers for them
-            List<CustomersModel> customersModels = customersRepository.getCustomersWithoutAccountId();
-            System.out.println("customersModels = " + customersModels.size());
-            if (customersModels.isEmpty()) {
-                return;
-            }
+            List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
 
-            //TODO add error logging to the db
-            Customer.CreateBulkCorpCustomerResponse response = customerService.createCustomers(customersModels);
-            if(response == null){
-                return;
-            }
-            List<Customer.CreateBulkCustomerErrResponse> errorResponse = response.getErrorDataList();
+            System.out.println("pendingTerminalData = " + pendingTerminalData);
 
-            if (!errorResponse.isEmpty()) {
-                for (Customer.CreateBulkCustomerErrResponse response1 : errorResponse) {
-                    ErrorLogsModel errorLogsModel = new ErrorLogsModel(response1.getTin(), response1.getReason());
-                    errorLogsModel.setType("CBA_CREATION");
-                    errorLogsRepository.save(errorLogsModel);
-                }
-            }
+            List<Integer> details = pendingTerminalData.stream().map(PendingTerminalData::getParentSavingsId).filter(Objects::nonNull).toList();
+            List<CustomersModel> customersModels = helpers.getCustomersBySavingsId(details);
 
-            //TODO: update the generated account number to the customer's entry on the database
-            List<String> data2 = customersModels
-                    .stream()
-                    .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
-                    .collect(Collectors.toList()); //
-
-            Map<String, List<CustomersModel>> customers = customersRepository.findByAccountId(
-                    data2
-            ).stream().collect(Collectors.groupingBy(CustomersModel::getTin));
-
-            if (customers.isEmpty()) {
-                return;
-            }
-
-            for (int i = 0; i < response.getResponseList().size(); i++) {
-                Optional<CustomersModel> customersModel = customers.get(response.getResponseList().get(i).getTin()).stream().findFirst();
-                final String accountNumber = response.getResponseList().get(i).getAccountNumber();
-                if (customersModel.isPresent() && StringUtils.isNotBlank(accountNumber)) {
-                    customersModel.get().setAccount_num(accountNumber);
-                    customersModel.get().setCba_customer_id(response.getResponseList().get(i).getId());
-                    customersRepository.save(customersModel.get());
-                }
-            }
-        } catch (Exception e) {
-            ErrorLogsModel errorLogsModel = new ErrorLogsModel("tin", e.getMessage());
-            errorLogsModel.setCreatedAt(Instant.now());
-            errorLogsModel.setUpdatedAt(Instant.now());
-            errorLogsModel.setType("CBA_ACCOUNT_UPDATE");
-            errorLogsRepository.save(errorLogsModel);
-        }
-
-    }
-
-    @Scheduled(cron = "0 */15 * * * *")
-    public  void getVirtualTerminalRecords(){
-        try {
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
 
-            if(authCredentials.isPresent()){
-                VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
-                virtualAccountModel.setPhone_number("07014149266");
-                virtualAccountModel.setAccount_name("Abel Kalu");
-                virtualAccountModel.setEmail("abelkelly6022@gmail.com");
-                virtualAccountModel.setBvn("22234788891");
-                virtualAccountModel.setNin("5453456789");
-                virtualAccountModel.setIs_updated(false);
-                virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
-                virtualAccountModel.setParent_account("2020202200");
-                virtualAccountRepository.save(virtualAccountModel);
+            List<String> details2 = pendingTerminalData.stream().map(PendingTerminalData::getTerminalId).filter(Objects::nonNull).toList();
+            List<VirtualAccountModel> findByVirtualAccountsByTerminalId = virtualAccountRepository.findByVirtualAccountsByTerminalId(details2);
+
+            for (PendingTerminalData data : pendingTerminalData) {
+                Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
+
+                System.out.println("customersModel = " + customersModel);
+                System.out.println("authCredentials.isPresent() = " + authCredentials.isPresent());
+
+                if (authCredentials.isPresent()) {
+                    if (customersModel.isPresent()) {
+                        Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
+
+                        System.out.println("virtualAccountModel.isEmpty() = " + virtualAccountModel.isEmpty());
+                        if (virtualAccountModel.isEmpty()) {
+                            VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), authCredentials, data);
+                            virtualAccountRepository.save(virtualAccountModel1);
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
+            System.out.println("kkkkkkkkkkkkkkkkkk");
+            System.out.println("e.getMessage() = " + e.getMessage());
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
             errorLogsModel.setCreatedAt(Instant.now());
             errorLogsModel.setUpdatedAt(Instant.now());
@@ -257,29 +298,78 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
-    public void updateVirtualAccount(){
+    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, Optional<AuthCredentials> authCredentials, PendingTerminalData data) {
+        VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
+        virtualAccountModel.setSavingsId(customersModel.getSavingsAccountId());
+        virtualAccountModel.setPhone_number(customersModel.getContact_phone_number());
+        virtualAccountModel.setAccount_name(data.getParentEntityName() + "_" + data.getTerminalName());
+        virtualAccountModel.setEmail(customersModel.getEmailAddress());
+        virtualAccountModel.setBvn("");
+        virtualAccountModel.setTerminalId(data.getTerminalId());
+        virtualAccountModel.setNin("");
+        virtualAccountModel.setIs_updated(false);
+        virtualAccountModel.setParent_id(customersModel.getId());
+        virtualAccountModel.setParent_account(customersModel.getAccount_num());
+        virtualAccountModel.setBusinessName(data.getBusinessName());
+        virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
+        virtualAccountModel.setBusinessWalletId(data.getBusinessWalletId());
+        return virtualAccountModel;
+    }
+
+    @Scheduled(cron = "0 */3 * * * *")
+    public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
 
-            if(virtualAccountModelList == null){
+
+            if (virtualAccountModelList == null) {
                 return;
             }
 
-            if(authCredentials.isEmpty()){
+            if (authCredentials.isEmpty()) {
                 return;
             }
+            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
 
-            for(VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
+            List<VirtualAccountModel> virtualAccountModel2 = new ArrayList<>();
+            for (VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
                 virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
-                CreateAccountResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel);
-
-                if (response != null) {
-                    virtualAccountModel.setVirtual_account_number(response.getStaticAccountCreationResponse().getAccountNumber());
-                    virtualAccountRepository.save(virtualAccountModel);
-                }
+                virtualAccountModel2.add(virtualAccountModel);
             }
+            System.out.println("authCredentials = " + authCredentials);
+
+            //TODO: rewrite this to pass all vritual accounts at once to the CBA and get array of virtual account responses.
+            CreateAccountResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
+            System.out.println("response = " + response);
+
+            if (response != null) {
+                StaticAccountCreationResponse data1 = response.getStaticAccountCreationResponse();
+
+                log.info("updateCustomersToCorePay data1: {}", data1);
+
+                List<Data> dataList = new ArrayList<>();
+                for (int i = 0; i < response.getStaticAccountCreationResponse().getAccountDataList().size(); i++) {
+                    for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
+                        if (virtualAccountModel3.getAccount_name().equals(response.getStaticAccountCreationResponse().getAccountData(i).getAccountName())) {
+                            Data data = new Data();
+                            data.setSavingsId(Integer.valueOf(virtualAccountModel3.getSavingsId()));
+                            data.setWalletId(response.getStaticAccountCreationResponse().getAccountData(i).getAccountNumber());
+                            dataList.add(data);
+                            virtualAccountModel3.setVirtual_account_number(response.getStaticAccountCreationResponse().getAccountData(i).getAccountNumber());
+                            virtualAccountRepository.save(virtualAccountModel3);
+                        }
+                    }
+                }
+
+                CustomerData customerData = new CustomerData(dataList);
+
+                log.info("updateCustomersToCorePay customerData: {}", customerData);
+
+                //TODO: rewrite this to pass all responses from above to the
+                List<PendingTerminalData> res = tmsCoreWalletAccount.postWallets(customerData);
+            }
+
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
             errorLogsModel.setCreatedAt(Instant.now());
@@ -287,5 +377,83 @@ public class Cron {
             errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_UPDATE");
             errorLogsRepository.save(errorLogsModel);
         }
+    }
+
+    @Scheduled(cron = "0 */3 * * * *")
+    public void pushTransactionsToCba(){
+        List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba();
+
+        for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
+            DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1);
+            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
+
+            //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
+            //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
+
+            if(response != null) {
+
+                if (response.getCode().equals("200")) {
+                    transactionDrCr1.setUpdatedToCba(true);
+                    cbaTransactionRequestsRepository.save(transactionDrCr1);
+
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
+
+                    if(platformCharges.isPresent()){
+                        String chargeType = platformCharges.get().getChargeType();
+                        double amount;
+
+                        if(chargeType.equalsIgnoreCase("percentage")){
+                            amount = (platformCharges.get().getTotal() / 100) * platformCharges.get().getAmount();
+                        }else {
+                            amount = platformCharges.get().getAmount();
+                        }
+
+                        if(amount > platformCharges.get().getThreshold()){
+                            amount = platformCharges.get().getThreshold();
+                        }
+                        transactionDrCr1.setAmount(amount);
+                        transactionDrCr1.setDrcr("dr");
+                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+
+                        double amount2;
+                        if(chargeType.equalsIgnoreCase("percentage")){
+                            amount2 = (platformCharges.get().getBusinessValue() / 100) * platformCharges.get().getAmount();
+                        }else {
+                            amount2 = platformCharges.get().getBusinessValue();
+                        }
+
+                        if(authCredentials.isEmpty()){
+                            return;
+                        }
+
+                        if(virtualAccountModel.isPresent()) {
+                            transactionDrCr1.setAmount(amount2);
+                            transactionDrCr1.setDrcr("cr");
+                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
+                            DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+
+                            //todo: credit terminal business account with percentage from amount2
+                        }
+                    }
+
+                    UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+                    requestSchema.setMessage("done");
+                    requestSchema.setStatus("SENT_TO_CBA");
+                    UpdateTransactionResponseSchema updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                    System.out.println("SENT_TO_CBA");
+                    System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                } else {
+                    UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+                    requestSchema.setMessage(response.getMessage());
+                    requestSchema.setStatus("NOT_SENT_TO_CBA");
+                    UpdateTransactionResponseSchema updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                    System.out.println("NOT_SENT_TO_CBA");
+                    System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                }
+            }
+        }
+
     }
 }

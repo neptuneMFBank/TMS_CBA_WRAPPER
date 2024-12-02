@@ -30,6 +30,11 @@ public final class accountService {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_StaticAccountMessage_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_StaticRequests_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_StaticRequests_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_CreateAccountResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -39,6 +44,11 @@ public final class accountService {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DynamicAccountCreationResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_StaticAccountCreationResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_StaticAccountCreationResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AccountCreationResponse_descriptor;
   static final 
@@ -55,33 +65,39 @@ public final class accountService {
     java.lang.String[] descriptorData = {
       "\n\024virtualAccount.proto\032\031google/protobuf/" +
       "any.proto\032\037google/protobuf/timestamp.pro" +
-      "to\"\353\001\n\024CreateAccountRequest\0221\n\017dynamic_a" +
+      "to\"\212\001\n\024CreateAccountRequest\0221\n\017dynamic_a" +
       "ccount\030\001 \001(\0132\026.DynamicAccountMessageH\000\022/" +
       "\n\016static_account\030\002 \001(\0132\025.StaticAccountMe" +
-      "ssageH\000\022#\n\014account_type\030\006 \001(\0162\r.AccountT" +
-      "ypes\022\021\n\tparent_id\030\007 \001(\t\022\'\n\037secondary_par" +
-      "ent_account_number\030\010 \001(\tB\016\n\014account_data" +
-      "\"c\n\025DynamicAccountMessage\022\032\n\022number_of_a" +
-      "ccounts\030\001 \001(\005\022\013\n\003bvn\030\002 \001(\t\022\013\n\003nin\030\003 \001(\t\022" +
-      "\024\n\014account_name\030\004 \001(\t\"k\n\024StaticAccountMe" +
-      "ssage\022\024\n\014phone_number\030\001 \001(\t\022\024\n\014account_n" +
-      "ame\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\013\n\003bvn\030\004 \001(\t\022\013\n" +
-      "\003nin\030\005 \001(\t\"\366\001\n\025CreateAccountResponse\022D\n " +
-      "static_account_creation_response\030\001 \001(\0132\030" +
-      ".AccountCreationResponseH\000\022L\n!dynamic_ac" +
-      "count_creation_response\030\002 \001(\0132\037.DynamicA" +
-      "ccountCreationResponseH\000\022-\n\ttimestamp\030\003 " +
-      "\001(\0132\032.google.protobuf.TimestampB\032\n\030Accou" +
-      "ntCreationResponses\"P\n\036DynamicAccountCre" +
-      "ationResponse\022.\n\014account_data\030\001 \003(\0132\030.Ac" +
-      "countCreationResponse\"G\n\027AccountCreation" +
-      "Response\022\024\n\014account_name\030\001 \001(\t\022\026\n\016accoun" +
-      "t_number\030\002 \001(\t*\'\n\014AccountTypes\022\n\n\006STATIC" +
-      "\020\000\022\013\n\007DYNAMIC\020\0012X\n\024CreateAccountService\022" +
-      "@\n\rCreateAccount\022\025.CreateAccountRequest\032" +
-      "\026.CreateAccountResponse\"\000BE\n1com.virtual" +
-      "AccountApplication.createAccount.protoB\016" +
-      "accountServiceP\001b\006proto3"
+      "ssageH\000B\016\n\014account_data\"\304\001\n\025DynamicAccou" +
+      "ntMessage\022\032\n\022number_of_accounts\030\001 \001(\005\022\013\n" +
+      "\003bvn\030\002 \001(\t\022\013\n\003nin\030\003 \001(\t\022\024\n\014account_name\030" +
+      "\004 \001(\t\022#\n\014account_type\030\005 \001(\0162\r.AccountTyp" +
+      "es\022\021\n\tparent_id\030\006 \001(\t\022\'\n\037secondary_paren" +
+      "t_account_number\030\007 \001(\t\">\n\024StaticAccountM" +
+      "essage\022&\n\rstaticRequest\030\001 \003(\0132\017.StaticRe" +
+      "quests\"\306\001\n\016StaticRequests\022\024\n\014phone_numbe" +
+      "r\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022\r\n\005email\030\003" +
+      " \001(\t\022\013\n\003bvn\030\004 \001(\t\022\013\n\003nin\030\005 \001(\t\022#\n\014accoun" +
+      "t_type\030\006 \001(\0162\r.AccountTypes\022\021\n\tparent_id" +
+      "\030\007 \001(\t\022\'\n\037secondary_parent_account_numbe" +
+      "r\030\010 \001(\t\"\374\001\n\025CreateAccountResponse\022J\n sta" +
+      "tic_account_creation_response\030\001 \001(\0132\036.St" +
+      "aticAccountCreationResponseH\000\022L\n!dynamic" +
+      "_account_creation_response\030\002 \001(\0132\037.Dynam" +
+      "icAccountCreationResponseH\000\022-\n\ttimestamp" +
+      "\030\003 \001(\0132\032.google.protobuf.TimestampB\032\n\030Ac" +
+      "countCreationResponses\"P\n\036DynamicAccount" +
+      "CreationResponse\022.\n\014account_data\030\001 \003(\0132\030" +
+      ".AccountCreationResponse\"O\n\035StaticAccoun" +
+      "tCreationResponse\022.\n\014account_data\030\001 \003(\0132" +
+      "\030.AccountCreationResponse\"G\n\027AccountCrea" +
+      "tionResponse\022\024\n\014account_name\030\001 \001(\t\022\026\n\016ac" +
+      "count_number\030\002 \001(\t*\'\n\014AccountTypes\022\n\n\006ST" +
+      "ATIC\020\000\022\013\n\007DYNAMIC\020\0012X\n\024CreateAccountServ" +
+      "ice\022@\n\rCreateAccount\022\025.CreateAccountRequ" +
+      "est\032\026.CreateAccountResponse\"\000BE\n1com.vir" +
+      "tualAccountApplication.createAccount.pro" +
+      "toB\016accountServiceP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -94,33 +110,45 @@ public final class accountService {
     internal_static_CreateAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateAccountRequest_descriptor,
-        new java.lang.String[] { "DynamicAccount", "StaticAccount", "AccountType", "ParentId", "SecondaryParentAccountNumber", "AccountData", });
+        new java.lang.String[] { "DynamicAccount", "StaticAccount", "AccountData", });
     internal_static_DynamicAccountMessage_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DynamicAccountMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DynamicAccountMessage_descriptor,
-        new java.lang.String[] { "NumberOfAccounts", "Bvn", "Nin", "AccountName", });
+        new java.lang.String[] { "NumberOfAccounts", "Bvn", "Nin", "AccountName", "AccountType", "ParentId", "SecondaryParentAccountNumber", });
     internal_static_StaticAccountMessage_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_StaticAccountMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_StaticAccountMessage_descriptor,
-        new java.lang.String[] { "PhoneNumber", "AccountName", "Email", "Bvn", "Nin", });
-    internal_static_CreateAccountResponse_descriptor =
+        new java.lang.String[] { "StaticRequest", });
+    internal_static_StaticRequests_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_StaticRequests_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_StaticRequests_descriptor,
+        new java.lang.String[] { "PhoneNumber", "AccountName", "Email", "Bvn", "Nin", "AccountType", "ParentId", "SecondaryParentAccountNumber", });
+    internal_static_CreateAccountResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_CreateAccountResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateAccountResponse_descriptor,
         new java.lang.String[] { "StaticAccountCreationResponse", "DynamicAccountCreationResponse", "Timestamp", "AccountCreationResponses", });
     internal_static_DynamicAccountCreationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_DynamicAccountCreationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DynamicAccountCreationResponse_descriptor,
         new java.lang.String[] { "AccountData", });
+    internal_static_StaticAccountCreationResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_StaticAccountCreationResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_StaticAccountCreationResponse_descriptor,
+        new java.lang.String[] { "AccountData", });
     internal_static_AccountCreationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_AccountCreationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AccountCreationResponse_descriptor,

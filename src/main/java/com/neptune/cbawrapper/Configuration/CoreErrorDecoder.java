@@ -18,6 +18,7 @@ public class CoreErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
         final Integer status = response.status();
+        System.out.println("response  = " + response );
         log.info("CoreErrorDecoder status: {}", status);
 
         CoreExceptionResponse exceptionMessage = null;
@@ -43,6 +44,9 @@ public class CoreErrorDecoder implements ErrorDecoder {
             if (!exceptionMessage.getErrors().isEmpty()) {
                 errorCode = exceptionMessage.getErrors().get(0).getAllErrors().get(0).getCode();
             }
+
+            System.out.println("exceptionMessage.getDefaultUserMessage() = " + exceptionMessage.getDefaultUserMessage());
+
 
             errorMessage
                     = exceptionMessage.getDefaultUserMessage() != null

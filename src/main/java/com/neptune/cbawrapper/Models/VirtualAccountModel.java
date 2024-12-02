@@ -18,7 +18,14 @@ public class VirtualAccountModel {
     private Boolean is_updated;
     private String parent_id;
     private String parent_account;
+    private String business_id;
+    private String business_wallet;
+    private String savingsId;
     private String virtual_account_number;
+    private String terminalId;
+    private String businessName;
+    private Integer businessSavingsId;
+    private String businessWalletId;
 
     public String getId() {
         return id;
@@ -96,8 +103,64 @@ public class VirtualAccountModel {
         return virtual_account_number;
     }
 
+    public String getSavingsId() {
+        return savingsId;
+    }
+
+    public void setSavingsId(String savingsId) {
+        this.savingsId = savingsId;
+    }
+
     public void setVirtual_account_number(String virtual_account_number) {
         this.virtual_account_number = virtual_account_number;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public String getBusiness_id() {
+        return business_id;
+    }
+
+    public void setBusiness_id(String business_id) {
+        this.business_id = business_id;
+    }
+
+    public String getBusiness_wallet() {
+        return business_wallet;
+    }
+
+    public void setBusiness_wallet(String business_wallet) {
+        this.business_wallet = business_wallet;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public Integer getBusinessSavingsId() {
+        return businessSavingsId;
+    }
+
+    public void setBusinessSavingsId(Integer businessSavingsId) {
+        this.businessSavingsId = businessSavingsId;
+    }
+
+    public String getBusinessWalletId() {
+        return businessWalletId;
+    }
+
+    public void setBusinessWalletId(String businessWalletId) {
+        this.businessWalletId = businessWalletId;
     }
 
     public VirtualAccountModel() {

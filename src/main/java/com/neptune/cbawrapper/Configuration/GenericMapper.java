@@ -10,11 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class GenericMapper {
+public class GenericMapper implements Serializable {
 
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 

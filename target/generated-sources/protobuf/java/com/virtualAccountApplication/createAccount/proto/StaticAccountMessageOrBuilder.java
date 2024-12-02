@@ -8,62 +8,26 @@ public interface StaticAccountMessageOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string phone_number = 1;</code>
-   * @return The phoneNumber.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
-  java.lang.String getPhoneNumber();
+  java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> 
+      getStaticRequestList();
   /**
-   * <code>string phone_number = 1;</code>
-   * @return The bytes for phoneNumber.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
-  com.google.protobuf.ByteString
-      getPhoneNumberBytes();
-
+  com.virtualAccountApplication.createAccount.proto.StaticRequests getStaticRequest(int index);
   /**
-   * <code>string account_name = 2;</code>
-   * @return The accountName.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
-  java.lang.String getAccountName();
+  int getStaticRequestCount();
   /**
-   * <code>string account_name = 2;</code>
-   * @return The bytes for accountName.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
-  com.google.protobuf.ByteString
-      getAccountNameBytes();
-
+  java.util.List<? extends com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> 
+      getStaticRequestOrBuilderList();
   /**
-   * <code>string email = 3;</code>
-   * @return The email.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
-  java.lang.String getEmail();
-  /**
-   * <code>string email = 3;</code>
-   * @return The bytes for email.
-   */
-  com.google.protobuf.ByteString
-      getEmailBytes();
-
-  /**
-   * <code>string bvn = 4;</code>
-   * @return The bvn.
-   */
-  java.lang.String getBvn();
-  /**
-   * <code>string bvn = 4;</code>
-   * @return The bytes for bvn.
-   */
-  com.google.protobuf.ByteString
-      getBvnBytes();
-
-  /**
-   * <code>string nin = 5;</code>
-   * @return The nin.
-   */
-  java.lang.String getNin();
-  /**
-   * <code>string nin = 5;</code>
-   * @return The bytes for nin.
-   */
-  com.google.protobuf.ByteString
-      getNinBytes();
+  com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder getStaticRequestOrBuilder(
+      int index);
 }

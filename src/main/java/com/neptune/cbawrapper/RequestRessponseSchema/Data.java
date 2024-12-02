@@ -26,6 +26,9 @@ public class Data {
         this.walletId = walletId;
     }
 
+    public Data() {
+    }
+
     @Override
     public String toString() {
         return "Data{" +

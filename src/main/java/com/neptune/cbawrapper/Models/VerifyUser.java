@@ -34,12 +34,12 @@ public class VerifyUser {
     private String terminalId;
     private String pan;
     private String cardExpiry;
-    private String transactionFee;
-    private String processingFee;
+    private Double transactionFee;
+    private Double processingFee;
     private String retrievalReferenceNumber;
     private String authCode;
     private String merchantCode;
-    private String reversal;
+    private Boolean reversal;
     private String merchantName;
     private String stan;
     private String serialno;
@@ -280,6 +280,7 @@ public class VerifyUser {
         this.responseCode = responseCode;
     }
 
+
     public String getTerminalId() {
         return terminalId;
     }
@@ -304,19 +305,19 @@ public class VerifyUser {
         this.cardExpiry = cardExpiry;
     }
 
-    public String getTransactionFee() {
+    public Double getTransactionFee() {
         return transactionFee;
     }
 
-    public void setTransactionFee(String transactionFee) {
+    public void setTransactionFee(Double transactionFee) {
         this.transactionFee = transactionFee;
     }
 
-    public String getProcessingFee() {
+    public Double getProcessingFee() {
         return processingFee;
     }
 
-    public void setProcessingFee(String processingFee) {
+    public void setProcessingFee(Double processingFee) {
         this.processingFee = processingFee;
     }
 
@@ -344,11 +345,11 @@ public class VerifyUser {
         this.merchantCode = merchantCode;
     }
 
-    public String getReversal() {
+    public Boolean getReversal() {
         return reversal;
     }
 
-    public void setReversal(String reversal) {
+    public void setReversal(Boolean reversal) {
         this.reversal = reversal;
     }
 
@@ -386,5 +387,51 @@ public class VerifyUser {
     public VerifyUser(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "VerifyUser{" +
+                "phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", is_email=" + is_email +
+                ", is_phone=" + is_phone +
+                ", otp='" + otp + '\'' +
+                ", token='" + token + '\'' +
+                ", password='" + password + '\'' +
+                ", accountnumber='" + accountnumber + '\'' +
+                ", isccode='" + isccode + '\'' +
+                ", accountstatus='" + accountstatus + '\'' +
+                ", acctname='" + acctname + '\'' +
+                ", drcr='" + drcr + '\'' +
+                ", acctype='" + acctype + '\'' +
+                ", amount=" + amount +
+                ", transactionreference='" + transactionreference + '\'' +
+                ", narration='" + narration + '\'' +
+                ", channel='" + channel + '\'' +
+                ", eid='" + eid + '\'' +
+                ", event='" + event + '\'' +
+                ", message='" + message + '\'' +
+                ", account='" + account + '\'' +
+                ", ref='" + ref + '\'' +
+                ", transactionReference='" + transactionReference + '\'' +
+                ", reference='" + reference + '\'' +
+                ", ptad='" + ptad + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", responseCode='" + responseCode + '\'' +
+                ", terminalId=" + terminalId +
+                ", pan='" + pan + '\'' +
+                ", cardExpiry='" + cardExpiry + '\'' +
+                ", transactionFee=" + transactionFee +
+                ", processingFee=" + processingFee +
+                ", retrievalReferenceNumber='" + retrievalReferenceNumber + '\'' +
+                ", authCode='" + authCode + '\'' +
+                ", merchantCode='" + merchantCode + '\'' +
+                ", reversal=" + reversal +
+                ", merchantName='" + merchantName + '\'' +
+                ", stan='" + stan + '\'' +
+                ", serialno='" + serialno + '\'' +
+                '}';
     }
 }

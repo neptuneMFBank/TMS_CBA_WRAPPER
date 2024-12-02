@@ -16,11 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private StaticAccountMessage() {
-    phoneNumber_ = "";
-    accountName_ = "";
-    email_ = "";
-    bvn_ = "";
-    nin_ = "";
+    staticRequest_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -43,6 +39,7 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
+    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -54,33 +51,12 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            phoneNumber_ = s;
-            break;
-          }
-          case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            accountName_ = s;
-            break;
-          }
-          case 26: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            email_ = s;
-            break;
-          }
-          case 34: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            bvn_ = s;
-            break;
-          }
-          case 42: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            nin_ = s;
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              staticRequest_ = new java.util.ArrayList<com.virtualAccountApplication.createAccount.proto.StaticRequests>();
+              mutable_bitField0_ |= 0x00000001;
+            }
+            staticRequest_.add(
+                input.readMessage(com.virtualAccountApplication.createAccount.proto.StaticRequests.parser(), extensionRegistry));
             break;
           }
           default: {
@@ -98,6 +74,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        staticRequest_ = java.util.Collections.unmodifiableList(staticRequest_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -115,194 +94,44 @@ private static final long serialVersionUID = 0L;
             com.virtualAccountApplication.createAccount.proto.StaticAccountMessage.class, com.virtualAccountApplication.createAccount.proto.StaticAccountMessage.Builder.class);
   }
 
-  public static final int PHONE_NUMBER_FIELD_NUMBER = 1;
-  private volatile java.lang.Object phoneNumber_;
+  public static final int STATICREQUEST_FIELD_NUMBER = 1;
+  private java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> staticRequest_;
   /**
-   * <code>string phone_number = 1;</code>
-   * @return The phoneNumber.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
   @java.lang.Override
-  public java.lang.String getPhoneNumber() {
-    java.lang.Object ref = phoneNumber_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      phoneNumber_ = s;
-      return s;
-    }
+  public java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> getStaticRequestList() {
+    return staticRequest_;
   }
   /**
-   * <code>string phone_number = 1;</code>
-   * @return The bytes for phoneNumber.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString
-      getPhoneNumberBytes() {
-    java.lang.Object ref = phoneNumber_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      phoneNumber_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int ACCOUNT_NAME_FIELD_NUMBER = 2;
-  private volatile java.lang.Object accountName_;
-  /**
-   * <code>string account_name = 2;</code>
-   * @return The accountName.
-   */
-  @java.lang.Override
-  public java.lang.String getAccountName() {
-    java.lang.Object ref = accountName_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      accountName_ = s;
-      return s;
-    }
+  public java.util.List<? extends com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> 
+      getStaticRequestOrBuilderList() {
+    return staticRequest_;
   }
   /**
-   * <code>string account_name = 2;</code>
-   * @return The bytes for accountName.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString
-      getAccountNameBytes() {
-    java.lang.Object ref = accountName_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      accountName_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int EMAIL_FIELD_NUMBER = 3;
-  private volatile java.lang.Object email_;
-  /**
-   * <code>string email = 3;</code>
-   * @return The email.
-   */
-  @java.lang.Override
-  public java.lang.String getEmail() {
-    java.lang.Object ref = email_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      email_ = s;
-      return s;
-    }
+  public int getStaticRequestCount() {
+    return staticRequest_.size();
   }
   /**
-   * <code>string email = 3;</code>
-   * @return The bytes for email.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString
-      getEmailBytes() {
-    java.lang.Object ref = email_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      email_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int BVN_FIELD_NUMBER = 4;
-  private volatile java.lang.Object bvn_;
-  /**
-   * <code>string bvn = 4;</code>
-   * @return The bvn.
-   */
-  @java.lang.Override
-  public java.lang.String getBvn() {
-    java.lang.Object ref = bvn_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      bvn_ = s;
-      return s;
-    }
+  public com.virtualAccountApplication.createAccount.proto.StaticRequests getStaticRequest(int index) {
+    return staticRequest_.get(index);
   }
   /**
-   * <code>string bvn = 4;</code>
-   * @return The bytes for bvn.
+   * <code>repeated .StaticRequests staticRequest = 1;</code>
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString
-      getBvnBytes() {
-    java.lang.Object ref = bvn_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      bvn_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int NIN_FIELD_NUMBER = 5;
-  private volatile java.lang.Object nin_;
-  /**
-   * <code>string nin = 5;</code>
-   * @return The nin.
-   */
-  @java.lang.Override
-  public java.lang.String getNin() {
-    java.lang.Object ref = nin_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      nin_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string nin = 5;</code>
-   * @return The bytes for nin.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getNinBytes() {
-    java.lang.Object ref = nin_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      nin_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder getStaticRequestOrBuilder(
+      int index) {
+    return staticRequest_.get(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -319,20 +148,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getPhoneNumberBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, phoneNumber_);
-    }
-    if (!getAccountNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, accountName_);
-    }
-    if (!getEmailBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, email_);
-    }
-    if (!getBvnBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, bvn_);
-    }
-    if (!getNinBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, nin_);
+    for (int i = 0; i < staticRequest_.size(); i++) {
+      output.writeMessage(1, staticRequest_.get(i));
     }
     unknownFields.writeTo(output);
   }
@@ -343,20 +160,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getPhoneNumberBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, phoneNumber_);
-    }
-    if (!getAccountNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, accountName_);
-    }
-    if (!getEmailBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, email_);
-    }
-    if (!getBvnBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, bvn_);
-    }
-    if (!getNinBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, nin_);
+    for (int i = 0; i < staticRequest_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, staticRequest_.get(i));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -373,16 +179,8 @@ private static final long serialVersionUID = 0L;
     }
     com.virtualAccountApplication.createAccount.proto.StaticAccountMessage other = (com.virtualAccountApplication.createAccount.proto.StaticAccountMessage) obj;
 
-    if (!getPhoneNumber()
-        .equals(other.getPhoneNumber())) return false;
-    if (!getAccountName()
-        .equals(other.getAccountName())) return false;
-    if (!getEmail()
-        .equals(other.getEmail())) return false;
-    if (!getBvn()
-        .equals(other.getBvn())) return false;
-    if (!getNin()
-        .equals(other.getNin())) return false;
+    if (!getStaticRequestList()
+        .equals(other.getStaticRequestList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -394,16 +192,10 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + PHONE_NUMBER_FIELD_NUMBER;
-    hash = (53 * hash) + getPhoneNumber().hashCode();
-    hash = (37 * hash) + ACCOUNT_NAME_FIELD_NUMBER;
-    hash = (53 * hash) + getAccountName().hashCode();
-    hash = (37 * hash) + EMAIL_FIELD_NUMBER;
-    hash = (53 * hash) + getEmail().hashCode();
-    hash = (37 * hash) + BVN_FIELD_NUMBER;
-    hash = (53 * hash) + getBvn().hashCode();
-    hash = (37 * hash) + NIN_FIELD_NUMBER;
-    hash = (53 * hash) + getNin().hashCode();
+    if (getStaticRequestCount() > 0) {
+      hash = (37 * hash) + STATICREQUEST_FIELD_NUMBER;
+      hash = (53 * hash) + getStaticRequestList().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -532,21 +324,18 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getStaticRequestFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      phoneNumber_ = "";
-
-      accountName_ = "";
-
-      email_ = "";
-
-      bvn_ = "";
-
-      nin_ = "";
-
+      if (staticRequestBuilder_ == null) {
+        staticRequest_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      } else {
+        staticRequestBuilder_.clear();
+      }
       return this;
     }
 
@@ -573,11 +362,16 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.virtualAccountApplication.createAccount.proto.StaticAccountMessage buildPartial() {
       com.virtualAccountApplication.createAccount.proto.StaticAccountMessage result = new com.virtualAccountApplication.createAccount.proto.StaticAccountMessage(this);
-      result.phoneNumber_ = phoneNumber_;
-      result.accountName_ = accountName_;
-      result.email_ = email_;
-      result.bvn_ = bvn_;
-      result.nin_ = nin_;
+      int from_bitField0_ = bitField0_;
+      if (staticRequestBuilder_ == null) {
+        if (((bitField0_ & 0x00000001) != 0)) {
+          staticRequest_ = java.util.Collections.unmodifiableList(staticRequest_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.staticRequest_ = staticRequest_;
+      } else {
+        result.staticRequest_ = staticRequestBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -626,25 +420,31 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.virtualAccountApplication.createAccount.proto.StaticAccountMessage other) {
       if (other == com.virtualAccountApplication.createAccount.proto.StaticAccountMessage.getDefaultInstance()) return this;
-      if (!other.getPhoneNumber().isEmpty()) {
-        phoneNumber_ = other.phoneNumber_;
-        onChanged();
-      }
-      if (!other.getAccountName().isEmpty()) {
-        accountName_ = other.accountName_;
-        onChanged();
-      }
-      if (!other.getEmail().isEmpty()) {
-        email_ = other.email_;
-        onChanged();
-      }
-      if (!other.getBvn().isEmpty()) {
-        bvn_ = other.bvn_;
-        onChanged();
-      }
-      if (!other.getNin().isEmpty()) {
-        nin_ = other.nin_;
-        onChanged();
+      if (staticRequestBuilder_ == null) {
+        if (!other.staticRequest_.isEmpty()) {
+          if (staticRequest_.isEmpty()) {
+            staticRequest_ = other.staticRequest_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureStaticRequestIsMutable();
+            staticRequest_.addAll(other.staticRequest_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.staticRequest_.isEmpty()) {
+          if (staticRequestBuilder_.isEmpty()) {
+            staticRequestBuilder_.dispose();
+            staticRequestBuilder_ = null;
+            staticRequest_ = other.staticRequest_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            staticRequestBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getStaticRequestFieldBuilder() : null;
+          } else {
+            staticRequestBuilder_.addAllMessages(other.staticRequest_);
+          }
+        }
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -674,385 +474,246 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    private int bitField0_;
 
-    private java.lang.Object phoneNumber_ = "";
-    /**
-     * <code>string phone_number = 1;</code>
-     * @return The phoneNumber.
-     */
-    public java.lang.String getPhoneNumber() {
-      java.lang.Object ref = phoneNumber_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        phoneNumber_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string phone_number = 1;</code>
-     * @return The bytes for phoneNumber.
-     */
-    public com.google.protobuf.ByteString
-        getPhoneNumberBytes() {
-      java.lang.Object ref = phoneNumber_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        phoneNumber_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string phone_number = 1;</code>
-     * @param value The phoneNumber to set.
-     * @return This builder for chaining.
-     */
-    public Builder setPhoneNumber(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      phoneNumber_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string phone_number = 1;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearPhoneNumber() {
-      
-      phoneNumber_ = getDefaultInstance().getPhoneNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string phone_number = 1;</code>
-     * @param value The bytes for phoneNumber to set.
-     * @return This builder for chaining.
-     */
-    public Builder setPhoneNumberBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      phoneNumber_ = value;
-      onChanged();
-      return this;
+    private java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> staticRequest_ =
+      java.util.Collections.emptyList();
+    private void ensureStaticRequestIsMutable() {
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        staticRequest_ = new java.util.ArrayList<com.virtualAccountApplication.createAccount.proto.StaticRequests>(staticRequest_);
+        bitField0_ |= 0x00000001;
+       }
     }
 
-    private java.lang.Object accountName_ = "";
-    /**
-     * <code>string account_name = 2;</code>
-     * @return The accountName.
-     */
-    public java.lang.String getAccountName() {
-      java.lang.Object ref = accountName_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        accountName_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string account_name = 2;</code>
-     * @return The bytes for accountName.
-     */
-    public com.google.protobuf.ByteString
-        getAccountNameBytes() {
-      java.lang.Object ref = accountName_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        accountName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string account_name = 2;</code>
-     * @param value The accountName to set.
-     * @return This builder for chaining.
-     */
-    public Builder setAccountName(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      accountName_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string account_name = 2;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearAccountName() {
-      
-      accountName_ = getDefaultInstance().getAccountName();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string account_name = 2;</code>
-     * @param value The bytes for accountName to set.
-     * @return This builder for chaining.
-     */
-    public Builder setAccountNameBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      accountName_ = value;
-      onChanged();
-      return this;
-    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.virtualAccountApplication.createAccount.proto.StaticRequests, com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder, com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> staticRequestBuilder_;
 
-    private java.lang.Object email_ = "";
     /**
-     * <code>string email = 3;</code>
-     * @return The email.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public java.lang.String getEmail() {
-      java.lang.Object ref = email_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        email_ = s;
-        return s;
+    public java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> getStaticRequestList() {
+      if (staticRequestBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(staticRequest_);
       } else {
-        return (java.lang.String) ref;
+        return staticRequestBuilder_.getMessageList();
       }
     }
     /**
-     * <code>string email = 3;</code>
-     * @return The bytes for email.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getEmailBytes() {
-      java.lang.Object ref = email_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        email_ = b;
-        return b;
+    public int getStaticRequestCount() {
+      if (staticRequestBuilder_ == null) {
+        return staticRequest_.size();
       } else {
-        return (com.google.protobuf.ByteString) ref;
+        return staticRequestBuilder_.getCount();
       }
     }
     /**
-     * <code>string email = 3;</code>
-     * @param value The email to set.
-     * @return This builder for chaining.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public Builder setEmail(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      email_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string email = 3;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearEmail() {
-      
-      email_ = getDefaultInstance().getEmail();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string email = 3;</code>
-     * @param value The bytes for email to set.
-     * @return This builder for chaining.
-     */
-    public Builder setEmailBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      email_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object bvn_ = "";
-    /**
-     * <code>string bvn = 4;</code>
-     * @return The bvn.
-     */
-    public java.lang.String getBvn() {
-      java.lang.Object ref = bvn_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        bvn_ = s;
-        return s;
+    public com.virtualAccountApplication.createAccount.proto.StaticRequests getStaticRequest(int index) {
+      if (staticRequestBuilder_ == null) {
+        return staticRequest_.get(index);
       } else {
-        return (java.lang.String) ref;
+        return staticRequestBuilder_.getMessage(index);
       }
     }
     /**
-     * <code>string bvn = 4;</code>
-     * @return The bytes for bvn.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getBvnBytes() {
-      java.lang.Object ref = bvn_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        bvn_ = b;
-        return b;
+    public Builder setStaticRequest(
+        int index, com.virtualAccountApplication.createAccount.proto.StaticRequests value) {
+      if (staticRequestBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureStaticRequestIsMutable();
+        staticRequest_.set(index, value);
+        onChanged();
       } else {
-        return (com.google.protobuf.ByteString) ref;
+        staticRequestBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder setStaticRequest(
+        int index, com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder builderForValue) {
+      if (staticRequestBuilder_ == null) {
+        ensureStaticRequestIsMutable();
+        staticRequest_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        staticRequestBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder addStaticRequest(com.virtualAccountApplication.createAccount.proto.StaticRequests value) {
+      if (staticRequestBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureStaticRequestIsMutable();
+        staticRequest_.add(value);
+        onChanged();
+      } else {
+        staticRequestBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder addStaticRequest(
+        int index, com.virtualAccountApplication.createAccount.proto.StaticRequests value) {
+      if (staticRequestBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureStaticRequestIsMutable();
+        staticRequest_.add(index, value);
+        onChanged();
+      } else {
+        staticRequestBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder addStaticRequest(
+        com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder builderForValue) {
+      if (staticRequestBuilder_ == null) {
+        ensureStaticRequestIsMutable();
+        staticRequest_.add(builderForValue.build());
+        onChanged();
+      } else {
+        staticRequestBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder addStaticRequest(
+        int index, com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder builderForValue) {
+      if (staticRequestBuilder_ == null) {
+        ensureStaticRequestIsMutable();
+        staticRequest_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        staticRequestBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder addAllStaticRequest(
+        java.lang.Iterable<? extends com.virtualAccountApplication.createAccount.proto.StaticRequests> values) {
+      if (staticRequestBuilder_ == null) {
+        ensureStaticRequestIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, staticRequest_);
+        onChanged();
+      } else {
+        staticRequestBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder clearStaticRequest() {
+      if (staticRequestBuilder_ == null) {
+        staticRequest_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+      } else {
+        staticRequestBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public Builder removeStaticRequest(int index) {
+      if (staticRequestBuilder_ == null) {
+        ensureStaticRequestIsMutable();
+        staticRequest_.remove(index);
+        onChanged();
+      } else {
+        staticRequestBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder getStaticRequestBuilder(
+        int index) {
+      return getStaticRequestFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder getStaticRequestOrBuilder(
+        int index) {
+      if (staticRequestBuilder_ == null) {
+        return staticRequest_.get(index);  } else {
+        return staticRequestBuilder_.getMessageOrBuilder(index);
       }
     }
     /**
-     * <code>string bvn = 4;</code>
-     * @param value The bvn to set.
-     * @return This builder for chaining.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public Builder setBvn(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      bvn_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string bvn = 4;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearBvn() {
-      
-      bvn_ = getDefaultInstance().getBvn();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string bvn = 4;</code>
-     * @param value The bytes for bvn to set.
-     * @return This builder for chaining.
-     */
-    public Builder setBvnBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      bvn_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object nin_ = "";
-    /**
-     * <code>string nin = 5;</code>
-     * @return The nin.
-     */
-    public java.lang.String getNin() {
-      java.lang.Object ref = nin_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        nin_ = s;
-        return s;
+    public java.util.List<? extends com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> 
+         getStaticRequestOrBuilderList() {
+      if (staticRequestBuilder_ != null) {
+        return staticRequestBuilder_.getMessageOrBuilderList();
       } else {
-        return (java.lang.String) ref;
+        return java.util.Collections.unmodifiableList(staticRequest_);
       }
     }
     /**
-     * <code>string nin = 5;</code>
-     * @return The bytes for nin.
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getNinBytes() {
-      java.lang.Object ref = nin_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        nin_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
+    public com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder addStaticRequestBuilder() {
+      return getStaticRequestFieldBuilder().addBuilder(
+          com.virtualAccountApplication.createAccount.proto.StaticRequests.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder addStaticRequestBuilder(
+        int index) {
+      return getStaticRequestFieldBuilder().addBuilder(
+          index, com.virtualAccountApplication.createAccount.proto.StaticRequests.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .StaticRequests staticRequest = 1;</code>
+     */
+    public java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder> 
+         getStaticRequestBuilderList() {
+      return getStaticRequestFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.virtualAccountApplication.createAccount.proto.StaticRequests, com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder, com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> 
+        getStaticRequestFieldBuilder() {
+      if (staticRequestBuilder_ == null) {
+        staticRequestBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            com.virtualAccountApplication.createAccount.proto.StaticRequests, com.virtualAccountApplication.createAccount.proto.StaticRequests.Builder, com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder>(
+                staticRequest_,
+                ((bitField0_ & 0x00000001) != 0),
+                getParentForChildren(),
+                isClean());
+        staticRequest_ = null;
       }
-    }
-    /**
-     * <code>string nin = 5;</code>
-     * @param value The nin to set.
-     * @return This builder for chaining.
-     */
-    public Builder setNin(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      nin_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string nin = 5;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearNin() {
-      
-      nin_ = getDefaultInstance().getNin();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string nin = 5;</code>
-     * @param value The bytes for nin to set.
-     * @return This builder for chaining.
-     */
-    public Builder setNinBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      nin_ = value;
-      onChanged();
-      return this;
+      return staticRequestBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

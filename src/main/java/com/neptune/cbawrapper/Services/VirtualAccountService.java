@@ -1,5 +1,6 @@
 package com.neptune.cbawrapper.Services;
 
+
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.VirtualAccountModel;
 import com.virtualAccountApplication.createAccount.proto.*;
@@ -13,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -29,28 +33,38 @@ public class VirtualAccountService {
 
     private final ErrorLoggingException errorLoggingException;
 
-    public CreateAccountResponse createVirtualAccount(VirtualAccountModel virtualAccountModel){
+    public CreateAccountResponse createVirtualAccount(List<VirtualAccountModel> virtualAccountModel){
         ManagedChannel channel = ManagedChannelBuilder.forAddress(virtual_server_ip, virtual_server_port).usePlaintext().build();
         CreateAccountResponse response = null;
+        CreateAccountRequest.Builder request = CreateAccountRequest.newBuilder();
 
         try {
-            CreateAccountRequest request = CreateAccountRequest
-                    .newBuilder()
-                    .setStaticAccount(
-                            StaticAccountMessage
-                                    .newBuilder().setPhoneNumber(virtualAccountModel.getPhone_number())
-                                    .setAccountName(virtualAccountModel.getAccount_name())
-                                    .setEmail(virtualAccountModel.getEmail())
-                                    .setBvn(virtualAccountModel.getBvn())
-                                    .setNin(virtualAccountModel.getNin())
-                                    .build())
-                    .setAccountType(AccountTypes.STATIC)
-                    .setSecondaryParentAccountNumber(virtualAccountModel.getParent_account())
-                    .setParentId(virtualAccountModel.getParent_id())
-                    .build();
+            for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+
+                        request
+                        .setStaticAccount(
+                                StaticAccountMessage
+                                        .newBuilder()
+                                        .addStaticRequest(
+                                                StaticRequests
+                                                        .newBuilder()
+                                                        .setPhoneNumber(virtualAccountModel1.getPhone_number())
+                                                        .setAccountName(virtualAccountModel1.getAccount_name())
+                                                        .setEmail(virtualAccountModel1.getEmail())
+                                                        .setBvn(virtualAccountModel1.getBvn())
+                                                        .setNin(virtualAccountModel1.getNin())
+                                                        .setAccountType(AccountTypes.STATIC)
+                                                        .setSecondaryParentAccountNumber(virtualAccountModel1.getParent_account())
+                                                        .setParentId(virtualAccountModel1.getParent_id())
+                                                        .build())
+                                        .build())
+                        .build();
+
+            }
+
 
             CreateAccountServiceGrpc.CreateAccountServiceBlockingStub stub = CreateAccountServiceGrpc.newBlockingStub(channel);
-            response = stub.createAccount(request);
+            response = stub.createAccount(request.build());
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("CREATE_VIRTUAL_ACCOUNT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {

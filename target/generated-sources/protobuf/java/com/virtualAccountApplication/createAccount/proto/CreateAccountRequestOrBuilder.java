@@ -37,40 +37,5 @@ public interface CreateAccountRequestOrBuilder extends
    */
   com.virtualAccountApplication.createAccount.proto.StaticAccountMessageOrBuilder getStaticAccountOrBuilder();
 
-  /**
-   * <code>.AccountTypes account_type = 6;</code>
-   * @return The enum numeric value on the wire for accountType.
-   */
-  int getAccountTypeValue();
-  /**
-   * <code>.AccountTypes account_type = 6;</code>
-   * @return The accountType.
-   */
-  com.virtualAccountApplication.createAccount.proto.AccountTypes getAccountType();
-
-  /**
-   * <code>string parent_id = 7;</code>
-   * @return The parentId.
-   */
-  java.lang.String getParentId();
-  /**
-   * <code>string parent_id = 7;</code>
-   * @return The bytes for parentId.
-   */
-  com.google.protobuf.ByteString
-      getParentIdBytes();
-
-  /**
-   * <code>string secondary_parent_account_number = 8;</code>
-   * @return The secondaryParentAccountNumber.
-   */
-  java.lang.String getSecondaryParentAccountNumber();
-  /**
-   * <code>string secondary_parent_account_number = 8;</code>
-   * @return The bytes for secondaryParentAccountNumber.
-   */
-  com.google.protobuf.ByteString
-      getSecondaryParentAccountNumberBytes();
-
   public com.virtualAccountApplication.createAccount.proto.CreateAccountRequest.AccountDataCase getAccountDataCase();
 }

@@ -19,4 +19,7 @@ public interface CustomersRepository extends MongoRepository<CustomersModel, Str
 
     @Query("{ 'account_num': { $eq: null } }")
     List<CustomersModel> getCustomersWithoutAccountId();
+
+    @Query("{ 'savingsId': {$in: ?0} }")
+    List<CustomersModel> findBySavingsId(List<Integer> savingsId);
 }

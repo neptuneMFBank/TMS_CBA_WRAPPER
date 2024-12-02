@@ -1,9 +1,11 @@
 package com.neptune.cbawrapper.Services;
 
+
 import com.neptune.cba.transaction.debit_credit.DebitCreditRequest;
 import com.neptune.cba.transaction.debit_credit.DebitCreditResponse;
 import com.neptune.cba.transaction.debit_credit.DebitCreditServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
+import com.neptune.cbawrapper.Models.TransactionDrCr;
 import com.neptune.cbawrapper.Models.VerifyUser;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -39,21 +41,21 @@ public class DebitCreditService {
         return DebitCreditServiceGrpc.newBlockingStub(channel);
     }
 
-    public DebitCreditResponse debitCredit(VerifyUser verifyUser){
+    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr){
         DebitCreditResponse response = null;
         try {
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
-                    .setAccountnumber(verifyUser.getAccountnumber())
-                    .setIsccode(verifyUser.getIsccode())
-                    .setAccountstatus(verifyUser.getAccountstatus())
-                    .setAcctname(verifyUser.getAcctname())
-                    .setDrcr(verifyUser.getDrcr())
-                    .setAcctype(verifyUser.getAcctype())
-                    .setAmount(verifyUser.getAmount())
-                    .setTransactionreference(verifyUser.getTransactionreference())
-                    .setNarration(verifyUser.getNarration())
-                    .setChannel(verifyUser.getChannel())
-                    .setEid(verifyUser.getEid())
+                    .setAccountnumber(transactionDrCr.getAccountnumber())
+                    .setIsccode(transactionDrCr.getIsccode())
+                    .setAccountstatus(transactionDrCr.getAccountstatus())
+                    .setAcctname(transactionDrCr.getAcctname())
+                    .setDrcr(transactionDrCr.getDrcr())
+                    .setAcctype(transactionDrCr.getAcctype())
+                    .setAmount(transactionDrCr.getAmount())
+                    .setTransactionreference(transactionDrCr.getTransactionreference())
+                    .setNarration(transactionDrCr.getNarration())
+                    .setChannel(transactionDrCr.getChannel())
+                    .setEid(transactionDrCr.getEid())
                     .build();
 
             response = connections().debitCredit(request);

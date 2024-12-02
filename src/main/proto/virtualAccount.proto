@@ -6,7 +6,6 @@ option java_outer_classname = "accountService";
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
-
 service CreateAccountService {
   rpc CreateAccount(CreateAccountRequest)returns(CreateAccountResponse){};
 }
@@ -16,9 +15,6 @@ message CreateAccountRequest {
     DynamicAccountMessage dynamic_account= 1;
     StaticAccountMessage static_account = 2;
   };
-  AccountTypes account_type = 6;
-  string parent_id = 7;
-  string secondary_parent_account_number = 8;
 }
 
 message DynamicAccountMessage {
@@ -26,25 +22,39 @@ message DynamicAccountMessage {
   string bvn = 2;
   string nin = 3;
   string account_name = 4;
+  AccountTypes account_type = 5;
+  string parent_id = 6;
+  string secondary_parent_account_number = 7;
 }
 
 message StaticAccountMessage {
+  repeated StaticRequests staticRequest = 1;
+}
+
+message StaticRequests {
   string phone_number = 1;
   string account_name = 2;
   string email = 3;
   string bvn = 4;
   string nin = 5;
+  AccountTypes account_type = 6;
+  string parent_id = 7;
+  string secondary_parent_account_number = 8;
 }
 
 message CreateAccountResponse {
   oneof AccountCreationResponses{
-    AccountCreationResponse static_account_creation_response = 1;
+    StaticAccountCreationResponse static_account_creation_response = 1;
     DynamicAccountCreationResponse dynamic_account_creation_response = 2;
   }
   google.protobuf.Timestamp timestamp = 3;
 }
 
 message DynamicAccountCreationResponse {
+  repeated AccountCreationResponse account_data = 1;
+}
+
+message StaticAccountCreationResponse {
   repeated AccountCreationResponse account_data = 1;
 }
 

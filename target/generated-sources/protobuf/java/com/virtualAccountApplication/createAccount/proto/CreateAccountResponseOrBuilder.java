@@ -8,19 +8,19 @@ public interface CreateAccountResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
    * @return Whether the staticAccountCreationResponse field is set.
    */
   boolean hasStaticAccountCreationResponse();
   /**
-   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
    * @return The staticAccountCreationResponse.
    */
-  com.virtualAccountApplication.createAccount.proto.AccountCreationResponse getStaticAccountCreationResponse();
+  com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse getStaticAccountCreationResponse();
   /**
-   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
    */
-  com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder();
+  com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder();
 
   /**
    * <code>.DynamicAccountCreationResponse dynamic_account_creation_response = 2;</code>
