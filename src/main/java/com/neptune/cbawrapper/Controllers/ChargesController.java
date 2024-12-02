@@ -83,13 +83,13 @@ public class ChargesController {
 
     @PutMapping("/update-platform-charge")
     public ResponseSchema updatePlatformCharge(@RequestBody PlatformChargesRequest charges){
-        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getPlatformName());
+        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
             return new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
         }
 
-        PlatformCharges platformCharges = new PlatformCharges();
+        PlatformCharges platformCharges = checkIfChargeTypeExists.get();
         platformCharges.setPlatformName(charges.getPlatformName());
         platformCharges.setAmount(charges.getAmount());
         platformCharges.setChargeType(charges.getChargeType());
@@ -109,7 +109,7 @@ public class ChargesController {
             return new ResponseSchema<>( 404, "charge for the business wallet provided not found ", null, "", ZonedDateTime.now(), false);
         }
 
-        BusinessPlatformCharges businessPlatformCharges = new BusinessPlatformCharges();
+        BusinessPlatformCharges businessPlatformCharges = checkIfChargeTypeExists.get();
         businessPlatformCharges.setBusinessId(charges.getBusinessId());
         businessPlatformCharges.setBusinessWalletId(charges.getBusinessWalletId());
         businessPlatformCharges.setChargeType(charges.getChargeType());
@@ -123,7 +123,7 @@ public class ChargesController {
 
     @DeleteMapping("/delete-platform-charge")
     public ResponseSchema deletePlatformCharge(@RequestBody PlatformChargesRequest charges){
-        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getPlatformName());
+        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
             return new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
