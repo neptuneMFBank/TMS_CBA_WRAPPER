@@ -1,19 +1,17 @@
 package com.neptune.cbawrapper.Controllers;
 
 
+import com.neptune.cbawrapper.Configuration.AESServiceImp;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.BusinessPlatformCharges;
 import com.neptune.cbawrapper.Models.PlatformCharges;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
-import com.neptune.cbawrapper.RequestRessponseSchema.BusinessPlatformChargesRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.PlatformChargesRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.ResponseSchema;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,28 +21,36 @@ public class ChargesController {
     private final PlatformChargeRepository platformChargeRepository;
     private final Helpers helpers;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
+    private final AESServiceImp aesServiceImp;
 
-    public ChargesController(PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
+    public ChargesController(PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository, AESServiceImp aesServiceImp) {
         this.platformChargeRepository = platformChargeRepository;
         this.helpers = helpers;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
+        this.aesServiceImp = aesServiceImp;
     }
 
     @GetMapping("/get-all-platform-charges")
-    public ResponseSchema getAllPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public ResponseSchema<?> getAllPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<PlatformCharges> allPlatformCharges = helpers.getPaginatedPlatformCharges(page, size);
-        return new ResponseSchema<>( 200, "successful", allPlatformCharges, "", ZonedDateTime.now(), false);
+        return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
     }
 
     @GetMapping("/get-all-business-platform-charges")
-    public ResponseSchema getAllBusinessPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public ResponseSchema<?> getAllBusinessPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<BusinessPlatformCharges> allPlatformCharges = helpers.getPaginatedBusinessPlatformCharges(page, size);
-        return new ResponseSchema<>( 200, "successful", allPlatformCharges, "", ZonedDateTime.now(), false);
+        return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), false);
     }
 
     @PostMapping("/create-platform-charge")
-    public ResponseSchema createPlatformCharge(@RequestBody PlatformChargesRequest charges){
+    public ResponseSchema<?> createPlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
+
+        System.out.println("charges = " + charges);
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeByName(charges.getPlatformName());
+
+        String data = aesServiceImp.aesEncrypt(helpers.convertToJson(charges));
 
         if(checkIfChargeTypeExists.isPresent()){
             return new ResponseSchema<>( 501, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
@@ -63,7 +69,11 @@ public class ChargesController {
     }
 
     @PostMapping("/create-business-platform-charge")
-    public ResponseSchema createBusinessPlatformCharge(@RequestBody BusinessPlatformChargesRequest charges){
+    public ResponseSchema<?> createBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
+
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
+
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isPresent()){
@@ -82,7 +92,10 @@ public class ChargesController {
     }
 
     @PutMapping("/update-platform-charge")
-    public ResponseSchema updatePlatformCharge(@RequestBody PlatformChargesRequest charges){
+    public ResponseSchema<?> updatePlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
+
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
@@ -102,7 +115,10 @@ public class ChargesController {
     }
 
     @PutMapping("/update-business-platform-charge")
-    public ResponseSchema updateBusinessPlatformCharge(@RequestBody BusinessPlatformChargesRequest charges){
+    public ResponseSchema<?> updateBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
+
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){
@@ -122,7 +138,10 @@ public class ChargesController {
 
 
     @DeleteMapping("/delete-platform-charge")
-    public ResponseSchema deletePlatformCharge(@RequestBody PlatformChargesRequest charges){
+    public ResponseSchema<?> deletePlatformCharge(@RequestBody EncryptedRequest request){ //PlatformChargesRequest charges
+
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
@@ -136,7 +155,10 @@ public class ChargesController {
 
 
     @DeleteMapping("/delete-business-platform-charge")
-    public ResponseSchema deleteBusinessPlatformCharge(@RequestBody BusinessPlatformChargesRequest charges){
+    public ResponseSchema<?> deleteBusinessPlatformCharge(@RequestBody EncryptedRequest request){ //BusinessPlatformChargesRequest charges
+
+        String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
+        BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){

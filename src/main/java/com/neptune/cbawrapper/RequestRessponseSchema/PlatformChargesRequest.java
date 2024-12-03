@@ -72,4 +72,17 @@ public class PlatformChargesRequest {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "PlatformChargesRequest{" +
+                "id='" + id + '\'' +
+                ", platformName='" + platformName + '\'' +
+                ", chargeType='" + chargeType + '\'' +
+                ", amount=" + amount +
+                ", threshold=" + threshold +
+                ", businessValue=" + businessValue +
+                ", total=" + total +
+                '}';
+    }
 }

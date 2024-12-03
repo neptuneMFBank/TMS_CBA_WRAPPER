@@ -1,6 +1,7 @@
 package com.neptune.cbawrapper.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.*;
 import com.neptune.cbawrapper.Models.BusinessPlatformCharges;
 import com.neptune.cbawrapper.Models.CustomersModel;
 import com.neptune.cbawrapper.Models.PlatformCharges;
@@ -17,6 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -87,6 +91,31 @@ public class Helpers {
     public Page<BusinessPlatformCharges> getPaginatedBusinessPlatformCharges(int page, int size){
         Pageable pageable = PageRequest.of(page, size); // page is 0-indexed
         return businessPlatformChargesRepository.findAll(pageable);
+    }
+
+    public String convertToJson(Object data){
+        Gson gson = new GsonBuilder().registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter()).create();
+        return gson.toJson(data);
+    }
+
+    public <T> T convertToObject(String data, Class<T> object) {
+        Gson gson = new Gson();
+        return gson.fromJson(data, object);
+    }
+
+    static class ZonedDateTimeAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
+        private final DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+
+        @Override
+        public JsonElement serialize(ZonedDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.format(formatter));
+        }
+
+        @Override
+        public ZonedDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            return ZonedDateTime.parse(json.getAsString(), formatter);
+        }
     }
 
 }

@@ -339,7 +339,7 @@ public class Cron {
             }
             System.out.println("authCredentials = " + authCredentials);
 
-            //TODO: rewrite this to pass all vritual accounts at once to the CBA and get array of virtual account responses.
+            //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
             CreateAccountResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
             System.out.println("response = " + response);
 
