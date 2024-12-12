@@ -14,6 +14,7 @@ public class BusinessPlatformCharges {
     private String businessWalletId;
     private String chargeType;
     private Double amount;
+    private String businessName;
     private Double threshold;
 
     public String getId() {
@@ -62,5 +63,13 @@ public class BusinessPlatformCharges {
 
     public void setThreshold(Double threshold) {
         this.threshold = threshold;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
 }

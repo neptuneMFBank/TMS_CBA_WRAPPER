@@ -90,6 +90,7 @@ public class ChargesController {
         businessPlatformCharges.setChargeType(charges.getChargeType());
         businessPlatformCharges.setAmount(charges.getAmount());
         businessPlatformCharges.setThreshold(charges.getThreshold());
+        businessPlatformCharges.setBusinessName(charges.getBusinessName());
         businessPlatformChargesRepository.save(businessPlatformCharges);
 
         return new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
