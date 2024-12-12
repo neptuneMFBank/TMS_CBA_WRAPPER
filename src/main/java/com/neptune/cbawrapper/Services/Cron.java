@@ -380,7 +380,7 @@ public class Cron {
 
     @Scheduled(cron = "0 */3 * * * *")
     public void pushTransactionsToCba(){
-        List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba();
+        List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());

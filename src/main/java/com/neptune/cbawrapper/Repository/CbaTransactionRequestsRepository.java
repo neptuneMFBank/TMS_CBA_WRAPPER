@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface CbaTransactionRequestsRepository extends MongoRepository<TransactionDrCr, String> {
 
-    @Query("{ 'tin': {$in: ?0} }")
-    List<TransactionDrCr> findTransactionsNotLoggedToCba();
+    @Query("{ 'isUpdatedToCba': {$eq: ?0} }")
+    List<TransactionDrCr> findTransactionsNotLoggedToCba(boolean isUpdatedToCba);
 }
