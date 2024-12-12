@@ -383,6 +383,9 @@ public class Cron {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
+            if(transactionDrCr1.getAccountnumber() == null){
+                return;
+            }
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
             DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1);
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();

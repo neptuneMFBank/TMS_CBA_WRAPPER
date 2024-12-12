@@ -202,6 +202,7 @@ public class TransactionController {
             transactionDrCr.setIsccode("2");
             transactionDrCr.setAccountstatus("active");
             transactionDrCr.setUpdatedToCba(false);
+            transactionDrCr.setTerminalId(request.getTerminalId());
             transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
             transactionDrCr.setDrcr("cr");
             transactionDrCr.setAcctype("savings");

@@ -22,6 +22,7 @@ public class TransactionDrCr {
     private String narration;
     private String channel;
     private String eid;
+    private String terminalId;
     private Boolean isUpdatedToCba;
     private String resourceId;
     private String transaction_platform_id;
@@ -153,5 +154,13 @@ public class TransactionDrCr {
 
     public void setTransaction_business_platform_id(String transaction_business_platform_id) {
         this.transaction_business_platform_id = transaction_business_platform_id;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
     }
 }
