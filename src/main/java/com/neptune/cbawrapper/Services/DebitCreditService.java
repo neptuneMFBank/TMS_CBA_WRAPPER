@@ -35,13 +35,8 @@ public class DebitCreditService {
 
     private final ErrorLoggingException errorLoggingException;
 
-    @Bean
-    public DebitCreditServiceGrpc.DebitCreditServiceBlockingStub connections(){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
-        return DebitCreditServiceGrpc.newBlockingStub(channel);
-    }
-
     public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
         try {
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
@@ -58,7 +53,8 @@ public class DebitCreditService {
                     .setEid(transactionDrCr.getEid())
                     .build();
 
-            response = connections().debitCredit(request);
+            DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
+            response = stub.debitCredit(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {

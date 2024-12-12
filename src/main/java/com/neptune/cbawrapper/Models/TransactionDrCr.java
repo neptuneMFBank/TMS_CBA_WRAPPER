@@ -24,8 +24,8 @@ public class TransactionDrCr {
     private String eid;
     private Boolean isUpdatedToCba;
     private String resourceId;
-    private Integer transaction_platform_id;
-    private Integer transaction_business_platform_id;
+    private String transaction_platform_id;
+    private String transaction_business_platform_id;
 
     public String getIsccode() {
         return isccode;
@@ -139,19 +139,19 @@ public class TransactionDrCr {
         this.resourceId = resourceId;
     }
 
-    public Integer getTransaction_platform_id() {
+    public String getTransaction_platform_id() {
         return transaction_platform_id;
     }
 
-    public void setTransaction_platform_id(Integer transaction_platform_id) {
+    public void setTransaction_platform_id(String transaction_platform_id) {
         this.transaction_platform_id = transaction_platform_id;
     }
 
-    public Integer getTransaction_business_platform_id() {
+    public String getTransaction_business_platform_id() {
         return transaction_business_platform_id;
     }
 
-    public void setTransaction_business_platform_id(Integer transaction_business_platform_id) {
+    public void setTransaction_business_platform_id(String transaction_business_platform_id) {
         this.transaction_business_platform_id = transaction_business_platform_id;
     }
 }

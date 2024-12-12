@@ -27,21 +27,15 @@ public class AuthenticationService {
 
     private final ErrorLoggingException errorLoggingException;
     private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
-//    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
     @Value("${grpc.auth.request.url}")
     private String auth_server_ip;
 
     @Value("${grpc.auth.request.port}")
     private int auth_server_port;
 
-    @Bean
-    public AuthServiceGrpc.AuthServiceBlockingStub connection(){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
-        return AuthServiceGrpc.newBlockingStub(channel);
-    }
-
     //todo: step 1
     public auth.Auth.CreateUserResponse createUserAccount(CreateUser create3ppUser){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.CreateUserResponse response = null;
         try {
             auth.Auth.Create3ppUserRequest request = auth.Auth.Create3ppUserRequest
@@ -55,7 +49,8 @@ public class AuthenticationService {
                     .setSettlementAccountNumber(create3ppUser.getSettlement_account_number())
                     .build();
 
-            response = connection().create3ppUser(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.create3ppUser(request); //connection().create3ppUser(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("GET_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -67,11 +62,13 @@ public class AuthenticationService {
 
     //todo: step 2a
     public auth.Auth.OtpResponse getUserPhoneOtp(String phoneNumber){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.OtpResponse response = null;
         try {
             auth.Auth.GetPhoneNumberOtpRequest request = auth.Auth.GetPhoneNumberOtpRequest
                     .newBuilder().setPhoneNumber(phoneNumber).build();
-            response = connection().get3ppPhoneNumberOtp(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.get3ppPhoneNumberOtp(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("GET_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -82,10 +79,12 @@ public class AuthenticationService {
 
     //todo: step 2a(b) resend verification email incase the email after user registration was not received
     public auth.Auth.OtpResponse resendEmailOtp(String email){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.OtpResponse response = null;
         try {
             auth.Auth.ResendVerifyEmailOtpRequest request = auth.Auth.ResendVerifyEmailOtpRequest.newBuilder().setEmail(email).build();
-            response = connection().resend3ppVerifyEmailOtp(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.resend3ppVerifyEmailOtp(request);
         }catch (StatusRuntimeException e){
             errorLoggingException.logError("RESEND_USER_EMAIL_OTP_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -97,6 +96,7 @@ public class AuthenticationService {
 
     //todo: step 2b use the otp sent to your email to verify your email
     public auth.Auth.Empty verifyUserEmail(VerifyUser verifyUser){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.Empty response = null;
         try {
             auth.Auth.VerifyEmailOtpRequest request = auth.Auth.VerifyEmailOtpRequest
@@ -105,7 +105,8 @@ public class AuthenticationService {
                     .setOtp(verifyUser.getOtp())
                     .build();
 
-            response = connection().verify3ppEmailOtp(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.verify3ppEmailOtp(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("VERIFY_USER_EMAIL_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -118,6 +119,7 @@ public class AuthenticationService {
 
     //todo: step 3 verify phone number with otp from phone number otp service
     public auth.Auth.Empty verifyUserPhone(VerifyUser verifyUser){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.Empty response = null;
         try{
             auth.Auth.VerifyPhoneNumberOtpRequest request = auth.Auth.VerifyPhoneNumberOtpRequest
@@ -126,7 +128,8 @@ public class AuthenticationService {
                     .setOtp(verifyUser.getOtp())
                     .build();
 
-            response = connection().verify3ppPhoneNumberOtp(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.verify3ppPhoneNumberOtp(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("VERIFY_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -138,6 +141,7 @@ public class AuthenticationService {
 
     //todo: step 4 login user
     public auth.Auth.LoginResponse loginUser(VerifyUser verifyUser){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.LoginResponse response = null;
         try {
             auth.Auth.LoginRequest request = auth.Auth.LoginRequest
@@ -145,7 +149,8 @@ public class AuthenticationService {
                     .setEmail(verifyUser.getEmail())
                     .setPassword(verifyUser.getPassword())
                     .build();
-            response = connection().login3ppUser(request);
+            AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.login3ppUser(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("LOGIN_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
@@ -158,13 +163,14 @@ public class AuthenticationService {
 
     //todo: use the access token from login to generate API key
     public auth.Auth.GenerateApiKeyResponse generateApiKey(String token){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.GenerateApiKeyResponse response = null;
         try {
             auth.Auth.GenerateApiKeyRequest request = auth.Auth.GenerateApiKeyRequest
                     .newBuilder()
                     .setToken(token)
-                    .build();
-            response = connection().generateApiKey(request);
+                    .build();AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.generateApiKey(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("GENERATE_API_KEY_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
@@ -176,13 +182,14 @@ public class AuthenticationService {
     }
 
     public auth.Auth.Get3ppUserDataResponse getUserData(String token){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.Get3ppUserDataResponse response = null;
         try {
             auth.Auth.Get3ppUserDataRequest request = auth.Auth.Get3ppUserDataRequest
                     .newBuilder()
                     .setToken(token)
-                    .build();
-            response = connection().get3ppUserData(request);
+                    .build();AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.get3ppUserData(request);
         }catch (StatusRuntimeException e){
             errorLoggingException.logError("GET_3PP_USER_DATA_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
@@ -194,14 +201,15 @@ public class AuthenticationService {
     }
 
     public Auth.Empty createWebHookCba(String token, String url){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         auth.Auth.Empty response = null;
         try {
             Auth.Create3ppWebhookRequest request = Auth.Create3ppWebhookRequest
                     .newBuilder()
                     .setToken(token)
                     .setUrl(url)
-                    .build();
-            response = connection().create3ppWebhookData(request);
+                    .build();AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.create3ppWebhookData(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("CREATE_3PP_WEBHOOK_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
@@ -212,14 +220,15 @@ public class AuthenticationService {
     }
 
     public Auth.Get3ppWebhookResponse get3ppWebhook(String token, String id){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(auth_server_ip, auth_server_port).usePlaintext().build();
         Auth.Get3ppWebhookResponse response =null;
         try {
             Auth.Get3ppWebhookRequest request = Auth.Get3ppWebhookRequest
                     .newBuilder()
                     .setId(id)
                     .setToken(token)
-                    .build();
-            response = connection().get3ppWebhookData(request);
+                    .build();AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
+            response = stub.get3ppWebhookData(request);
         }catch (StatusRuntimeException e) {
             errorLoggingException.logError("GET_3PP_WEBHOOK_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {

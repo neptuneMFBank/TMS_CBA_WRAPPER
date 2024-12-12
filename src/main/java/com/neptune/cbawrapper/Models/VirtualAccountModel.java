@@ -26,6 +26,7 @@ public class VirtualAccountModel {
     private String businessName;
     private Integer businessSavingsId;
     private String businessWalletId;
+    private String fcmToken;
 
     public String getId() {
         return id;
@@ -161,6 +162,14 @@ public class VirtualAccountModel {
 
     public void setBusinessWalletId(String businessWalletId) {
         this.businessWalletId = businessWalletId;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     public VirtualAccountModel() {

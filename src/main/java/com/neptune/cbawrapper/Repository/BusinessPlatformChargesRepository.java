@@ -13,4 +13,7 @@ public interface BusinessPlatformChargesRepository extends MongoRepository<Busin
 
     @Query("{ 'businessWalletId': { $eq: ?0 } }")
     Optional<BusinessPlatformCharges> getChargeByBusinessWalletId(String businessWalletId);
+
+    @Query("{ 'transaction_business_platform_id': { $eq: ?0 } }")
+    Optional<BusinessPlatformCharges> getChargeByBusinessPlatformId(String businessPlatformId);
 }

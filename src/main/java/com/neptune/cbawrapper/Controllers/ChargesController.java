@@ -30,18 +30,21 @@ public class ChargesController {
         this.aesServiceImp = aesServiceImp;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/get-all-platform-charges")
     public ResponseSchema<?> getAllPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<PlatformCharges> allPlatformCharges = helpers.getPaginatedPlatformCharges(page, size);
         return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/get-all-business-platform-charges")
     public ResponseSchema<?> getAllBusinessPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<BusinessPlatformCharges> allPlatformCharges = helpers.getPaginatedBusinessPlatformCharges(page, size);
         return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), false);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/create-platform-charge")
     public ResponseSchema<?> createPlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
@@ -68,6 +71,7 @@ public class ChargesController {
         return new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/create-business-platform-charge")
     public ResponseSchema<?> createBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
 
@@ -91,6 +95,7 @@ public class ChargesController {
         return new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/update-platform-charge")
     public ResponseSchema<?> updatePlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
@@ -114,6 +119,7 @@ public class ChargesController {
         return new ResponseSchema<>( 200, "charge for this platform type updated successfully", null, "", ZonedDateTime.now(), false);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/update-business-platform-charge")
     public ResponseSchema<?> updateBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
@@ -137,6 +143,7 @@ public class ChargesController {
     }
 
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/delete-platform-charge")
     public ResponseSchema<?> deletePlatformCharge(@RequestBody EncryptedRequest request){ //PlatformChargesRequest charges
 
@@ -154,6 +161,7 @@ public class ChargesController {
     }
 
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/delete-business-platform-charge")
     public ResponseSchema<?> deleteBusinessPlatformCharge(@RequestBody EncryptedRequest request){ //BusinessPlatformChargesRequest charges
 

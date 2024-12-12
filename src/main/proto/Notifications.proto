@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package notification_service;
+
+import "google/protobuf/timestamp.proto";
+
+service NotificationService {
+  rpc Notify(NotificationRequest) returns (NotificationResponse) {}
+  rpc GetAllNotification(Empty) returns (GetAllNotificationResponse) {}
+  rpc GetUserNotifications(UserNotificationRequest) returns (UserNotificationResponse) {} //new service, for getting a users notification
+  rpc GetNotificationByDate(GetNotificationByDateRequest)returns(GetAllNotificationResponse){}
+  rpc CustomNotification(CustomNotificationRequest)returns(CustomNotificationResponse){} // new service for creating a custom notification for supervisor and employee
+}
+
+message UserNotificationRequest{
+  string userId=1;
+}
+
+message UserNotification{
+  string created_at=1;
+  string message=2;
+  string title=3;
+  bool sendtext=4;
+  bool sendmail=5;
+  string employeeId=6;
+  string superiorId=7;
+  string actionId=8;
+  string action=9;
+  string type=10;
+  string superior_email=11;
+  bool isActivity=12;
+  bool isReminder=13;
+  // google.protobuf.Timestamp reminderDate=24;
+}
+
+message UserNotificationResponse{
+  repeated UserNotification notifications=1;
+}
+
+
+message CustomNotificationRequest{
+  string title = 1;
+  string message = 2;
+  string receiver_phone_number = 6;
+  string receiver_phone_country = 7;
+  string receiver_email = 8;
+  bool sendmail = 14;
+  bool sendtext = 15;
+  string superiorId= 16;
+  string employeeId= 17;
+  string actionId= 18;
+  string type=19;
+  string superior_email=20;
+  string action=21;
+  bool isActivity=22;
+  bool isReminder=23;
+  google.protobuf.Timestamp reminderDate=24;
+}
+
+message CustomNotificationResponse{
+  string message= 1;
+}
+
+message NotificationRequest {
+  string title = 1;
+  string message = 2;
+  string icon = 3;
+  string notification_type = 4;
+  string message_priority = 5;
+  string receiver_phone_number = 6;
+  string receiver_phone_country = 7;
+  string receiver_email = 8;
+  string receiver_fcm_token = 9;
+  string receiver_socket_id = 10;
+  bool attachment = 11;
+  string file = 12;
+  WebHook webhook = 13;
+  bool sendmail = 14;
+  bool sendtext = 15;
+  bool sendwebhook = 16;
+  bool push_notify = 17;
+  string extensiontype = 18;
+}
+
+message WebHook {
+  string url = 1;
+  string event =2;
+  string payload = 3;
+}
+
+message NotificationResponse {
+  string code = 1;
+  string message = 2;
+}
+
+message GetAllNotificationResponse {
+  repeated Notification notifications = 1;
+}
+
+message GetNotificationByDateRequest{
+  google.protobuf.Timestamp start_date = 1;
+  google.protobuf.Timestamp end_date = 2;
+}
+
+message Notification {
+  string id = 1;
+  string title = 2;
+  string message = 3;
+  string icon = 4;
+  string notification_type = 5;
+  int32 message_priority = 6;
+  string receiver_phone_number = 7;
+  string receiver_phone_country = 8;
+  string receiver_email = 9;
+  string receiver_fcm_token = 10;
+  string receiver_socket_id = 11;
+  string notification_status = 12;
+  bool attachment = 13;
+  string file = 14;
+  string extensiontype = 15;
+  bool sendmail = 16;
+  bool sendtext = 17;
+  google.protobuf.Timestamp created_at = 18;
+  google.protobuf.Timestamp updated_at = 19;
+  bool pushnotify = 20;
+}
+
+message Empty {}
+
+// protoc --proto_path=./proto --go_out=./proto --go-grpc_out=./proto ./proto/*.proto

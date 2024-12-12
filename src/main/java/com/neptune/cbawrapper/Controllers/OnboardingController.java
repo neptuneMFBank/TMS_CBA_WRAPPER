@@ -35,6 +35,7 @@ public class OnboardingController {
         this.errorLoggingException = errorLoggingException;
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/create-tms-account")
     public ResponseSchema createUser(@RequestBody CreateUser user) {
         try {
@@ -57,6 +58,7 @@ public class OnboardingController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/get-token-on-phone")
     public ResponseSchema getToken(@RequestParam String phoneNumber) {
         try {
@@ -73,6 +75,7 @@ public class OnboardingController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/resend-token-on-email")
     public ResponseSchema resendEmailOtp(@RequestParam String email) {
         try {
@@ -88,6 +91,7 @@ public class OnboardingController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/verify-email")
     public ResponseSchema verifyUserEmail(@RequestBody CreateUser user) {
         try {
@@ -104,6 +108,7 @@ public class OnboardingController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/verify-phone")
     public ResponseSchema verifyUserPhone(@RequestBody CreateUser user) {
         try {
@@ -119,6 +124,7 @@ public class OnboardingController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/login")
     public ResponseSchema login(@RequestBody CreateUser user) {
         try {

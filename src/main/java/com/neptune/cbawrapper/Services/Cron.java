@@ -253,7 +253,6 @@ public class Cron {
         }
     }
 
-
     @Scheduled(cron = "0 */5 * * * *")
     public void getVirtualTerminalRecords() {
         try {
@@ -400,6 +399,7 @@ public class Cron {
                     Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
 
                     if(platformCharges.isPresent()){
+                        //todo: debit platform charge from terminal
                         String chargeType = platformCharges.get().getChargeType();
                         double amount;
 
@@ -415,12 +415,18 @@ public class Cron {
                         transactionDrCr1.setAmount(amount);
                         transactionDrCr1.setDrcr("dr");
                         DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+                        System.out.println("response1 = " + response1);
 
+                        //todo: credit platform charge to NeptunePay account
                         double amount2;
                         if(chargeType.equalsIgnoreCase("percentage")){
                             amount2 = (platformCharges.get().getBusinessValue() / 100) * platformCharges.get().getAmount();
                         }else {
                             amount2 = platformCharges.get().getBusinessValue();
+                        }
+
+                        if(amount2 > platformCharges.get().getThreshold()){
+                            amount2 = platformCharges.get().getThreshold();
                         }
 
                         if(authCredentials.isEmpty()){
@@ -432,9 +438,47 @@ public class Cron {
                             transactionDrCr1.setDrcr("cr");
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
                             transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
+                            transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
                             DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+                            System.out.println("response2 = " + response2);
 
-                            //todo: credit terminal business account with percentage from amount2
+
+                            //todo: debit terminal business account charge from NeptunePay with percentage from business platform charge repository
+                            Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+
+                            if(businessPlatformCharges.isEmpty()){
+                                return;
+                            }
+
+                            double amount3;
+                            String chargeType2 = businessPlatformCharges.get().getChargeType();
+                            if(chargeType2.equalsIgnoreCase("percentage")){
+                                amount3 = (businessPlatformCharges.get().getAmount() / 100) * amount2;
+                            }else {
+                                amount3 = platformCharges.get().getAmount();
+                            }
+
+                            if(amount3 > businessPlatformCharges.get().getThreshold()){
+                                amount3 = platformCharges.get().getThreshold();
+                            }
+
+                            transactionDrCr1.setAmount(amount3);
+                            transactionDrCr1.setDrcr("dr");
+                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
+                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
+                            DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
+                            System.out.println("response3 = " + response3);
+
+                            //todo: credit business account charge with charge deducted from NeptunePay platform charge
+                            transactionDrCr1.setAmount(amount3);
+                            transactionDrCr1.setDrcr("cr");
+                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+                            transactionDrCr1.setAccountnumber(businessPlatformCharges.get().getBusinessWalletId());
+                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
+                            DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
+                            System.out.println("response4 = " + response4);
+
                         }
                     }
 

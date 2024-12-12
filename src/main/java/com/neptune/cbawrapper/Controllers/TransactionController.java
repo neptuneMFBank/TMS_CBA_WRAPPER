@@ -10,10 +10,8 @@ import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.PosTransactionRepository;
 import com.neptune.cbawrapper.Repository.TransactionsRepository;
 import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
-import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.ResponseSchema;
-import com.neptune.cbawrapper.RequestRessponseSchema.TransactionRequestSchema;
-import com.neptune.cbawrapper.RequestRessponseSchema.UpdateTransactionResponseSchema;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.Services.Notifications;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,51 +33,45 @@ public class TransactionController {
     private final VirtualAccountRepository virtualAccountRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
+    private final Notifications notifications;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
 
 
-    public TransactionController(TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, Notifications notifications, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.errorLoggingException = errorLoggingException;
+        this.notifications = notifications;
         this.posTransactionRepository = posTransactionRepository;
         this.helpers = helpers;
     }
 
     //todo: transactions notifications from CBA
-    @GetMapping("/pending-transactions-notification")
-    public ResponseSchema<List<Transactions>> posTransactionNotification() {
-        ResponseSchema<List<Transactions>> response = new ResponseSchema<>();
+    @PutMapping("/update-terminal-fcm-token")
+    public ResponseSchema<?> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
-            List<Transactions> checkTransactionStatus = transactionsRepository.checkTransactionStatus("pending");
+            Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccountId());
 
-            if (checkTransactionStatus.isEmpty()) {
-                response.setData(null);
-                response.setMessage("Transaction not found");
-                response.setTimeStamp(ZonedDateTime.now());
-                response.setEnc(false);
-                response.setStatus(404);
-                return response;
+            if(getVirtualAccount.isPresent()) {
+                VirtualAccountModel virtualAccountModel = getVirtualAccount.get();
+                virtualAccountModel.setFcmToken(request.getFcmToken());
+                virtualAccountRepository.save(virtualAccountModel);
+                return new ResponseSchema<>( 200, "fcm token added successfully", null, "", ZonedDateTime.now(), false);
             }
+            return new ResponseSchema<>( 501, "Error occurred please try again later", null, "", ZonedDateTime.now(), false);
 
-            for (Transactions t : checkTransactionStatus) {
-                t.setStatus("approved");
-                transactionsRepository.save(t); // int status, String message, T data, String uri, ZonedDateTime timeStamp, boolean enc
-            }
-            response = new ResponseSchema<>( 200, "success", checkTransactionStatus, "", ZonedDateTime.now(), false);
-
-        } catch (Exception e) {
-            System.out.println("hello world");
+        }catch (Exception e) {
+            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
         }
-        return response;
+
     }
 
     //TODO: CBA transaction notification webhook
     @PostMapping("/pos-credit-webhook")
-    public ResponseSchema getCreditUpdate(VerifyUser verifyUser) {
+    public ResponseSchema<?> getCreditUpdate(VerifyUser verifyUser) {
         try {
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(verifyUser.getRef());
 
@@ -114,6 +106,15 @@ public class TransactionController {
                 status_code = 500;
             }
 
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(verifyUser.getAccount());
+            if(virtualAccountModel.isPresent()) {
+                SendNotifications notifications1 = new SendNotifications();
+                notifications1.setMessage("Transaction received");
+                notifications1.setTitle("Transactions Notifications");
+                notifications1.setReceiverFcmToken(virtualAccountModel.get().getFcmToken());
+                notifications.sendNotification(notifications1);
+            }
+
             return new ResponseSchema<>( status_code, event, null, "", ZonedDateTime.now(), false);
         } catch (Exception e) {
             errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
@@ -123,9 +124,9 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction")
-    public ResponseSchema creditDebitAcct(@RequestHeader("auth_token") String authToken, @RequestBody CorepayPosTransactionRequest request) {
+    public ResponseSchema<?> creditDebitAcct(@RequestHeader("auth_token") String authToken, @RequestBody CorepayPosTransactionRequest request) {
         ResponseSchema responseData = new ResponseSchema<>();
-//        try {
+        try {
 
         request.setDateFormat("dd MMMM yyyy");
         request.setStatus("pending");
@@ -210,7 +211,7 @@ public class TransactionController {
             transactionDrCr.setChannel("1");
             transactionDrCr.setEid("");
             transactionDrCr.setResourceId(responseSchema.getResourceId());
-            transactionDrCr.setTransaction_platform_id(transactionRequestSchema.getTransactionPlatform());
+            transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
             cbaTransactionRequests.save(transactionDrCr);
 
             responseData.setMessage("success");
@@ -220,15 +221,15 @@ public class TransactionController {
             return responseData;
         }
 
-//        } catch (Exception e) {
-//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-//            log.error("error from debit credit1 =: {}", e.getMessage());
-//            responseData.setMessage(e.getMessage());
-//            responseData.setStatus(500);
-//            responseData.setTimeStamp(ZonedDateTime.now());
-//            responseData.setResponseData(null);
-//            return responseData;
-//        }
+        } catch (Exception e) {
+            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
+            log.error("error from debit credit1 =: {}", e.getMessage());
+            responseData.setMessage(e.getMessage());
+            responseData.setStatus(500);
+            responseData.setTimeStamp(ZonedDateTime.now());
+            responseData.setData(null);
+            return responseData;
+        }
         return responseData;
     }
 

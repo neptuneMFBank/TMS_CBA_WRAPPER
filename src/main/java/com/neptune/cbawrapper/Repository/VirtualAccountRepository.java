@@ -1,6 +1,7 @@
 package com.neptune.cbawrapper.Repository;
 
 import com.neptune.cbawrapper.Models.CustomersModel;
+import com.neptune.cbawrapper.Models.Transactions;
 import com.neptune.cbawrapper.Models.VirtualAccountModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -23,4 +24,7 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
 
     @Query("{ 'terminalId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountByTerminalId(String terminalId);
+
+    @Query("{ 'virtual_account_number': { $eq: ?0 } }")
+    Optional<VirtualAccountModel> getVirtualAccountModelByAccount(String virtual_account_number);
 }
