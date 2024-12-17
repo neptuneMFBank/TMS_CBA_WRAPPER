@@ -8,26 +8,86 @@ public interface StaticAccountMessageOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .StaticRequests staticRequest = 1;</code>
+   * <code>string phone_number = 1;</code>
+   * @return The phoneNumber.
    */
-  java.util.List<com.virtualAccountApplication.createAccount.proto.StaticRequests> 
-      getStaticRequestList();
+  java.lang.String getPhoneNumber();
   /**
-   * <code>repeated .StaticRequests staticRequest = 1;</code>
+   * <code>string phone_number = 1;</code>
+   * @return The bytes for phoneNumber.
    */
-  com.virtualAccountApplication.createAccount.proto.StaticRequests getStaticRequest(int index);
+  com.google.protobuf.ByteString
+      getPhoneNumberBytes();
+
   /**
-   * <code>repeated .StaticRequests staticRequest = 1;</code>
+   * <code>string account_name = 2;</code>
+   * @return The accountName.
    */
-  int getStaticRequestCount();
+  java.lang.String getAccountName();
   /**
-   * <code>repeated .StaticRequests staticRequest = 1;</code>
+   * <code>string account_name = 2;</code>
+   * @return The bytes for accountName.
    */
-  java.util.List<? extends com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder> 
-      getStaticRequestOrBuilderList();
+  com.google.protobuf.ByteString
+      getAccountNameBytes();
+
   /**
-   * <code>repeated .StaticRequests staticRequest = 1;</code>
+   * <code>string email = 3;</code>
+   * @return The email.
    */
-  com.virtualAccountApplication.createAccount.proto.StaticRequestsOrBuilder getStaticRequestOrBuilder(
-      int index);
+  java.lang.String getEmail();
+  /**
+   * <code>string email = 3;</code>
+   * @return The bytes for email.
+   */
+  com.google.protobuf.ByteString
+      getEmailBytes();
+
+  /**
+   * <code>string bvn = 4;</code>
+   * @return The bvn.
+   */
+  java.lang.String getBvn();
+  /**
+   * <code>string bvn = 4;</code>
+   * @return The bytes for bvn.
+   */
+  com.google.protobuf.ByteString
+      getBvnBytes();
+
+  /**
+   * <code>string nin = 5;</code>
+   * @return The nin.
+   */
+  java.lang.String getNin();
+  /**
+   * <code>string nin = 5;</code>
+   * @return The bytes for nin.
+   */
+  com.google.protobuf.ByteString
+      getNinBytes();
+
+  /**
+   * <code>string tin = 6;</code>
+   * @return The tin.
+   */
+  java.lang.String getTin();
+  /**
+   * <code>string tin = 6;</code>
+   * @return The bytes for tin.
+   */
+  com.google.protobuf.ByteString
+      getTinBytes();
+
+  /**
+   * <code>string settlement_account = 7;</code>
+   * @return The settlementAccount.
+   */
+  java.lang.String getSettlementAccount();
+  /**
+   * <code>string settlement_account = 7;</code>
+   * @return The bytes for settlementAccount.
+   */
+  com.google.protobuf.ByteString
+      getSettlementAccountBytes();
 }

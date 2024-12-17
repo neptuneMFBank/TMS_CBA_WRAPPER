@@ -66,7 +66,7 @@ public class Notifications {
         } catch (Exception e) {
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 }

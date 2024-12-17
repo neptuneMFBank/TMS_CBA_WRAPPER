@@ -15,6 +15,8 @@ import com.neptune.cbawrapper.Services.Notifications;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
@@ -51,7 +53,7 @@ public class TransactionController {
 
     //todo: transactions notifications from CBA
     @PutMapping("/update-terminal-fcm-token")
-    public ResponseSchema<?> updateTerminalFcmToken(@RequestBody FcmRequest request) {
+    public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
             Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccountId());
 
@@ -59,19 +61,21 @@ public class TransactionController {
                 VirtualAccountModel virtualAccountModel = getVirtualAccount.get();
                 virtualAccountModel.setFcmToken(request.getFcmToken());
                 virtualAccountRepository.save(virtualAccountModel);
-                return new ResponseSchema<>( 200, "fcm token added successfully", null, "", ZonedDateTime.now(), false);
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "fcm token added successfully", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
-            return new ResponseSchema<>( 501, "Error occurred please try again later", null, "", ZonedDateTime.now(), false);
-
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred please try again later", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         }catch (Exception e) {
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     //TODO: CBA transaction notification webhook
     @PostMapping("/pos-credit-webhook")
-    public ResponseSchema<?> getCreditUpdate(VerifyUser verifyUser) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(VerifyUser verifyUser) {
         try {
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(verifyUser.getRef());
 
@@ -115,16 +119,22 @@ public class TransactionController {
                 notifications.sendNotification(notifications1);
             }
 
-            return new ResponseSchema<>( status_code, event, null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( status_code, event, null, "", ZonedDateTime.now(), false);
+            if(status_code == 200) {
+                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
             errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from debit credit1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/transaction")
-    public ResponseSchema<?> creditDebitAcct(@RequestHeader("auth_token") String authToken, @RequestBody CorepayPosTransactionRequest request) {
+    public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @RequestBody CorepayPosTransactionRequest request) {
         ResponseSchema responseData = new ResponseSchema<>();
         try {
 
@@ -141,18 +151,18 @@ public class TransactionController {
             responseData.setMessage("Invalid auth token");
             responseData.setTimeStamp(ZonedDateTime.now());
             responseData.setEnc(false);
-            responseData.setStatus(404);
-            return responseData;
+            responseData.setStatus(401);
+            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
         }
 
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
         if (virtualAccountModel.isEmpty()) {
             responseData.setMessage("account with Terminal id not found");
-            responseData.setStatus(502);
+            responseData.setStatus(404);
             responseData.setTimeStamp(ZonedDateTime.now());
             responseData.setData(null);
-            return responseData;
+            return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
         }
 
         String status = "";
@@ -219,7 +229,7 @@ public class TransactionController {
             responseData.setStatus(200);
             responseData.setTimeStamp(ZonedDateTime.now());
             responseData.setData(transactionDrCr);
-            return responseData;
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
         }
 
         } catch (Exception e) {
@@ -229,9 +239,10 @@ public class TransactionController {
             responseData.setStatus(500);
             responseData.setTimeStamp(ZonedDateTime.now());
             responseData.setData(null);
-            return responseData;
+            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return responseData;
+//        return responseData;
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
 }

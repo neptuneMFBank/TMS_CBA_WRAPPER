@@ -15,6 +15,7 @@ public class VirtualAccountModel {
     private String email;
     private String bvn;
     private String nin;
+    private String tin;
     private Boolean is_updated;
     private String parent_id;
     private String parent_account;
@@ -170,6 +171,14 @@ public class VirtualAccountModel {
 
     public void setFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
+    }
+
+    public String getTin() {
+        return tin;
+    }
+
+    public void setTin(String tin) {
+        this.tin = tin;
     }
 
     public VirtualAccountModel() {

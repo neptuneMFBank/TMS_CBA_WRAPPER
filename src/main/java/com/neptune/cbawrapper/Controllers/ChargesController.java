@@ -9,6 +9,8 @@ import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
@@ -32,21 +34,23 @@ public class ChargesController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-all-platform-charges")
-    public ResponseSchema<?> getAllPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public ResponseEntity<ResponseSchema<?>> getAllPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<PlatformCharges> allPlatformCharges = helpers.getPaginatedPlatformCharges(page, size);
-        return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-all-business-platform-charges")
-    public ResponseSchema<?> getAllBusinessPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public ResponseEntity<ResponseSchema<?>> getAllBusinessPlatformCharges(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<BusinessPlatformCharges> allPlatformCharges = helpers.getPaginatedBusinessPlatformCharges(page, size);
-        return new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", aesServiceImp.aesEncrypt(helpers.convertToJson(allPlatformCharges)), "", ZonedDateTime.now(), true);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/create-platform-charge")
-    public ResponseSchema<?> createPlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> createPlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
 
@@ -56,7 +60,8 @@ public class ChargesController {
         String data = aesServiceImp.aesEncrypt(helpers.convertToJson(charges));
 
         if(checkIfChargeTypeExists.isPresent()){
-            return new ResponseSchema<>( 501, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         }
 
         PlatformCharges platformCharges = new PlatformCharges();
@@ -68,12 +73,13 @@ public class ChargesController {
         platformCharges.setTotal(charges.getTotal());
         platformChargeRepository.save(platformCharges);
 
-        return new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/create-business-platform-charge")
-    public ResponseSchema<?> createBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> createBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
 
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
@@ -81,7 +87,8 @@ public class ChargesController {
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isPresent()){
-            return new ResponseSchema<>( 501, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         }
 
         BusinessPlatformCharges businessPlatformCharges = new BusinessPlatformCharges();
@@ -93,19 +100,21 @@ public class ChargesController {
         businessPlatformCharges.setBusinessName(charges.getBusinessName());
         businessPlatformChargesRepository.save(businessPlatformCharges);
 
-        return new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping("/update-platform-charge")
-    public ResponseSchema<?> updatePlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> updatePlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
-        PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
+        PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);;
 
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
-            return new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
         PlatformCharges platformCharges = checkIfChargeTypeExists.get();
@@ -117,19 +126,21 @@ public class ChargesController {
         platformCharges.setTotal(charges.getTotal());
         platformChargeRepository.save(platformCharges);
 
-        return new ResponseSchema<>( 200, "charge for this platform type updated successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type updated successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping("/update-business-platform-charge")
-    public ResponseSchema<?> updateBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> updateBusinessPlatformCharge(@RequestBody EncryptedRequest request){ // BusinessPlatformChargesRequest charges
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
 
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){
-            return new ResponseSchema<>( 404, "charge for the business wallet provided not found ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the business wallet provided not found ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
         BusinessPlatformCharges businessPlatformCharges = checkIfChargeTypeExists.get();
@@ -140,43 +151,48 @@ public class ChargesController {
         businessPlatformCharges.setThreshold(charges.getThreshold());
         businessPlatformChargesRepository.save(businessPlatformCharges);
 
-        return new ResponseSchema<>( 200, "charge for this business updated successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this business updated successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete-platform-charge")
-    public ResponseSchema<?> deletePlatformCharge(@RequestBody EncryptedRequest request){ //PlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> deletePlatformCharge(@RequestBody EncryptedRequest request){ //PlatformChargesRequest charges
 
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
-            return new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
         platformChargeRepository.delete(checkIfChargeTypeExists.get());
 
-        return new ResponseSchema<>( 200, "charge for this platform type deleted successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type deleted successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete-business-platform-charge")
-    public ResponseSchema<?> deleteBusinessPlatformCharge(@RequestBody EncryptedRequest request){ //BusinessPlatformChargesRequest charges
+    public ResponseEntity<ResponseSchema<?>> deleteBusinessPlatformCharge(@RequestBody EncryptedRequest request){ //BusinessPlatformChargesRequest charges
 
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         BusinessPlatformChargesRequest charges = helpers.convertToObject(decrypted, BusinessPlatformChargesRequest.class);
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){
-            return new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
         businessPlatformChargesRepository.delete(checkIfChargeTypeExists.get());
 
-        return new ResponseSchema<>( 200, "charge for this platform type deleted successfully", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type deleted successfully", null, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
 

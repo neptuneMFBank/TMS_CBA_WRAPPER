@@ -83,13 +83,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountCreationResponse_descriptor;
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountCreationResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountCreationResponse_fieldAccessorTable
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountCreationResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponse.class, com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponse.Builder.class);
   }
@@ -300,13 +300,13 @@ private static final long serialVersionUID = 0L;
       com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountCreationResponse_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountCreationResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountCreationResponse_fieldAccessorTable
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountCreationResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponse.class, com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponse.Builder.class);
     }
@@ -342,7 +342,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountCreationResponse_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountCreationResponse_descriptor;
     }
 
     @java.lang.Override

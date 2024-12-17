@@ -45,6 +45,37 @@ public final class CreateAccountServiceGrpc {
     return getCreateAccountMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest,
+      com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> getCreateBulkAccMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateBulkAcc",
+      requestType = com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest.class,
+      responseType = com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest,
+      com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> getCreateBulkAccMethod() {
+    io.grpc.MethodDescriptor<com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest, com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> getCreateBulkAccMethod;
+    if ((getCreateBulkAccMethod = CreateAccountServiceGrpc.getCreateBulkAccMethod) == null) {
+      synchronized (CreateAccountServiceGrpc.class) {
+        if ((getCreateBulkAccMethod = CreateAccountServiceGrpc.getCreateBulkAccMethod) == null) {
+          CreateAccountServiceGrpc.getCreateBulkAccMethod = getCreateBulkAccMethod =
+              io.grpc.MethodDescriptor.<com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest, com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateBulkAcc"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CreateAccountServiceMethodDescriptorSupplier("CreateBulkAcc"))
+              .build();
+        }
+      }
+    }
+    return getCreateBulkAccMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +131,13 @@ public final class CreateAccountServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateAccountMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void createBulkAcc(com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest request,
+        io.grpc.stub.StreamObserver<com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateBulkAccMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -109,6 +147,13 @@ public final class CreateAccountServiceGrpc {
                 com.virtualAccountApplication.createAccount.proto.CreateAccountRequest,
                 com.virtualAccountApplication.createAccount.proto.CreateAccountResponse>(
                   this, METHODID_CREATE_ACCOUNT)))
+          .addMethod(
+            getCreateBulkAccMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest,
+                com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse>(
+                  this, METHODID_CREATE_BULK_ACC)))
           .build();
     }
   }
@@ -134,6 +179,14 @@ public final class CreateAccountServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCreateAccountMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void createBulkAcc(com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest request,
+        io.grpc.stub.StreamObserver<com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getCreateBulkAccMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -155,6 +208,13 @@ public final class CreateAccountServiceGrpc {
     public com.virtualAccountApplication.createAccount.proto.CreateAccountResponse createAccount(com.virtualAccountApplication.createAccount.proto.CreateAccountRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCreateAccountMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse createBulkAcc(com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getCreateBulkAccMethod(), getCallOptions(), request);
     }
   }
 
@@ -179,9 +239,18 @@ public final class CreateAccountServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCreateAccountMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse> createBulkAcc(
+        com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getCreateBulkAccMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_ACCOUNT = 0;
+  private static final int METHODID_CREATE_BULK_ACC = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -203,6 +272,10 @@ public final class CreateAccountServiceGrpc {
         case METHODID_CREATE_ACCOUNT:
           serviceImpl.createAccount((com.virtualAccountApplication.createAccount.proto.CreateAccountRequest) request,
               (io.grpc.stub.StreamObserver<com.virtualAccountApplication.createAccount.proto.CreateAccountResponse>) responseObserver);
+          break;
+        case METHODID_CREATE_BULK_ACC:
+          serviceImpl.createBulkAcc((com.virtualAccountApplication.createAccount.proto.CreateBulkAccountRequest) request,
+              (io.grpc.stub.StreamObserver<com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -226,7 +299,7 @@ public final class CreateAccountServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.getDescriptor();
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.getDescriptor();
     }
 
     @java.lang.Override
@@ -266,6 +339,7 @@ public final class CreateAccountServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new CreateAccountServiceFileDescriptorSupplier())
               .addMethod(getCreateAccountMethod())
+              .addMethod(getCreateBulkAccMethod())
               .build();
         }
       }

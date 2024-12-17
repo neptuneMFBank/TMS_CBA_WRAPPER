@@ -7,8 +7,10 @@ import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.virtualAccountApplication.createAccount.proto.AccountCreationResponse;
 import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
-import com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse;
+//import com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse;
+import com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -271,14 +273,10 @@ public class Cron {
             for (PendingTerminalData data : pendingTerminalData) {
                 Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
 
-                System.out.println("customersModel = " + customersModel);
-                System.out.println("authCredentials.isPresent() = " + authCredentials.isPresent());
-
                 if (authCredentials.isPresent()) {
                     if (customersModel.isPresent()) {
                         Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
 
-                        System.out.println("virtualAccountModel.isEmpty() = " + virtualAccountModel.isEmpty());
                         if (virtualAccountModel.isEmpty()) {
                             VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), authCredentials, data);
                             virtualAccountRepository.save(virtualAccountModel1);
@@ -287,8 +285,6 @@ public class Cron {
                 }
             }
         } catch (Exception e) {
-            System.out.println("kkkkkkkkkkkkkkkkkk");
-            System.out.println("e.getMessage() = " + e.getMessage());
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
             errorLogsModel.setCreatedAt(Instant.now());
             errorLogsModel.setUpdatedAt(Instant.now());
@@ -307,6 +303,7 @@ public class Cron {
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
         virtualAccountModel.setIs_updated(false);
+        virtualAccountModel.setTin(customersModel.getTin());
         virtualAccountModel.setParent_id(customersModel.getId());
         virtualAccountModel.setParent_account(customersModel.getAccount_num());
         virtualAccountModel.setBusinessName(data.getBusinessName());
@@ -339,23 +336,23 @@ public class Cron {
             System.out.println("authCredentials = " + authCredentials);
 
             //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
-            CreateAccountResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
+            CreateBulkAccResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
             System.out.println("response = " + response);
 
             if (response != null) {
-                StaticAccountCreationResponse data1 = response.getStaticAccountCreationResponse();
+                List<CreateAccountResponse> data1 = response.getResponseList();
 
                 log.info("updateCustomersToCorePay data1: {}", data1);
 
                 List<Data> dataList = new ArrayList<>();
-                for (int i = 0; i < response.getStaticAccountCreationResponse().getAccountDataList().size(); i++) {
+                for (int i = 0; i < response.getResponseList().size(); i++) {
                     for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
-                        if (virtualAccountModel3.getAccount_name().equals(response.getStaticAccountCreationResponse().getAccountData(i).getAccountName())) {
+                        if (virtualAccountModel3.getAccount_name().equals(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountName())) {
                             Data data = new Data();
                             data.setSavingsId(Integer.valueOf(virtualAccountModel3.getSavingsId()));
-                            data.setWalletId(response.getStaticAccountCreationResponse().getAccountData(i).getAccountNumber());
+                            data.setWalletId(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             dataList.add(data);
-                            virtualAccountModel3.setVirtual_account_number(response.getStaticAccountCreationResponse().getAccountData(i).getAccountNumber());
+                            virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             virtualAccountRepository.save(virtualAccountModel3);
                         }
                     }

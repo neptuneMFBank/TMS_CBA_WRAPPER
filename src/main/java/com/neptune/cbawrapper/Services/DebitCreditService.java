@@ -60,7 +60,7 @@ public class DebitCreditService {
         } catch (Exception e) {
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         }
+        channel.shutdownNow();
         return response;
-
     }
 }

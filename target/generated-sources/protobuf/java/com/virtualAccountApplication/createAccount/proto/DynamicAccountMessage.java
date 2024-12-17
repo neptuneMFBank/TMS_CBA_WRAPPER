@@ -19,9 +19,7 @@ private static final long serialVersionUID = 0L;
     bvn_ = "";
     nin_ = "";
     accountName_ = "";
-    accountType_ = 0;
-    parentId_ = "";
-    secondaryParentAccountNumber_ = "";
+    tin_ = "";
   }
 
   @java.lang.Override
@@ -77,22 +75,10 @@ private static final long serialVersionUID = 0L;
             accountName_ = s;
             break;
           }
-          case 40: {
-            int rawValue = input.readEnum();
-
-            accountType_ = rawValue;
-            break;
-          }
-          case 50: {
+          case 42: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            parentId_ = s;
-            break;
-          }
-          case 58: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            secondaryParentAccountNumber_ = s;
+            tin_ = s;
             break;
           }
           default: {
@@ -116,13 +102,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountMessage_descriptor;
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountMessage_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountMessage_fieldAccessorTable
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountMessage_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.virtualAccountApplication.createAccount.proto.DynamicAccountMessage.class, com.virtualAccountApplication.createAccount.proto.DynamicAccountMessage.Builder.class);
   }
@@ -252,95 +238,38 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int ACCOUNT_TYPE_FIELD_NUMBER = 5;
-  private int accountType_;
+  public static final int TIN_FIELD_NUMBER = 5;
+  private volatile java.lang.Object tin_;
   /**
-   * <code>.AccountTypes account_type = 5;</code>
-   * @return The enum numeric value on the wire for accountType.
-   */
-  @java.lang.Override public int getAccountTypeValue() {
-    return accountType_;
-  }
-  /**
-   * <code>.AccountTypes account_type = 5;</code>
-   * @return The accountType.
-   */
-  @java.lang.Override public com.virtualAccountApplication.createAccount.proto.AccountTypes getAccountType() {
-    @SuppressWarnings("deprecation")
-    com.virtualAccountApplication.createAccount.proto.AccountTypes result = com.virtualAccountApplication.createAccount.proto.AccountTypes.valueOf(accountType_);
-    return result == null ? com.virtualAccountApplication.createAccount.proto.AccountTypes.UNRECOGNIZED : result;
-  }
-
-  public static final int PARENT_ID_FIELD_NUMBER = 6;
-  private volatile java.lang.Object parentId_;
-  /**
-   * <code>string parent_id = 6;</code>
-   * @return The parentId.
+   * <code>string tin = 5;</code>
+   * @return The tin.
    */
   @java.lang.Override
-  public java.lang.String getParentId() {
-    java.lang.Object ref = parentId_;
+  public java.lang.String getTin() {
+    java.lang.Object ref = tin_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      parentId_ = s;
+      tin_ = s;
       return s;
     }
   }
   /**
-   * <code>string parent_id = 6;</code>
-   * @return The bytes for parentId.
+   * <code>string tin = 5;</code>
+   * @return The bytes for tin.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getParentIdBytes() {
-    java.lang.Object ref = parentId_;
+      getTinBytes() {
+    java.lang.Object ref = tin_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      parentId_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int SECONDARY_PARENT_ACCOUNT_NUMBER_FIELD_NUMBER = 7;
-  private volatile java.lang.Object secondaryParentAccountNumber_;
-  /**
-   * <code>string secondary_parent_account_number = 7;</code>
-   * @return The secondaryParentAccountNumber.
-   */
-  @java.lang.Override
-  public java.lang.String getSecondaryParentAccountNumber() {
-    java.lang.Object ref = secondaryParentAccountNumber_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      secondaryParentAccountNumber_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string secondary_parent_account_number = 7;</code>
-   * @return The bytes for secondaryParentAccountNumber.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getSecondaryParentAccountNumberBytes() {
-    java.lang.Object ref = secondaryParentAccountNumber_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      secondaryParentAccountNumber_ = b;
+      tin_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -373,14 +302,8 @@ private static final long serialVersionUID = 0L;
     if (!getAccountNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, accountName_);
     }
-    if (accountType_ != com.virtualAccountApplication.createAccount.proto.AccountTypes.STATIC.getNumber()) {
-      output.writeEnum(5, accountType_);
-    }
-    if (!getParentIdBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, parentId_);
-    }
-    if (!getSecondaryParentAccountNumberBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 7, secondaryParentAccountNumber_);
+    if (!getTinBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, tin_);
     }
     unknownFields.writeTo(output);
   }
@@ -404,15 +327,8 @@ private static final long serialVersionUID = 0L;
     if (!getAccountNameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, accountName_);
     }
-    if (accountType_ != com.virtualAccountApplication.createAccount.proto.AccountTypes.STATIC.getNumber()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(5, accountType_);
-    }
-    if (!getParentIdBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, parentId_);
-    }
-    if (!getSecondaryParentAccountNumberBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, secondaryParentAccountNumber_);
+    if (!getTinBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, tin_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -437,11 +353,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getNin())) return false;
     if (!getAccountName()
         .equals(other.getAccountName())) return false;
-    if (accountType_ != other.accountType_) return false;
-    if (!getParentId()
-        .equals(other.getParentId())) return false;
-    if (!getSecondaryParentAccountNumber()
-        .equals(other.getSecondaryParentAccountNumber())) return false;
+    if (!getTin()
+        .equals(other.getTin())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -461,12 +374,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getNin().hashCode();
     hash = (37 * hash) + ACCOUNT_NAME_FIELD_NUMBER;
     hash = (53 * hash) + getAccountName().hashCode();
-    hash = (37 * hash) + ACCOUNT_TYPE_FIELD_NUMBER;
-    hash = (53 * hash) + accountType_;
-    hash = (37 * hash) + PARENT_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getParentId().hashCode();
-    hash = (37 * hash) + SECONDARY_PARENT_ACCOUNT_NUMBER_FIELD_NUMBER;
-    hash = (53 * hash) + getSecondaryParentAccountNumber().hashCode();
+    hash = (37 * hash) + TIN_FIELD_NUMBER;
+    hash = (53 * hash) + getTin().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -571,13 +480,13 @@ private static final long serialVersionUID = 0L;
       com.virtualAccountApplication.createAccount.proto.DynamicAccountMessageOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountMessage_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountMessage_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountMessage_fieldAccessorTable
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.virtualAccountApplication.createAccount.proto.DynamicAccountMessage.class, com.virtualAccountApplication.createAccount.proto.DynamicAccountMessage.Builder.class);
     }
@@ -608,11 +517,7 @@ private static final long serialVersionUID = 0L;
 
       accountName_ = "";
 
-      accountType_ = 0;
-
-      parentId_ = "";
-
-      secondaryParentAccountNumber_ = "";
+      tin_ = "";
 
       return this;
     }
@@ -620,7 +525,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_DynamicAccountMessage_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_DynamicAccountMessage_descriptor;
     }
 
     @java.lang.Override
@@ -644,9 +549,7 @@ private static final long serialVersionUID = 0L;
       result.bvn_ = bvn_;
       result.nin_ = nin_;
       result.accountName_ = accountName_;
-      result.accountType_ = accountType_;
-      result.parentId_ = parentId_;
-      result.secondaryParentAccountNumber_ = secondaryParentAccountNumber_;
+      result.tin_ = tin_;
       onBuilt();
       return result;
     }
@@ -710,15 +613,8 @@ private static final long serialVersionUID = 0L;
         accountName_ = other.accountName_;
         onChanged();
       }
-      if (other.accountType_ != 0) {
-        setAccountTypeValue(other.getAccountTypeValue());
-      }
-      if (!other.getParentId().isEmpty()) {
-        parentId_ = other.parentId_;
-        onChanged();
-      }
-      if (!other.getSecondaryParentAccountNumber().isEmpty()) {
-        secondaryParentAccountNumber_ = other.secondaryParentAccountNumber_;
+      if (!other.getTin().isEmpty()) {
+        tin_ = other.tin_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -1009,208 +905,78 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int accountType_ = 0;
+    private java.lang.Object tin_ = "";
     /**
-     * <code>.AccountTypes account_type = 5;</code>
-     * @return The enum numeric value on the wire for accountType.
+     * <code>string tin = 5;</code>
+     * @return The tin.
      */
-    @java.lang.Override public int getAccountTypeValue() {
-      return accountType_;
-    }
-    /**
-     * <code>.AccountTypes account_type = 5;</code>
-     * @param value The enum numeric value on the wire for accountType to set.
-     * @return This builder for chaining.
-     */
-    public Builder setAccountTypeValue(int value) {
-      
-      accountType_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.AccountTypes account_type = 5;</code>
-     * @return The accountType.
-     */
-    @java.lang.Override
-    public com.virtualAccountApplication.createAccount.proto.AccountTypes getAccountType() {
-      @SuppressWarnings("deprecation")
-      com.virtualAccountApplication.createAccount.proto.AccountTypes result = com.virtualAccountApplication.createAccount.proto.AccountTypes.valueOf(accountType_);
-      return result == null ? com.virtualAccountApplication.createAccount.proto.AccountTypes.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.AccountTypes account_type = 5;</code>
-     * @param value The accountType to set.
-     * @return This builder for chaining.
-     */
-    public Builder setAccountType(com.virtualAccountApplication.createAccount.proto.AccountTypes value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      accountType_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.AccountTypes account_type = 5;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearAccountType() {
-      
-      accountType_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object parentId_ = "";
-    /**
-     * <code>string parent_id = 6;</code>
-     * @return The parentId.
-     */
-    public java.lang.String getParentId() {
-      java.lang.Object ref = parentId_;
+    public java.lang.String getTin() {
+      java.lang.Object ref = tin_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        parentId_ = s;
+        tin_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string parent_id = 6;</code>
-     * @return The bytes for parentId.
+     * <code>string tin = 5;</code>
+     * @return The bytes for tin.
      */
     public com.google.protobuf.ByteString
-        getParentIdBytes() {
-      java.lang.Object ref = parentId_;
+        getTinBytes() {
+      java.lang.Object ref = tin_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        parentId_ = b;
+        tin_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string parent_id = 6;</code>
-     * @param value The parentId to set.
+     * <code>string tin = 5;</code>
+     * @param value The tin to set.
      * @return This builder for chaining.
      */
-    public Builder setParentId(
+    public Builder setTin(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      parentId_ = value;
+      tin_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string parent_id = 6;</code>
+     * <code>string tin = 5;</code>
      * @return This builder for chaining.
      */
-    public Builder clearParentId() {
+    public Builder clearTin() {
       
-      parentId_ = getDefaultInstance().getParentId();
+      tin_ = getDefaultInstance().getTin();
       onChanged();
       return this;
     }
     /**
-     * <code>string parent_id = 6;</code>
-     * @param value The bytes for parentId to set.
+     * <code>string tin = 5;</code>
+     * @param value The bytes for tin to set.
      * @return This builder for chaining.
      */
-    public Builder setParentIdBytes(
+    public Builder setTinBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      parentId_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object secondaryParentAccountNumber_ = "";
-    /**
-     * <code>string secondary_parent_account_number = 7;</code>
-     * @return The secondaryParentAccountNumber.
-     */
-    public java.lang.String getSecondaryParentAccountNumber() {
-      java.lang.Object ref = secondaryParentAccountNumber_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        secondaryParentAccountNumber_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string secondary_parent_account_number = 7;</code>
-     * @return The bytes for secondaryParentAccountNumber.
-     */
-    public com.google.protobuf.ByteString
-        getSecondaryParentAccountNumberBytes() {
-      java.lang.Object ref = secondaryParentAccountNumber_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        secondaryParentAccountNumber_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string secondary_parent_account_number = 7;</code>
-     * @param value The secondaryParentAccountNumber to set.
-     * @return This builder for chaining.
-     */
-    public Builder setSecondaryParentAccountNumber(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      secondaryParentAccountNumber_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string secondary_parent_account_number = 7;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearSecondaryParentAccountNumber() {
-      
-      secondaryParentAccountNumber_ = getDefaultInstance().getSecondaryParentAccountNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string secondary_parent_account_number = 7;</code>
-     * @param value The bytes for secondaryParentAccountNumber to set.
-     * @return This builder for chaining.
-     */
-    public Builder setSecondaryParentAccountNumberBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      secondaryParentAccountNumber_ = value;
+      tin_ = value;
       onChanged();
       return this;
     }

@@ -49,14 +49,14 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder subBuilder = null;
+            com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder subBuilder = null;
             if (accountCreationResponsesCase_ == 1) {
-              subBuilder = ((com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_).toBuilder();
+              subBuilder = ((com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_).toBuilder();
             }
             accountCreationResponses_ =
-                input.readMessage(com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.parser(), extensionRegistry);
+                input.readMessage(com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_);
+              subBuilder.mergeFrom((com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_);
               accountCreationResponses_ = subBuilder.buildPartial();
             }
             accountCreationResponsesCase_ = 1;
@@ -110,13 +110,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_CreateAccountResponse_descriptor;
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_CreateAccountResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_CreateAccountResponse_fieldAccessorTable
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_CreateAccountResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.virtualAccountApplication.createAccount.proto.CreateAccountResponse.class, com.virtualAccountApplication.createAccount.proto.CreateAccountResponse.Builder.class);
   }
@@ -164,7 +164,7 @@ private static final long serialVersionUID = 0L;
 
   public static final int STATIC_ACCOUNT_CREATION_RESPONSE_FIELD_NUMBER = 1;
   /**
-   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
    * @return Whether the staticAccountCreationResponse field is set.
    */
   @java.lang.Override
@@ -172,25 +172,25 @@ private static final long serialVersionUID = 0L;
     return accountCreationResponsesCase_ == 1;
   }
   /**
-   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
    * @return The staticAccountCreationResponse.
    */
   @java.lang.Override
-  public com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse getStaticAccountCreationResponse() {
+  public com.virtualAccountApplication.createAccount.proto.AccountCreationResponse getStaticAccountCreationResponse() {
     if (accountCreationResponsesCase_ == 1) {
-       return (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_;
+       return (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_;
     }
-    return com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+    return com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
   }
   /**
-   * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+   * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
    */
   @java.lang.Override
-  public com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder() {
+  public com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder() {
     if (accountCreationResponsesCase_ == 1) {
-       return (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_;
+       return (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_;
     }
-    return com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+    return com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
   }
 
   public static final int DYNAMIC_ACCOUNT_CREATION_RESPONSE_FIELD_NUMBER = 2;
@@ -265,7 +265,7 @@ private static final long serialVersionUID = 0L;
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (accountCreationResponsesCase_ == 1) {
-      output.writeMessage(1, (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_);
+      output.writeMessage(1, (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_);
     }
     if (accountCreationResponsesCase_ == 2) {
       output.writeMessage(2, (com.virtualAccountApplication.createAccount.proto.DynamicAccountCreationResponse) accountCreationResponses_);
@@ -284,7 +284,7 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (accountCreationResponsesCase_ == 1) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_);
+        .computeMessageSize(1, (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_);
     }
     if (accountCreationResponsesCase_ == 2) {
       size += com.google.protobuf.CodedOutputStream
@@ -458,13 +458,13 @@ private static final long serialVersionUID = 0L;
       com.virtualAccountApplication.createAccount.proto.CreateAccountResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_CreateAccountResponse_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_CreateAccountResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_CreateAccountResponse_fieldAccessorTable
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_CreateAccountResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.virtualAccountApplication.createAccount.proto.CreateAccountResponse.class, com.virtualAccountApplication.createAccount.proto.CreateAccountResponse.Builder.class);
     }
@@ -501,7 +501,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.virtualAccountApplication.createAccount.proto.accountService.internal_static_CreateAccountResponse_descriptor;
+      return com.virtualAccountApplication.createAccount.proto.VirtualAccount.internal_static_CreateAccountResponse_descriptor;
     }
 
     @java.lang.Override
@@ -650,9 +650,9 @@ private static final long serialVersionUID = 0L;
 
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder> staticAccountCreationResponseBuilder_;
+        com.virtualAccountApplication.createAccount.proto.AccountCreationResponse, com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder> staticAccountCreationResponseBuilder_;
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      * @return Whether the staticAccountCreationResponse field is set.
      */
     @java.lang.Override
@@ -660,27 +660,27 @@ private static final long serialVersionUID = 0L;
       return accountCreationResponsesCase_ == 1;
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      * @return The staticAccountCreationResponse.
      */
     @java.lang.Override
-    public com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse getStaticAccountCreationResponse() {
+    public com.virtualAccountApplication.createAccount.proto.AccountCreationResponse getStaticAccountCreationResponse() {
       if (staticAccountCreationResponseBuilder_ == null) {
         if (accountCreationResponsesCase_ == 1) {
-          return (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_;
+          return (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_;
         }
-        return com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+        return com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
       } else {
         if (accountCreationResponsesCase_ == 1) {
           return staticAccountCreationResponseBuilder_.getMessage();
         }
-        return com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+        return com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
       }
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
-    public Builder setStaticAccountCreationResponse(com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse value) {
+    public Builder setStaticAccountCreationResponse(com.virtualAccountApplication.createAccount.proto.AccountCreationResponse value) {
       if (staticAccountCreationResponseBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -694,10 +694,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
     public Builder setStaticAccountCreationResponse(
-        com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder builderForValue) {
+        com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder builderForValue) {
       if (staticAccountCreationResponseBuilder_ == null) {
         accountCreationResponses_ = builderForValue.build();
         onChanged();
@@ -708,13 +708,13 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
-    public Builder mergeStaticAccountCreationResponse(com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse value) {
+    public Builder mergeStaticAccountCreationResponse(com.virtualAccountApplication.createAccount.proto.AccountCreationResponse value) {
       if (staticAccountCreationResponseBuilder_ == null) {
         if (accountCreationResponsesCase_ == 1 &&
-            accountCreationResponses_ != com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance()) {
-          accountCreationResponses_ = com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.newBuilder((com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_)
+            accountCreationResponses_ != com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance()) {
+          accountCreationResponses_ = com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.newBuilder((com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_)
               .mergeFrom(value).buildPartial();
         } else {
           accountCreationResponses_ = value;
@@ -730,7 +730,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
     public Builder clearStaticAccountCreationResponse() {
       if (staticAccountCreationResponseBuilder_ == null) {
@@ -749,38 +749,38 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
-    public com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder getStaticAccountCreationResponseBuilder() {
+    public com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder getStaticAccountCreationResponseBuilder() {
       return getStaticAccountCreationResponseFieldBuilder().getBuilder();
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
     @java.lang.Override
-    public com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder() {
+    public com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder getStaticAccountCreationResponseOrBuilder() {
       if ((accountCreationResponsesCase_ == 1) && (staticAccountCreationResponseBuilder_ != null)) {
         return staticAccountCreationResponseBuilder_.getMessageOrBuilder();
       } else {
         if (accountCreationResponsesCase_ == 1) {
-          return (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_;
+          return (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_;
         }
-        return com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+        return com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
       }
     }
     /**
-     * <code>.StaticAccountCreationResponse static_account_creation_response = 1;</code>
+     * <code>.AccountCreationResponse static_account_creation_response = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder> 
+        com.virtualAccountApplication.createAccount.proto.AccountCreationResponse, com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder> 
         getStaticAccountCreationResponseFieldBuilder() {
       if (staticAccountCreationResponseBuilder_ == null) {
         if (!(accountCreationResponsesCase_ == 1)) {
-          accountCreationResponses_ = com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.getDefaultInstance();
+          accountCreationResponses_ = com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.getDefaultInstance();
         }
         staticAccountCreationResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponseOrBuilder>(
-                (com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse) accountCreationResponses_,
+            com.virtualAccountApplication.createAccount.proto.AccountCreationResponse, com.virtualAccountApplication.createAccount.proto.AccountCreationResponse.Builder, com.virtualAccountApplication.createAccount.proto.AccountCreationResponseOrBuilder>(
+                (com.virtualAccountApplication.createAccount.proto.AccountCreationResponse) accountCreationResponses_,
                 getParentForChildren(),
                 isClean());
         accountCreationResponses_ = null;

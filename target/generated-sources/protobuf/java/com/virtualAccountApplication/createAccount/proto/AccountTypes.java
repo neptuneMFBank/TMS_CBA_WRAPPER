@@ -85,7 +85,7 @@ public enum AccountTypes
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return com.virtualAccountApplication.createAccount.proto.accountService.getDescriptor().getEnumTypes().get(0);
+    return com.virtualAccountApplication.createAccount.proto.VirtualAccount.getDescriptor().getEnumTypes().get(0);
   }
 
   private static final AccountTypes[] VALUES = values();

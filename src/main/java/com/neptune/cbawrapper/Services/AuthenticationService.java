@@ -56,7 +56,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -74,6 +74,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
+        channel.shutdownNow();
         return response;
     }
 
@@ -90,7 +91,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("RESEND_USER_EMAIL_OTP_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -112,7 +113,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("VERIFY_USER_EMAIL_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -135,7 +136,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("VERIFY_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -157,7 +158,7 @@ public class AuthenticationService {
         catch (Exception e) {
             errorLoggingException.logError("LOGIN_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -177,7 +178,7 @@ public class AuthenticationService {
         catch (Exception e) {
             errorLoggingException.logError("GENERATE_API_KEY_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -196,7 +197,7 @@ public class AuthenticationService {
         catch (Exception e){
             errorLoggingException.logError("GET_3PP_USER_DATA_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -215,7 +216,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("CREATE_3PP_WEBHOOK_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
-
+        channel.shutdownNow();
         return response;
     }
 
@@ -234,6 +235,7 @@ public class AuthenticationService {
         } catch (Exception e) {
             errorLoggingException.logError("GET_3PP_WEBHOOK_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
+        channel.shutdownNow();
         return response;
     }
 

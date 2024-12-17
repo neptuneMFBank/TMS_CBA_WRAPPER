@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
@@ -37,7 +39,7 @@ public class OnboardingController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/create-tms-account")
-    public ResponseSchema createUser(@RequestBody CreateUser user) {
+    public ResponseEntity<ResponseSchema> createUser(@RequestBody CreateUser user) {
         try {
             System.out.println(user.getAddress());
 
@@ -46,87 +48,99 @@ public class OnboardingController {
             log.info("response = {}", response);
 
             if (response == null) {
-                return new ResponseSchema<>( 500, "Error occurred, kindly try again", response, "", ZonedDateTime.now(), false);
+                ResponseSchema<?> responseSchema =  new ResponseSchema<>( 409, "Error occurred, kindly try again", response, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
 
-            return new ResponseSchema<>( 200, "success", response, "", ZonedDateTime.now(), false);
-
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "success", response, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_ACCOUNT_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-token-on-phone")
-    public ResponseSchema getToken(@RequestParam String phoneNumber) {
+    public ResponseEntity<ResponseSchema<?>> getToken(@RequestParam String phoneNumber) {
         try {
             auth.Auth.OtpResponse response = authenticationService.getUserPhoneOtp(phoneNumber);
             log.info("response = {}", response);
             if (response == null) {
-                return new ResponseSchema<>( 500, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
-            return new ResponseSchema<>( 200, "otp sent to phone number kindly use the otp shared to verify your phone number", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "otp sent to phone number kindly use the otp shared to verify your phone number", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new  ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/resend-token-on-email")
-    public ResponseSchema resendEmailOtp(@RequestParam String email) {
+    public ResponseEntity<ResponseSchema<?>> resendEmailOtp(@RequestParam String email) {
         try {
             auth.Auth.OtpResponse response = authenticationService.resendEmailOtp(email);
             if (response == null) {
-                return new ResponseSchema<>( 500, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
-            return new ResponseSchema<>( 200, "otp sent to email kindly use the otp shared to verify your email", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "otp sent to email kindly use the otp shared to verify your email", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/verify-email")
-    public ResponseSchema verifyUserEmail(@RequestBody CreateUser user) {
+    public ResponseEntity<ResponseSchema<?>> verifyUserEmail(@RequestBody CreateUser user) {
         try {
             VerifyUser verifyUser = new VerifyUser();
             verifyUser.setEmail(user.getEmail());
             verifyUser.setOtp(user.getOtp());
             Auth.Empty response = authenticationService.verifyUserEmail(verifyUser);
             System.out.println("response = " + response);
-            return new ResponseSchema<>( 200, "email verified successfully", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "email verified successfully", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/verify-phone")
-    public ResponseSchema verifyUserPhone(@RequestBody CreateUser user) {
+    public ResponseEntity<ResponseSchema<?>> verifyUserPhone(@RequestBody CreateUser user) {
         try {
             VerifyUser verifyUser = new VerifyUser();
             verifyUser.setPhone(user.getPhone_number());
             verifyUser.setOtp(user.getOtp());
             Auth.Empty response = authenticationService.verifyUserPhone(verifyUser);
-            return new ResponseSchema<>( 200, "phone number verified successfully", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "phone number verified successfully", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/login")
-    public ResponseSchema login(@RequestBody CreateUser user) {
+    public ResponseEntity<ResponseSchema<?>> login(@RequestBody CreateUser user) {
         try {
             VerifyUser verifyUser = new VerifyUser();
             verifyUser.setEmail(user.getEmail());
@@ -134,7 +148,8 @@ public class OnboardingController {
             Auth.LoginResponse response = authenticationService.loginUser(verifyUser);
             System.out.println("response = " + response);
             if (response == null) {
-                return new ResponseSchema<>( 500, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
 
             AuthCredentials authCredentials;
@@ -177,11 +192,13 @@ public class OnboardingController {
             }
             authCredentialsRepository.save(authCredentials);
 
-            return new ResponseSchema<>( 200, "Login successful", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Login successful", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
-            return new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
