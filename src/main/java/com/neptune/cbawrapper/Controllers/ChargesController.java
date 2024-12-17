@@ -147,6 +147,7 @@ public class ChargesController {
         businessPlatformCharges.setBusinessId(charges.getBusinessId());
         businessPlatformCharges.setBusinessWalletId(charges.getBusinessWalletId());
         businessPlatformCharges.setChargeType(charges.getChargeType());
+        businessPlatformCharges.setBusinessName(charges.getBusinessName());
         businessPlatformCharges.setAmount(charges.getAmount());
         businessPlatformCharges.setThreshold(charges.getThreshold());
         businessPlatformChargesRepository.save(businessPlatformCharges);
