@@ -1,14 +1,14 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class TerminalData {
-    private Integer terminalId;
+    private String terminalId;
     private String walletId;
 
-    public Integer getTerminalId() {
+    public String getTerminalId() {
         return terminalId;
     }
 
-    public void setTerminalId(Integer terminalId) {
+    public void setTerminalId(String terminalId) {
         this.terminalId = terminalId;
     }
 
@@ -20,7 +20,7 @@ public class TerminalData {
         this.walletId = walletId;
     }
 
-    public TerminalData(Integer terminalId, String walletId) {
+    public TerminalData(String terminalId, String walletId) {
         this.terminalId = terminalId;
         this.walletId = walletId;
     }

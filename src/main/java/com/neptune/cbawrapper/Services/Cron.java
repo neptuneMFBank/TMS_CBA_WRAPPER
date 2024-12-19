@@ -375,7 +375,7 @@ public class Cron {
         }
 
         List<TerminalData> data1 = virtualAccountModelList.stream()
-                .map(virtualModel -> new TerminalData(Integer.valueOf(virtualModel.getTerminalId()), virtualModel.getVirtual_account_number()))
+                .map(virtualModel -> new TerminalData(virtualModel.getTerminalId(), virtualModel.getVirtual_account_number()))
                 .toList();
 
         CustomerData<?> customerData = new CustomerData<>(data1);

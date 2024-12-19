@@ -42,7 +42,6 @@ public class VirtualAccountService {
 
         // Use a for loop to create 4 CreateAccountRequest objects
         for (int i = 0; i < virtualAccountModel.size(); i++) {
-            System.out.println("kkkkkkkkkkkkkkkkkkk");
             String email = virtualAccountModel.get(i).getEmail() != null ? virtualAccountModel.get(i).getEmail() : "";
 
             String bvn = virtualAccountModel.get(i).getBvn() != null ? virtualAccountModel.get(i).getBvn() : "";
@@ -62,14 +61,13 @@ public class VirtualAccountService {
                     .setTin(tin)
                     .setSettlementAccount(settlementAcct)
                     .build();
-            System.out.println("oooooooooooooooooo");
+
             CreateAccountRequest accountRequest = CreateAccountRequest.newBuilder()
                     .setStaticAccount(staticAccount)
                     .setAccountType(AccountTypes.STATIC)
                     .setParentId(parentId)
                     .setSecondaryParentAccountNumber(businessWallet)
                     .build();
-            System.out.println("mmmmmmmmmmmmmmmmm");
 
             // Add the request to the bulk request
             bulkRequestBuilder.addData(accountRequest);
