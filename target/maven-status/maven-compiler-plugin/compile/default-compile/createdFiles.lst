@@ -231,6 +231,7 @@ auth/Auth$GenerateApiKeyResponseOrBuilder.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccResponse$Builder.class
 auth/Auth$Product.class
 com/neptune/cbawrapper/Services/CorePayRestController.class
+com/neptune/cbawrapper/RequestRessponseSchema/TerminalData.class
 com/neptune/cbawrapper/RequestRessponseSchema/TransactionRequestSchema.class
 com/virtualAccountApplication/createAccount/proto/GetAccountsRequest$1.class
 notification_service/Notifications$NotificationResponse$Builder.class

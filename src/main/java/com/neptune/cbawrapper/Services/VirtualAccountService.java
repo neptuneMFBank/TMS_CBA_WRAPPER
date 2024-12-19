@@ -33,43 +33,54 @@ public class VirtualAccountService {
 
     private final ErrorLoggingException errorLoggingException;
 
-    public CreateBulkAccResponse createVirtualAccount(List<VirtualAccountModel> virtualAccountModel){
+    public CreateBulkAccResponse createVirtualAccount(List<VirtualAccountModel> virtualAccountModel) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(virtual_server_ip, virtual_server_port).usePlaintext().build();
-        CreateBulkAccResponse response = null;
-        CreateBulkAccountRequest.Builder request = CreateBulkAccountRequest.newBuilder();
+        CreateAccountServiceGrpc.CreateAccountServiceBlockingStub stub = CreateAccountServiceGrpc.newBlockingStub(channel);
 
-        try {
-            for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+        // Create the request builder for CreateBulkAccountRequest
+        CreateBulkAccountRequest.Builder bulkRequestBuilder = CreateBulkAccountRequest.newBuilder();
 
-                        request.addData(
-                                CreateAccountRequest
-                                        .newBuilder()
-                                        .setStaticAccount(
-                                        StaticAccountMessage.newBuilder()
-                                                .setPhoneNumber(virtualAccountModel1.getPhone_number())
-                                                .setAccountName(virtualAccountModel1.getAccount_name())
-                                                .setEmail(virtualAccountModel1.getEmail())
-                                                .setBvn(virtualAccountModel1.getBvn())
-                                                .setNin(virtualAccountModel1.getNin())
-                                                .setTin(virtualAccountModel1.getTin())
-                                                .setSettlementAccount(virtualAccountModel1.getParent_account())
-                                                .build()
-                                        )
-                                        .setAccountType(AccountTypes.STATIC)
-                                        .setParentId(virtualAccountModel1.getParent_id())
-                                        .setSecondaryParentAccountNumber(virtualAccountModel1.getBusiness_wallet())
-                                        .build()
-                        ).build();
+        // Use a for loop to create 4 CreateAccountRequest objects
+        for (int i = 0; i < virtualAccountModel.size(); i++) {
+            System.out.println("kkkkkkkkkkkkkkkkkkk");
+            String email = virtualAccountModel.get(i).getEmail() != null ? virtualAccountModel.get(i).getEmail() : "";
 
-            }
-            CreateAccountServiceGrpc.CreateAccountServiceBlockingStub stub = CreateAccountServiceGrpc.newBlockingStub(channel);
-            response = stub.createBulkAcc(request.build());
-        }catch (StatusRuntimeException e) {
-            errorLoggingException.logError("CREATE_VIRTUAL_ACCOUNT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
-        } catch (Exception e) {
-            errorLoggingException.logError("CREATE_VIRTUAL_ACCOUNT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
+            String bvn = virtualAccountModel.get(i).getBvn() != null ? virtualAccountModel.get(i).getBvn() : "";
+            String acctName = virtualAccountModel.get(i).getAccount_name() != null ? virtualAccountModel.get(i).getAccount_name() : "";
+            String nin = virtualAccountModel.get(i).getNin() != null ? virtualAccountModel.get(i).getNin() : "";
+            String tin = virtualAccountModel.get(i).getTin() != null ? virtualAccountModel.get(i).getTin() : "";
+            String settlementAcct = virtualAccountModel.get(i).getParent_account() != null ? virtualAccountModel.get(i).getParent_account() : "";
+            String parentId = virtualAccountModel.get(i).getParent_id() != null ? virtualAccountModel.get(i).getParent_id() : "";
+            String phone = virtualAccountModel.get(i).getPhone_number() != null ? virtualAccountModel.get(i).getPhone_number() : "";
+            String businessWallet = virtualAccountModel.get(i).getBusiness_wallet() != null ? virtualAccountModel.get(i).getBusiness_wallet() : "";
+            StaticAccountMessage staticAccount = StaticAccountMessage.newBuilder()
+                    .setPhoneNumber(phone) // Example phone numbers
+                    .setAccountName(acctName)
+                    .setEmail(email)
+                    .setBvn(bvn)
+                    .setNin(nin)
+                    .setTin(tin)
+                    .setSettlementAccount(settlementAcct)
+                    .build();
+            System.out.println("oooooooooooooooooo");
+            CreateAccountRequest accountRequest = CreateAccountRequest.newBuilder()
+                    .setStaticAccount(staticAccount)
+                    .setAccountType(AccountTypes.STATIC)
+                    .setParentId(parentId)
+                    .setSecondaryParentAccountNumber(businessWallet)
+                    .build();
+            System.out.println("mmmmmmmmmmmmmmmmm");
+
+            // Add the request to the bulk request
+            bulkRequestBuilder.addData(accountRequest);
         }
-        channel.shutdownNow();
+
+        // Build the bulk request
+        CreateBulkAccountRequest bulkRequest = bulkRequestBuilder.build();
+
+        // Send the request to the gRPC server
+        CreateBulkAccResponse response = stub.createBulkAcc(bulkRequest);
+        channel.shutdown();
         return response;
     }
 }

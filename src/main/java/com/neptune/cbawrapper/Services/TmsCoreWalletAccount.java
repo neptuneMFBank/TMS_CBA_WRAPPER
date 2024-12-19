@@ -18,5 +18,5 @@ public interface TmsCoreWalletAccount {
     List<PendingTerminalData> getPending();
 
     @PutMapping("/business/terminals/bulk-wallet-update")
-    List<PendingTerminalData> postWallets(@RequestBody CustomerData customerData);
+    Object postWallets(@RequestBody CustomerData customerData);
 }

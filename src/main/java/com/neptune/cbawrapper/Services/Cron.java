@@ -128,8 +128,7 @@ public class Cron {
     private static CustomersModel getCustomersModel(PendingRequestResponse customersModels, int i) {
 
         CustomersModel customersModel = customersModels.getPageItems().get(i);
-//
-//
+
         //TODO check if phone number exists or email exists before adding email or phone notification
         String firstName = customersModel.getFirstname();
         String companyName = customersModel.getCompany_name();
@@ -211,7 +210,7 @@ public class Cron {
 
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */7 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -227,7 +226,7 @@ public class Cron {
 
             log.info("updateCustomersToCorePay data1: {}", data1);
 
-            CustomerData customerData = new CustomerData(data1);
+            CustomerData<?> customerData = new CustomerData<>(data1);
 
             log.info("updateCustomersToCorePay customerData: {}", customerData);
 
@@ -254,13 +253,17 @@ public class Cron {
             errorLogsRepository.save(errorLogsModel);
         }
     }
-
-    @Scheduled(cron = "0 */5 * * * *")
+//
+    @Scheduled(cron = "0 */3 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
 
             System.out.println("pendingTerminalData = " + pendingTerminalData);
+
+            if (pendingTerminalData.isEmpty()) {
+                return;
+            }
 
             List<Integer> details = pendingTerminalData.stream().map(PendingTerminalData::getParentSavingsId).filter(Objects::nonNull).toList();
             List<CustomersModel> customersModels = helpers.getCustomersBySavingsId(details);
@@ -312,12 +315,11 @@ public class Cron {
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
-
 
             if (virtualAccountModelList == null) {
                 return;
@@ -326,44 +328,33 @@ public class Cron {
             if (authCredentials.isEmpty()) {
                 return;
             }
-            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
 
             List<VirtualAccountModel> virtualAccountModel2 = new ArrayList<>();
             for (VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
                 virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
                 virtualAccountModel2.add(virtualAccountModel);
             }
-            System.out.println("authCredentials = " + authCredentials);
+
+            if(virtualAccountModel2.isEmpty()) {
+                return;
+            }
 
             //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
             CreateBulkAccResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
-            System.out.println("response = " + response);
 
             if (response != null) {
                 List<CreateAccountResponse> data1 = response.getResponseList();
 
-                log.info("updateCustomersToCorePay data1: {}", data1);
+                for (int i = 0; i < data1.size(); i++) {
 
-                List<Data> dataList = new ArrayList<>();
-                for (int i = 0; i < response.getResponseList().size(); i++) {
                     for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
                         if (virtualAccountModel3.getAccount_name().equals(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountName())) {
-                            Data data = new Data();
-                            data.setSavingsId(Integer.valueOf(virtualAccountModel3.getSavingsId()));
-                            data.setWalletId(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-                            dataList.add(data);
+                            System.out.println("response = " + response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             virtualAccountRepository.save(virtualAccountModel3);
                         }
                     }
                 }
-
-                CustomerData customerData = new CustomerData(dataList);
-
-                log.info("updateCustomersToCorePay customerData: {}", customerData);
-
-                //TODO: rewrite this to pass all responses from above to the
-                List<PendingTerminalData> res = tmsCoreWalletAccount.postWallets(customerData);
             }
 
         } catch (Exception e) {
@@ -375,12 +366,37 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
-    public void pushTransactionsToCba(){
+    @Scheduled(cron = "0 */6 * * * *")
+    public void updateVirtualAccountToCorePay() {
+        List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
+
+        if(virtualAccountModelList.isEmpty()) {
+            return;
+        }
+
+        List<TerminalData> data1 = virtualAccountModelList.stream()
+                .map(virtualModel -> new TerminalData(Integer.valueOf(virtualModel.getTerminalId()), virtualModel.getVirtual_account_number()))
+                .toList();
+
+        CustomerData<?> customerData = new CustomerData<>(data1);
+
+        //TODO: rewrite this to pass all responses from above to the
+        Object res = tmsCoreWalletAccount.postWallets(customerData);
+        System.out.println("res5 = " + res);
+        if(res != null) {
+            for (VirtualAccountModel virtualAccountModel3 : virtualAccountModelList) {
+               virtualAccountModel3.setIs_updated(true);
+               virtualAccountRepository.save(virtualAccountModel3);
+            }
+        }
+    }
+
+    @Scheduled(cron = "0 */1 * * * *")
+    public void pushTransactionsToCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
-            if(transactionDrCr1.getAccountnumber() == null){
+            if (transactionDrCr1.getAccountnumber() == null) {
                 return;
             }
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
@@ -390,7 +406,7 @@ public class Cron {
             //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
             //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
 
-            if(response != null) {
+            if (response != null) {
 
                 if (response.getCode().equals("200")) {
                     transactionDrCr1.setUpdatedToCba(true);
@@ -398,18 +414,18 @@ public class Cron {
 
                     Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
 
-                    if(platformCharges.isPresent()){
+                    if (platformCharges.isPresent()) {
                         //todo: debit platform charge from terminal
                         String chargeType = platformCharges.get().getChargeType();
                         double amount;
 
-                        if(chargeType.equalsIgnoreCase("percentage")){
+                        if (chargeType.equalsIgnoreCase("percentage")) {
                             amount = (platformCharges.get().getTotal() / 100) * platformCharges.get().getAmount();
-                        }else {
+                        } else {
                             amount = platformCharges.get().getAmount();
                         }
 
-                        if(amount > platformCharges.get().getThreshold()){
+                        if (amount > platformCharges.get().getThreshold()) {
                             amount = platformCharges.get().getThreshold();
                         }
                         transactionDrCr1.setAmount(amount);
@@ -419,21 +435,21 @@ public class Cron {
 
                         //todo: credit platform charge to NeptunePay account
                         double amount2;
-                        if(chargeType.equalsIgnoreCase("percentage")){
+                        if (chargeType.equalsIgnoreCase("percentage")) {
                             amount2 = (platformCharges.get().getBusinessValue() / 100) * platformCharges.get().getAmount();
-                        }else {
+                        } else {
                             amount2 = platformCharges.get().getBusinessValue();
                         }
 
-                        if(amount2 > platformCharges.get().getThreshold()){
+                        if (amount2 > platformCharges.get().getThreshold()) {
                             amount2 = platformCharges.get().getThreshold();
                         }
 
-                        if(authCredentials.isEmpty()){
+                        if (authCredentials.isEmpty()) {
                             return;
                         }
 
-                        if(virtualAccountModel.isPresent()) {
+                        if (virtualAccountModel.isPresent()) {
                             transactionDrCr1.setAmount(amount2);
                             transactionDrCr1.setDrcr("cr");
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
@@ -446,19 +462,19 @@ public class Cron {
                             //todo: debit terminal business account charge from NeptunePay with percentage from business platform charge repository
                             Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
 
-                            if(businessPlatformCharges.isEmpty()){
+                            if (businessPlatformCharges.isEmpty()) {
                                 return;
                             }
 
                             double amount3;
                             String chargeType2 = businessPlatformCharges.get().getChargeType();
-                            if(chargeType2.equalsIgnoreCase("percentage")){
+                            if (chargeType2.equalsIgnoreCase("percentage")) {
                                 amount3 = (businessPlatformCharges.get().getAmount() / 100) * amount2;
-                            }else {
+                            } else {
                                 amount3 = platformCharges.get().getAmount();
                             }
 
-                            if(amount3 > businessPlatformCharges.get().getThreshold()){
+                            if (amount3 > businessPlatformCharges.get().getThreshold()) {
                                 amount3 = platformCharges.get().getThreshold();
                             }
 

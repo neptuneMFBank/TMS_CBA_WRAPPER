@@ -34,6 +34,17 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.taget>17</maven.compiler.taget>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-bom</artifactId>
+				<version>1.57.2</version> <!-- Ensure all gRPC dependencies align with this version -->
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

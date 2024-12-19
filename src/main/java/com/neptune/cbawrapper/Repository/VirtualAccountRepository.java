@@ -19,6 +19,9 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'virtual_account_number': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getCustomersWithAccountId(String accountId);
 
+    @Query("{ 'virtual_account_number': { $ne: null }, 'is_updated': false }")
+    List<VirtualAccountModel> getCustomersNotAddedToCorePay();
+
     @Query("{ 'terminalId': {$in: ?0} }")
     List<VirtualAccountModel> findByVirtualAccountsByTerminalId(List<String> terminalId);
 
