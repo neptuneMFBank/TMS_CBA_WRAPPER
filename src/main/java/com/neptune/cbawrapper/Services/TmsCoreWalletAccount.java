@@ -4,10 +4,10 @@ import com.neptune.cbawrapper.Configuration.CoreFeignClientConfig;
 import com.neptune.cbawrapper.Models.PendingRequestResponse;
 import com.neptune.cbawrapper.Models.PendingTerminalData;
 import com.neptune.cbawrapper.RequestRessponseSchema.CustomerData;
+import com.neptune.cbawrapper.RequestRessponseSchema.MenuData;
+import com.neptune.cbawrapper.RequestRessponseSchema.MenuDetails;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,4 +19,7 @@ public interface TmsCoreWalletAccount {
 
     @PutMapping("/business/terminals/bulk-wallet-update")
     Object postWallets(@RequestBody CustomerData customerData);
+
+    @GetMapping("/business/terminals/{serialNo}/settings")
+    MenuDetails getTerminalMenus(@PathVariable("serialNo") String serialNo);
 }

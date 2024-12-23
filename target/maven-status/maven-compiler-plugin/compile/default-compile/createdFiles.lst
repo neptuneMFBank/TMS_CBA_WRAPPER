@@ -62,6 +62,7 @@ auth/Auth$EmployeeOrBuilder.class
 notification_service/Notifications$CustomNotificationResponse$Builder.class
 com/virtualAccountApplication/createAccount/proto/Get3ppAccountsRequest$AccountTypeCase.class
 auth/Auth$AuthAndApprovalDataOrBuilder.class
+com/neptune/cbawrapper/RequestRessponseSchema/TerminalProfile.class
 auth/Auth$AuthenticateApiKeyRequest$Builder.class
 com/neptune/cbawrapper/Models/PendingRequestResponse.class
 auth/Auth$Get3ppUserDataResponse$1.class
@@ -74,6 +75,7 @@ customers/CustomerServiceGrpc$CustomerServiceStub.class
 com/neptune/cbawrapper/Models/BusinessPlatformCharges.class
 auth/Auth$City.class
 notification_service/NotificationServiceGrpc$NotificationServiceBlockingStub.class
+com/neptune/cbawrapper/Models/TerminalProfileModel.class
 auth/Auth$AuthenticateApiKeyResponseOrBuilder.class
 auth/Auth$AuthAndApprovalData$1.class
 auth/Auth$Update3ppWebhookRequest$Builder.class
@@ -97,6 +99,7 @@ auth/Auth$ProductConfig$1.class
 auth/Auth$GlTypeOrBuilder.class
 auth/AuthServiceGrpc$AuthServiceFileDescriptorSupplier.class
 com/virtualAccountApplication/createAccount/proto/GetAccountsResponse$Builder.class
+com/neptune/cbawrapper/Controllers/SettingsController.class
 customers/CustomerServiceGrpc$CustomerServiceMethodDescriptorSupplier.class
 com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc$CreateAccountServiceImplBase.class
 auth/Auth$GetByUniqueDataRequest.class
@@ -114,8 +117,10 @@ com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequest$Build
 com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc$DebitCreditServiceImplBase.class
 customers/CustomerServiceGrpc$3.class
 notification_service/Notifications$UserNotification$Builder.class
+com/neptune/cbawrapper/RequestRessponseSchema/MenuDetails.class
 auth/Auth$AuthenticateApiKeyResponse.class
 com/virtualAccountApplication/createAccount/proto/DynamicAccountMessageOrBuilder.class
+com/neptune/cbawrapper/Repository/TerminalProfileRepository.class
 com/virtualAccountApplication/createAccount/proto/AccountOrBuilder.class
 auth/Auth$Limit$Builder.class
 com/neptune/cbawrapper/Models/AuthCredentials.class
@@ -157,6 +162,7 @@ auth/Auth$LoginResponse$1.class
 com/virtualAccountApplication/createAccount/proto/Get3ppAccountsResponse.class
 com/virtualAccountApplication/createAccount/proto/Get3ppAccountsResponse$Builder.class
 auth/Auth$GlClass$1.class
+com/neptune/cbawrapper/Repository/MenuListRepository.class
 customers/Customer$ResponseStatusOrBuilder.class
 auth/Auth$Get3ppWebhookRequest.class
 notification_service/Notifications$NotificationResponse$1.class
@@ -175,6 +181,7 @@ auth/Auth$Get2faQrCodeUrlResponseOrBuilder.class
 com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc$2.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequest.class
 com/neptune/cbawrapper/Repository/PlatformChargeRepository.class
+com/neptune/cbawrapper/Models/MenuListModel.class
 auth/Auth.class
 com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc$MethodHandlers.class
 auth/Auth$ThirdPartyUser.class
@@ -281,6 +288,7 @@ com/neptune/cbawrapper/RequestRessponseSchema/CoreExceptionResponse.class
 com/virtualAccountApplication/createAccount/proto/GetAccountsRequest$Builder.class
 auth/Auth$AuthenticateApiKeyResponse$Builder.class
 auth/AuthServiceGrpc$AuthServiceImplBase.class
+com/neptune/cbawrapper/Repository/MenuDataRepository.class
 com/virtualAccountApplication/createAccount/proto/ThirdPartyUserOrBuilder.class
 com/virtualAccountApplication/createAccount/proto/Account$1.class
 auth/Auth$GetByUniqueDataResponse$1.class
@@ -297,6 +305,7 @@ notification_service/NotificationServiceGrpc$2.class
 com/neptune/cbawrapper/Models/Reference.class
 notification_service/Notifications$NotificationRequest.class
 customers/CustomerServiceGrpc$CustomerServiceFileDescriptorSupplier.class
+com/neptune/cbawrapper/RequestRessponseSchema/MenuList.class
 com/neptune/cbawrapper/RequestRessponseSchema/BusinessPlatformChargesRequest.class
 auth/Auth$ResendVerifyEmailOtpRequestOrBuilder.class
 auth/Auth$SubMenu$1.class
@@ -322,6 +331,7 @@ com/virtualAccountApplication/createAccount/proto/NameEnquiryRequest.class
 com/virtualAccountApplication/createAccount/proto/Account$Builder.class
 com/virtualAccountApplication/createAccount/proto/DynamicAccountMessage.class
 com/virtualAccountApplication/createAccount/proto/GetAccountsRequestOrBuilder.class
+com/neptune/cbawrapper/Models/MenuDataModel.class
 auth/Auth$AuthorizationOrBuilder.class
 auth/Auth$GlNode.class
 customers/Customer$ResponseStatus.class
@@ -376,6 +386,7 @@ customers/CustomerServiceGrpc$CustomerServiceFutureStub.class
 customers/CustomerServiceGrpc$1.class
 notification_service/NotificationServiceGrpc$NotificationServiceFutureStub.class
 com/neptune/cbawrapper/Controllers/ChargesController.class
+com/neptune/cbawrapper/RequestRessponseSchema/MenuData.class
 notification_service/Notifications$GetAllNotificationResponseOrBuilder.class
 com/virtualAccountApplication/createAccount/proto/StaticAccountMessage.class
 auth/Auth$Create3ppUserRequest$Builder.class
