@@ -2,9 +2,6 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class CorepayPosTransactionRequest {
     private String terminalId;
-    private String narration;
-    private String status;
-    private String dateFormat;
     private String transactionType;
     private String transactionDate;
     private Double amount;
@@ -22,11 +19,10 @@ public class CorepayPosTransactionRequest {
     private Boolean reversal;
     private String merchantName;
     private String stan;
-    private String serialNo;
-    private String locale;
+    private String serialno;
     private String merchantId;
     private String paymentTypeId;
-    private Integer transactionPlatform;
+    private String transactionPlatform;
 
     public String getTerminalId() {
         return terminalId;
@@ -34,30 +30,6 @@ public class CorepayPosTransactionRequest {
 
     public void setTerminalId(String terminalId) {
         this.terminalId = terminalId;
-    }
-
-    public String getNarration() {
-        return narration;
-    }
-
-    public void setNarration(String narration) {
-        this.narration = narration;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
     }
 
     public String getTransactionType() {
@@ -196,20 +168,12 @@ public class CorepayPosTransactionRequest {
         this.stan = stan;
     }
 
-    public String getSerialNo() {
-        return serialNo;
+    public String getSerialno() {
+        return serialno;
     }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setSerialno(String serialno) {
+        this.serialno = serialno;
     }
 
     public String getPaymentTypeId() {
@@ -228,22 +192,18 @@ public class CorepayPosTransactionRequest {
         this.merchantId = merchantId;
     }
 
-    public Integer getTransactionPlatform() {
+    public String getTransactionPlatform() {
         return transactionPlatform;
     }
 
-    public void setTransactionPlatform(Integer transactionPlatform) {
+    public void setTransactionPlatform(String transactionPlatform) {
         this.transactionPlatform = transactionPlatform;
     }
-
 
     @Override
     public String toString() {
         return "CorepayPosTransactionRequest{" +
                 "terminalId='" + terminalId + '\'' +
-                ", narration='" + narration + '\'' +
-                ", status='" + status + '\'' +
-                ", dateFormat='" + dateFormat + '\'' +
                 ", transactionType='" + transactionType + '\'' +
                 ", transactionDate='" + transactionDate + '\'' +
                 ", amount=" + amount +
@@ -261,8 +221,7 @@ public class CorepayPosTransactionRequest {
                 ", reversal=" + reversal +
                 ", merchantName='" + merchantName + '\'' +
                 ", stan='" + stan + '\'' +
-                ", serialNo='" + serialNo + '\'' +
-                ", locale='" + locale + '\'' +
+                ", serialNo='" + serialno + '\'' +
                 '}';
     }
 }

@@ -37,7 +37,7 @@ public class TransactionRequestSchema {
     private String locale;
     private String merchantId;
     private String paymentTypeId;
-    private Integer transactionPlatform;
+    private String transactionPlatform;
 
 
     public String getTerminalId() {
@@ -249,11 +249,12 @@ public class TransactionRequestSchema {
         this.merchantId = merchantId;
     }
 
-    public Integer getTransactionPlatform() {
+
+    public String getTransactionPlatform() {
         return transactionPlatform;
     }
 
-    public void setTransactionPlatform(Integer transactionPlatform) {
+    public void setTransactionPlatform(String transactionPlatform) {
         this.transactionPlatform = transactionPlatform;
     }
 }

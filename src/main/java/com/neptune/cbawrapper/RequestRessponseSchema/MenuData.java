@@ -11,5 +11,4 @@ public class MenuData {
     private Integer id;
     private String menuName;
     private List<MenuList> menuList;
-    private TerminalProfile terminalProfile;
 }

@@ -138,10 +138,10 @@ public class TransactionController {
         ResponseSchema responseData = new ResponseSchema<>();
         try {
 
-        request.setDateFormat("dd MMMM yyyy");
-        request.setStatus("pending");
-        request.setNarration("credit user");
-        request.setLocale("en");
+//        request.setDateFormat("dd MMMM yyyy");
+//        request.setStatus("pending");
+//        request.setNarration("credit user");
+//        request.setLocale("en");
         System.out.println("request = " + request);
 
         boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, request);
@@ -172,32 +172,32 @@ public class TransactionController {
         }
 
         TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
-        transactionRequestSchema.setPan(transactionRequestSchema.getPan());
-        transactionRequestSchema.setResponseCode(transactionRequestSchema.getResponseCode());
-        transactionRequestSchema.setPtad(transactionRequestSchema.getPtad());
-        transactionRequestSchema.setReference(transactionRequestSchema.getReference());
-        transactionRequestSchema.setTransactionReference(transactionRequestSchema.getTransactionReference());
-        transactionRequestSchema.setAmount(transactionRequestSchema.getAmount());
-        transactionRequestSchema.setTransactionDate(transactionRequestSchema.getTransactionDate());
-        transactionRequestSchema.setTransactionType(transactionRequestSchema.getTransactionType());
+        transactionRequestSchema.setPan(request.getPan());
+        transactionRequestSchema.setResponseCode(request.getResponseCode());
+        transactionRequestSchema.setPtad(request.getPtad());
+        transactionRequestSchema.setReference(request.getReference());
+        transactionRequestSchema.setTransactionReference(request.getTransactionReference());
+        transactionRequestSchema.setAmount(request.getAmount());
+        transactionRequestSchema.setTransactionDate(request.getTransactionDate());
+        transactionRequestSchema.setTransactionType(request.getTransactionType());
         transactionRequestSchema.setDateFormat("dd MMMM yyyy");
         transactionRequestSchema.setStatus("pending");
         transactionRequestSchema.setNarration("credit user");
-        transactionRequestSchema.setTerminalId(transactionRequestSchema.getTerminalId());
-        transactionRequestSchema.setTransactionPlatform(transactionRequestSchema.getTransactionPlatform());
-        transactionRequestSchema.setPaymentTypeId(transactionRequestSchema.getPaymentTypeId());
-        transactionRequestSchema.setMerchantId(transactionRequestSchema.getMerchantId());
+        transactionRequestSchema.setTerminalId(request.getTerminalId());
+        transactionRequestSchema.setTransactionPlatform(request.getTransactionPlatform());
+        transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
+        transactionRequestSchema.setMerchantId(request.getMerchantId());
         transactionRequestSchema.setLocale("en");
-        transactionRequestSchema.setSerialNo(transactionRequestSchema.getSerialNo());
-        transactionRequestSchema.setStan(transactionRequestSchema.getStan());
-        transactionRequestSchema.setMerchantName(transactionRequestSchema.getMerchantName());
-        transactionRequestSchema.setReversal(transactionRequestSchema.getReversal());
-        transactionRequestSchema.setMerchantCode(transactionRequestSchema.getMerchantCode());
-        transactionRequestSchema.setAuthCode(transactionRequestSchema.getAuthCode());
-        transactionRequestSchema.setRetrievalReferencenumber(transactionRequestSchema.getRetrievalReferencenumber());
-        transactionRequestSchema.setProcessingFee(transactionRequestSchema.getProcessingFee());
-        transactionRequestSchema.setTransactionFee(transactionRequestSchema.getTransactionFee());
-        transactionRequestSchema.setCardExpiry(transactionRequestSchema.getCardExpiry());
+        transactionRequestSchema.setSerialNo(request.getSerialno());
+        transactionRequestSchema.setStan(request.getStan());
+        transactionRequestSchema.setMerchantName(request.getMerchantName());
+        transactionRequestSchema.setReversal(request.getReversal());
+        transactionRequestSchema.setMerchantCode(request.getMerchantCode());
+        transactionRequestSchema.setAuthCode(request.getAuthCode());
+        transactionRequestSchema.setRetrievalReferencenumber(request.getRetrievalReferencenumber());
+        transactionRequestSchema.setProcessingFee(request.getProcessingFee());
+        transactionRequestSchema.setTransactionFee(request.getTransactionFee());
+        transactionRequestSchema.setCardExpiry(request.getCardExpiry());
         posTransactionRepository.save(transactionRequestSchema);
 
 
