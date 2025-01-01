@@ -13,6 +13,7 @@ import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.Notifications;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -134,7 +135,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction")
-    public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @RequestBody CorepayPosTransactionRequest request) {
+    public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody CorepayPosTransactionRequest request) {
         ResponseSchema responseData = new ResponseSchema<>();
         try {
 

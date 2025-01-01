@@ -2,11 +2,15 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CorepayPosTransactionRequest implements Serializable {
+
     private String terminalId;
     private String transactionType;
     private String transactionDate;

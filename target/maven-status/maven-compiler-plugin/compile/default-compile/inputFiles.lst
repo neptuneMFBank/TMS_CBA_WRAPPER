@@ -19,6 +19,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/AuthenticationException.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/ErrorLoggingException.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/PlatformDomainRuleException.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/ValidationExceptionHandler.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/AuthCredentials.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/BusinessPlatformCharges.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/Create3ppUser.java
@@ -89,12 +90,6 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/TmsCoreWalletAccount.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/TransactionCoreController.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/VirtualAccountService.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/auth/AuthServiceGrpc.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/customers/CustomerServiceGrpc.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/notification_service/NotificationServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/auth/Auth.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/debit_credit/DebitCreditRequest.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/debit_credit/DebitCreditRequestOrBuilder.java
