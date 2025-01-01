@@ -86,6 +86,13 @@ public class Helpers {
         return encryptedData.equals(authToken);
     }
 
+    public boolean isAuthTokenValid(String authToken, String verifyUser){
+        String encryptedData = this.encryptObject(verifyUser);
+
+        System.out.println("encryptedData = " + encryptedData);
+        return encryptedData.equals(authToken);
+    }
+
     public Page<PlatformCharges> getPaginatedPlatformCharges(int page, int size){
         Pageable pageable = PageRequest.of(page, size); // page is 0-indexed
         return platformChargeRepository.findAll(pageable);

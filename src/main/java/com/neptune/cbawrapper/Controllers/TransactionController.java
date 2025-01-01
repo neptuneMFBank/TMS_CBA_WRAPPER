@@ -146,20 +146,19 @@ public class TransactionController {
 
         boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, request);
 
-//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
-//
-//        System.out.println("decryptedData = " + decryptedData);
+        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
 
+        System.out.println("decryptedData = " + decryptedData);
 
-        if (!checkIfTokenIsValid) {
-            responseData.setData(null);
-            responseData.setMessage("Invalid auth token");
-//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-            responseData.setTimeStamp(ZonedDateTime.now());
-            responseData.setEnc(false);
-            responseData.setStatus(401);
-            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
-        }
+//        if (!checkIfTokenIsValid) {
+//            responseData.setData(null);
+//            responseData.setMessage("Invalid auth token");
+////            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
+//            responseData.setTimeStamp(ZonedDateTime.now());
+//            responseData.setEnc(false);
+//            responseData.setStatus(401);
+//            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
+//        }
 
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
