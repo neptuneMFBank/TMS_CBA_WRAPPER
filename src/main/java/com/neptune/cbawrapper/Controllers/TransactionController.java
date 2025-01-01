@@ -228,8 +228,8 @@ public class TransactionController {
         transactionRequestSchema.setProcessingFee(request.getProcessingFee());
         transactionRequestSchema.setTransactionFee(request.getTransactionFee());
         transactionRequestSchema.setCardExpiry(request.getCardExpiry());
-        transactionRequestSchema.setCreated_at(ZonedDateTime.now());
-        transactionRequestSchema.setUpdated_at(ZonedDateTime.now());
+//        transactionRequestSchema.setCreated_at(ZonedDateTime.now());
+//        transactionRequestSchema.setUpdated_at(ZonedDateTime.now());
         posTransactionRepository.save(transactionRequestSchema);
 
 
@@ -257,8 +257,8 @@ public class TransactionController {
             transactionDrCr.setEid("");
             transactionDrCr.setResourceId(responseSchema.getResourceId());
             transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
-            transactionDrCr.setCreated_at(ZonedDateTime.now());
-            transactionDrCr.setUpdated_at(ZonedDateTime.now());
+//            transactionDrCr.setCreated_at(ZonedDateTime.now());
+//            transactionDrCr.setUpdated_at(ZonedDateTime.now());
             cbaTransactionRequests.save(transactionDrCr);
 
             responseData.setMessage("success");
