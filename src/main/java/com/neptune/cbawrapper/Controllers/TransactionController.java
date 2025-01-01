@@ -146,9 +146,15 @@ public class TransactionController {
 
         boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, request);
 
+//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
+//
+//        System.out.println("decryptedData = " + decryptedData);
+
+
         if (!checkIfTokenIsValid) {
             responseData.setData(null);
             responseData.setMessage("Invalid auth token");
+//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
             responseData.setTimeStamp(ZonedDateTime.now());
             responseData.setEnc(false);
             responseData.setStatus(401);
@@ -188,7 +194,7 @@ public class TransactionController {
         transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
         transactionRequestSchema.setMerchantId(request.getMerchantId());
         transactionRequestSchema.setLocale("en");
-        transactionRequestSchema.setSerialNo(request.getSerialno());
+        transactionRequestSchema.setSerialNo(request.getSerialNo());
         transactionRequestSchema.setStan(request.getStan());
         transactionRequestSchema.setMerchantName(request.getMerchantName());
         transactionRequestSchema.setReversal(request.getReversal());

@@ -1,6 +1,12 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
-public class CorepayPosTransactionRequest {
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class CorepayPosTransactionRequest implements Serializable {
     private String terminalId;
     private String transactionType;
     private String transactionDate;
@@ -19,7 +25,7 @@ public class CorepayPosTransactionRequest {
     private Boolean reversal;
     private String merchantName;
     private String stan;
-    private String serialno;
+    private String serialNo;
     private String merchantId;
     private String paymentTypeId;
     private String transactionPlatform;
@@ -168,12 +174,12 @@ public class CorepayPosTransactionRequest {
         this.stan = stan;
     }
 
-    public String getSerialno() {
-        return serialno;
+    public String getSerialNo() {
+        return serialNo;
     }
 
-    public void setSerialno(String serialno) {
-        this.serialno = serialno;
+    public void setSerialNo(String serialNo) {
+        this.serialNo = serialNo;
     }
 
     public String getPaymentTypeId() {
@@ -221,7 +227,10 @@ public class CorepayPosTransactionRequest {
                 ", reversal=" + reversal +
                 ", merchantName='" + merchantName + '\'' +
                 ", stan='" + stan + '\'' +
-                ", serialNo='" + serialno + '\'' +
+                ", serialNo='" + serialNo + '\'' +
+                ", merchantId='" + merchantId + '\'' +
+                ", paymentTypeId='" + paymentTypeId + '\'' +
+                ", transactionPlatform='" + transactionPlatform + '\'' +
                 '}';
     }
 }
