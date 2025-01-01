@@ -258,6 +258,7 @@ auth/Auth$GetPhoneNumberOtpRequest$1.class
 customers/Customer$CustomerOptions.class
 customers/Customer.class
 com/neptune/cba/transaction/debit_credit/DebitCreditResponse$1.class
+com/neptune/cbawrapper/RequestRessponseSchema/TransactionDetails.class
 notification_service/NotificationServiceGrpc$3.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryRequest$Builder.class
 auth/Auth$Region$1.class

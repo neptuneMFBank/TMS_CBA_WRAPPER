@@ -138,17 +138,18 @@ public class TransactionController {
         ResponseSchema responseData = new ResponseSchema<>();
         try {
 
-//        request.setDateFormat("dd MMMM yyyy");
-//        request.setStatus("pending");
-//        request.setNarration("credit user");
-//        request.setLocale("en");
-        System.out.println("request = " + request);
+
 
         boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, request);
 
+        request.setDateFormat("dd MMMM yyyy");
+        request.setStatus("pending");
+        request.setNarration("credit user");
+        request.setLocale("en");
+
         CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
 
-        System.out.println("decryptedData = " + decryptedData);
+//        System.out.println("decryptedData = " + decryptedData);
 
 //        if (!checkIfTokenIsValid) {
 //            responseData.setData(null);
@@ -175,6 +176,32 @@ public class TransactionController {
         if (request.getResponseCode().equals("00")) {
             status = "SUCCESS";
         }
+
+        TransactionDetails transactionDetails = new TransactionDetails();
+        transactionDetails.setTerminalId(request.getTerminalId());
+        transactionDetails.setNarration("POS");
+        transactionDetails.setStatus("PENDING");
+        transactionDetails.setDateFormat("dd MMMM yyyy");
+        transactionDetails.setTransactionType(request.getTransactionType());
+        transactionDetails.setTransactionDate(request.getTransactionDate());
+        transactionDetails.setAmount(request.getAmount());
+        transactionDetails.setTransactionReference(request.getTransactionReference());
+        transactionDetails.setReference(request.getReference());
+        transactionDetails.setPtad(request.getPtad());
+        transactionDetails.setResponseCode(request.getResponseCode());
+        transactionDetails.setPan(request.getPan());
+        transactionDetails.setCardExpiry(request.getCardExpiry());
+        transactionDetails.setTransactionFee(request.getTransactionFee());
+        transactionDetails.setProcessingFee(request.getProcessingFee());
+        transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferencenumber());
+        transactionDetails.setAuthCode(request.getAuthCode());
+        transactionDetails.setMerchantCode(request.getMerchantCode());
+        transactionDetails.setReversal(request.getReversal());
+        transactionDetails.setMerchantName(request.getMerchantName());
+        transactionDetails.setStan(request.getStan());
+        transactionDetails.setSerialNo(request.getSerialNo());
+        transactionDetails.setLocale(request.getLocale());
+
 
         TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
         transactionRequestSchema.setPan(request.getPan());
@@ -206,11 +233,13 @@ public class TransactionController {
         posTransactionRepository.save(transactionRequestSchema);
 
 
-        UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(request);
+            System.out.println("request = " + transactionDetails);
+        UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
 
         System.out.println("responseSchema = " + responseSchema.getResourceId());
 
-        if (status.equals("SUCCESS")) {
+        if (responseSchema.getResourceId() != null) {
+            System.out.println("================================");
 
             TransactionDrCr transactionDrCr = new TransactionDrCr();
             transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());

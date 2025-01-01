@@ -29,6 +29,10 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String merchantId;
     private String paymentTypeId;
     private String transactionPlatform;
+    private String locale;
+    private String dateFormat;
+    private String status;
+    private String narration;
 
     public String getTerminalId() {
         return terminalId;
@@ -206,6 +210,38 @@ public class CorepayPosTransactionRequest implements Serializable {
         this.transactionPlatform = transactionPlatform;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNarration() {
+        return narration;
+    }
+
+    public void setNarration(String narration) {
+        this.narration = narration;
+    }
+
     @Override
     public String toString() {
         return "CorepayPosTransactionRequest{" +
@@ -231,6 +267,10 @@ public class CorepayPosTransactionRequest implements Serializable {
                 ", merchantId='" + merchantId + '\'' +
                 ", paymentTypeId='" + paymentTypeId + '\'' +
                 ", transactionPlatform='" + transactionPlatform + '\'' +
+                ", locale='" + locale + '\'' +
+                ", dateFormat='" + dateFormat + '\'' +
+                ", status='" + status + '\'' +
+                ", narration='" + narration + '\'' +
                 '}';
     }
 }
