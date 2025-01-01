@@ -312,14 +312,18 @@ public class Cron {
         virtualAccountModel.setBusinessName(data.getBusinessName());
         virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
         virtualAccountModel.setBusinessWalletId(data.getBusinessWalletId());
+        virtualAccountModel.setCreated_at(ZonedDateTime.now());
+        virtualAccountModel.setUpdated_at(ZonedDateTime.now());
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
+
+            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
 
             if (virtualAccountModelList == null) {
                 return;
@@ -366,7 +370,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */6 * * * *")
+//    @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -391,14 +395,17 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+//    @Scheduled(cron = "0 */1 * * * *")
     public void pushTransactionsToCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
+        System.out.println("lllllllllllllllllllllllllllll");
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
             if (transactionDrCr1.getAccountnumber() == null) {
                 return;
             }
+            System.out.println("lkkkkkkkkkkkkkkkkkkkkkkkk");
+
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
             DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1);
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();

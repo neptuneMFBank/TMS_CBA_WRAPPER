@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.ZonedDateTime;
+
 @Data
 @Document(collection = "virtual_accounts")
 public class VirtualAccountModel {
@@ -28,6 +30,24 @@ public class VirtualAccountModel {
     private Integer businessSavingsId;
     private String businessWalletId;
     private String fcmToken;
+    private ZonedDateTime created_at;
+    private ZonedDateTime updated_at;
+
+    public ZonedDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(ZonedDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public ZonedDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(ZonedDateTime updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public String getId() {
         return id;
@@ -201,6 +221,8 @@ public class VirtualAccountModel {
         this.parent_id = parent_id;
         this.parent_account = parent_account;
     }
+
+
 
 
 }

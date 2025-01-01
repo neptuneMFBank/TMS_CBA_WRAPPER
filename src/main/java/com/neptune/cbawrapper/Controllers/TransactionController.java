@@ -138,9 +138,6 @@ public class TransactionController {
     public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody CorepayPosTransactionRequest request) {
         ResponseSchema responseData = new ResponseSchema<>();
         try {
-
-
-
         boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, request);
 
         request.setDateFormat("dd MMMM yyyy");
@@ -148,7 +145,7 @@ public class TransactionController {
         request.setNarration("credit user");
         request.setLocale("en");
 
-        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
+//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
 
 //        System.out.println("decryptedData = " + decryptedData);
 
@@ -231,6 +228,8 @@ public class TransactionController {
         transactionRequestSchema.setProcessingFee(request.getProcessingFee());
         transactionRequestSchema.setTransactionFee(request.getTransactionFee());
         transactionRequestSchema.setCardExpiry(request.getCardExpiry());
+        transactionRequestSchema.setCreated_at(ZonedDateTime.now());
+        transactionRequestSchema.setUpdated_at(ZonedDateTime.now());
         posTransactionRepository.save(transactionRequestSchema);
 
 
@@ -240,7 +239,7 @@ public class TransactionController {
         System.out.println("responseSchema = " + responseSchema.getResourceId());
 
         if (responseSchema.getResourceId() != null) {
-            System.out.println("================================");
+            System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
 
             TransactionDrCr transactionDrCr = new TransactionDrCr();
             transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
@@ -258,6 +257,8 @@ public class TransactionController {
             transactionDrCr.setEid("");
             transactionDrCr.setResourceId(responseSchema.getResourceId());
             transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
+            transactionDrCr.setCreated_at(ZonedDateTime.now());
+            transactionDrCr.setUpdated_at(ZonedDateTime.now());
             cbaTransactionRequests.save(transactionDrCr);
 
             responseData.setMessage("success");

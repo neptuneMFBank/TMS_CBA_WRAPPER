@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.ZonedDateTime;
+
 @Data
 @Document(collection = "cba_transaction_requests")
 public class TransactionDrCr {
@@ -27,6 +29,25 @@ public class TransactionDrCr {
     private String resourceId;
     private String transaction_platform_id;
     private String transaction_business_platform_id;
+
+    private ZonedDateTime created_at;
+    private ZonedDateTime updated_at;
+
+    public ZonedDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(ZonedDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public ZonedDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(ZonedDateTime updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public String getIsccode() {
         return isccode;
