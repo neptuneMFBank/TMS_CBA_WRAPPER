@@ -9,7 +9,8 @@ public class TerminalProfile {
     private String parentEntityName;
     private String entityType;
     private Integer menuId;
-    private Integer logoId;
+    private Integer businessId;
+    private String logo;
     private String serialNo;
     private String merchantCode;
     private String terminalName;

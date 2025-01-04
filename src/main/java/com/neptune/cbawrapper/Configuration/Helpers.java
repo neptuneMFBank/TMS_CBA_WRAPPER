@@ -66,6 +66,17 @@ public class Helpers {
         }
     }
 
+    public <T> String encryptObject(String jsonString) {
+        try {
+            // Step 2: Encrypt the JSON string
+            return AesUtil.encrypt(jsonString, secretKey);
+        } catch (Exception e) {
+            throw new RuntimeException("Error encrypting object", e);
+        }
+    }
+
+
+
     public <T> T decryptObject(String encryptedString, Class<T> clazz) {
         try {
             // Step 3: Decrypt the encrypted string

@@ -50,7 +50,7 @@ public class VirtualAccountService {
             String settlementAcct = virtualAccountModel.get(i).getParent_account() != null ? virtualAccountModel.get(i).getParent_account() : "";
             String parentId = virtualAccountModel.get(i).getParent_id() != null ? virtualAccountModel.get(i).getParent_id() : "";
             String phone = virtualAccountModel.get(i).getPhone_number() != null ? virtualAccountModel.get(i).getPhone_number() : "";
-            String businessWallet = virtualAccountModel.get(i).getBusiness_wallet() != null ? virtualAccountModel.get(i).getBusiness_wallet() : "";
+            String businessWallet = virtualAccountModel.get(i).getBusinessWalletId() != null ? virtualAccountModel.get(i).getBusinessWalletId() : "";
             StaticAccountMessage staticAccount = StaticAccountMessage.newBuilder()
                     .setPhoneNumber(phone) // Example phone numbers
                     .setAccountName(acctName)

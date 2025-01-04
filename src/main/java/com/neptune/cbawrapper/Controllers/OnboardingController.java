@@ -48,6 +48,7 @@ public class OnboardingController {
             log.info("response = {}", response);
 
             if (response == null) {
+                errorLoggingException.logError("CBA_ACCOUNT_CREATION", "Error occurred, kindly try again", "Error occurred, kindly try again");
                 ResponseSchema<?> responseSchema =  new ResponseSchema<>( 409, "Error occurred, kindly try again", response, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
@@ -69,13 +70,14 @@ public class OnboardingController {
             auth.Auth.OtpResponse response = authenticationService.getUserPhoneOtp(phoneNumber);
             log.info("response = {}", response);
             if (response == null) {
+                errorLoggingException.logError("CBA_ACCOUNT_CREATION_GET_TOKEN_ON_PHONE", "Error occurred, kindly try again", "Error occurred, kindly try again");
                 ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "otp sent to phone number kindly use the otp shared to verify your phone number", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
-            errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
+            errorLoggingException.logError("CBA_ACCOUNT_CREATION_GET_TOKEN_ON_PHONE", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
             ResponseSchema<?> responseSchema = new  ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,13 +90,14 @@ public class OnboardingController {
         try {
             auth.Auth.OtpResponse response = authenticationService.resendEmailOtp(email);
             if (response == null) {
+                errorLoggingException.logError("CBA_ACCOUNT_CREATION_RESEND_TOKEN_ON_EMAIL", "Error occurred, kindly try again", "Error occurred, kindly try again");
                 ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "otp sent to email kindly use the otp shared to verify your email", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
-            errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
+            errorLoggingException.logError("CBA_ACCOUNT_CREATION_RESEND_TOKEN_ON_EMAIL", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +116,7 @@ public class OnboardingController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "email verified successfully", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
-            errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
+            errorLoggingException.logError("CBA_CREATION_VERIFY_EMAIL", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -131,7 +134,7 @@ public class OnboardingController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "phone number verified successfully", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
-            errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
+            errorLoggingException.logError("CBA_CREATION_VERIFY_PHONE", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -148,6 +151,7 @@ public class OnboardingController {
             Auth.LoginResponse response = authenticationService.loginUser(verifyUser);
             System.out.println("response = " + response);
             if (response == null) {
+                errorLoggingException.logError("CBA_CREATION_LOGIN", "Error occurred, kindly try again", "Error occurred, kindly try again");
                 ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "Error occurred, kindly try again", null, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
@@ -195,7 +199,7 @@ public class OnboardingController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Login successful", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
-            errorLoggingException.logError("CBA_CREATION", String.valueOf(e.getCause()), e.getMessage());
+            errorLoggingException.logError("CBA_CREATION_LOGIN", String.valueOf(e.getCause()), e.getMessage());
             log.error("error from cba1 =: {}", e.getMessage());
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);

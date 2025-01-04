@@ -3,6 +3,7 @@ package com.neptune.cbawrapper.Controllers;
 
 import com.neptune.cbawrapper.Configuration.AESServiceImp;
 import com.neptune.cbawrapper.Configuration.Helpers;
+import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.BusinessPlatformCharges;
 import com.neptune.cbawrapper.Models.PlatformCharges;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
@@ -22,12 +23,14 @@ public class ChargesController {
 
     private final PlatformChargeRepository platformChargeRepository;
     private final Helpers helpers;
+    private final ErrorLoggingException errorLoggingException;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
     private final AESServiceImp aesServiceImp;
 
-    public ChargesController(PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository, AESServiceImp aesServiceImp) {
+    public ChargesController(ErrorLoggingException errorLoggingException, PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository, AESServiceImp aesServiceImp) {
         this.platformChargeRepository = platformChargeRepository;
         this.helpers = helpers;
+        this.errorLoggingException = errorLoggingException;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.aesServiceImp = aesServiceImp;
     }
@@ -60,7 +63,8 @@ public class ChargesController {
         String data = aesServiceImp.aesEncrypt(helpers.convertToJson(charges));
 
         if(checkIfChargeTypeExists.isPresent()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
+            errorLoggingException.logError("CREATE_PLATFORM_CHARGE", "charge for the platform name provided already exists","charge for the platform name provided already exists");
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "charge for the platform name provided already exists", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         }
 
@@ -87,6 +91,7 @@ public class ChargesController {
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isPresent()){
+            errorLoggingException.logError("CREATE_BUSINESS_PLATFORM_CHARGE", "charge for the platform name provided already exists","charge for the platform name provided already exists");
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 409, "charge for the platform name provided already exists ", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         }
@@ -113,7 +118,8 @@ public class ChargesController {
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
+            errorLoggingException.logError("CREATE_PLATFORM_CHARGE", "charge for the platform name provided not found","charge for the platform name provided not found");
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the platform name provided not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
@@ -139,6 +145,7 @@ public class ChargesController {
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){
+            errorLoggingException.logError("CREATE_BUSINESS_PLATFORM_CHARGE", "charge for the business platform name provided not found","charge for the business platform name provided not found");
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the business wallet provided not found ", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
@@ -166,6 +173,7 @@ public class ChargesController {
         Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
+            errorLoggingException.logError("DELETE_PLATFORM_CHARGE", "charge for the platform name provided not found","charge for the platform name provided not found");
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
@@ -186,6 +194,7 @@ public class ChargesController {
         Optional<BusinessPlatformCharges> checkIfChargeTypeExists = businessPlatformChargesRepository.getChargeByBusinessWalletId(charges.getBusinessWalletId());
 
         if(checkIfChargeTypeExists.isEmpty()){
+            errorLoggingException.logError("DELETE_BUSINESS_PLATFORM_CHARGE", "charge for the platform name provided not found","charge for the platform name provided not found");
             ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "charge for the platform name provided not found ", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
