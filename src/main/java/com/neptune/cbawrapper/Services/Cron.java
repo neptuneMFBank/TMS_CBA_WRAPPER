@@ -69,7 +69,7 @@ public class Cron {
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
     }
 
-//    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */3 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -149,7 +149,7 @@ public class Cron {
         return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId());
     }
 
-//    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void updateCustomerAccountNumFromCba() {
         try {
             //TODO: get customers without account number and send them to CBA to generate account numbers for them
@@ -210,7 +210,7 @@ public class Cron {
 
     }
 
-//    @Scheduled(cron = "0 */7 * * * *")
+    @Scheduled(cron = "0 */7 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -254,7 +254,7 @@ public class Cron {
         }
     }
 //
-//    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */3 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -317,7 +317,7 @@ public class Cron {
         return virtualAccountModel;
     }
 
-//    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -372,7 +372,7 @@ public class Cron {
         }
     }
 
-//    @Scheduled(cron = "0 */6 * * * *")
+    @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
