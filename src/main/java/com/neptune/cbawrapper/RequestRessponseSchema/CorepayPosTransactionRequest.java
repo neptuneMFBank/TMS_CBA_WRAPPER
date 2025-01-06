@@ -23,7 +23,7 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String cardExpiry;
     private Double transactionFee;
     private Double processingFee;
-    private String retrievalReferencenumber;
+    private String retrievalReferenceNumber;
     private String authCode;
     private String merchantCode;
     private Boolean reversal;
@@ -134,12 +134,12 @@ public class CorepayPosTransactionRequest implements Serializable {
         this.processingFee = processingFee;
     }
 
-    public String getRetrievalReferencenumber() {
-        return retrievalReferencenumber;
+    public String getRetrievalReferenceNumber() {
+        return retrievalReferenceNumber;
     }
 
-    public void setRetrievalReferencenumber(String retrievalReferencenumber) {
-        this.retrievalReferencenumber = retrievalReferencenumber;
+    public void setRetrievalReferenceNumber(String retrievalReferenceNumber) {
+        this.retrievalReferenceNumber = retrievalReferenceNumber;
     }
 
     public String getAuthCode() {
@@ -261,7 +261,7 @@ public class CorepayPosTransactionRequest implements Serializable {
                 ", cardExpiry='" + cardExpiry + '\'' +
                 ", transactionFee=" + transactionFee +
                 ", processingFee=" + processingFee +
-                ", retrievalReferencenumber='" + retrievalReferencenumber + '\'' +
+                ", retrievalReferencenumber='" + retrievalReferenceNumber + '\'' +
                 ", authCode='" + authCode + '\'' +
                 ", merchantCode='" + merchantCode + '\'' +
                 ", reversal=" + reversal +

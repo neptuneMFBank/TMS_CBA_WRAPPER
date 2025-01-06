@@ -202,7 +202,7 @@ public class TransactionController {
             transactionDetails.setCardExpiry(request.getCardExpiry());
             transactionDetails.setTransactionFee(request.getTransactionFee());
             transactionDetails.setProcessingFee(request.getProcessingFee());
-            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferencenumber());
+            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
             transactionDetails.setAuthCode(request.getAuthCode());
             transactionDetails.setMerchantCode(request.getMerchantCode());
             transactionDetails.setReversal(request.getReversal());
@@ -235,7 +235,7 @@ public class TransactionController {
             transactionRequestSchema.setReversal(request.getReversal());
             transactionRequestSchema.setMerchantCode(request.getMerchantCode());
             transactionRequestSchema.setAuthCode(request.getAuthCode());
-            transactionRequestSchema.setRetrievalReferencenumber(request.getRetrievalReferencenumber());
+            transactionRequestSchema.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
             transactionRequestSchema.setProcessingFee(request.getProcessingFee());
             transactionRequestSchema.setTransactionFee(request.getTransactionFee());
             transactionRequestSchema.setCardExpiry(request.getCardExpiry());
