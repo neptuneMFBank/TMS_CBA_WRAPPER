@@ -1,22 +1,11 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
-public class UpdateTransactionRequestSchema {
-    private String status;
-    private String message;
+import lombok.Data;
 
-    public String getStatus() {
-        return status;
-    }
+import java.io.Serializable;
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+@Data
+public class UpdateTransactionRequestSchema implements Serializable {
+    private Integer status;
+    private String note;
 }

@@ -509,16 +509,20 @@ public class Cron {
                     }
 
                     UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                    requestSchema.setMessage("done");
-                    requestSchema.setStatus("SENT_TO_CBA");
-                    UpdateTransactionResponseSchema updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                    requestSchema.setNote("done");
+                    requestSchema.setStatus(300);
+                    System.out.println("requestSchema = " + requestSchema);
+                    Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
                     System.out.println("SENT_TO_CBA");
                     System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
                 } else {
+                    System.out.println("jjjjjjjj here");
                     UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                    requestSchema.setMessage(response.getMessage());
-                    requestSchema.setStatus("NOT_SENT_TO_CBA");
-                    UpdateTransactionResponseSchema updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                    requestSchema.setNote(response.getMessage());
+                    requestSchema.setStatus(100);
+                    System.out.println("kkkkkkkkkkkkk");
+                    Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                    System.out.println("jjsjsjadj");
                     System.out.println("NOT_SENT_TO_CBA");
                     System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
                 }

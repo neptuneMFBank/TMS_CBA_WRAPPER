@@ -41,7 +41,7 @@ public class DebitCreditService {
         try {
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
-                    .setIsccode(transactionDrCr.getIsccode())
+                    .setIsccode("7002")
                     .setAccountstatus(transactionDrCr.getAccountstatus())
                     .setAcctname(transactionDrCr.getAcctname())
                     .setDrcr(transactionDrCr.getDrcr())

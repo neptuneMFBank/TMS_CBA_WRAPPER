@@ -13,5 +13,5 @@ public interface TransactionCoreController {
     UpdateTransactionResponseSchema createTransaction(@RequestBody TransactionDetails requestSchema);
 
     @PutMapping("/business/transactions/{id}")
-    UpdateTransactionResponseSchema updateTransaction(@PathVariable("id") String id, @RequestBody UpdateTransactionRequestSchema request);
+    Object updateTransaction(@PathVariable("id") int id, @RequestBody UpdateTransactionRequestSchema request);
 }

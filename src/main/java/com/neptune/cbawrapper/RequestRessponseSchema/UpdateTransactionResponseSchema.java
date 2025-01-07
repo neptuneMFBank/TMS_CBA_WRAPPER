@@ -1,13 +1,13 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class UpdateTransactionResponseSchema {
-    private String resourceId;
+    private Integer resourceId;
 
-    public String getResourceId() {
+    public Integer getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
     }
 

@@ -26,7 +26,7 @@ public class TransactionDrCr {
     private String eid;
     private String terminalId;
     private Boolean isUpdatedToCba;
-    private String resourceId;
+    private Integer resourceId;
     private String transaction_platform_id;
     private String transaction_business_platform_id;
 
@@ -153,11 +153,11 @@ public class TransactionDrCr {
         isUpdatedToCba = updatedToCba;
     }
 
-    public String getResourceId() {
+    public Integer getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
     }
 
