@@ -32,6 +32,7 @@ public class TransactionDetails implements Serializable {
     private String stan;
     private String serialNo;
     private String locale;
+    private String cardScheme;
 
     // Getters and Setters
     public String getTerminalId() {
@@ -219,6 +220,14 @@ public class TransactionDetails implements Serializable {
         this.locale = locale;
     }
 
+    public String getCardScheme() {
+        return cardScheme;
+    }
+
+    public void setCardScheme(String cardScheme) {
+        this.cardScheme = cardScheme;
+    }
+
     @Override
     public String toString() {
         return "TransactionDetails{" +
@@ -245,6 +254,7 @@ public class TransactionDetails implements Serializable {
                 ", stan='" + stan + '\'' +
                 ", serialNo='" + serialNo + '\'' +
                 ", locale='" + locale + '\'' +
+                ", cardScheme='" + cardScheme + '\'' +
                 '}';
     }
 }

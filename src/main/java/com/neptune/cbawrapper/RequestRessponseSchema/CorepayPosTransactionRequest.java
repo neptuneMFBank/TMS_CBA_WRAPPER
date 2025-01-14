@@ -37,6 +37,7 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String dateFormat;
     private String status;
     private String narration;
+    private String cardScheme;
 
     public String getTerminalId() {
         return terminalId;
@@ -246,6 +247,14 @@ public class CorepayPosTransactionRequest implements Serializable {
         this.narration = narration;
     }
 
+    public String getCardScheme() {
+        return cardScheme;
+    }
+
+    public void setCardScheme(String cardScheme) {
+        this.cardScheme = cardScheme;
+    }
+
     @Override
     public String toString() {
         return "CorepayPosTransactionRequest{" +
@@ -261,7 +270,7 @@ public class CorepayPosTransactionRequest implements Serializable {
                 ", cardExpiry='" + cardExpiry + '\'' +
                 ", transactionFee=" + transactionFee +
                 ", processingFee=" + processingFee +
-                ", retrievalReferencenumber='" + retrievalReferenceNumber + '\'' +
+                ", retrievalReferenceNumber='" + retrievalReferenceNumber + '\'' +
                 ", authCode='" + authCode + '\'' +
                 ", merchantCode='" + merchantCode + '\'' +
                 ", reversal=" + reversal +
@@ -275,6 +284,7 @@ public class CorepayPosTransactionRequest implements Serializable {
                 ", dateFormat='" + dateFormat + '\'' +
                 ", status='" + status + '\'' +
                 ", narration='" + narration + '\'' +
+                ", cardScheme='" + cardScheme + '\'' +
                 '}';
     }
 }

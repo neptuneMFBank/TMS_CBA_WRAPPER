@@ -29,6 +29,7 @@ public class TransactionDrCr {
     private Integer resourceId;
     private String transaction_platform_id;
     private String transaction_business_platform_id;
+    private String cardScheme;
 
     private ZonedDateTime created_at;
     private ZonedDateTime updated_at;
@@ -183,5 +184,13 @@ public class TransactionDrCr {
 
     public void setTerminalId(String terminalId) {
         this.terminalId = terminalId;
+    }
+
+    public String getCardScheme() {
+        return cardScheme;
+    }
+
+    public void setCardScheme(String cardScheme) {
+        this.cardScheme = cardScheme;
     }
 }

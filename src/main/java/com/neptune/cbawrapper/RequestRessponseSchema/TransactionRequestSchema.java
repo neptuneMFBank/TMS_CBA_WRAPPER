@@ -40,6 +40,7 @@ public class TransactionRequestSchema {
     private String merchantId;
     private String paymentTypeId;
     private String transactionPlatform;
+    private String cardScheme;
 
     private ZonedDateTime created_at;
     private ZonedDateTime updated_at;
@@ -276,5 +277,49 @@ public class TransactionRequestSchema {
 
     public void setTransactionPlatform(String transactionPlatform) {
         this.transactionPlatform = transactionPlatform;
+    }
+
+    public String getCardScheme() {
+        return cardScheme;
+    }
+
+    public void setCardScheme(String cardScheme) {
+        this.cardScheme = cardScheme;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionRequestSchema{" +
+                "id='" + id + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", narration='" + narration + '\'' +
+                ", status='" + status + '\'' +
+                ", dateFormat='" + dateFormat + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", amount=" + amount +
+                ", transactionReference='" + transactionReference + '\'' +
+                ", reference='" + reference + '\'' +
+                ", ptad='" + ptad + '\'' +
+                ", responseCode='" + responseCode + '\'' +
+                ", pan='" + pan + '\'' +
+                ", cardExpiry='" + cardExpiry + '\'' +
+                ", transactionFee=" + transactionFee +
+                ", processingFee=" + processingFee +
+                ", retrievalReferencenumber='" + retrievalReferencenumber + '\'' +
+                ", authCode='" + authCode + '\'' +
+                ", merchantCode='" + merchantCode + '\'' +
+                ", reversal=" + reversal +
+                ", merchantName='" + merchantName + '\'' +
+                ", stan='" + stan + '\'' +
+                ", serialNo='" + serialNo + '\'' +
+                ", locale='" + locale + '\'' +
+                ", merchantId='" + merchantId + '\'' +
+                ", paymentTypeId='" + paymentTypeId + '\'' +
+                ", transactionPlatform='" + transactionPlatform + '\'' +
+                ", cardScheme='" + cardScheme + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
     }
 }

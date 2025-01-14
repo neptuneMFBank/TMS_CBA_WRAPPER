@@ -7,9 +7,7 @@ import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
-import com.virtualAccountApplication.createAccount.proto.AccountCreationResponse;
 import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
-//import com.virtualAccountApplication.createAccount.proto.StaticAccountCreationResponse;
 import com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
@@ -253,7 +251,7 @@ public class Cron {
             errorLogsRepository.save(errorLogsModel);
         }
     }
-//
+
     @Scheduled(cron = "0 */3 * * * *")
     public void getVirtualTerminalRecords() {
         try {
