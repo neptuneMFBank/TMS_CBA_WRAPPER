@@ -405,7 +405,7 @@ public class Cron {
                 return;
             }
 
-            if(transactionDrCr1.getResponseCode() != null && !transactionDrCr1.getResponseCode().equals("00")){
+            if(!transactionDrCr1.getResponseCode().equals("00")){
                 return;
             }
             System.out.println("lkkkkkkkkkkkkkkkkkkkkkkkk");
