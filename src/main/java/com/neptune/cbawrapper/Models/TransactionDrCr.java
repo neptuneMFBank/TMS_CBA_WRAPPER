@@ -30,6 +30,7 @@ public class TransactionDrCr {
     private String transaction_platform_id;
     private String transaction_business_platform_id;
     private String cardScheme;
+    private String responseCode;
 
     private ZonedDateTime created_at;
     private ZonedDateTime updated_at;
@@ -192,5 +193,13 @@ public class TransactionDrCr {
 
     public void setCardScheme(String cardScheme) {
         this.cardScheme = cardScheme;
+    }
+
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 }

@@ -404,6 +404,10 @@ public class Cron {
             if (transactionDrCr1.getAccountnumber() == null) {
                 return;
             }
+
+            if(transactionDrCr1.getResponseCode() != null && !transactionDrCr1.getResponseCode().equals("00")){
+                return;
+            }
             System.out.println("lkkkkkkkkkkkkkkkkkkkkkkkk");
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());

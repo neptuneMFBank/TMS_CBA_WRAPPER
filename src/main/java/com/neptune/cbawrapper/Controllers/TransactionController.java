@@ -267,6 +267,7 @@ public class TransactionController {
                 transactionDrCr.setTransactionreference(transactionRequestSchema.getTransactionReference());
                 transactionDrCr.setNarration(transactionRequestSchema.getNarration());
                 transactionDrCr.setChannel("1");
+                transactionDrCr.setResponseCode(request.getResponseCode());
                 transactionDrCr.setEid("");
                 transactionDrCr.setResourceId(responseSchema.getResourceId());
                 transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
