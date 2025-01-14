@@ -43,6 +43,7 @@ public class Cron {
     private final CustomerService customerService;
     private final ErrorLogsRepository errorLogsRepository;
     private final Helpers helpers;
+    private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final AuthCredentialsRepository authCredentialsRepository;
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
@@ -52,11 +53,12 @@ public class Cron {
     private final CbaTransactionRequestsRepository cbaTransactionRequestsRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Cron(CustomersRepository customersRepository, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
+    public Cron(CustomersRepository customersRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
         this.helpers = helpers;
+        this.cbaTransactionRequests = cbaTransactionRequests;
         this.authCredentialsRepository = authCredentialsRepository;
         this.virtualAccountService = virtualAccountService;
         this.virtualAccountRepository = virtualAccountRepository;
@@ -412,8 +414,8 @@ public class Cron {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
             DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1);
+            cbaTransactionRequests.save(transactionDrCr1);
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
-
 
             System.out.println("response = " + response);
             //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
@@ -440,9 +442,11 @@ public class Cron {
                         if (amount > platformCharges.get().getThreshold()) {
                             amount = platformCharges.get().getThreshold();
                         }
+
                         transactionDrCr1.setAmount(amount);
                         transactionDrCr1.setDrcr("dr");
                         DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+                        cbaTransactionRequests.save(transactionDrCr1);
                         System.out.println("response1 = " + response1);
 
                         //todo: credit platform charge to NeptunePay account
@@ -468,6 +472,7 @@ public class Cron {
                             transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
                             transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
                             DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+                            cbaTransactionRequests.save(transactionDrCr1);
                             System.out.println("response2 = " + response2);
 
 
@@ -496,6 +501,7 @@ public class Cron {
                             transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
                             DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
+                            cbaTransactionRequests.save(transactionDrCr1);
                             System.out.println("response3 = " + response3);
 
                             //todo: credit business account charge with charge deducted from NeptunePay platform charge
@@ -505,6 +511,7 @@ public class Cron {
                             transactionDrCr1.setAccountnumber(businessPlatformCharges.get().getBusinessWalletId());
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
                             DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
+                            cbaTransactionRequests.save(transactionDrCr1);
                             System.out.println("response4 = " + response4);
 
                         }

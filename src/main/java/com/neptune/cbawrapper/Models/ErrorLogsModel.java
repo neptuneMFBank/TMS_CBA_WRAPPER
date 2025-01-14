@@ -18,6 +18,7 @@ public class ErrorLogsModel {
     private String type;
     private String status_code;
     private String identifier;
+    private String requestData;
 
     @CreatedDate
     private Instant createdAt;
@@ -46,6 +47,14 @@ public class ErrorLogsModel {
 
     public String getId() {
         return id;
+    }
+
+    public String getRequestData() {
+        return requestData;
+    }
+
+    public void setRequestData(String requestData) {
+        this.requestData = requestData;
     }
 
     public void setId(String id) {

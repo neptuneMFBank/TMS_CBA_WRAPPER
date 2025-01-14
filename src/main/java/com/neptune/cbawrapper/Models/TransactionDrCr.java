@@ -202,4 +202,31 @@ public class TransactionDrCr {
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDrCr{" +
+                "id='" + id + '\'' +
+                ", accountnumber='" + accountnumber + '\'' +
+                ", isccode='" + isccode + '\'' +
+                ", accountstatus='" + accountstatus + '\'' +
+                ", acctname='" + acctname + '\'' +
+                ", drcr='" + drcr + '\'' +
+                ", acctype='" + acctype + '\'' +
+                ", amount=" + amount +
+                ", transactionreference='" + transactionreference + '\'' +
+                ", narration='" + narration + '\'' +
+                ", channel='" + channel + '\'' +
+                ", eid='" + eid + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", isUpdatedToCba=" + isUpdatedToCba +
+                ", resourceId=" + resourceId +
+                ", transaction_platform_id='" + transaction_platform_id + '\'' +
+                ", transaction_business_platform_id='" + transaction_business_platform_id + '\'' +
+                ", cardScheme='" + cardScheme + '\'' +
+                ", responseCode='" + responseCode + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
+    }
 }

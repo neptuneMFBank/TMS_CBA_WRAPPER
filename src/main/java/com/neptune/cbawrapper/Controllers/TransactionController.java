@@ -245,7 +245,6 @@ public class TransactionController {
 //        transactionRequestSchema.setUpdated_at(ZonedDateTime.now());
             posTransactionRepository.save(transactionRequestSchema);
 
-
             System.out.println("request = " + transactionDetails);
             UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
 

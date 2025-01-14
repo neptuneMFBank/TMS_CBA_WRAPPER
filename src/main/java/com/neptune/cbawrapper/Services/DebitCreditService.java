@@ -38,6 +38,17 @@ public class DebitCreditService {
     public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr){
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
+
+        System.out.println("transactionDrCr.getAccountnumber() = " + transactionDrCr.getAccountnumber());
+        System.out.println("transactionDrCr.getAccountstatus() = " + transactionDrCr.getAccountstatus());
+        System.out.println("transactionDrCr.getAcctname() = " + transactionDrCr.getAcctname());
+        System.out.println("transactionDrCr.getDrcr() = " + transactionDrCr.getDrcr());
+        System.out.println("transactionDrCr.getAcctype() = " + transactionDrCr.getAcctype());
+        System.out.println("transactionDrCr.getAmount() = " + transactionDrCr.getAmount());
+        System.out.println("transactionDrCr.getTransactionreference() = " + transactionDrCr.getTransactionreference());
+        System.out.println("transactionDrCr.getNarration() = " + transactionDrCr.getNarration());
+        System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
+        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
         try {
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
@@ -56,8 +67,10 @@ public class DebitCreditService {
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
         }catch (StatusRuntimeException e) {
+            System.out.println("error1 = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("error2 = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         }
         channel.shutdownNow();
