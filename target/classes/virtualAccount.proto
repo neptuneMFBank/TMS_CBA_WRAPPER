@@ -1,0 +1,201 @@
+syntax = "proto3";
+
+option java_multiple_files= true;
+option java_package = "com.virtualAccountApplication.createAccount.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service CreateAccountService {
+  rpc CreateAccount(CreateAccountRequest)returns(CreateAccountResponse){};
+  rpc CreateBulkAcc(CreateBulkAccountRequest) returns (CreateBulkAccResponse){}
+}
+
+service GetAccountService {
+  rpc GetAccount(GetAccountRequest)returns(GetAccountResponse){};
+  rpc GetAccounts(GetAccountsRequest)returns(GetAccountsResponse){};
+  rpc Get3ppAccounts(Get3ppAccountsRequest)returns(Get3ppAccountsResponse){};
+  rpc NameEnquiry(NameEnquiryRequest) returns (NameEnquiryResponse){}
+}
+
+message CreateBulkAccountRequest {
+  repeated CreateAccountRequest data = 1;
+}
+
+message CreateAccountRequest {
+  oneof account_data {
+    DynamicAccountMessage dynamic_account= 1;
+    StaticAccountMessage static_account = 2;
+  };
+  AccountTypes account_type = 6;
+  string parent_id = 7;
+  string  secondary_parent_account_number = 8;
+}
+
+message DynamicAccountMessage {
+  int32 number_of_accounts = 1;
+  string bvn = 2;
+  string nin = 3;
+  string account_name = 4;
+  string tin = 5;
+}
+
+message StaticAccountMessage {
+  string phone_number = 1;
+  string account_name = 2;
+  string email = 3;
+  string bvn = 4;
+  string nin = 5;
+  string tin = 6;
+  string settlement_account = 7;
+}
+
+message CreateBulkAccResponse {
+  repeated CreateAccountResponse response = 1;
+  repeated CreateBulkCustomerErrResponse errorData = 2;
+}
+
+message CreateAccountResponse {
+  oneof AccountCreationResponses{
+    AccountCreationResponse static_account_creation_response = 1;
+    DynamicAccountCreationResponse dynamic_account_creation_response = 2;
+  }
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message DynamicAccountCreationResponse {
+  repeated AccountCreationResponse account_data = 1;
+}
+
+message AccountCreationResponse {
+  string account_name = 1;
+  string account_number = 2;
+}
+
+message CreateBulkCustomerErrResponse {
+  string tin = 1;
+  string bvn = 2;
+  string phone_number = 3;
+  string reason = 4;
+}
+
+enum AccountTypes {
+  STATIC = 0;
+  DYNAMIC = 1;
+}
+
+
+message GetAccountRequest {
+  string unique_data = 1;
+}
+
+message GetAccountResponse {
+  ThirdPartyUser parent_data = 1;
+  Account account = 2;
+}
+
+message Account {
+  string id = 1;
+  string account_name = 2;
+  string account_number = 3;
+  AccountTypes account_type = 4;
+  string phone_number = 5;
+  string email = 6;
+  string bvn = 7;
+  string nin = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  string secondary_parent_account_number = 11;
+  string tin = 12;
+  string settlement_account = 13;
+}
+
+message ThirdPartyUser {
+  string id= 1;
+
+  string first_name= 2;
+
+  string last_name= 3;
+
+  string business_name= 4;
+
+  string email=5;
+
+  string phone_number=6;
+
+  string active_status=7;
+
+  bool phone_number_verified = 8;
+
+  bool email_verified = 9;
+
+  bool bvn_verified = 10;
+
+  string status=16;
+
+  string channel_code = 17;
+  string settlement_account_number = 18;
+
+  string created_at = 19;
+  string updated_at = 20;
+}
+
+
+message GetAccountsResponse {
+  repeated Account accounts = 1;
+}
+
+message GetAccountsRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message Get3ppAccountsRequest {
+  string third_party_id = 1;
+  oneof account_type {
+    bool all = 2;
+    AccountTypes account_type_spec = 3;
+  }
+  int32 page = 4;
+  int32 size = 5;
+}
+
+message Get3ppAccountsResponse {
+  string id= 1;
+
+  string first_name= 2;
+
+  string last_name= 3;
+
+  string business_name= 4;
+
+  string email=5;
+
+  string phone_number=6;
+
+  string active_status=7;
+
+  bool phone_number_verified = 8;
+
+  bool email_verified = 9;
+
+  bool bvn_verified = 10;
+
+  string channel_code = 11;
+
+  string settlement_account_number = 12;
+
+  repeated Account accounts = 13;
+}
+
+message NameEnquiryRequest {
+  string account_number = 1;
+}
+
+message NameEnquiryResponse {
+  string account_number = 1;
+  string account_name = 2;
+  string bvn = 3;
+}
+enum AllTypes {
+  ALL = 0;
+}
