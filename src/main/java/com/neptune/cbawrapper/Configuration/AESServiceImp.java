@@ -19,7 +19,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class AESServiceImp implements AESService {
+public class AESServiceImp {
     @Value("${aes.key}")
     private String key;
 
@@ -31,17 +31,6 @@ public class AESServiceImp implements AESService {
 
 
     private static final Logger log = LoggerFactory.getLogger(AESServiceImp.class);
-
-    @Override
-    public String encrypt(String encryptValue) {
-        return this.aesEncrypt(encryptValue);
-    }
-
-    @Override
-    public String decrypt(Object decryptValueObject) {
-        String decryptValue = decryptValueObject.toString();
-        return this.aesDecrypt(decryptValue);
-    }
 
     public String aesEncrypt(final String value) {
         try {

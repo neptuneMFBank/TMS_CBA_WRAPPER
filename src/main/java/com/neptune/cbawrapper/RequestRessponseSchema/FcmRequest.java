@@ -2,7 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class FcmRequest {
     private String fcmToken;
-    private String accountId;
+    private String terminalId;
 
     public String getFcmToken() {
         return fcmToken;
@@ -12,16 +12,16 @@ public class FcmRequest {
         this.fcmToken = fcmToken;
     }
 
-    public String getAccountId() {
-        return accountId;
+    public String getTerminalId() {
+        return terminalId;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
     }
 
-    public FcmRequest(String fcmToken, String accountId) {
+    public FcmRequest(String fcmToken, String terminalId) {
         this.fcmToken = fcmToken;
-        this.accountId = accountId;
+        this.terminalId = terminalId;
     }
 }

@@ -28,6 +28,6 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'terminalId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountByTerminalId(String terminalId);
 
-    @Query("{ 'virtual_account_number': { $eq: ?0 } }")
-    Optional<VirtualAccountModel> getVirtualAccountModelByAccount(String virtual_account_number);
+    @Query("{ 'terminalId': { $eq: ?0 } }")
+    Optional<VirtualAccountModel> getVirtualAccountModelByAccount(String terminalId);
 }

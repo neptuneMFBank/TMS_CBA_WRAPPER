@@ -427,11 +427,18 @@ public class Cron {
                     cbaTransactionRequestsRepository.save(transactionDrCr1);
 
                     Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
+                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+
+                    if (businessPlatformCharges.isEmpty()) {
+                        return;
+                    }
 
                     if (platformCharges.isPresent()) {
                         //todo: debit platform charge from terminal
                         String chargeType = platformCharges.get().getChargeType();
                         double amount;
+                        double amount2;
+                        double amount3;
 
                         if (chargeType.equalsIgnoreCase("percentage")) {
                             amount = (platformCharges.get().getTotal() / 100) * platformCharges.get().getAmount();
@@ -443,14 +450,6 @@ public class Cron {
                             amount = platformCharges.get().getThreshold();
                         }
 
-                        transactionDrCr1.setAmount(amount);
-                        transactionDrCr1.setDrcr("dr");
-                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
-                        cbaTransactionRequests.save(transactionDrCr1);
-                        System.out.println("response1 = " + response1);
-
-                        //todo: credit platform charge to NeptunePay account
-                        double amount2;
                         if (chargeType.equalsIgnoreCase("percentage")) {
                             amount2 = (platformCharges.get().getBusinessValue() / 100) * platformCharges.get().getAmount();
                         } else {
@@ -460,6 +459,26 @@ public class Cron {
                         if (amount2 > platformCharges.get().getThreshold()) {
                             amount2 = platformCharges.get().getThreshold();
                         }
+
+                        String chargeType2 = businessPlatformCharges.get().getChargeType();
+                        if (chargeType2.equalsIgnoreCase("percentage")) {
+                            amount3 = (businessPlatformCharges.get().getAmount() / 100) * amount2;
+                        } else {
+                            amount3 = platformCharges.get().getAmount();
+                        }
+
+                        if (amount3 > businessPlatformCharges.get().getThreshold()) {
+                            amount3 = platformCharges.get().getThreshold();
+                        }
+
+                        transactionDrCr1.setAmount(amount);
+                        transactionDrCr1.setDrcr("dr");
+                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+                        cbaTransactionRequests.save(transactionDrCr1);
+                        System.out.println("response1 = " + response1);
+
+                        //todo: credit platform charge to NeptunePay account
+
 
                         if (authCredentials.isEmpty()) {
                             return;
@@ -477,24 +496,6 @@ public class Cron {
 
 
                             //todo: debit terminal business account charge from NeptunePay with percentage from business platform charge repository
-                            Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-
-                            if (businessPlatformCharges.isEmpty()) {
-                                return;
-                            }
-
-                            double amount3;
-                            String chargeType2 = businessPlatformCharges.get().getChargeType();
-                            if (chargeType2.equalsIgnoreCase("percentage")) {
-                                amount3 = (businessPlatformCharges.get().getAmount() / 100) * amount2;
-                            } else {
-                                amount3 = platformCharges.get().getAmount();
-                            }
-
-                            if (amount3 > businessPlatformCharges.get().getThreshold()) {
-                                amount3 = platformCharges.get().getThreshold();
-                            }
-
                             transactionDrCr1.setAmount(amount3);
                             transactionDrCr1.setDrcr("dr");
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());

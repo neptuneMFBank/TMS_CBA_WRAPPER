@@ -13,6 +13,7 @@ import com.neptune.cbawrapper.Repository.TransactionsRepository;
 import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.Notifications;
+import com.neptune.cbawrapper.Services.PushyAPI;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -22,7 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,18 +40,18 @@ public class TransactionController {
     private final VirtualAccountRepository virtualAccountRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
-    private final Notifications notifications;
+    private final PushyAPI pushyAPI;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
 
 
-    public TransactionController(TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, Notifications notifications, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.errorLoggingException = errorLoggingException;
-        this.notifications = notifications;
+        this.pushyAPI = pushyAPI;
         this.posTransactionRepository = posTransactionRepository;
         this.helpers = helpers;
     }
@@ -57,7 +60,7 @@ public class TransactionController {
     @PutMapping("/update-terminal-fcm-token")
     public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
-            Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccountId());
+            Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountModelByAccount(request.getTerminalId());
 
             if (getVirtualAccount.isPresent()) {
                 VirtualAccountModel virtualAccountModel = getVirtualAccount.get();
@@ -66,7 +69,7 @@ public class TransactionController {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "fcm token added successfully", null, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
-            errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", "virtual account with id not found", "virtual account with id not found");
+            errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", "terminal with id not found", "terminal with id not found");
             ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "Error occurred please try again later", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         } catch (Exception e) {
@@ -79,8 +82,9 @@ public class TransactionController {
 
     //TODO: CBA transaction notification webhook
     @PostMapping("/pos-credit-webhook")
-    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(VerifyUser verifyUser) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest verifyUser) {
         try {
+            System.out.println("verifyUser = " + verifyUser);
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(verifyUser.getRef());
 
             Transactions transactions;
@@ -116,19 +120,37 @@ public class TransactionController {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(verifyUser.getAccount());
             if (virtualAccountModel.isPresent()) {
-                SendNotifications notifications1 = new SendNotifications();
-                notifications1.setMessage("Transaction received");
-                notifications1.setTitle("Transactions Notifications");
-                notifications1.setReceiverFcmToken(virtualAccountModel.get().getFcmToken());
-                notifications.sendNotification(notifications1);
-            }
+//                SendNotifications notifications1 = new SendNotifications();
+//                notifications1.setMessage("Transaction received");
+//                notifications1.setTitle("Transactions Notifications");
+//                notifications1.setReceiverFcmToken(virtualAccountModel.get().getFcmToken());
+//                notifications.sendNotification(notifications1);
+                Map<String, Object> notification = new HashMap<>();
 
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);
-            if (status_code == 200) {
-                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                notification.put("badge", 1);
+                notification.put("sound", "ping.aiff");
+                notification.put("title", "Test Notification");
+                notification.put("body", "Hello World \u270c");
+
+                String[] to = new String[]{virtualAccountModel.get().getFcmToken()};
+                // Set payload (any object, it will be serialized to JSON)
+                Map<String, String> payload = new HashMap<>();
+                PushyPushRequest request = new PushyPushRequest(to, payload, notification);
+                // Add "message" parameter to payload
+                payload.put("message", "Hello World!");
+                pushyAPI.sendPush(request);
+
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);
+                if (status_code == 200) {
+                    return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             }
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account number not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+
+
         } catch (Exception e) {
             errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", String.valueOf(e.getCause()), e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
