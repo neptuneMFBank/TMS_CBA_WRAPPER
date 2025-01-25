@@ -341,7 +341,24 @@ public class TransactionController {
             BalanceResponse response = debitCreditService.getBalance(accountNum, virtualAccountModel.get().getParent_id());
 
             System.out.println("response = " + response);
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "balance request successful", response, "", ZonedDateTime.now(), false);
+            com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse balanceResponse = new com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse();
+
+            if(response != null){
+                balanceResponse.setEffective_balance(response.getEffectiveBalance());
+                balanceResponse.setLedger_balance(response.getLedgerBalance());
+                balanceResponse.setLast_credit_amount(response.getLastCreditAmount());
+                balanceResponse.setLast_debit_amount(response.getLastDebitAmount());
+                balanceResponse.setLast_debit_date(response.getLastDebitDate());
+                balanceResponse.setLast_credit_date(response.getLastCreditDate());
+                balanceResponse.setHold_bal(response.getHoldBal());
+                balanceResponse.setAccured_interest(response.getAccuredInterest());
+                balanceResponse.setLedger_balance(response.getLedgerBalance());
+                balanceResponse.setAccured_interest_overdrawn(response.getAccuredInterestOverdrawn());
+                balanceResponse.setLate_fess(response.getLateFess());
+                balanceResponse.setAccount_number(response.getAccountNumber());
+            }
+
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "balance request successful", balanceResponse, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), false);

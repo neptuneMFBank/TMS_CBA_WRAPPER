@@ -57,6 +57,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Repository/TransactionsRepository.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Repository/VirtualAccountRepository.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/ApiResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BalanceResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BusinessPlatformChargesRequest.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/CoreExceptionResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/CorePayUpdateCustomerRes.java

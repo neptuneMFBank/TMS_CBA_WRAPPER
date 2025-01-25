@@ -223,6 +223,7 @@ customers/Customer$CreateBulkCorpAccountRequestOrBuilder.class
 com/neptune/cba/transaction/balance/BalanceServiceGrpc$1.class
 auth/AuthServiceGrpc$AuthServiceStub.class
 auth/Auth$Get3ppWebhookRequestOrBuilder.class
+com/neptune/cbawrapper/RequestRessponseSchema/BalanceResponse.class
 com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc$DebitCreditServiceBaseDescriptorSupplier.class
 com/neptune/cbawrapper/Models/VerifyUser.class
 auth/Auth$Get2faQrCodeUrlRequest$Builder.class
