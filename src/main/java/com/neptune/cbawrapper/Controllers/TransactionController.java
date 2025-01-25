@@ -1,6 +1,7 @@
 package com.neptune.cbawrapper.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.TransactionDrCr;
@@ -12,6 +13,7 @@ import com.neptune.cbawrapper.Repository.PosTransactionRepository;
 import com.neptune.cbawrapper.Repository.TransactionsRepository;
 import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.Services.DebitCreditService;
 import com.neptune.cbawrapper.Services.Notifications;
 import com.neptune.cbawrapper.Services.PushyAPI;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
@@ -41,15 +43,17 @@ public class TransactionController {
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
     private final PushyAPI pushyAPI;
+    private final DebitCreditService debitCreditService;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
 
 
-    public TransactionController(PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(DebitCreditService debitCreditService, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
+        this.debitCreditService = debitCreditService;
         this.errorLoggingException = errorLoggingException;
         this.pushyAPI = pushyAPI;
         this.posTransactionRepository = posTransactionRepository;
@@ -70,7 +74,7 @@ public class TransactionController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
             errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", "terminal with id not found", "terminal with id not found");
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "Error occurred please try again later", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "terminal with id not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         } catch (Exception e) {
             errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", String.valueOf(e.getCause()), e.getMessage());
@@ -316,5 +320,36 @@ public class TransactionController {
 //        return responseData;
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
+    @GetMapping("/get-balance")
+    public ResponseEntity<ResponseSchema<?>> getBalance(@RequestParam String accountNum, @RequestParam String type){
+        try {
+            Optional<VirtualAccountModel> virtualAccountModel;
+            if(type.equalsIgnoreCase("virtual_account")){
+                virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(accountNum);
+            }else if(type.equalsIgnoreCase("business_account")){
+                virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByBusinessAccount(accountNum);
+            }else {
+                virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByParentAccount(accountNum);
+            }
+
+            if(virtualAccountModel.isEmpty()) {
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+            }
+
+            BalanceResponse response = debitCreditService.getBalance(accountNum, virtualAccountModel.get().getParent_id());
+
+            System.out.println("response = " + response);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "balance request successful", response, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
 
 }

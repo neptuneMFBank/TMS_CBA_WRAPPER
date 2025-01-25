@@ -52,8 +52,10 @@ public class AuthenticationService {
             AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
             response = stub.create3ppUser(request); //connection().create3ppUser(request);
         }catch (StatusRuntimeException e) {
+            System.out.println("error1 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("error2 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }
         channel.shutdownNow();
