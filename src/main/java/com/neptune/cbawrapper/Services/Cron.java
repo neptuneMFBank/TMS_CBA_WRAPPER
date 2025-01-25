@@ -69,7 +69,7 @@ public class Cron {
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+//    @Scheduled(cron = "0 */3 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -146,10 +146,10 @@ public class Cron {
         if (StringUtils.isBlank(customersModel.getCompany_name())) {
             companyName = customersModel.getDisplayName();
         }
-        return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId());
+        return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId(), ZonedDateTime.now().toString(), ZonedDateTime.now().toString());
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+//    @Scheduled(cron = "0 */3 * * * *")
     public void updateCustomerAccountNumFromCba() {
         try {
             //TODO: get customers without account number and send them to CBA to generate account numbers for them
@@ -210,7 +210,7 @@ public class Cron {
 
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
+//    @Scheduled(cron = "0 */7 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -254,7 +254,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+//    @Scheduled(cron = "0 */3 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -265,23 +265,26 @@ public class Cron {
                 return;
             }
 
+            System.out.println("111111111111");
             List<Integer> details = pendingTerminalData.stream().map(PendingTerminalData::getParentSavingsId).filter(Objects::nonNull).toList();
             List<CustomersModel> customersModels = helpers.getCustomersBySavingsId(details);
-
+            System.out.println("2222222222222");
             Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
-
+            System.out.println("3333333333333");
             List<String> details2 = pendingTerminalData.stream().map(PendingTerminalData::getTerminalId).filter(Objects::nonNull).toList();
             List<VirtualAccountModel> findByVirtualAccountsByTerminalId = virtualAccountRepository.findByVirtualAccountsByTerminalId(details2);
 
             for (PendingTerminalData data : pendingTerminalData) {
                 Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
-
+                System.out.println("444444444444444");
                 if (authCredentials.isPresent()) {
                     if (customersModel.isPresent()) {
                         Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
-
+                        System.out.println("55555555555555");
                         if (virtualAccountModel.isEmpty()) {
+                            System.out.println("66666666666666");
                             VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), authCredentials, data);
+                            System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                             virtualAccountRepository.save(virtualAccountModel1);
                         }
                     }
@@ -312,12 +315,12 @@ public class Cron {
         virtualAccountModel.setBusinessName(data.getBusinessName());
         virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
         virtualAccountModel.setBusinessWalletId(data.getBusinessWalletId());
-        virtualAccountModel.setCreated_at(ZonedDateTime.now());
-        virtualAccountModel.setUpdated_at(ZonedDateTime.now());
+        virtualAccountModel.setCreated_at(ZonedDateTime.now().toString());
+        virtualAccountModel.setUpdated_at(ZonedDateTime.now().toString());
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+//    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -372,7 +375,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */6 * * * *")
+//    @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 

@@ -587,6 +587,7 @@ com/neptune/cba/transaction/balance/BulkBalanceRequestOrBuilder.class
 auth/Auth$GlType$Builder.class
 com/neptune/cba/transaction/debit_credit/DebitCreditResponse$Builder.class
 notification_service/Notifications$UserNotificationOrBuilder.class
+com/neptune/cbawrapper/RequestRessponseSchema/CreateRes.class
 auth/Auth$TwoFactorAuthRequest$Builder.class
 auth/Auth$GlNodeOrBuilder.class
 notification_service/Notifications$Notification.class

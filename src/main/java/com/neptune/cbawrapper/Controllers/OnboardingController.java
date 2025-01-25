@@ -53,7 +53,10 @@ public class OnboardingController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
             }
 
-            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "success", response, "", ZonedDateTime.now(), false);
+            CreateRes createRes = new CreateRes();
+            createRes.setIdxb(response.getIdxsb());
+
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "success", createRes, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         } catch (Exception e) {
             errorLoggingException.logError("CBA_ACCOUNT_CREATION", String.valueOf(e.getCause()), e.getMessage());
@@ -164,6 +167,14 @@ public class OnboardingController {
             authCredentials.setToken(response.getAccessToken());
             authCredentials.setTwo_fa_token(response.getTwoFaToken());
             Auth.GenerateApiKeyResponse response1 = authenticationService.generateApiKey(response.getAccessToken());
+            System.out.println("response1 = " + response1);
+            if(response1 == null){
+                errorLoggingException.logError("CBA_CREATION_LOGIN", "unable to create API key, kindly contact support", "unable to create API key, kindly contact support");
+                log.error("error from cba1 =: {}", "unable to create API key, kindly contact support");
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "unable to create API key, kindly contact support", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             if (!StringUtils.isBlank(response1.getApiKey())) {
                 authCredentials.setAPI_key(response1.getApiKey());
                 authCredentials.setClient_id(response1.getClientId());

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
@@ -96,11 +97,9 @@ public class CustomersModel {
     private String displayName;
     private String emailAddress;
 
-    @CreatedDate
-    private Instant createdAt;
+    private String createdAt;
 
-    @LastModifiedDate
-    private Instant updatedAt;
+    private String updatedAt;
 
     public CustomersModel(String incorpNo, String dateOfBirth, String countryOfRegistration, String mobileNo, Integer savingsId, String firstname, String middlename, String lastname, String displayName, String emailAddress) {
         this.incorpNo = incorpNo;
@@ -115,19 +114,19 @@ public class CustomersModel {
         this.emailAddress = emailAddress;
     }
 
-    public Instant getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Instant updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -763,7 +762,7 @@ public class CustomersModel {
         this.is_updated = is_updated;
     }
 
-    public CustomersModel(String first_name, String middle_name, String company_name, String company_registration_no, String date_of_registration, String country_of_registration, Boolean sms_notification, Boolean email_notification, String tin, String email_address, String contact_phone_number, boolean is_updated, int savingsId) {
+    public CustomersModel(String first_name, String middle_name, String company_name, String company_registration_no, String date_of_registration, String country_of_registration, Boolean sms_notification, Boolean email_notification, String tin, String email_address, String contact_phone_number, boolean is_updated, int savingsId, String createdAt, String updatedAt) {
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.company_name = company_name;
@@ -777,6 +776,8 @@ public class CustomersModel {
         this.contact_phone_number = contact_phone_number;
         this.is_updated = is_updated;
         this.savingsId = savingsId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public CustomersModel() {
