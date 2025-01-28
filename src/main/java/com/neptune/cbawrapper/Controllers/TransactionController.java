@@ -4,14 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
-import com.neptune.cbawrapper.Models.TransactionDrCr;
-import com.neptune.cbawrapper.Models.Transactions;
-import com.neptune.cbawrapper.Models.VerifyUser;
-import com.neptune.cbawrapper.Models.VirtualAccountModel;
-import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
-import com.neptune.cbawrapper.Repository.PosTransactionRepository;
-import com.neptune.cbawrapper.Repository.TransactionsRepository;
-import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
+import com.neptune.cbawrapper.Models.*;
+import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.DebitCreditService;
 import com.neptune.cbawrapper.Services.Notifications;
@@ -43,18 +37,20 @@ public class TransactionController {
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
     private final PushyAPI pushyAPI;
+    private final PlatformChargeRepository platformChargeRepository;
     private final DebitCreditService debitCreditService;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
 
 
-    public TransactionController(DebitCreditService debitCreditService, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(DebitCreditService debitCreditService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.debitCreditService = debitCreditService;
         this.errorLoggingException = errorLoggingException;
+        this.platformChargeRepository = platformChargeRepository;
         this.pushyAPI = pushyAPI;
         this.posTransactionRepository = posTransactionRepository;
         this.helpers = helpers;
@@ -212,6 +208,17 @@ public class TransactionController {
                 status = "SUCCESS";
             }
 
+            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(request.getTransactionPlatform());
+
+            if(platformCharges.isEmpty()){
+                errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "transactionPlatform not found", "transactionPlatform not found");
+                responseData.setMessage("transactionPlatform not found");
+                responseData.setStatus(404);
+                responseData.setTimeStamp(ZonedDateTime.now());
+                responseData.setData(null);
+                return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+            }
+
             TransactionDetails transactionDetails = new TransactionDetails();
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration("POS");
@@ -252,7 +259,7 @@ public class TransactionController {
             transactionRequestSchema.setStatus("pending");
             transactionRequestSchema.setNarration("credit user");
             transactionRequestSchema.setTerminalId(request.getTerminalId());
-            transactionRequestSchema.setTransactionPlatform(request.getTransactionPlatform());
+            transactionRequestSchema.setTransactionPlatform(platformCharges.get().getId());
             transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
             transactionRequestSchema.setMerchantId(request.getMerchantId());
             transactionRequestSchema.setLocale("en");
