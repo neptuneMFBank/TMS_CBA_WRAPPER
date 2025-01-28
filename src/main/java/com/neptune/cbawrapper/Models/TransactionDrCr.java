@@ -30,6 +30,7 @@ public class TransactionDrCr {
     private Boolean isUpdatedToCba;
     private String cbaMessage;
     private Integer resourceId;
+    private String posRef;
     private String transaction_platform_id;
     private String transaction_business_platform_id;
     private String cardScheme;
@@ -40,6 +41,14 @@ public class TransactionDrCr {
 
     public String getType() {
         return type;
+    }
+
+    public String getPosRef() {
+        return posRef;
+    }
+
+    public void setPosRef(String posRef) {
+        this.posRef = posRef;
     }
 
     public void setType(String type) {

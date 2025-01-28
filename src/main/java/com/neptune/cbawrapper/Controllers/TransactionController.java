@@ -284,7 +284,7 @@ public class TransactionController {
 
             System.out.println("responseSchema = " + responseSchema.getResourceId());
 
-            if (responseSchema.getResourceId() != null) {
+            if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
 
                 TransactionDrCr transactionDrCr = new TransactionDrCr();
@@ -297,8 +297,9 @@ public class TransactionController {
                 transactionDrCr.setDrcr("cr");
                 transactionDrCr.setAcctype("savings");
                 transactionDrCr.setAmount(transactionRequestSchema.getAmount());
-                transactionDrCr.setTransactionreference(transactionRequestSchema.getTransactionReference());
+                transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
                 transactionDrCr.setNarration(transactionRequestSchema.getNarration());
+                transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
                 transactionDrCr.setChannel("1");
                 transactionDrCr.setResponseCode(request.getResponseCode());
                 transactionDrCr.setEid("");

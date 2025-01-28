@@ -77,7 +77,7 @@ public class Helpers {
         }
     }
 
-    public TransactionDrCr saveTransaction(String parent_id, String Transactiontype, String accountName, String account, String card_scheme, String platform_id, int resourceId, String response_code, String drcr, String narration, String terminalId, Double amount, String reference, String type, String cba_message, boolean isUpdated){
+    public TransactionDrCr saveTransaction(String parent_id, String posRef, String Transactiontype, String accountName, String account, String card_scheme, String platform_id, int resourceId, String response_code, String drcr, String narration, String terminalId, Double amount, String reference, String type, String cba_message, boolean isUpdated){
         if(type.equals("create")) {
             TransactionDrCr transactionDrCr = new TransactionDrCr();
             transactionDrCr.setAccountnumber(account);
@@ -93,6 +93,7 @@ public class Helpers {
             transactionDrCr.setTransactionreference(reference);
             transactionDrCr.setNarration(narration);
             transactionDrCr.setChannel("1");
+            transactionDrCr.setPosRef(posRef);
             transactionDrCr.setResponseCode(response_code);
             transactionDrCr.setEid("");
             transactionDrCr.setParent_id(parent_id);
@@ -120,6 +121,10 @@ public class Helpers {
 
     public String generateId(String terminalId){
         return "pos_" + terminalId + "_" +  System.currentTimeMillis();
+    }
+
+    public String generateTransactId(String terminalId, String ref){
+        return "pos_" + terminalId + "_" + ref + "_" + System.currentTimeMillis();
     }
 
 

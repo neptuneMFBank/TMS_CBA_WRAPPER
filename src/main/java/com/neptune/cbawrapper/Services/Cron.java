@@ -485,7 +485,7 @@ public class Cron {
 //                        transactionDrCr1.setDrcr("dr");
 //                        transactionDrCr1.setCreated_at(LocalDateTime.now());
 //                        transactionDrCr1.setUpdated_at(LocalDateTime.now());
-                        TransactionDrCr transactionDrCr2 = helpers.saveTransaction(id, "charge", virtualAccountModel.get().getAccount_name(), virtualAccountModel.get().getVirtual_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "debit platform charge from terminal", transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+                        TransactionDrCr transactionDrCr2 = helpers.saveTransaction(id, "charge", transactionDrCr1.getPosRef(), virtualAccountModel.get().getAccount_name(), virtualAccountModel.get().getVirtual_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "debit platform charge from terminal", transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
 //                        cbaTransactionRequests.save(transactionDrCr1);
                         DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr2);
                         if(response1.getCode().equals("200")){
@@ -515,7 +515,7 @@ public class Cron {
 //                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
 //                            cbaTransactionRequests.save(transactionDrCr1);
 
-                            TransactionDrCr transactionDrCr3 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Platform charge for amount transfer of " + amount2, transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+                            TransactionDrCr transactionDrCr3 = helpers.saveTransaction(id, "charge", transactionDrCr1.getPosRef(), authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Platform charge for amount transfer of " + amount2, transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
                             DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr3);
                             if(response2.getCode().equals("200")){
                                 transactionDrCr1.setUpdatedToCba(true);
@@ -536,7 +536,7 @@ public class Cron {
 //                            transactionDrCr1.setParent_id(id);
 //                            transactionDrCr1.setCreated_at(LocalDateTime.now());
 //                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
-                            TransactionDrCr transactionDrCr4 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "Business charge for amount transfer of " + amount + " from platform charge of " + amount2, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+                            TransactionDrCr transactionDrCr4 = helpers.saveTransaction(id, "charge", transactionDrCr1.getPosRef(), authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "Business charge for amount transfer of " + amount + " from platform charge of " + amount2, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
 //                            cbaTransactionRequests.save(transactionDrCr1);
                             DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr4);
                             if(response3.getCode().equals("200")){
@@ -558,7 +558,7 @@ public class Cron {
 //                            transactionDrCr1.setCreated_at(LocalDateTime.now());
 //                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
 
-                            TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+                            TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, "charge", transactionDrCr1.getPosRef(), authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
 //                            cbaTransactionRequests.save(transactionDrCr1);
                             DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr5);
                             if(response4.getCode().equals("200")){
