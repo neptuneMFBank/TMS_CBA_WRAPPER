@@ -429,7 +429,7 @@ public class Cron {
                     transactionDrCr1.setUpdatedToCba(true);
                     cbaTransactionRequestsRepository.save(transactionDrCr1);
 
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
                     Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
 
                     if (businessPlatformCharges.isEmpty()) {
