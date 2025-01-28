@@ -31,7 +31,7 @@ public class TransactionDrCr {
     private String transaction_business_platform_id;
     private String cardScheme;
     private String responseCode;
-
+    private String parent_id;
     private ZonedDateTime created_at;
     private ZonedDateTime updated_at;
 
@@ -147,6 +147,7 @@ public class TransactionDrCr {
         this.id = id;
     }
 
+
     public Boolean getUpdatedToCba() {
         return isUpdatedToCba;
     }
@@ -202,6 +203,16 @@ public class TransactionDrCr {
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
     }
+
+    public String getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(String parent_id) {
+        this.parent_id = parent_id;
+    }
+
+
 
     @Override
     public String toString() {

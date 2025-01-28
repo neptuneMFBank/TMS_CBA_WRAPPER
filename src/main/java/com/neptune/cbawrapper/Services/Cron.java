@@ -473,11 +473,16 @@ public class Cron {
                         if (amount3 > businessPlatformCharges.get().getThreshold()) {
                             amount3 = platformCharges.get().getThreshold();
                         }
-
+                        transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+                        transactionDrCr1.setUpdatedToCba(false);
+                        transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
                         transactionDrCr1.setAmount(amount);
                         transactionDrCr1.setDrcr("dr");
-                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
                         cbaTransactionRequests.save(transactionDrCr1);
+                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+                        if(response1.getCode().equals("200")){
+                            transactionDrCr1.setUpdatedToCba(true);
+                        }
                         System.out.println("response1 = " + response1);
 
                         //todo: credit platform charge to NeptunePay account
@@ -493,8 +498,14 @@ public class Cron {
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
                             transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
                             transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
-                            DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+                            transactionDrCr1.setUpdatedToCba(false);
+                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
                             cbaTransactionRequests.save(transactionDrCr1);
+                            DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+                            if(response2.getCode().equals("200")){
+                                transactionDrCr1.setUpdatedToCba(true);
+                            }
                             System.out.println("response2 = " + response2);
 
 
@@ -504,8 +515,14 @@ public class Cron {
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
                             transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
-                            DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
+                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+                            transactionDrCr1.setUpdatedToCba(false);
+                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
                             cbaTransactionRequests.save(transactionDrCr1);
+                            DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
+                            if(response2.getCode().equals("200")){
+                                transactionDrCr1.setUpdatedToCba(true);
+                            }
                             System.out.println("response3 = " + response3);
 
                             //todo: credit business account charge with charge deducted from NeptunePay platform charge
@@ -514,8 +531,14 @@ public class Cron {
                             transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
                             transactionDrCr1.setAccountnumber(businessPlatformCharges.get().getBusinessWalletId());
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
-                            DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
+                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+                            transactionDrCr1.setUpdatedToCba(false);
+                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
                             cbaTransactionRequests.save(transactionDrCr1);
+                            DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
+                            if(response2.getCode().equals("200")){
+                                transactionDrCr1.setUpdatedToCba(true);
+                            }
                             System.out.println("response4 = " + response4);
 
                         }

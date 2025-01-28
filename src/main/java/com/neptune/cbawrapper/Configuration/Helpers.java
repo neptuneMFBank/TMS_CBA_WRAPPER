@@ -75,6 +75,9 @@ public class Helpers {
         }
     }
 
+    public String generateId(String terminalId){
+        return "pos_" + terminalId + "_" +  System.currentTimeMillis();
+    }
 
 
     public <T> T decryptObject(String encryptedString, Class<T> clazz) {
