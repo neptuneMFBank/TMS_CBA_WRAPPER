@@ -5,11 +5,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.gson.*;
-import com.neptune.cbawrapper.Models.BusinessPlatformCharges;
-import com.neptune.cbawrapper.Models.CustomersModel;
-import com.neptune.cbawrapper.Models.PlatformCharges;
-import com.neptune.cbawrapper.Models.VerifyUser;
+import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
+import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.CustomersRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
@@ -22,10 +20,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,12 +39,14 @@ public class Helpers {
     private CustomersRepository customersRepository;
 
 
+    private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final PlatformChargeRepository platformChargeRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(PlatformChargeRepository platformChargeRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
+    public Helpers(PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
         this.platformChargeRepository = platformChargeRepository;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
+        this.cbaTransactionRequests = cbaTransactionRequests;
     }
 
     public List<CustomersModel> getCustomersBySavingsId(List<Integer> details) {
@@ -72,6 +74,47 @@ public class Helpers {
             return AesUtil.encrypt(jsonString, secretKey);
         } catch (Exception e) {
             throw new RuntimeException("Error encrypting object", e);
+        }
+    }
+
+    public TransactionDrCr saveTransaction(String parent_id, String Transactiontype, String accountName, String account, String card_scheme, String platform_id, int resourceId, String response_code, String drcr, String narration, String terminalId, Double amount, String reference, String type, String cba_message, boolean isUpdated){
+        if(type.equals("create")) {
+            TransactionDrCr transactionDrCr = new TransactionDrCr();
+            transactionDrCr.setAccountnumber(account);
+            transactionDrCr.setIsccode("2");
+            transactionDrCr.setAccountstatus("active");
+            transactionDrCr.setUpdatedToCba(false);
+            transactionDrCr.setType(Transactiontype);
+            transactionDrCr.setTerminalId(terminalId);
+            transactionDrCr.setAcctname(accountName);
+            transactionDrCr.setDrcr(drcr);
+            transactionDrCr.setAcctype("savings");
+            transactionDrCr.setAmount(amount);
+            transactionDrCr.setTransactionreference(reference);
+            transactionDrCr.setNarration(narration);
+            transactionDrCr.setChannel("1");
+            transactionDrCr.setResponseCode(response_code);
+            transactionDrCr.setEid("");
+            transactionDrCr.setParent_id(parent_id);
+            transactionDrCr.setCbaMessage(cba_message);
+            transactionDrCr.setResourceId(resourceId);
+            transactionDrCr.setTransaction_platform_id(platform_id);
+            transactionDrCr.setCardScheme(card_scheme);
+            transactionDrCr.setCreated_at(LocalDateTime.now());
+            transactionDrCr.setUpdated_at(LocalDateTime.now());
+            cbaTransactionRequests.save(transactionDrCr);
+            return transactionDrCr;
+        }else {
+            Optional<TransactionDrCr> transactionDrCr = cbaTransactionRequests.findByRef(reference);
+
+            if(transactionDrCr.isEmpty()){
+                return null;
+            }
+
+            transactionDrCr.get().setCbaMessage(cba_message);
+            transactionDrCr.get().setUpdatedToCba(isUpdated);
+            cbaTransactionRequests.save(transactionDrCr.get());
+            return transactionDrCr.get();
         }
     }
 

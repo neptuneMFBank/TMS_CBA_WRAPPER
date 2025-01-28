@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -301,11 +302,14 @@ public class TransactionController {
                 transactionDrCr.setChannel("1");
                 transactionDrCr.setResponseCode(request.getResponseCode());
                 transactionDrCr.setEid("");
+                transactionDrCr.setType("transaction");
+                transactionDrCr.setParent_id("");
+                transactionDrCr.setCbaMessage("");
                 transactionDrCr.setResourceId(responseSchema.getResourceId());
                 transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
                 transactionDrCr.setCardScheme(request.getCardScheme());
-//            transactionDrCr.setCreated_at(ZonedDateTime.now());
-//            transactionDrCr.setUpdated_at(ZonedDateTime.now());
+                transactionDrCr.setCreated_at(LocalDateTime.now());
+                transactionDrCr.setUpdated_at(LocalDateTime.now());
                 cbaTransactionRequests.save(transactionDrCr);
 
                 responseData.setMessage("success");

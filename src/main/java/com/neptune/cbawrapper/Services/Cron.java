@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -426,7 +427,11 @@ public class Cron {
 
             if (response != null) {
                 if (response.getCode().equals("200")) {
+                    String id = transactionDrCr1.getId();
                     transactionDrCr1.setUpdatedToCba(true);
+                    transactionDrCr1.setCbaMessage(response.getMessage());
+                    transactionDrCr1.setCreated_at(LocalDateTime.now());
+                    transactionDrCr1.setUpdated_at(LocalDateTime.now());
                     cbaTransactionRequestsRepository.save(transactionDrCr1);
 
                     Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
@@ -473,16 +478,21 @@ public class Cron {
                         if (amount3 > businessPlatformCharges.get().getThreshold()) {
                             amount3 = platformCharges.get().getThreshold();
                         }
-                        transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
-                        transactionDrCr1.setUpdatedToCba(false);
-                        transactionDrCr1.setParent_id(transactionDrCr1.getId());
-                        transactionDrCr1.setAmount(amount);
-                        transactionDrCr1.setDrcr("dr");
-                        cbaTransactionRequests.save(transactionDrCr1);
-                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr1);
+//                        transactionDrCr1.setTransactionreference());
+//                        transactionDrCr1.setUpdatedToCba(false);
+//                        transactionDrCr1.setParent_id(id);
+//                        transactionDrCr1.setAmount(amount);
+//                        transactionDrCr1.setDrcr("dr");
+//                        transactionDrCr1.setCreated_at(LocalDateTime.now());
+//                        transactionDrCr1.setUpdated_at(LocalDateTime.now());
+                        TransactionDrCr transactionDrCr2 = helpers.saveTransaction(id, "charge", virtualAccountModel.get().getAccount_name(), virtualAccountModel.get().getVirtual_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "debit platform charge from terminal", transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+//                        cbaTransactionRequests.save(transactionDrCr1);
+                        DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr2);
                         if(response1.getCode().equals("200")){
-                            transactionDrCr1.setUpdatedToCba(true);
+                            transactionDrCr2.setUpdatedToCba(true);
                         }
+                        transactionDrCr2.setCbaMessage(response1.getMessage());
+                        cbaTransactionRequests.save(transactionDrCr2);
                         System.out.println("response1 = " + response1);
 
                         //todo: credit platform charge to NeptunePay account
@@ -493,52 +503,69 @@ public class Cron {
                         }
 
                         if (virtualAccountModel.isPresent()) {
-                            transactionDrCr1.setAmount(amount2);
-                            transactionDrCr1.setDrcr("cr");
-                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
-                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
-                            transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
-                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
-                            transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
-                            cbaTransactionRequests.save(transactionDrCr1);
-                            DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
+//                            transactionDrCr1.setAmount(amount2);
+//                            transactionDrCr1.setDrcr("cr");
+//                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+//                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
+//                            transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
+//                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+//                            transactionDrCr1.setUpdatedToCba(false);
+//                            transactionDrCr1.setParent_id(id);
+//                            transactionDrCr1.setCreated_at(LocalDateTime.now());
+//                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
+//                            cbaTransactionRequests.save(transactionDrCr1);
+
+                            TransactionDrCr transactionDrCr3 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Platform charge for amount transfer of " + amount2, transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+                            DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr3);
                             if(response2.getCode().equals("200")){
                                 transactionDrCr1.setUpdatedToCba(true);
                             }
+                            transactionDrCr3.setCbaMessage(response2.getMessage());
+                            cbaTransactionRequests.save(transactionDrCr3);
                             System.out.println("response2 = " + response2);
 
 
                             //todo: debit terminal business account charge from NeptunePay with percentage from business platform charge repository
-                            transactionDrCr1.setAmount(amount3);
-                            transactionDrCr1.setDrcr("dr");
-                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
-                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
-                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
-                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
-                            transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
-                            cbaTransactionRequests.save(transactionDrCr1);
-                            DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
-                            if(response2.getCode().equals("200")){
-                                transactionDrCr1.setUpdatedToCba(true);
+//                            transactionDrCr1.setAmount(amount3);
+//                            transactionDrCr1.setDrcr("dr");
+//                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+//                            transactionDrCr1.setAccountnumber(authCredentials.get().getSettlement_account_number());
+//                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
+//                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+//                            transactionDrCr1.setUpdatedToCba(false);
+//                            transactionDrCr1.setParent_id(id);
+//                            transactionDrCr1.setCreated_at(LocalDateTime.now());
+//                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
+                            TransactionDrCr transactionDrCr4 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "Business charge for amount transfer of " + amount + " from platform charge of " + amount2, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+//                            cbaTransactionRequests.save(transactionDrCr1);
+                            DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr4);
+                            if(response3.getCode().equals("200")){
+                                transactionDrCr4.setUpdatedToCba(true);
                             }
+                            transactionDrCr4.setCbaMessage(response3.getMessage());
+                            cbaTransactionRequests.save(transactionDrCr4);
                             System.out.println("response3 = " + response3);
 
                             //todo: credit business account charge with charge deducted from NeptunePay platform charge
-                            transactionDrCr1.setAmount(amount3);
-                            transactionDrCr1.setDrcr("cr");
-                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
-                            transactionDrCr1.setAccountnumber(businessPlatformCharges.get().getBusinessWalletId());
-                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
-                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
-                            transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
-                            cbaTransactionRequests.save(transactionDrCr1);
-                            DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
-                            if(response2.getCode().equals("200")){
-                                transactionDrCr1.setUpdatedToCba(true);
+//                            transactionDrCr1.setAmount(amount3);
+//                            transactionDrCr1.setDrcr("cr");
+//                            transactionDrCr1.setAcctname(authCredentials.get().getBusiness_name());
+//                            transactionDrCr1.setAccountnumber(businessPlatformCharges.get().getBusinessWalletId());
+//                            transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
+//                            transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
+//                            transactionDrCr1.setUpdatedToCba(false);
+//                            transactionDrCr1.setParent_id(id);
+//                            transactionDrCr1.setCreated_at(LocalDateTime.now());
+//                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
+
+                            TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, "charge", authCredentials.get().getBusiness_name(), authCredentials.get().getSettlement_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
+//                            cbaTransactionRequests.save(transactionDrCr1);
+                            DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr5);
+                            if(response4.getCode().equals("200")){
+                                transactionDrCr5.setUpdatedToCba(true);
                             }
+                            transactionDrCr5.setCbaMessage(response4.getMessage());
+                            cbaTransactionRequests.save(transactionDrCr5);
                             System.out.println("response4 = " + response4);
 
                         }

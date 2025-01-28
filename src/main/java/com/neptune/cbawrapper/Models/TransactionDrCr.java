@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Data
@@ -25,29 +26,39 @@ public class TransactionDrCr {
     private String channel;
     private String eid;
     private String terminalId;
+    private String type; // type of transaction either transaction or charge
     private Boolean isUpdatedToCba;
+    private String cbaMessage;
     private Integer resourceId;
     private String transaction_platform_id;
     private String transaction_business_platform_id;
     private String cardScheme;
     private String responseCode;
     private String parent_id;
-    private ZonedDateTime created_at;
-    private ZonedDateTime updated_at;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 
-    public ZonedDateTime getCreated_at() {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(ZonedDateTime created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 
-    public ZonedDateTime getUpdated_at() {
+    public LocalDateTime getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(ZonedDateTime updated_at) {
+    public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -61,6 +72,14 @@ public class TransactionDrCr {
 
     public String getAccountnumber() {
         return accountnumber;
+    }
+
+    public String getCbaMessage() {
+        return cbaMessage;
+    }
+
+    public void setCbaMessage(String cbaMessage) {
+        this.cbaMessage = cbaMessage;
     }
 
     public void setAccountnumber(String accountnumber) {
