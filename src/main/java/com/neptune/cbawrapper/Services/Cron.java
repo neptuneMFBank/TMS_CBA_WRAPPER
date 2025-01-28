@@ -475,7 +475,7 @@ public class Cron {
                         }
                         transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
                         transactionDrCr1.setUpdatedToCba(false);
-                        transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
+                        transactionDrCr1.setParent_id(transactionDrCr1.getId());
                         transactionDrCr1.setAmount(amount);
                         transactionDrCr1.setDrcr("dr");
                         cbaTransactionRequests.save(transactionDrCr1);
@@ -500,7 +500,7 @@ public class Cron {
                             transactionDrCr1.setNarration("Platform charge for amount transfer of " + amount);
                             transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
                             transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
+                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
                             cbaTransactionRequests.save(transactionDrCr1);
                             DebitCreditResponse response2 = debitCreditService.debitCredit(transactionDrCr1);
                             if(response2.getCode().equals("200")){
@@ -517,7 +517,7 @@ public class Cron {
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount + " from platform charge of " + amount2);
                             transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
                             transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
+                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
                             cbaTransactionRequests.save(transactionDrCr1);
                             DebitCreditResponse response3 = debitCreditService.debitCredit(transactionDrCr1);
                             if(response2.getCode().equals("200")){
@@ -533,7 +533,7 @@ public class Cron {
                             transactionDrCr1.setNarration("Business charge for amount transfer of " + amount);
                             transactionDrCr1.setTransactionreference(helpers.generateId(transactionDrCr1.getTerminalId()));
                             transactionDrCr1.setUpdatedToCba(false);
-                            transactionDrCr1.setParent_id(transactionDrCr1.getParent_id());
+                            transactionDrCr1.setParent_id(transactionDrCr1.getId());
                             cbaTransactionRequests.save(transactionDrCr1);
                             DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr1);
                             if(response2.getCode().equals("200")){
