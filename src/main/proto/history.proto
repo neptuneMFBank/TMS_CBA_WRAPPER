@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.history";
+
+service HistoryService {
+  rpc history(HistoryRequest) returns (HistoryResponse) {
+  }
+}
+
+message callOverRequest {
+  string eid = 1;
+  string fromdate =2;
+  string todate =3;
+}
+
+
+message EmployeeHistoryRequest{
+  string eid =1 ;
+  string date =2;
+  int32 page =3;
+  int32 pageSize = 4;
+}
+message HistoryRequest {
+  string acctNo = 1;
+  string narration =4;
+  string fromdate =2;
+  string todate =3;
+  int32 page =5;
+  int32 pageSize = 6;
+}
+message SpentTodayRequest {
+  string acctNo = 1;
+}
+
+message SpentTodayResponse {
+  double totaldebit = 1;
+  double totalcredit = 2;
+  int32 responseCode = 3;
+  string responseMessage = 4;
+
+}
+
+message reverseTransactionRequest {
+  string fromdate =1;
+  string todate =2;
+  int32 page =3;
+  int32 pageSize = 4;
+}
+
+message HistoryResponse {
+  repeated Transaction_history history = 1;
+  int64 totalItems = 2;
+  int64 totalPages = 3;
+  int64 currentPages = 4;
+}
+
+message Transaction_history {
+  string accountnumber =1;
+  string bankname =2;
+  double bkbalance =3;
+  int32  idno =4;
+  string narration = 6;
+  string refno =7;
+  int32  rn =8;
+  float tranamount =9;
+  string trandate =10;
+  string valuedate =11;
+
+}
+message callOverResponse {
+  repeated EmployeeHistory employee_history =1;
+}
+message EmployeeHistory {
+  string name =1;
+  repeated Transaction_history history = 2;
+}

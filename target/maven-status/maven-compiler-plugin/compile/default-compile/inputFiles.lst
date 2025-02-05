@@ -1,3 +1,5 @@
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/BuilderPattern/HistoryBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/BuilderPattern/TransactionHistoryBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/CbawrapperApplication.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Configuration/AESService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Configuration/AESServiceImp.java
@@ -31,6 +33,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/CustomersModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/ErrorLogsModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/GlobalCharges.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/History.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/MenuDataModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/MenuListModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/PageItems.java
@@ -40,6 +43,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/Reference.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/TerminalProfileModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/TransactionDrCr.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/TransactionHistory.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/Transactions.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/VerifyUser.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/VirtualAccountModel.java
@@ -90,6 +94,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Cron.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/CustomerService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/DebitCreditService.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/HistoryService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Notifications.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/PushyAPI.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/TmsCoreWalletAccount.java
@@ -98,6 +103,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/auth/AuthServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/neptune/cba/transaction/balance/BalanceServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/neptune/cba/transaction/history/HistoryServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/grpc-java/customers/CustomerServiceGrpc.java
@@ -117,6 +123,27 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/debit_credit/DebitCreditResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/debit_credit/DebitCreditResponseOrBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/debit_credit/Debitcredit.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/EmployeeHistory.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/EmployeeHistoryOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/EmployeeHistoryRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/EmployeeHistoryRequestOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/History.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/HistoryRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/HistoryRequestOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/HistoryResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/HistoryResponseOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayRequestOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayResponseOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/Transaction_history.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/Transaction_historyOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/callOverRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/callOverRequestOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/callOverResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/callOverResponseOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/reverseTransactionRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/reverseTransactionRequestOrBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/virtualAccountApplication/createAccount/proto/Account.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/virtualAccountApplication/createAccount/proto/AccountCreationResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/virtualAccountApplication/createAccount/proto/AccountCreationResponseOrBuilder.java

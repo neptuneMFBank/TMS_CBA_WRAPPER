@@ -2,28 +2,26 @@ package com.neptune.cbawrapper.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
+import com.neptune.cba.transaction.history.HistoryResponse;
+import com.neptune.cbawrapper.BuilderPattern.HistoryBuilder;
+import com.neptune.cbawrapper.BuilderPattern.TransactionHistoryBuilder;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
-import com.neptune.cbawrapper.Services.DebitCreditService;
-import com.neptune.cbawrapper.Services.Notifications;
-import com.neptune.cbawrapper.Services.PushyAPI;
-import com.neptune.cbawrapper.Services.TransactionCoreController;
+import com.neptune.cbawrapper.Services.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/pos")
@@ -38,13 +36,14 @@ public class TransactionController {
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
     private final PushyAPI pushyAPI;
+    private final HistoryService historyService;
     private final PlatformChargeRepository platformChargeRepository;
     private final DebitCreditService debitCreditService;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
 
 
-    public TransactionController(DebitCreditService debitCreditService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(DebitCreditService debitCreditService, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
@@ -53,6 +52,7 @@ public class TransactionController {
         this.errorLoggingException = errorLoggingException;
         this.platformChargeRepository = platformChargeRepository;
         this.pushyAPI = pushyAPI;
+        this.historyService = historyService;
         this.posTransactionRepository = posTransactionRepository;
         this.helpers = helpers;
     }
@@ -376,6 +376,44 @@ public class TransactionController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
+    @Validated
+    @GetMapping("/get-transaction-history")
+    public ResponseEntity<ResponseSchema<?>> getTransactionHistory(@RequestParam String accountNum, @RequestParam String narration, @RequestParam String start_date, @RequestParam String end_date, @RequestParam int page, @RequestParam int size){
+        HistoryResponse response = historyService.getAcctHistory(accountNum, start_date, narration, end_date, page, size);
+
+        System.out.println("response = " + response);
+
+        if(response == null){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "No transaction found for account number", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+
+        HistoryBuilder historyBuilder = new HistoryBuilder();
+        TransactionHistoryBuilder builder = new TransactionHistoryBuilder();
+        List<TransactionHistory> transactionHistoryList = new ArrayList<>();
+        for (int i = 0; i < response.getHistoryList().size(); i++) {
+            builder
+                    .setValuedate(response.getHistory(i).getValuedate())
+                    .setTrandate(response.getHistory(i).getTrandate())
+                    .setTranamount(response.getHistory(i).getTranamount())
+                    .setRn(response.getHistory(i).getRn())
+                    .setRefno(response.getHistory(i).getRefno())
+                    .setNarration(response.getHistory(i).getNarration())
+                    .setIdno(response.getHistory(i).getIdno())
+                    .setBkbalance(response.getHistory(i).getBkbalance())
+                    .setBankname(response.getHistory(i).getBankname())
+                    .setAccountnumber(response.getHistory(i).getAccountnumber());
+            transactionHistoryList.add(builder.build());
+        }
+        historyBuilder
+                .setTotalPages(response.getTotalPages())
+                .setTotalItems(response.getTotalItems())
+                .setCurrentPages(response.getCurrentPages())
+                .setHistory(transactionHistoryList);
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "balance request successful", historyBuilder.build(), "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 }

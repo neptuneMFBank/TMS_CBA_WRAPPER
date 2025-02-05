@@ -67,6 +67,8 @@ public class DebitCreditService {
                     .setEid(transactionDrCr.getEid())
                     .build();
 
+            System.out.println("request = " + request);
+
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
         }catch (StatusRuntimeException e) {
