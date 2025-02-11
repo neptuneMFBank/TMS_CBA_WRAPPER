@@ -29,6 +29,8 @@ public class TransactionDrCr {
     private String type; // type of transaction either transaction or charge
     private Boolean isUpdatedToCba;
     private String cbaMessage;
+    private String status_response_message;
+    private String status_response_code;
     private Integer resourceId;
     private String posRef;
     private String transaction_platform_id;
@@ -175,6 +177,21 @@ public class TransactionDrCr {
         this.id = id;
     }
 
+    public String getStatus_response_message() {
+        return status_response_message;
+    }
+
+    public void setStatus_response_message(String status_response_message) {
+        this.status_response_message = status_response_message;
+    }
+
+    public String getStatus_response_code() {
+        return status_response_code;
+    }
+
+    public void setStatus_response_code(String status_response_code) {
+        this.status_response_code = status_response_code;
+    }
 
     public Boolean getUpdatedToCba() {
         return isUpdatedToCba;

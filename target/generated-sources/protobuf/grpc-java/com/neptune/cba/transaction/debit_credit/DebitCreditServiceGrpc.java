@@ -45,6 +45,37 @@ public final class DebitCreditServiceGrpc {
     return getDebitCreditMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest,
+      com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> getDebitCreditStatusMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "debit_credit_status",
+      requestType = com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest.class,
+      responseType = com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest,
+      com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> getDebitCreditStatusMethod() {
+    io.grpc.MethodDescriptor<com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest, com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> getDebitCreditStatusMethod;
+    if ((getDebitCreditStatusMethod = DebitCreditServiceGrpc.getDebitCreditStatusMethod) == null) {
+      synchronized (DebitCreditServiceGrpc.class) {
+        if ((getDebitCreditStatusMethod = DebitCreditServiceGrpc.getDebitCreditStatusMethod) == null) {
+          DebitCreditServiceGrpc.getDebitCreditStatusMethod = getDebitCreditStatusMethod =
+              io.grpc.MethodDescriptor.<com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest, com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "debit_credit_status"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DebitCreditServiceMethodDescriptorSupplier("debit_credit_status"))
+              .build();
+        }
+      }
+    }
+    return getDebitCreditStatusMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +131,13 @@ public final class DebitCreditServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDebitCreditMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void debitCreditStatus(com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDebitCreditStatusMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -109,6 +147,13 @@ public final class DebitCreditServiceGrpc {
                 com.neptune.cba.transaction.debit_credit.DebitCreditRequest,
                 com.neptune.cba.transaction.debit_credit.DebitCreditResponse>(
                   this, METHODID_DEBIT_CREDIT)))
+          .addMethod(
+            getDebitCreditStatusMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest,
+                com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse>(
+                  this, METHODID_DEBIT_CREDIT_STATUS)))
           .build();
     }
   }
@@ -134,6 +179,14 @@ public final class DebitCreditServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getDebitCreditMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void debitCreditStatus(com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getDebitCreditStatusMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -155,6 +208,13 @@ public final class DebitCreditServiceGrpc {
     public com.neptune.cba.transaction.debit_credit.DebitCreditResponse debitCredit(com.neptune.cba.transaction.debit_credit.DebitCreditRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getDebitCreditMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse debitCreditStatus(com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getDebitCreditStatusMethod(), getCallOptions(), request);
     }
   }
 
@@ -179,9 +239,18 @@ public final class DebitCreditServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getDebitCreditMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse> debitCreditStatus(
+        com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getDebitCreditStatusMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_DEBIT_CREDIT = 0;
+  private static final int METHODID_DEBIT_CREDIT_STATUS = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -203,6 +272,10 @@ public final class DebitCreditServiceGrpc {
         case METHODID_DEBIT_CREDIT:
           serviceImpl.debitCredit((com.neptune.cba.transaction.debit_credit.DebitCreditRequest) request,
               (io.grpc.stub.StreamObserver<com.neptune.cba.transaction.debit_credit.DebitCreditResponse>) responseObserver);
+          break;
+        case METHODID_DEBIT_CREDIT_STATUS:
+          serviceImpl.debitCreditStatus((com.neptune.cba.transaction.debit_credit.DebitCreditStatusRequest) request,
+              (io.grpc.stub.StreamObserver<com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -266,6 +339,7 @@ public final class DebitCreditServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new DebitCreditServiceFileDescriptorSupplier())
               .addMethod(getDebitCreditMethod())
+              .addMethod(getDebitCreditStatusMethod())
               .build();
         }
       }

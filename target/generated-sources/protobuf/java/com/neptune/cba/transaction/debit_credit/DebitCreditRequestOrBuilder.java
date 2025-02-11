@@ -132,4 +132,48 @@ public interface DebitCreditRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getEidBytes();
+
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  java.util.List<com.neptune.cba.transaction.debit_credit.Charge> 
+      getChargeList();
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  com.neptune.cba.transaction.debit_credit.Charge getCharge(int index);
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  int getChargeCount();
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  java.util.List<? extends com.neptune.cba.transaction.debit_credit.ChargeOrBuilder> 
+      getChargeOrBuilderList();
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  com.neptune.cba.transaction.debit_credit.ChargeOrBuilder getChargeOrBuilder(
+      int index);
 }

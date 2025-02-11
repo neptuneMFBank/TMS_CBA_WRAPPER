@@ -8,8 +8,17 @@ option java_package = "com.neptune.cba.transaction.debit_credit";
 service DebitCreditService {
   rpc debit_credit(DebitCreditRequest) returns (DebitCreditResponse) {
   }
-}
+  rpc debit_credit_status(DebitCreditStatusRequest) returns (DebitCreditStatusResponse) {
+  }
 
+}
+message DebitCreditStatusRequest {
+  string transactionRef = 1;
+}
+message DebitCreditStatusResponse {
+  string response = 1;
+  string code =2;
+}
 message DebitCreditRequest {
   string accountnumber =1;
   string isccode =2;
@@ -22,6 +31,12 @@ message DebitCreditRequest {
   string narration = 9;
   string channel = 10;
   string eid = 11;
+  repeated Charge  charge =12; // new 8/01/2025
+}
+message Charge {
+  double amount =1;
+  string description =2;
+  string ledger =3;
 }
 
 message DebitCreditResponse {

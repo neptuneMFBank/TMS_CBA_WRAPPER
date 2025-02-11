@@ -26,6 +26,7 @@ private static final long serialVersionUID = 0L;
     narration_ = "";
     channel_ = "";
     eid_ = "";
+    charge_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -48,6 +49,7 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
+    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -123,6 +125,15 @@ private static final long serialVersionUID = 0L;
             eid_ = s;
             break;
           }
+          case 98: {
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              charge_ = new java.util.ArrayList<com.neptune.cba.transaction.debit_credit.Charge>();
+              mutable_bitField0_ |= 0x00000001;
+            }
+            charge_.add(
+                input.readMessage(com.neptune.cba.transaction.debit_credit.Charge.parser(), extensionRegistry));
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -138,6 +149,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        charge_ = java.util.Collections.unmodifiableList(charge_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -546,6 +560,66 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int CHARGE_FIELD_NUMBER = 12;
+  private java.util.List<com.neptune.cba.transaction.debit_credit.Charge> charge_;
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  @java.lang.Override
+  public java.util.List<com.neptune.cba.transaction.debit_credit.Charge> getChargeList() {
+    return charge_;
+  }
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  @java.lang.Override
+  public java.util.List<? extends com.neptune.cba.transaction.debit_credit.ChargeOrBuilder> 
+      getChargeOrBuilderList() {
+    return charge_;
+  }
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  @java.lang.Override
+  public int getChargeCount() {
+    return charge_.size();
+  }
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  @java.lang.Override
+  public com.neptune.cba.transaction.debit_credit.Charge getCharge(int index) {
+    return charge_.get(index);
+  }
+  /**
+   * <pre>
+   * new 8/01/2025
+   * </pre>
+   *
+   * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+   */
+  @java.lang.Override
+  public com.neptune.cba.transaction.debit_credit.ChargeOrBuilder getChargeOrBuilder(
+      int index) {
+    return charge_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -593,6 +667,9 @@ private static final long serialVersionUID = 0L;
     if (!getEidBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 11, eid_);
     }
+    for (int i = 0; i < charge_.size(); i++) {
+      output.writeMessage(12, charge_.get(i));
+    }
     unknownFields.writeTo(output);
   }
 
@@ -636,6 +713,10 @@ private static final long serialVersionUID = 0L;
     if (!getEidBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, eid_);
     }
+    for (int i = 0; i < charge_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, charge_.get(i));
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -674,6 +755,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getChannel())) return false;
     if (!getEid()
         .equals(other.getEid())) return false;
+    if (!getChargeList()
+        .equals(other.getChargeList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -708,6 +791,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getChannel().hashCode();
     hash = (37 * hash) + EID_FIELD_NUMBER;
     hash = (53 * hash) + getEid().hashCode();
+    if (getChargeCount() > 0) {
+      hash = (37 * hash) + CHARGE_FIELD_NUMBER;
+      hash = (53 * hash) + getChargeList().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -836,6 +923,7 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getChargeFieldBuilder();
       }
     }
     @java.lang.Override
@@ -863,6 +951,12 @@ private static final long serialVersionUID = 0L;
 
       eid_ = "";
 
+      if (chargeBuilder_ == null) {
+        charge_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      } else {
+        chargeBuilder_.clear();
+      }
       return this;
     }
 
@@ -889,6 +983,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.neptune.cba.transaction.debit_credit.DebitCreditRequest buildPartial() {
       com.neptune.cba.transaction.debit_credit.DebitCreditRequest result = new com.neptune.cba.transaction.debit_credit.DebitCreditRequest(this);
+      int from_bitField0_ = bitField0_;
       result.accountnumber_ = accountnumber_;
       result.isccode_ = isccode_;
       result.accountstatus_ = accountstatus_;
@@ -900,6 +995,15 @@ private static final long serialVersionUID = 0L;
       result.narration_ = narration_;
       result.channel_ = channel_;
       result.eid_ = eid_;
+      if (chargeBuilder_ == null) {
+        if (((bitField0_ & 0x00000001) != 0)) {
+          charge_ = java.util.Collections.unmodifiableList(charge_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.charge_ = charge_;
+      } else {
+        result.charge_ = chargeBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -991,6 +1095,32 @@ private static final long serialVersionUID = 0L;
         eid_ = other.eid_;
         onChanged();
       }
+      if (chargeBuilder_ == null) {
+        if (!other.charge_.isEmpty()) {
+          if (charge_.isEmpty()) {
+            charge_ = other.charge_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureChargeIsMutable();
+            charge_.addAll(other.charge_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.charge_.isEmpty()) {
+          if (chargeBuilder_.isEmpty()) {
+            chargeBuilder_.dispose();
+            chargeBuilder_ = null;
+            charge_ = other.charge_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            chargeBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getChargeFieldBuilder() : null;
+          } else {
+            chargeBuilder_.addAllMessages(other.charge_);
+          }
+        }
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -1019,6 +1149,7 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    private int bitField0_;
 
     private java.lang.Object accountnumber_ = "";
     /**
@@ -1809,6 +1940,318 @@ private static final long serialVersionUID = 0L;
       eid_ = value;
       onChanged();
       return this;
+    }
+
+    private java.util.List<com.neptune.cba.transaction.debit_credit.Charge> charge_ =
+      java.util.Collections.emptyList();
+    private void ensureChargeIsMutable() {
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        charge_ = new java.util.ArrayList<com.neptune.cba.transaction.debit_credit.Charge>(charge_);
+        bitField0_ |= 0x00000001;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.neptune.cba.transaction.debit_credit.Charge, com.neptune.cba.transaction.debit_credit.Charge.Builder, com.neptune.cba.transaction.debit_credit.ChargeOrBuilder> chargeBuilder_;
+
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public java.util.List<com.neptune.cba.transaction.debit_credit.Charge> getChargeList() {
+      if (chargeBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(charge_);
+      } else {
+        return chargeBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public int getChargeCount() {
+      if (chargeBuilder_ == null) {
+        return charge_.size();
+      } else {
+        return chargeBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.Charge getCharge(int index) {
+      if (chargeBuilder_ == null) {
+        return charge_.get(index);
+      } else {
+        return chargeBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder setCharge(
+        int index, com.neptune.cba.transaction.debit_credit.Charge value) {
+      if (chargeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureChargeIsMutable();
+        charge_.set(index, value);
+        onChanged();
+      } else {
+        chargeBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder setCharge(
+        int index, com.neptune.cba.transaction.debit_credit.Charge.Builder builderForValue) {
+      if (chargeBuilder_ == null) {
+        ensureChargeIsMutable();
+        charge_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        chargeBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder addCharge(com.neptune.cba.transaction.debit_credit.Charge value) {
+      if (chargeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureChargeIsMutable();
+        charge_.add(value);
+        onChanged();
+      } else {
+        chargeBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder addCharge(
+        int index, com.neptune.cba.transaction.debit_credit.Charge value) {
+      if (chargeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureChargeIsMutable();
+        charge_.add(index, value);
+        onChanged();
+      } else {
+        chargeBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder addCharge(
+        com.neptune.cba.transaction.debit_credit.Charge.Builder builderForValue) {
+      if (chargeBuilder_ == null) {
+        ensureChargeIsMutable();
+        charge_.add(builderForValue.build());
+        onChanged();
+      } else {
+        chargeBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder addCharge(
+        int index, com.neptune.cba.transaction.debit_credit.Charge.Builder builderForValue) {
+      if (chargeBuilder_ == null) {
+        ensureChargeIsMutable();
+        charge_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        chargeBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder addAllCharge(
+        java.lang.Iterable<? extends com.neptune.cba.transaction.debit_credit.Charge> values) {
+      if (chargeBuilder_ == null) {
+        ensureChargeIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, charge_);
+        onChanged();
+      } else {
+        chargeBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder clearCharge() {
+      if (chargeBuilder_ == null) {
+        charge_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+      } else {
+        chargeBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public Builder removeCharge(int index) {
+      if (chargeBuilder_ == null) {
+        ensureChargeIsMutable();
+        charge_.remove(index);
+        onChanged();
+      } else {
+        chargeBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.Charge.Builder getChargeBuilder(
+        int index) {
+      return getChargeFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.ChargeOrBuilder getChargeOrBuilder(
+        int index) {
+      if (chargeBuilder_ == null) {
+        return charge_.get(index);  } else {
+        return chargeBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public java.util.List<? extends com.neptune.cba.transaction.debit_credit.ChargeOrBuilder> 
+         getChargeOrBuilderList() {
+      if (chargeBuilder_ != null) {
+        return chargeBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(charge_);
+      }
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.Charge.Builder addChargeBuilder() {
+      return getChargeFieldBuilder().addBuilder(
+          com.neptune.cba.transaction.debit_credit.Charge.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.Charge.Builder addChargeBuilder(
+        int index) {
+      return getChargeFieldBuilder().addBuilder(
+          index, com.neptune.cba.transaction.debit_credit.Charge.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * new 8/01/2025
+     * </pre>
+     *
+     * <code>repeated .com.neptune.cba.Charge charge = 12;</code>
+     */
+    public java.util.List<com.neptune.cba.transaction.debit_credit.Charge.Builder> 
+         getChargeBuilderList() {
+      return getChargeFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.neptune.cba.transaction.debit_credit.Charge, com.neptune.cba.transaction.debit_credit.Charge.Builder, com.neptune.cba.transaction.debit_credit.ChargeOrBuilder> 
+        getChargeFieldBuilder() {
+      if (chargeBuilder_ == null) {
+        chargeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            com.neptune.cba.transaction.debit_credit.Charge, com.neptune.cba.transaction.debit_credit.Charge.Builder, com.neptune.cba.transaction.debit_credit.ChargeOrBuilder>(
+                charge_,
+                ((bitField0_ & 0x00000001) != 0),
+                getParentForChildren(),
+                isClean());
+        charge_ = null;
+      }
+      return chargeBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

@@ -17,5 +17,6 @@ public interface CbaTransactionRequestsRepository extends MongoRepository<Transa
     @Query("{ 'transactionreference': {$eq: ?0} }")
     Optional<TransactionDrCr> findByRef(String transactionreference);
 
-
+    @Query("{ 'isUpdatedToCba': {$eq: ?0}, 'cbaMessage': { $eq: 'ok' } }")
+    List<TransactionDrCr> findTransactionsLoggedToCba(boolean isUpdatedToCba);
 }

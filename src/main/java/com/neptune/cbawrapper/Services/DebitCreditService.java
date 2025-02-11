@@ -4,9 +4,7 @@ package com.neptune.cbawrapper.Services;
 import com.neptune.cba.transaction.balance.BalanceRequest;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BalanceServiceGrpc;
-import com.neptune.cba.transaction.debit_credit.DebitCreditRequest;
-import com.neptune.cba.transaction.debit_credit.DebitCreditResponse;
-import com.neptune.cba.transaction.debit_credit.DebitCreditServiceGrpc;
+import com.neptune.cba.transaction.debit_credit.*;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.TransactionDrCr;
 import com.neptune.cbawrapper.Models.VerifyUser;
@@ -72,32 +70,42 @@ public class DebitCreditService {
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
         }catch (StatusRuntimeException e) {
-            System.out.println("error1 = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
-            System.out.println("error2 = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
+        }finally {
+            channel.shutdownNow();
         }
-        channel.shutdownNow();
         return response;
     }
 
     public BalanceResponse getBalance(String acct_num, String customer_id) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         BalanceResponse response = null;
-        System.out.println("kkkkkkkkkkkkkkkk");
        try {
            BalanceServiceGrpc.BalanceServiceBlockingStub stub = BalanceServiceGrpc.newBlockingStub(channel);
            BalanceRequest request = BalanceRequest.newBuilder().setAccountId(customer_id).setAccountNumber(acct_num).build();
-           System.out.println("requesst = " + request);
            response = stub.balance(request);
-           System.out.println("ksssssssssss");
        } catch (Exception e) {
-           System.out.println("error2 = " + e.getMessage());
            errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
+       }finally {
+           channel.shutdownNow();
        }
-        System.out.println("kkkkkkkkkaaaaaaak");
-        channel.shutdownNow();
+        return response;
+    }
+
+    public DebitCreditStatusResponse debitCreditStatusResponse (String transferRef) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
+        DebitCreditStatusResponse response = null;
+        try {
+            DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
+            DebitCreditStatusRequest request = DebitCreditStatusRequest.newBuilder().setTransactionRef(transferRef).build();
+            response = stub.debitCreditStatus(request);
+        } catch (Exception e) {
+            errorLoggingException.logError("DEBIT_CREDIT_STATUS_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
+        }finally {
+            channel.shutdownNow();
+        }
         return response;
     }
 }
