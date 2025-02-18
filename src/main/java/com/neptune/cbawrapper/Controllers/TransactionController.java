@@ -83,35 +83,42 @@ public class TransactionController {
 
     //TODO: CBA transaction notification webhook
     @PostMapping("/pos-credit-webhook")
-    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest verifyUser) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webHookRequest) {
         try {
-            System.out.println("verifyUser = " + verifyUser);
-            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(verifyUser.getRef());
+            System.out.println("webHookRequest = " + webHookRequest);
+            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(webHookRequest.getTransactionreference());
 
             Transactions transactions;
             if (checkIfTransactionWithRefExists.isEmpty()) {
                 transactions = new Transactions();
-                transactions.setEvent(verifyUser.getEvent());
-                transactions.setMessage(verifyUser.getMessage());
-                transactions.setStatus("Pending");
-                transactions.setAccount(verifyUser.getAccount());
-                transactions.setRef(verifyUser.getRef());
+                transactions.setAccountnumber(webHookRequest.getAccountnumber());
+                transactions.setIsccode(webHookRequest.getIsccode());
+                transactions.setAccountstatus(webHookRequest.getAccountstatus());
+                transactions.setAcctname(webHookRequest.getAcctname());
+                transactions.setDrcr(webHookRequest.getDrcr());
+                transactions.setAcctype(webHookRequest.getAcctype());
+                transactions.setAmount(webHookRequest.getAmount());
+                transactions.setTransactionreference(webHookRequest.getTransactionreference());
+                transactions.setNarration(webHookRequest.getNarration());
+                transactions.setChannel(webHookRequest.getChannel());
+                transactions.setEid(webHookRequest.getEid());
+                transactions.setEvent(webHookRequest.getEvent());
             } else {
                 transactions = checkIfTransactionWithRefExists.get();
-                transactions.setAmount(verifyUser.getAmount());
-                transactions.setEvent(verifyUser.getEvent());
+                transactions.setAmount(webHookRequest.getAmount());
+                transactions.setEvent(webHookRequest.getEvent());
             }
             transactionsRepository.save(transactions);
             String event;
             int status_code;
 
-            if (verifyUser.getEvent().equalsIgnoreCase("transaction.init")) {
+            if (webHookRequest.getEvent().equalsIgnoreCase("transaction.init")) {
                 event = "Transaction initialized";
                 status_code = 201;
-            } else if ((verifyUser.getEvent().equalsIgnoreCase("transaction.successful"))) {
+            } else if ((webHookRequest.getEvent().equalsIgnoreCase("transaction.successful"))) {
                 event = "Transaction successful";
                 status_code = 200;
-            } else if (verifyUser.getEvent().equalsIgnoreCase("transaction.failed")) {
+            } else if (webHookRequest.getEvent().equalsIgnoreCase("transaction.failed")) {
                 event = "Transaction failed";
                 status_code = 500;
             } else {
@@ -119,7 +126,7 @@ public class TransactionController {
                 status_code = 500;
             }
 
-            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(verifyUser.getAccount());
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(webHookRequest.getAccountnumber());
             if (virtualAccountModel.isPresent()) {
 //                SendNotifications notifications1 = new SendNotifications();
 //                notifications1.setMessage("Transaction received");
@@ -333,6 +340,7 @@ public class TransactionController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/get-balance")
     public ResponseEntity<ResponseSchema<?>> getBalance(@RequestParam String accountNum, @RequestParam String type){
         try {
@@ -378,6 +386,7 @@ public class TransactionController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @Validated
     @GetMapping("/get-transaction-history")
     public ResponseEntity<ResponseSchema<?>> getTransactionHistory(@RequestParam String accountNum, @RequestParam String narration, @RequestParam String start_date, @RequestParam String end_date, @RequestParam int page, @RequestParam int size){

@@ -254,8 +254,9 @@ public class CustomerService {
             // Log error details
             //e.printStackTrace();
             log.error("createCustomersCBA: ", e);
+        }finally {
+            channel.shutdownNow();
         }
-        channel.shutdownNow();
         return response;
     }
 }

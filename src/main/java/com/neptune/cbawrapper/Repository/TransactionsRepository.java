@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface TransactionsRepository extends MongoRepository<Transactions, String> {
 
-    @Query("{ 'ref': { $eq: ?0 } }")
-    Optional<Transactions> checkIfTransactionWithRefExists(String ref);
+    @Query("{ 'transactionreference': { $eq: ?0 } }")
+    Optional<Transactions> checkIfTransactionWithRefExists(String transactionreference);
 
     @Query("{ 'status': { $eq: ?0 } }")
     List<Transactions> checkTransactionStatus(String status);

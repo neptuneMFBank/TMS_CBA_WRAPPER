@@ -14,31 +14,19 @@ public class Transactions {
     // send all transactions to Ikenna, whether failed or successful.
     @Id
     private String id;
-    private String event;
-    private String message;
-    private String status;
-    private String account;
-    private String ref;
-
-    private String transactionReference;
-    private String reference;
-    private String ptad;
-    private String transactionType;
-    private String transactionDate;
-    private String responseCode;
-    private String terminalId;
-    private String pan;
+    private String accountnumber;
+    private String isccode;
+    private String accountstatus;
+    private String acctname;
+    private String drcr;
+    private String acctype;
     private Double amount;
-    private String cardExpiry;
-    private String transactionFee;
-    private String processingFee;
-    private String retrievalReferenceNumber;
-    private String authCode;
-    private String merchantCode;
-    private String reversal;
-    private String merchantName;
-    private String stan;
-    private String serialno;
+    private String transactionreference;
+    private String narration;
+    private String channel;
+    private String eid;
+    private String event;
+
 
     public String getId() {
         return id;
@@ -56,28 +44,44 @@ public class Transactions {
         this.event = event;
     }
 
-    public String getMessage() {
-        return message;
+    public String getAccountnumber() {
+        return accountnumber;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setAccountnumber(String accountnumber) {
+        this.accountnumber = accountnumber;
     }
 
-    public String getAccount() {
-        return account;
+    public String getIsccode() {
+        return isccode;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setIsccode(String isccode) {
+        this.isccode = isccode;
     }
 
-    public String getRef() {
-        return ref;
+    public String getAccountstatus() {
+        return accountstatus;
     }
 
-    public void setRef(String ref) {
-        this.ref = ref;
+    public void setAccountstatus(String accountstatus) {
+        this.accountstatus = accountstatus;
+    }
+
+    public String getAcctname() {
+        return acctname;
+    }
+
+    public void setAcctname(String acctname) {
+        this.acctname = acctname;
+    }
+
+    public String getDrcr() {
+        return drcr;
+    }
+
+    public void setDrcr(String drcr) {
+        this.drcr = drcr;
     }
 
     public Double getAmount() {
@@ -88,23 +92,46 @@ public class Transactions {
         this.amount = amount;
     }
 
+    public String getAcctype() {
+        return acctype;
+    }
+
+    public void setAcctype(String acctype) {
+        this.acctype = acctype;
+    }
+
+    public String getTransactionreference() {
+        return transactionreference;
+    }
+
+    public void setTransactionreference(String transactionreference) {
+        this.transactionreference = transactionreference;
+    }
+
+    public String getNarration() {
+        return narration;
+    }
+
+    public void setNarration(String narration) {
+        this.narration = narration;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
+
     public Transactions() {
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Transactions(String event, String message, String account, String ref, Double amount, String status) {
-        this.event = event;
-        this.message = message;
-        this.status = status;
-        this.account = account;
-        this.ref = ref;
-        this.amount = amount;
     }
 }
