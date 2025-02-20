@@ -13,6 +13,7 @@ public class TerminalProfile {
     private String logo;
     private String serialNo;
     private String merchantCode;
+    private String walletId;
     private String terminalName;
     private String status;
 }
