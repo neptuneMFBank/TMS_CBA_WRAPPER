@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.easy_pay";
+
+service EasyPayService {
+  rpc easy_pay(EasyPayRequest) returns (EasyPayResponse) {
+  }
+  rpc institutions(getInstEmpty) returns (Institutions) {
+  }
+  rpc nameEnquiry(NameEnquiryRpcRequest) returns (NameEnquiryResponse){
+  }
+  rpc list_easy_pay(EasyPayListRequest) returns (EasyPayListResponse) {
+  }//exposeable
+
+  rpc reverse_easy_pay(ReverseRequest) returns (ReverseResponse){
+  } // exposeable
+
+  rpc easy_pay_status(EasyPayStatusRequest) returns (EasyPayStatusResponse) {
+  }
+
+}
+
+message EasyPayStatusRequest {
+  string transactionRef = 1;
+}
+message EasyPayStatusResponse {
+  string response = 1;
+  string code =2;
+}
+message ReverseRequest {
+  string ref =1;
+}
+message ReverseResponse {
+  string response =1;
+  string code =2;
+}
+message getInstEmpty {
+}
+message  EasyPayListRequest {
+  string fromdate =1;
+  string todate =2;
+  string account =5;
+  int32 page =3;
+  int32 pageSize = 4;
+}
+message EasyPayListResponse {
+  repeated EasyPayRequest easypays = 1;
+  int64 totalItems = 2;
+  int64 totalPages = 3;
+  int64 currentPages = 4;
+}
+
+message listEasyPayRequest{
+  string acctNo = 1;
+  string fromdate =2;
+  string todate =3;
+  int32 page =4;
+  int32 pageSize = 5;
+}
+message NameEnquiryRpcRequest {
+  string accountNumber =1;
+  string channelCode =2;
+  string destinationInstitutionCode =3;
+  string senderBankCode =4;
+  string platform = 5 ;
+
+}
+message NameEnquiryResponse {
+  string  responseCode =1;
+  string sessionID=2;
+  string transactionId =3;
+  int32 channelCode =4;
+  string destinationInstitutionCode =5 ;
+  string accountNumber = 6 ;
+  string accountName =7;
+  string  bankVerificationNumber =8;
+  int32  kycLevel =9;
+}
+
+message Institution {
+  string institutionCode =1;
+  string institutionName =2;
+  int32 category =3;
+}
+
+message Institutions {
+  repeated Institution Institutions = 1;
+}
+
+message EasyPayRequest {
+  string sourceInstitutionCode =1;
+  string beneficiaryAccountName =2;
+  string beneficiaryAccountNumber = 3;
+  string beneficiaryBankVerificationNumber =4;
+  string beneficiaryKYCLevel =5;
+  string originatorAccountName =6;
+  string destinationInstitutionCode =7;
+  string originatorAccountNumber =8;
+  string originatorBankVerificationNumber =9;
+  int32 originatorKYCLevel =10;
+  string mandateReferenceNumber =11;
+  string nameEnquiryRef =12;
+  string originatorNarration = 13;
+  string paymentReference = 14;
+  string transactionLocation = 15;
+  string beneficiaryNarration = 16;
+  string billerId =17;
+  string customerAccountName = 18;
+  string customerAccountNumber =19;
+  double amount =20 ;
+  int64 id = 21;
+  string nipResponse =22;
+  string status =23;
+  string sessionId =24;
+  string transactionId =25;
+}
+
+
+
+message EasyPayResponse {
+  string message = 1;
+  string code = 2;
+}
