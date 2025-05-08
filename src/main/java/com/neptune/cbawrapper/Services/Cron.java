@@ -424,8 +424,8 @@ public class Cron {
                             String id = transactionDrCr1.getId();
                             transactionDrCr1.setUpdatedToCba(true);
                             transactionDrCr1.setCbaMessage(response.getMessage());
-                            transactionDrCr1.setCreated_at(LocalDateTime.now());
-                            transactionDrCr1.setUpdated_at(LocalDateTime.now());
+                            transactionDrCr1.setCreated_at(LocalDateTime.now().toString());
+                            transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
                             cbaTransactionRequestsRepository.save(transactionDrCr1);
 
                             Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
@@ -513,7 +513,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void checkTransactionStatusOnCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsLoggedToCba(true);
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
@@ -526,6 +526,7 @@ public class Cron {
     }
 
     public void checkTransactionStatus(TransactionDrCr transactionDrCr1) {
+        System.out.println("transactionDrCr1.getTransactionreference() = " + transactionDrCr1.getTransactionreference());
         DebitCreditStatusResponse response = debitCreditService.debitCreditStatusResponse(transactionDrCr1.getTransactionreference());
 
         System.out.println("status response = " + response);

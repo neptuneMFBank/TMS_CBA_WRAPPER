@@ -19,7 +19,7 @@ public class ApiResponse<T extends Serializable> implements Serializable {
 
     private int status;
     private String message;
-    private T data;
+    private T dataSchema;
     private String uri;
     private ZonedDateTime timeStamp;
     private boolean enc;

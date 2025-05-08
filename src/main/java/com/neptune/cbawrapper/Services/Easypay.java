@@ -82,8 +82,10 @@ public class Easypay {
             getInstEmpty empty = getInstEmpty.newBuilder().build();
             response = stub.institutions(empty);
         }catch (StatusRuntimeException e){
+            System.out.println("GRPC Status Code: " + e.getStatus().getCode());
             errorLoggingException.logError("GET_INSTITUTIONS_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }catch (Exception e){
+            System.out.println("message = " + e.getMessage());
             errorLoggingException.logError("GET_INSTITUTIONS_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }finally {
             channel.shutdownNow();

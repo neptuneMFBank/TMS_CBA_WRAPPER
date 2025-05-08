@@ -9,6 +9,7 @@ import com.neptune.cbawrapper.Models.PlatformCharges;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.Services.PlatformChargesService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,15 @@ public class ChargesController {
 
     private final PlatformChargeRepository platformChargeRepository;
     private final Helpers helpers;
+    private final PlatformChargesService platformChargesService;
     private final ErrorLoggingException errorLoggingException;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
     private final AESServiceImp aesServiceImp;
 
-    public ChargesController(ErrorLoggingException errorLoggingException, PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository, AESServiceImp aesServiceImp) {
+    public ChargesController(ErrorLoggingException errorLoggingException,PlatformChargesService platformChargesService, PlatformChargeRepository platformChargeRepository, Helpers helpers, BusinessPlatformChargesRepository businessPlatformChargesRepository, AESServiceImp aesServiceImp) {
         this.platformChargeRepository = platformChargeRepository;
         this.helpers = helpers;
+        this.platformChargesService = platformChargesService;
         this.errorLoggingException = errorLoggingException;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.aesServiceImp = aesServiceImp;
@@ -54,6 +57,7 @@ public class ChargesController {
     @CrossOrigin(origins = "*")
     @PostMapping("/create-platform-charge")
     public ResponseEntity<ResponseSchema<?>> createPlatformCharge(@RequestBody EncryptedRequest request){ // PlatformChargesRequest charges
+        System.out.println("request = " + request);
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);
 
@@ -73,9 +77,12 @@ public class ChargesController {
         platformCharges.setAmount(charges.getAmount());
         platformCharges.setChargeType(charges.getChargeType());
         platformCharges.setThreshold(charges.getThreshold());
+        platformCharges.setCreated_at(ZonedDateTime.now().toString());
+        platformCharges.setUpdated_at(ZonedDateTime.now().toString());
         platformCharges.setBusinessValue(charges.getBusinessValue());
         platformCharges.setTotal(charges.getTotal());
         platformChargeRepository.save(platformCharges);
+        platformChargesService.createPlatformCharge(platformCharges);
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "charge for this platform type added successfully", null, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);

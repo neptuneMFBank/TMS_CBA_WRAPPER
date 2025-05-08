@@ -3,16 +3,15 @@ package com.neptune.cbawrapper.Controllers;
 import com.neptune.cba.transaction.easy_pay.*;
 import com.neptune.cbawrapper.Models.EasypayTransactionsModel;
 import com.neptune.cbawrapper.Repository.EasypayTransactionsRepository;
-import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayHistoryRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayTransferRequestPayload;
-import com.neptune.cbawrapper.RequestRessponseSchema.NameEnquiryRequestPayload;
-import com.neptune.cbawrapper.RequestRessponseSchema.ResponseSchema;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.Easypay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/easy_pay")
@@ -59,7 +58,13 @@ public class EasypayController {
         transactionsModel.setCode(response.getCode());
         easypayTransactionsRepository.save(transactionsModel);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), response, "", ZonedDateTime.now(), false);
+        System.out.println("response = " + response);
+
+        EasypayResponseData easypayResponseData = new EasypayResponseData();
+        easypayResponseData.setCode(response.getCode());
+        easypayResponseData.setMessage(response.getMessage());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
@@ -67,17 +72,42 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> getInstitutionsList(){
         Institutions response = easypay.getInstitutions();
 
-        System.out.println("response = " + response);
+        InstitutionsData institutionsData = new InstitutionsData();
+        List<InstitutionData> institutionDataList = getInstitutionData(response);
+        institutionsData.setInstitutions(institutionDataList);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", response, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", institutionsData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    private static List<InstitutionData> getInstitutionData(Institutions response) {
+        List<InstitutionData> institutionDataList = new ArrayList<>();
+        for (int i = 0; i < response.getInstitutionsList().size(); i++) {
+            InstitutionData institutionData = new InstitutionData();
+            institutionData.setInstitutionCode(response.getInstitutions(i).getInstitutionCode());
+            institutionData.setCategory(response.getInstitutions(i).getCategory());
+            institutionData.setInstitutionName(response.getInstitutions(i).getInstitutionName());
+            institutionDataList.add(institutionData);
+        }
+        return institutionDataList;
     }
 
     @GetMapping("/name_enquiry")
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
         NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", response, "", ZonedDateTime.now(), false);
+        NameEnquiryResponseData data = new NameEnquiryResponseData();
+        data.setResponseCode(response.getResponseCode());
+        data.setSessionID(response.getSessionID());
+        data.setTransactionId(response.getTransactionId());
+        data.setChannelCode(response.getChannelCode());
+        data.setDestinationInstitutionCode(response.getDestinationInstitutionCode());
+        data.setAccountName(response.getAccountName());
+        data.setAccountNumber(response.getAccountNumber());
+        data.setBankVerificationNumber(response.getBankVerificationNumber());
+        data.setKycLevel(response.getKycLevel());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
@@ -85,7 +115,46 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> getEasyPayHistory(@RequestBody EasyPayHistoryRequest request){
         EasyPayListResponse response = easypay.getEasyPayHistory(request);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", response, "", ZonedDateTime.now(), false);
+        System.out.println("response = " + response);
+
+        EasyPayListResponseData easyPayListResponseData = new EasyPayListResponseData();
+
+        List<EasyPayRequestData> requestDataList = new ArrayList<>();
+        for (int i = 0; i < response.getEasypaysList().size(); i++) {
+            EasyPayRequest easyPayRequest = response.getEasypays(i);
+            EasyPayRequestData easyPayRequestData = new EasyPayRequestData();
+            easyPayRequestData.setSourceInstitutionCode(easyPayRequest.getSourceInstitutionCode());
+            easyPayRequestData.setBeneficiaryAccountName(easyPayRequest.getBeneficiaryAccountName());
+            easyPayRequestData.setBeneficiaryAccountNumber(easyPayRequest.getBeneficiaryAccountNumber());
+            easyPayRequestData.setBeneficiaryBankVerificationNumber(easyPayRequest.getBeneficiaryBankVerificationNumber());
+            easyPayRequestData.setBeneficiaryKYCLevel(easyPayRequest.getBeneficiaryKYCLevel());
+            easyPayRequestData.setOriginatorAccountName(easyPayRequest.getOriginatorAccountName());
+            easyPayRequestData.setDestinationInstitutionCode(easyPayRequest.getDestinationInstitutionCode());
+            easyPayRequestData.setOriginatorAccountNumber(easyPayRequest.getOriginatorAccountNumber());
+            easyPayRequestData.setOriginatorBankVerificationNumber(easyPayRequest.getOriginatorBankVerificationNumber());
+            easyPayRequestData.setOriginatorKYCLevel(easyPayRequest.getOriginatorKYCLevel());
+            easyPayRequestData.setMandateReferenceNumber(easyPayRequest.getMandateReferenceNumber());
+            easyPayRequestData.setNameEnquiryRef(easyPayRequest.getNameEnquiryRef());
+            easyPayRequestData.setOriginatorNarration(easyPayRequest.getOriginatorNarration());
+            easyPayRequestData.setPaymentReference(easyPayRequest.getPaymentReference());
+            easyPayRequestData.setTransactionLocation(easyPayRequest.getTransactionLocation());
+            easyPayRequestData.setBeneficiaryNarration(easyPayRequest.getBeneficiaryNarration());
+            easyPayRequestData.setBillerId(easyPayRequest.getBillerId());
+            easyPayRequestData.setCustomerAccountName(easyPayRequest.getCustomerAccountName());
+            easyPayRequestData.setCustomerAccountNumber(easyPayRequest.getCustomerAccountNumber());
+            easyPayRequestData.setAmount(easyPayRequest.getAmount());
+            easyPayRequestData.setId(easyPayRequest.getId());
+            easyPayRequestData.setNipResponse(easyPayRequest.getNipResponse());
+            easyPayRequestData.setStatus(easyPayRequest.getStatus());
+            easyPayRequestData.setSessionId(easyPayRequest.getSessionId());
+            easyPayRequestData.setTransactionId(easyPayRequest.getTransactionId());
+            requestDataList.add(easyPayRequestData);
+        }
+        easyPayListResponseData.setEasyPayRequestData(requestDataList);
+        easyPayListResponseData.setTotalItems(response.getTotalItems());
+        easyPayListResponseData.setCurrentPages(response.getCurrentPages());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", easyPayListResponseData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
@@ -93,7 +162,17 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> reverseTransaction(@RequestParam String ref){
         ReverseResponse response = easypay.reverseTransaction(ref);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", response, "", ZonedDateTime.now(), false);
+        System.out.println("response = " + response);
+
+        if(response == null){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+        ReverseResponseData reverseResponseData = new ReverseResponseData();
+        reverseResponseData.setResponse(response.getResponse());
+        reverseResponseData.setCode(response.getCode());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", reverseResponseData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
@@ -101,7 +180,11 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> getTransactionStatus(@RequestParam String ref){
         EasyPayStatusResponse response = easypay.getEasyPayStatus(ref);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", response, "", ZonedDateTime.now(), false);
+        ReverseResponseData reverseResponseData = new ReverseResponseData();
+        reverseResponseData.setResponse(response.getResponse());
+        reverseResponseData.setCode(response.getCode());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", reverseResponseData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 

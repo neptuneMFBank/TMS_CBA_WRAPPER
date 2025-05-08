@@ -14,6 +14,7 @@ public class TransactionDetails implements Serializable {
     private String status;
     private String dateFormat;
     private String transactionType;
+    private int transactionPlatformId;
     private String transactionDate;
     private double amount;
     private String transactionReference;
@@ -228,33 +229,13 @@ public class TransactionDetails implements Serializable {
         this.cardScheme = cardScheme;
     }
 
-    @Override
-    public String toString() {
-        return "TransactionDetails{" +
-                "terminalId='" + terminalId + '\'' +
-                ", narration='" + narration + '\'' +
-                ", status='" + status + '\'' +
-                ", dateFormat='" + dateFormat + '\'' +
-                ", transactionType='" + transactionType + '\'' +
-                ", transactionDate='" + transactionDate + '\'' +
-                ", amount=" + amount +
-                ", transactionReference='" + transactionReference + '\'' +
-                ", reference='" + reference + '\'' +
-                ", ptad='" + ptad + '\'' +
-                ", responseCode='" + responseCode + '\'' +
-                ", pan='" + pan + '\'' +
-                ", cardExpiry='" + cardExpiry + '\'' +
-                ", transactionFee=" + transactionFee +
-                ", processingFee=" + processingFee +
-                ", retrievalReferencenumber='" + retrievalReferencenumber + '\'' +
-                ", authCode='" + authCode + '\'' +
-                ", merchantCode='" + merchantCode + '\'' +
-                ", reversal=" + reversal +
-                ", merchantName='" + merchantName + '\'' +
-                ", stan='" + stan + '\'' +
-                ", serialNo='" + serialNo + '\'' +
-                ", locale='" + locale + '\'' +
-                ", cardScheme='" + cardScheme + '\'' +
-                '}';
+    public int getTransactionPlatformId() {
+        return transactionPlatformId;
     }
+
+    public void setTransactionPlatformId(int transactionPlatformId) {
+        this.transactionPlatformId = transactionPlatformId;
+    }
+
+
 }

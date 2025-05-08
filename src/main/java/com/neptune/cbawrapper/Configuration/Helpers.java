@@ -101,8 +101,8 @@ public class Helpers {
             transactionDrCr.setResourceId(resourceId);
             transactionDrCr.setTransaction_platform_id(platform_id);
             transactionDrCr.setCardScheme(card_scheme);
-            transactionDrCr.setCreated_at(LocalDateTime.now());
-            transactionDrCr.setUpdated_at(LocalDateTime.now());
+            transactionDrCr.setCreated_at(LocalDateTime.now().toString());
+            transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
             cbaTransactionRequests.save(transactionDrCr);
             return transactionDrCr;
         }else {

@@ -24,7 +24,6 @@ public class GenericMapper implements Serializable {
         OBJECT_MAPPER.disable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS);
         OBJECT_MAPPER.findAndRegisterModules();
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
     }
 
     public static <T> T convertJsonBodyToObject(String jsonBody, Class<T> clazz) throws RuntimeException {

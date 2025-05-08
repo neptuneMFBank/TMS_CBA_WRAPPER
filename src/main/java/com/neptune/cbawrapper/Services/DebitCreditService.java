@@ -83,6 +83,8 @@ public class DebitCreditService {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         BalanceResponse response = null;
        try {
+           System.out.println("acct_num = " + acct_num);
+           System.out.println("customer_id = " + customer_id);
            BalanceServiceGrpc.BalanceServiceBlockingStub stub = BalanceServiceGrpc.newBlockingStub(channel);
            BalanceRequest request = BalanceRequest.newBuilder().setAccountId(customer_id).setAccountNumber(acct_num).build();
            response = stub.balance(request);

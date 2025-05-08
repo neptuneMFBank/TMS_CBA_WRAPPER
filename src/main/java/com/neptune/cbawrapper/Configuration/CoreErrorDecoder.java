@@ -61,7 +61,7 @@ public class CoreErrorDecoder implements ErrorDecoder {
             errorMessage = StringUtils.prependIfMissing(errorMessage, "401|");
         }
         final ApiResponse apiResponseMessage = new ApiResponse();
-        apiResponseMessage.setData(exceptionMessage);
+        apiResponseMessage.setDataSchema(exceptionMessage);
         apiResponseMessage.setMessage(errorMessage);
         apiResponseMessage.setStatus(response.status());
         switch (response.status()) {

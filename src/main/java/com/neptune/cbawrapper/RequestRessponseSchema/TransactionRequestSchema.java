@@ -39,25 +39,25 @@ public class TransactionRequestSchema {
     private String locale;
     private String merchantId;
     private String paymentTypeId;
-    private String transactionPlatform;
+//    private String transactionPlatformId;
     private String cardScheme;
 
-    private ZonedDateTime created_at;
-    private ZonedDateTime updated_at;
+    private String created_at;
+    private String updated_at;
 
-    public ZonedDateTime getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(ZonedDateTime created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 
-    public ZonedDateTime getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(ZonedDateTime updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -270,14 +270,13 @@ public class TransactionRequestSchema {
         this.merchantId = merchantId;
     }
 
-
-    public String getTransactionPlatform() {
-        return transactionPlatform;
-    }
-
-    public void setTransactionPlatform(String transactionPlatform) {
-        this.transactionPlatform = transactionPlatform;
-    }
+//    public String getTransactionPlatformId() {
+//        return transactionPlatformId;
+//    }
+//
+//    public void setTransactionPlatformId(String transactionPlatformId) {
+//        this.transactionPlatformId = transactionPlatformId;
+//    }
 
     public String getCardScheme() {
         return cardScheme;
@@ -316,7 +315,6 @@ public class TransactionRequestSchema {
                 ", locale='" + locale + '\'' +
                 ", merchantId='" + merchantId + '\'' +
                 ", paymentTypeId='" + paymentTypeId + '\'' +
-                ", transactionPlatform='" + transactionPlatform + '\'' +
                 ", cardScheme='" + cardScheme + '\'' +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +

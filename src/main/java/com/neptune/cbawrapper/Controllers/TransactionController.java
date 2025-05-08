@@ -238,6 +238,7 @@ public class TransactionController {
             transactionDetails.setTransactionReference(request.getTransactionReference());
             transactionDetails.setReference(request.getReference());
             transactionDetails.setPtad(request.getPtad());
+            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
             transactionDetails.setResponseCode(request.getResponseCode());
             transactionDetails.setPan(request.getPan());
             transactionDetails.setCardExpiry(request.getCardExpiry());
@@ -267,7 +268,7 @@ public class TransactionController {
             transactionRequestSchema.setStatus("pending");
             transactionRequestSchema.setNarration("credit user");
             transactionRequestSchema.setTerminalId(request.getTerminalId());
-            transactionRequestSchema.setTransactionPlatform(platformCharges.get().getId());
+//            transactionRequestSchema.setTransactionPlatformId(platformCharges.get().getId());
             transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
             transactionRequestSchema.setMerchantId(request.getMerchantId());
             transactionRequestSchema.setLocale("en");
@@ -282,8 +283,8 @@ public class TransactionController {
             transactionRequestSchema.setTransactionFee(request.getTransactionFee());
             transactionRequestSchema.setCardExpiry(request.getCardExpiry());
             transactionRequestSchema.setCardScheme(request.getCardScheme());
-//        transactionRequestSchema.setCreated_at(ZonedDateTime.now());
-//        transactionRequestSchema.setUpdated_at(ZonedDateTime.now());
+            transactionRequestSchema.setCreated_at(ZonedDateTime.now().toString());
+            transactionRequestSchema.setUpdated_at(ZonedDateTime.now().toString());
             posTransactionRepository.save(transactionRequestSchema);
 
             System.out.println("request = " + transactionDetails);
@@ -314,10 +315,10 @@ public class TransactionController {
                 transactionDrCr.setParent_id("");
                 transactionDrCr.setCbaMessage("");
                 transactionDrCr.setResourceId(responseSchema.getResourceId());
-                transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatform()));
+//                transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatformId()));
                 transactionDrCr.setCardScheme(request.getCardScheme());
-                transactionDrCr.setCreated_at(LocalDateTime.now());
-                transactionDrCr.setUpdated_at(LocalDateTime.now());
+                transactionDrCr.setCreated_at(LocalDateTime.now().toString());
+                transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
                 cbaTransactionRequests.save(transactionDrCr);
 
                 responseData.setMessage("success");

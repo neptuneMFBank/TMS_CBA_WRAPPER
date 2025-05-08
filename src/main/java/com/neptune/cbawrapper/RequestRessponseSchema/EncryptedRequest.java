@@ -17,4 +17,11 @@ public class EncryptedRequest {
 
     public EncryptedRequest() {
     }
+
+    @Override
+    public String toString() {
+        return "EncryptedRequest{" +
+                "request='" + request + '\'' +
+                '}';
+    }
 }
