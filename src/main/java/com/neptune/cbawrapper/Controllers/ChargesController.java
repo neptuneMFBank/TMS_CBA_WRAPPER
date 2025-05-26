@@ -122,7 +122,7 @@ public class ChargesController {
         String decrypted = aesServiceImp.aesDecrypt(request.getRequest());
         PlatformChargesRequest charges = helpers.convertToObject(decrypted, PlatformChargesRequest.class);;
 
-        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(charges.getId()));
+        Optional<PlatformCharges> checkIfChargeTypeExists = platformChargeRepository.getChargeById(charges.getId());
 
         if(checkIfChargeTypeExists.isEmpty()){
             errorLoggingException.logError("CREATE_PLATFORM_CHARGE", "charge for the platform name provided not found","charge for the platform name provided not found");

@@ -428,14 +428,17 @@ public class Cron {
                             transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
                             cbaTransactionRequestsRepository.save(transactionDrCr1);
 
-                            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeById(String.valueOf(transactionDrCr1.getTransaction_platform_id()));
+                            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
                             Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
 
+                            System.out.println("========================================= 1");
                             if (businessPlatformCharges.isEmpty()) {
                                 return;
                             }
 
+                            System.out.println("========================================= 2");
                             if (platformCharges.isPresent()) {
+                                System.out.println("========================================= 3");
                                 //todo: debit platform charge from terminal
                                 String chargeType = platformCharges.get().getChargeType();
                                 double amount;
@@ -468,17 +471,23 @@ public class Cron {
                                 if (response1.getCode().equals("200")) {
                                     transactionDrCr2.setUpdatedToCba(true);
                                 }
+
+                                System.out.println("========================================= 4");
                                 transactionDrCr2.setCbaMessage(response1.getMessage());
                                 cbaTransactionRequests.save(transactionDrCr2);
                                 System.out.println("response1 = " + response1);
 
                                 if (virtualAccountModel.isPresent()) {
+                                    System.out.println("========================================= 5");
 
                                     //todo: credit business account charge with charge deducted from NeptunePay platform charge
                                     if (businessPlatformCharges.get().getBusinessWalletId() != null) {
+
+                                        System.out.println("========================================= 6");
                                         TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, transactionDrCr1.getPosRef(), "charge", businessPlatformCharges.get().getBusinessName(), businessPlatformCharges.get().getBusinessWalletId(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
                                         DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr5);
                                         if (response4.getCode().equals("200")) {
+                                            System.out.println("========================================= 7");
                                             transactionDrCr5.setUpdatedToCba(true);
                                         }
                                         transactionDrCr5.setCbaMessage(response4.getMessage());
@@ -488,6 +497,7 @@ public class Cron {
 
                                 }
                             }
+                            System.out.println("========================================= 8");
 
                             UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
                             requestSchema.setNote("SUBMITTED");
