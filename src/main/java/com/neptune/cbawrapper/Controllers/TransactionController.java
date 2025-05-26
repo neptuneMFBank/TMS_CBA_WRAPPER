@@ -216,7 +216,10 @@ public class TransactionController {
                 status = "SUCCESS";
             }
 
-            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByNameAndId(request.getTransactionPlatform(), request.getPaymentTypeId());
+            System.out.println("platformName = " + request.getTransactionPlatform());
+            System.out.println("platformId = " + request.getPaymentTypeId());
+
+            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByNameAndId(request.getTransactionPlatform(), Integer.parseInt(request.getPaymentTypeId()));
 
             if(platformCharges.isEmpty()){
                 errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "transactionPlatform not found", "transactionPlatform not found");
