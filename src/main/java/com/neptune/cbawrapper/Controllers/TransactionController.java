@@ -41,14 +41,16 @@ public class TransactionController {
     private final DebitCreditService debitCreditService;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
+    private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
 
-    public TransactionController(DebitCreditService debitCreditService, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(DebitCreditService debitCreditService, BusinessPlatformChargesRepository businessPlatformChargesRepository, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.debitCreditService = debitCreditService;
+        this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.errorLoggingException = errorLoggingException;
         this.platformChargeRepository = platformChargeRepository;
         this.pushyAPI = pushyAPI;
@@ -298,6 +300,17 @@ public class TransactionController {
             if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
 
+                Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
+
+                if(businessPlatformCharges == null || businessPlatformCharges.isEmpty()){
+                    errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
+                    responseData.setMessage("business platform charge not found");
+                    responseData.setStatus(404);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+                }
+
                 TransactionDrCr transactionDrCr = new TransactionDrCr();
                 transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
                 transactionDrCr.setIsccode("2");
@@ -306,6 +319,7 @@ public class TransactionController {
                 transactionDrCr.setTerminalId(request.getTerminalId());
                 transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
                 transactionDrCr.setDrcr("cr");
+                transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getId());
                 transactionDrCr.setAcctype("savings");
                 transactionDrCr.setAmount(transactionRequestSchema.getAmount());
                 transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));

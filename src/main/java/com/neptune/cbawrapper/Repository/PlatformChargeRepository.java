@@ -19,4 +19,7 @@ public interface PlatformChargeRepository extends MongoRepository<PlatformCharge
 
     @Query("{ 'id': { $eq: ?0 } }")
     Optional<PlatformCharges> getChargeById(String id);
+
+    @Query("{ 'platformId': { $eq: ?0 } }")
+    Optional<PlatformCharges> getChargeByPlatformId(int platformId);
 }
