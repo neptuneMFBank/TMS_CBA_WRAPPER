@@ -45,6 +45,37 @@ public final class CustomerServiceGrpc {
     return getCreatBulkCorporateAccountMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<customers.Customer.NameEnquiryRequest,
+      customers.Customer.NameEnquiryResponse> getNameEnquiryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "NameEnquiry",
+      requestType = customers.Customer.NameEnquiryRequest.class,
+      responseType = customers.Customer.NameEnquiryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<customers.Customer.NameEnquiryRequest,
+      customers.Customer.NameEnquiryResponse> getNameEnquiryMethod() {
+    io.grpc.MethodDescriptor<customers.Customer.NameEnquiryRequest, customers.Customer.NameEnquiryResponse> getNameEnquiryMethod;
+    if ((getNameEnquiryMethod = CustomerServiceGrpc.getNameEnquiryMethod) == null) {
+      synchronized (CustomerServiceGrpc.class) {
+        if ((getNameEnquiryMethod = CustomerServiceGrpc.getNameEnquiryMethod) == null) {
+          CustomerServiceGrpc.getNameEnquiryMethod = getNameEnquiryMethod =
+              io.grpc.MethodDescriptor.<customers.Customer.NameEnquiryRequest, customers.Customer.NameEnquiryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "NameEnquiry"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.NameEnquiryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.NameEnquiryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CustomerServiceMethodDescriptorSupplier("NameEnquiry"))
+              .build();
+        }
+      }
+    }
+    return getNameEnquiryMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +131,13 @@ public final class CustomerServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreatBulkCorporateAccountMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void nameEnquiry(customers.Customer.NameEnquiryRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.NameEnquiryResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNameEnquiryMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -109,6 +147,13 @@ public final class CustomerServiceGrpc {
                 customers.Customer.CreateBulkCorpAccountRequest,
                 customers.Customer.CreateBulkCorpCustomerResponse>(
                   this, METHODID_CREAT_BULK_CORPORATE_ACCOUNT)))
+          .addMethod(
+            getNameEnquiryMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                customers.Customer.NameEnquiryRequest,
+                customers.Customer.NameEnquiryResponse>(
+                  this, METHODID_NAME_ENQUIRY)))
           .build();
     }
   }
@@ -134,6 +179,14 @@ public final class CustomerServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCreatBulkCorporateAccountMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void nameEnquiry(customers.Customer.NameEnquiryRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.NameEnquiryResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getNameEnquiryMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -155,6 +208,13 @@ public final class CustomerServiceGrpc {
     public customers.Customer.CreateBulkCorpCustomerResponse creatBulkCorporateAccount(customers.Customer.CreateBulkCorpAccountRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCreatBulkCorporateAccountMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public customers.Customer.NameEnquiryResponse nameEnquiry(customers.Customer.NameEnquiryRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getNameEnquiryMethod(), getCallOptions(), request);
     }
   }
 
@@ -179,9 +239,18 @@ public final class CustomerServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCreatBulkCorporateAccountMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<customers.Customer.NameEnquiryResponse> nameEnquiry(
+        customers.Customer.NameEnquiryRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getNameEnquiryMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREAT_BULK_CORPORATE_ACCOUNT = 0;
+  private static final int METHODID_NAME_ENQUIRY = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -203,6 +272,10 @@ public final class CustomerServiceGrpc {
         case METHODID_CREAT_BULK_CORPORATE_ACCOUNT:
           serviceImpl.creatBulkCorporateAccount((customers.Customer.CreateBulkCorpAccountRequest) request,
               (io.grpc.stub.StreamObserver<customers.Customer.CreateBulkCorpCustomerResponse>) responseObserver);
+          break;
+        case METHODID_NAME_ENQUIRY:
+          serviceImpl.nameEnquiry((customers.Customer.NameEnquiryRequest) request,
+              (io.grpc.stub.StreamObserver<customers.Customer.NameEnquiryResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -266,6 +339,7 @@ public final class CustomerServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new CustomerServiceFileDescriptorSupplier())
               .addMethod(getCreatBulkCorporateAccountMethod())
+              .addMethod(getNameEnquiryMethod())
               .build();
         }
       }

@@ -8,11 +8,27 @@ import "google/protobuf/timestamp.proto";
 
 service CustomerService {
   rpc CreatBulkCorporateAccount(CreateBulkCorpAccountRequest) returns (CreateBulkCorpCustomerResponse){}
+  rpc NameEnquiry(NameEnquiryRequest) returns (NameEnquiryResponse) {}
 }
 
 message CreateBulkCorpAccountRequest {
   repeated CreateCorporateAccountRequest customer_data = 1;
 }
+
+message NameEnquiryRequest {
+  // string signed_key = 1;
+  string account_number = 1;
+}
+
+message NameEnquiryResponse {
+  string response_code = 1;
+  string account_name = 2;
+  string account_number = 3;
+  string kyc_level = 4;
+  string bvn = 5;
+  string product_type = 6;
+}
+
 
 message CreateBulkCorpCustomerResponse {
   repeated CreateBulkCustomerResponse response = 1;

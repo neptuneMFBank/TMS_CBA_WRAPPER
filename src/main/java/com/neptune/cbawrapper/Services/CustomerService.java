@@ -259,4 +259,18 @@ public class CustomerService {
         }
         return response;
     }
+
+    public Customer.NameEnquiryResponse getCustomerData(Customer.NameEnquiryRequest request){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.NameEnquiryResponse response;
+        try {
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            response = stub.nameEnquiry(request);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
 }

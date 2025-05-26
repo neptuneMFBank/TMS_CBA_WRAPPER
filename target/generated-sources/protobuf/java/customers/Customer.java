@@ -807,6 +807,1928 @@ public final class Customer {
 
   }
 
+  public interface NameEnquiryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.NameEnquiryRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * string signed_key = 1;
+     * </pre>
+     *
+     * <code>string account_number = 1;</code>
+     * @return The accountNumber.
+     */
+    java.lang.String getAccountNumber();
+    /**
+     * <pre>
+     * string signed_key = 1;
+     * </pre>
+     *
+     * <code>string account_number = 1;</code>
+     * @return The bytes for accountNumber.
+     */
+    com.google.protobuf.ByteString
+        getAccountNumberBytes();
+  }
+  /**
+   * Protobuf type {@code customers.NameEnquiryRequest}
+   */
+  public static final class NameEnquiryRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.NameEnquiryRequest)
+      NameEnquiryRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NameEnquiryRequest.newBuilder() to construct.
+    private NameEnquiryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NameEnquiryRequest() {
+      accountNumber_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NameEnquiryRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NameEnquiryRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accountNumber_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_NameEnquiryRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_NameEnquiryRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.NameEnquiryRequest.class, customers.Customer.NameEnquiryRequest.Builder.class);
+    }
+
+    public static final int ACCOUNT_NUMBER_FIELD_NUMBER = 1;
+    private volatile java.lang.Object accountNumber_;
+    /**
+     * <pre>
+     * string signed_key = 1;
+     * </pre>
+     *
+     * <code>string account_number = 1;</code>
+     * @return The accountNumber.
+     */
+    @java.lang.Override
+    public java.lang.String getAccountNumber() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accountNumber_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * string signed_key = 1;
+     * </pre>
+     *
+     * <code>string account_number = 1;</code>
+     * @return The bytes for accountNumber.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAccountNumberBytes() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountNumber_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getAccountNumberBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, accountNumber_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getAccountNumberBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, accountNumber_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.NameEnquiryRequest)) {
+        return super.equals(obj);
+      }
+      customers.Customer.NameEnquiryRequest other = (customers.Customer.NameEnquiryRequest) obj;
+
+      if (!getAccountNumber()
+          .equals(other.getAccountNumber())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ACCOUNT_NUMBER_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountNumber().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.NameEnquiryRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.NameEnquiryRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.NameEnquiryRequest)
+        customers.Customer.NameEnquiryRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_NameEnquiryRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_NameEnquiryRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.NameEnquiryRequest.class, customers.Customer.NameEnquiryRequest.Builder.class);
+      }
+
+      // Construct using customers.Customer.NameEnquiryRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        accountNumber_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_NameEnquiryRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryRequest getDefaultInstanceForType() {
+        return customers.Customer.NameEnquiryRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryRequest build() {
+        customers.Customer.NameEnquiryRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryRequest buildPartial() {
+        customers.Customer.NameEnquiryRequest result = new customers.Customer.NameEnquiryRequest(this);
+        result.accountNumber_ = accountNumber_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.NameEnquiryRequest) {
+          return mergeFrom((customers.Customer.NameEnquiryRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.NameEnquiryRequest other) {
+        if (other == customers.Customer.NameEnquiryRequest.getDefaultInstance()) return this;
+        if (!other.getAccountNumber().isEmpty()) {
+          accountNumber_ = other.accountNumber_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.NameEnquiryRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.NameEnquiryRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object accountNumber_ = "";
+      /**
+       * <pre>
+       * string signed_key = 1;
+       * </pre>
+       *
+       * <code>string account_number = 1;</code>
+       * @return The accountNumber.
+       */
+      public java.lang.String getAccountNumber() {
+        java.lang.Object ref = accountNumber_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          accountNumber_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * string signed_key = 1;
+       * </pre>
+       *
+       * <code>string account_number = 1;</code>
+       * @return The bytes for accountNumber.
+       */
+      public com.google.protobuf.ByteString
+          getAccountNumberBytes() {
+        java.lang.Object ref = accountNumber_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accountNumber_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * string signed_key = 1;
+       * </pre>
+       *
+       * <code>string account_number = 1;</code>
+       * @param value The accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumber(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * string signed_key = 1;
+       * </pre>
+       *
+       * <code>string account_number = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccountNumber() {
+        
+        accountNumber_ = getDefaultInstance().getAccountNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * string signed_key = 1;
+       * </pre>
+       *
+       * <code>string account_number = 1;</code>
+       * @param value The bytes for accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumberBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.NameEnquiryRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.NameEnquiryRequest)
+    private static final customers.Customer.NameEnquiryRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.NameEnquiryRequest();
+    }
+
+    public static customers.Customer.NameEnquiryRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NameEnquiryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NameEnquiryRequest>() {
+      @java.lang.Override
+      public NameEnquiryRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NameEnquiryRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NameEnquiryRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NameEnquiryRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.NameEnquiryRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface NameEnquiryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.NameEnquiryResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string response_code = 1;</code>
+     * @return The responseCode.
+     */
+    java.lang.String getResponseCode();
+    /**
+     * <code>string response_code = 1;</code>
+     * @return The bytes for responseCode.
+     */
+    com.google.protobuf.ByteString
+        getResponseCodeBytes();
+
+    /**
+     * <code>string account_name = 2;</code>
+     * @return The accountName.
+     */
+    java.lang.String getAccountName();
+    /**
+     * <code>string account_name = 2;</code>
+     * @return The bytes for accountName.
+     */
+    com.google.protobuf.ByteString
+        getAccountNameBytes();
+
+    /**
+     * <code>string account_number = 3;</code>
+     * @return The accountNumber.
+     */
+    java.lang.String getAccountNumber();
+    /**
+     * <code>string account_number = 3;</code>
+     * @return The bytes for accountNumber.
+     */
+    com.google.protobuf.ByteString
+        getAccountNumberBytes();
+
+    /**
+     * <code>string kyc_level = 4;</code>
+     * @return The kycLevel.
+     */
+    java.lang.String getKycLevel();
+    /**
+     * <code>string kyc_level = 4;</code>
+     * @return The bytes for kycLevel.
+     */
+    com.google.protobuf.ByteString
+        getKycLevelBytes();
+
+    /**
+     * <code>string bvn = 5;</code>
+     * @return The bvn.
+     */
+    java.lang.String getBvn();
+    /**
+     * <code>string bvn = 5;</code>
+     * @return The bytes for bvn.
+     */
+    com.google.protobuf.ByteString
+        getBvnBytes();
+
+    /**
+     * <code>string product_type = 6;</code>
+     * @return The productType.
+     */
+    java.lang.String getProductType();
+    /**
+     * <code>string product_type = 6;</code>
+     * @return The bytes for productType.
+     */
+    com.google.protobuf.ByteString
+        getProductTypeBytes();
+  }
+  /**
+   * Protobuf type {@code customers.NameEnquiryResponse}
+   */
+  public static final class NameEnquiryResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.NameEnquiryResponse)
+      NameEnquiryResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NameEnquiryResponse.newBuilder() to construct.
+    private NameEnquiryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NameEnquiryResponse() {
+      responseCode_ = "";
+      accountName_ = "";
+      accountNumber_ = "";
+      kycLevel_ = "";
+      bvn_ = "";
+      productType_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NameEnquiryResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NameEnquiryResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              responseCode_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accountName_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accountNumber_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              kycLevel_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              bvn_ = s;
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              productType_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_NameEnquiryResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_NameEnquiryResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.NameEnquiryResponse.class, customers.Customer.NameEnquiryResponse.Builder.class);
+    }
+
+    public static final int RESPONSE_CODE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object responseCode_;
+    /**
+     * <code>string response_code = 1;</code>
+     * @return The responseCode.
+     */
+    @java.lang.Override
+    public java.lang.String getResponseCode() {
+      java.lang.Object ref = responseCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        responseCode_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string response_code = 1;</code>
+     * @return The bytes for responseCode.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getResponseCodeBytes() {
+      java.lang.Object ref = responseCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        responseCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACCOUNT_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object accountName_;
+    /**
+     * <code>string account_name = 2;</code>
+     * @return The accountName.
+     */
+    @java.lang.Override
+    public java.lang.String getAccountName() {
+      java.lang.Object ref = accountName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accountName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string account_name = 2;</code>
+     * @return The bytes for accountName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAccountNameBytes() {
+      java.lang.Object ref = accountName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACCOUNT_NUMBER_FIELD_NUMBER = 3;
+    private volatile java.lang.Object accountNumber_;
+    /**
+     * <code>string account_number = 3;</code>
+     * @return The accountNumber.
+     */
+    @java.lang.Override
+    public java.lang.String getAccountNumber() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accountNumber_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string account_number = 3;</code>
+     * @return The bytes for accountNumber.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAccountNumberBytes() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountNumber_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int KYC_LEVEL_FIELD_NUMBER = 4;
+    private volatile java.lang.Object kycLevel_;
+    /**
+     * <code>string kyc_level = 4;</code>
+     * @return The kycLevel.
+     */
+    @java.lang.Override
+    public java.lang.String getKycLevel() {
+      java.lang.Object ref = kycLevel_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        kycLevel_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string kyc_level = 4;</code>
+     * @return The bytes for kycLevel.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getKycLevelBytes() {
+      java.lang.Object ref = kycLevel_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        kycLevel_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int BVN_FIELD_NUMBER = 5;
+    private volatile java.lang.Object bvn_;
+    /**
+     * <code>string bvn = 5;</code>
+     * @return The bvn.
+     */
+    @java.lang.Override
+    public java.lang.String getBvn() {
+      java.lang.Object ref = bvn_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        bvn_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string bvn = 5;</code>
+     * @return The bytes for bvn.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getBvnBytes() {
+      java.lang.Object ref = bvn_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        bvn_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PRODUCT_TYPE_FIELD_NUMBER = 6;
+    private volatile java.lang.Object productType_;
+    /**
+     * <code>string product_type = 6;</code>
+     * @return The productType.
+     */
+    @java.lang.Override
+    public java.lang.String getProductType() {
+      java.lang.Object ref = productType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        productType_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string product_type = 6;</code>
+     * @return The bytes for productType.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getProductTypeBytes() {
+      java.lang.Object ref = productType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        productType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getResponseCodeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, responseCode_);
+      }
+      if (!getAccountNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, accountName_);
+      }
+      if (!getAccountNumberBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, accountNumber_);
+      }
+      if (!getKycLevelBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, kycLevel_);
+      }
+      if (!getBvnBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, bvn_);
+      }
+      if (!getProductTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, productType_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getResponseCodeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, responseCode_);
+      }
+      if (!getAccountNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, accountName_);
+      }
+      if (!getAccountNumberBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, accountNumber_);
+      }
+      if (!getKycLevelBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, kycLevel_);
+      }
+      if (!getBvnBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, bvn_);
+      }
+      if (!getProductTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, productType_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.NameEnquiryResponse)) {
+        return super.equals(obj);
+      }
+      customers.Customer.NameEnquiryResponse other = (customers.Customer.NameEnquiryResponse) obj;
+
+      if (!getResponseCode()
+          .equals(other.getResponseCode())) return false;
+      if (!getAccountName()
+          .equals(other.getAccountName())) return false;
+      if (!getAccountNumber()
+          .equals(other.getAccountNumber())) return false;
+      if (!getKycLevel()
+          .equals(other.getKycLevel())) return false;
+      if (!getBvn()
+          .equals(other.getBvn())) return false;
+      if (!getProductType()
+          .equals(other.getProductType())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + RESPONSE_CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getResponseCode().hashCode();
+      hash = (37 * hash) + ACCOUNT_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountName().hashCode();
+      hash = (37 * hash) + ACCOUNT_NUMBER_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountNumber().hashCode();
+      hash = (37 * hash) + KYC_LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getKycLevel().hashCode();
+      hash = (37 * hash) + BVN_FIELD_NUMBER;
+      hash = (53 * hash) + getBvn().hashCode();
+      hash = (37 * hash) + PRODUCT_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getProductType().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.NameEnquiryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.NameEnquiryResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.NameEnquiryResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.NameEnquiryResponse)
+        customers.Customer.NameEnquiryResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_NameEnquiryResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_NameEnquiryResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.NameEnquiryResponse.class, customers.Customer.NameEnquiryResponse.Builder.class);
+      }
+
+      // Construct using customers.Customer.NameEnquiryResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        responseCode_ = "";
+
+        accountName_ = "";
+
+        accountNumber_ = "";
+
+        kycLevel_ = "";
+
+        bvn_ = "";
+
+        productType_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_NameEnquiryResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryResponse getDefaultInstanceForType() {
+        return customers.Customer.NameEnquiryResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryResponse build() {
+        customers.Customer.NameEnquiryResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.NameEnquiryResponse buildPartial() {
+        customers.Customer.NameEnquiryResponse result = new customers.Customer.NameEnquiryResponse(this);
+        result.responseCode_ = responseCode_;
+        result.accountName_ = accountName_;
+        result.accountNumber_ = accountNumber_;
+        result.kycLevel_ = kycLevel_;
+        result.bvn_ = bvn_;
+        result.productType_ = productType_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.NameEnquiryResponse) {
+          return mergeFrom((customers.Customer.NameEnquiryResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.NameEnquiryResponse other) {
+        if (other == customers.Customer.NameEnquiryResponse.getDefaultInstance()) return this;
+        if (!other.getResponseCode().isEmpty()) {
+          responseCode_ = other.responseCode_;
+          onChanged();
+        }
+        if (!other.getAccountName().isEmpty()) {
+          accountName_ = other.accountName_;
+          onChanged();
+        }
+        if (!other.getAccountNumber().isEmpty()) {
+          accountNumber_ = other.accountNumber_;
+          onChanged();
+        }
+        if (!other.getKycLevel().isEmpty()) {
+          kycLevel_ = other.kycLevel_;
+          onChanged();
+        }
+        if (!other.getBvn().isEmpty()) {
+          bvn_ = other.bvn_;
+          onChanged();
+        }
+        if (!other.getProductType().isEmpty()) {
+          productType_ = other.productType_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.NameEnquiryResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.NameEnquiryResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object responseCode_ = "";
+      /**
+       * <code>string response_code = 1;</code>
+       * @return The responseCode.
+       */
+      public java.lang.String getResponseCode() {
+        java.lang.Object ref = responseCode_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          responseCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string response_code = 1;</code>
+       * @return The bytes for responseCode.
+       */
+      public com.google.protobuf.ByteString
+          getResponseCodeBytes() {
+        java.lang.Object ref = responseCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          responseCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string response_code = 1;</code>
+       * @param value The responseCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setResponseCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        responseCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string response_code = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearResponseCode() {
+        
+        responseCode_ = getDefaultInstance().getResponseCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string response_code = 1;</code>
+       * @param value The bytes for responseCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setResponseCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        responseCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object accountName_ = "";
+      /**
+       * <code>string account_name = 2;</code>
+       * @return The accountName.
+       */
+      public java.lang.String getAccountName() {
+        java.lang.Object ref = accountName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          accountName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string account_name = 2;</code>
+       * @return The bytes for accountName.
+       */
+      public com.google.protobuf.ByteString
+          getAccountNameBytes() {
+        java.lang.Object ref = accountName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accountName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string account_name = 2;</code>
+       * @param value The accountName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        accountName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account_name = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccountName() {
+        
+        accountName_ = getDefaultInstance().getAccountName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account_name = 2;</code>
+       * @param value The bytes for accountName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        accountName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object accountNumber_ = "";
+      /**
+       * <code>string account_number = 3;</code>
+       * @return The accountNumber.
+       */
+      public java.lang.String getAccountNumber() {
+        java.lang.Object ref = accountNumber_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          accountNumber_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string account_number = 3;</code>
+       * @return The bytes for accountNumber.
+       */
+      public com.google.protobuf.ByteString
+          getAccountNumberBytes() {
+        java.lang.Object ref = accountNumber_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accountNumber_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string account_number = 3;</code>
+       * @param value The accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumber(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account_number = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccountNumber() {
+        
+        accountNumber_ = getDefaultInstance().getAccountNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string account_number = 3;</code>
+       * @param value The bytes for accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumberBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object kycLevel_ = "";
+      /**
+       * <code>string kyc_level = 4;</code>
+       * @return The kycLevel.
+       */
+      public java.lang.String getKycLevel() {
+        java.lang.Object ref = kycLevel_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          kycLevel_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string kyc_level = 4;</code>
+       * @return The bytes for kycLevel.
+       */
+      public com.google.protobuf.ByteString
+          getKycLevelBytes() {
+        java.lang.Object ref = kycLevel_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          kycLevel_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string kyc_level = 4;</code>
+       * @param value The kycLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKycLevel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        kycLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string kyc_level = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKycLevel() {
+        
+        kycLevel_ = getDefaultInstance().getKycLevel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string kyc_level = 4;</code>
+       * @param value The bytes for kycLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKycLevelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        kycLevel_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object bvn_ = "";
+      /**
+       * <code>string bvn = 5;</code>
+       * @return The bvn.
+       */
+      public java.lang.String getBvn() {
+        java.lang.Object ref = bvn_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          bvn_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string bvn = 5;</code>
+       * @return The bytes for bvn.
+       */
+      public com.google.protobuf.ByteString
+          getBvnBytes() {
+        java.lang.Object ref = bvn_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          bvn_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string bvn = 5;</code>
+       * @param value The bvn to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBvn(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        bvn_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string bvn = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBvn() {
+        
+        bvn_ = getDefaultInstance().getBvn();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string bvn = 5;</code>
+       * @param value The bytes for bvn to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBvnBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        bvn_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object productType_ = "";
+      /**
+       * <code>string product_type = 6;</code>
+       * @return The productType.
+       */
+      public java.lang.String getProductType() {
+        java.lang.Object ref = productType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          productType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string product_type = 6;</code>
+       * @return The bytes for productType.
+       */
+      public com.google.protobuf.ByteString
+          getProductTypeBytes() {
+        java.lang.Object ref = productType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          productType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string product_type = 6;</code>
+       * @param value The productType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProductType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        productType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string product_type = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProductType() {
+        
+        productType_ = getDefaultInstance().getProductType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string product_type = 6;</code>
+       * @param value The bytes for productType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProductTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        productType_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.NameEnquiryResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.NameEnquiryResponse)
+    private static final customers.Customer.NameEnquiryResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.NameEnquiryResponse();
+    }
+
+    public static customers.Customer.NameEnquiryResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NameEnquiryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<NameEnquiryResponse>() {
+      @java.lang.Override
+      public NameEnquiryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NameEnquiryResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NameEnquiryResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NameEnquiryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.NameEnquiryResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface CreateBulkCorpCustomerResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:customers.CreateBulkCorpCustomerResponse)
       com.google.protobuf.MessageOrBuilder {
@@ -27853,6 +29775,16 @@ public final class Customer {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_customers_CreateBulkCorpAccountRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_NameEnquiryRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_NameEnquiryRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_NameEnquiryResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_NameEnquiryResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_customers_CreateBulkCorpCustomerResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -27924,103 +29856,110 @@ public final class Customer {
       "\n\016customer.proto\022\tcustomers\032\037google/prot" +
       "obuf/timestamp.proto\"_\n\034CreateBulkCorpAc" +
       "countRequest\022?\n\rcustomer_data\030\001 \003(\0132(.cu" +
-      "stomers.CreateCorporateAccountRequest\"\226\001" +
-      "\n\036CreateBulkCorpCustomerResponse\0227\n\010resp" +
-      "onse\030\001 \003(\0132%.customers.CreateBulkCustome" +
-      "rResponse\022;\n\terrorData\030\002 \003(\0132(.customers" +
-      ".CreateBulkCustomerErrResponse\"M\n\032Create" +
-      "BulkCustomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016acco" +
-      "unt_number\030\002 \001(\t\022\013\n\003tin\030\003 \001(\t\"<\n\035CreateB" +
-      "ulkCustomerErrResponse\022\013\n\003tin\030\001 \001(\t\022\016\n\006r" +
-      "eason\030\002 \001(\t\"/\n\016ResponseStatus\022\014\n\004code\030\001 " +
-      "\001(\005\022\017\n\007message\030\002 \001(\t\"\315\r\n\035CreateCorporate" +
-      "AccountRequest\022\024\n\014company_name\030\001 \001(\t\022\037\n\027" +
-      "company_registration_no\030\002 \001(\t\022\034\n\024date_of" +
-      "_registration\030\003 \001(\t\022\037\n\027country_of_regist" +
-      "ration\030\004 \001(\t\022\027\n\017company_address\030\005 \001(\t\022\r\n" +
-      "\005state\030\006 \001(\t\022\014\n\004city\030\007 \001(\t\022\017\n\007country\030\010 " +
-      "\001(\t\022\021\n\tlast_name\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\013\n\003t" +
-      "in\030\013 \001(\t\022\017\n\007address\030\014 \001(\t\0227\n\rdirector_da" +
-      "ta\030\r \003(\0132 .customers.CreateDirectorReque" +
-      "st\022%\n\035principal_officer_middle_name\030\016 \001(" +
-      "\t\022\013\n\003sex\030\017 \001(\t\022\025\n\rdate_of_birth\030\020 \001(\t\022\r\n" +
-      "\005title\030\021 \001(\t\022\034\n\024contact_phone_number\030\022 \001" +
-      "(\t\022\027\n\017alternate_phone\030\023 \001(\t\022\033\n\023office_ph" +
-      "one_number\030\024 \001(\t\022\025\n\remail_address\030\025 \001(\t\022" +
-      "\013\n\003nin\030\026 \001(\t\022\017\n\007id_type\030\027 \001(\t\022\032\n\022date_of" +
-      "_expiration\030\030 \001(\t\022\031\n\021place_of_issuance\030\031" +
-      " \001(\t\022\021\n\tid_number\030\032 \001(\t\022\033\n\023country_of_is" +
-      "suance\030\033 \001(\t\022\030\n\020date_of_issuance\030\034 \001(\t\022\024" +
-      "\n\014fathers_name\030\035 \001(\t\022\024\n\014mothers_name\030\036 \001" +
-      "(\t\022\023\n\013nationality\030\037 \001(\t\022\031\n\021business_cate" +
-      "gory\030  \001(\t\022\033\n\023ownership_structure\030! \001(\t\022" +
-      "\017\n\007Product\030\" \001(\t\022\021\n\tbranch_id\030# \001(\t\022\021\n\ts" +
-      "ignature\030$ \001(\t\022\024\n\014Photo_upload\030% \001(\t\022\022\n\n" +
-      "introducer\030& \001(\t\022\013\n\003rsm\030\' \001(\t\022\023\n\013restric" +
-      "tion\030( \001(\t\022\"\n\032principal_officer_lastname" +
-      "\030) \001(\t\022$\n\034principal_officer_first_name\030*" +
-      " \001(\t\022\037\n\027primary_company_address\030+ \001(\t\022\035\n" +
-      "\025primary_company_state\030, \001(\t\022\034\n\024primary_" +
-      "company_city\030- \001(\t\022\037\n\027primary_company_co" +
-      "untry\030. \001(\t\022\022\n\nfirst_name\030/ \001(\t\022\023\n\013middl" +
-      "e_name\0300 \001(\t\022\022\n\nproduct_id\0301 \001(\t\022\022\n\nbloc" +
-      "k_view\0302 \001(\010\0220\n\tdocuments\0303 \003(\0132\035.custom" +
-      "ers.CreateDocumentData\022\027\n\017no_of_signator" +
-      "y\0304 \001(\t\022\030\n\020sms_notification\0305 \001(\010\022\032\n\022ema" +
-      "il_notification\0306 \001(\010\022+\n\rreferenceData\0307" +
-      " \003(\0132\024.customers.Reference\022:\n\017signatorie" +
-      "sData\0308 \003(\0132!.customers.CreateSignatoryR" +
-      "equest\0224\n\020customer_options\0309 \001(\0132\032.custo" +
-      "mers.CustomerOptions\022:\n\017product_options\030" +
-      ": \001(\0132!.customers.CustomerProductOptions" +
-      "\022\031\n\021is_linked_account\030; \001(\010\022\035\n\025linked_ac" +
-      "count_number\030< \001(\t\022\035\n\025creation_channel_c" +
-      "ode\030= \001(\t\022\033\n\023primary_company_lga\030> \001(\t\022\023" +
-      "\n\013sector_code\030? \001(\t\022\027\n\017driving_license\030@" +
-      " \001(\t\"h\n\026CustomerProductOptions\022\032\n\022produc" +
-      "t_created_at\030\001 \001(\t\022\032\n\022old_account_number" +
-      "\030\002 \001(\t\022\026\n\016account_number\030\003 \001(\t\"\275\002\n\tRefer" +
-      "ence\022\032\n\022reference_lastname\030\001 \001(\t\022\034\n\024refe" +
-      "rence_first_name\030\002 \001(\t\022\035\n\025reference_midd" +
-      "le_name\030\003 \001(\t\022\021\n\tbank_name\030\004 \001(\t\022\024\n\014bank" +
-      "_address\030\005 \001(\t\022\026\n\016account_number\030\006 \001(\t\022\024" +
-      "\n\014phone_number\030\007 \001(\t\022\r\n\005email\030\010 \001(\t\022\026\n\016r" +
-      "eference_form\030\t \001(\t\022\023\n\013father_name\030\n \001(\t" +
-      "\022\023\n\013mother_name\030\013 \001(\t\022\023\n\013nationality\030\014 \001" +
-      "(\t\022\032\n\022reference_verified\030\r \001(\010\"A\n\017Custom" +
-      "erOptions\022\033\n\023customer_created_at\030\001 \001(\t\022\021" +
-      "\n\tis_active\030\002 \001(\t\"\303\003\n\026CreateSignatoryReq" +
-      "uest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 " +
-      "\001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n" +
-      "\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024c" +
-      "ontact_phone_number\030\007 \001(\t\022\027\n\017alternate_p" +
-      "hone\030\010 \001(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003bvn" +
-      "\030\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001" +
-      "(\t\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017" +
-      " \001(\t\022\023\n\013customer_id\030\020 \001(\t\022=\n\026documents_a" +
-      "nd_identity\030\021 \003(\0132\035.customers.CreateDocu" +
-      "mentData\022\023\n\013father_name\030\022 \001(\t\022\023\n\013mother_" +
-      "name\030\023 \001(\t\022\023\n\013nationality\030\024 \001(\t\"\212\003\n\025Crea" +
-      "teDirectorRequest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\n" +
-      "first_name\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n" +
-      "\003sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005tit" +
-      "le\030\006 \001(\t\022\025\n\rcontact_phone\030\007 \001(\t\022\027\n\017alter" +
-      "nate_phone\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n" +
-      " \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t" +
-      "\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001" +
-      "(\t\022\023\n\013customer_id\030\020 \001(\t\022\024\n\014is_principal\030" +
-      "\021 \001(\010\022=\n\026documents_and_identity\030\022 \003(\0132\035." +
-      "customers.CreateDocumentData\"\305\001\n\022CreateD" +
-      "ocumentData\022\025\n\rdocument_name\030\001 \001(\t\022\024\n\014do" +
-      "cument_url\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(" +
-      "\t\022\027\n\017document_number\030\004 \001(\t\022\033\n\023country_of" +
-      "_issuance\030\005 \001(\t\022\030\n\020date_of_issuance\030\006 \001(" +
-      "\t\022\031\n\021place_of_issuance\030\007 \001(\t\"<\n\026CreateCu" +
-      "stomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016account_nu" +
-      "mber\030\002 \001(\t2\204\001\n\017CustomerService\022q\n\031CreatB" +
-      "ulkCorporateAccount\022\'.customers.CreateBu" +
-      "lkCorpAccountRequest\032).customers.CreateB" +
-      "ulkCorpCustomerResponse\"\000b\006proto3"
+      "stomers.CreateCorporateAccountRequest\",\n" +
+      "\022NameEnquiryRequest\022\026\n\016account_number\030\001 " +
+      "\001(\t\"\220\001\n\023NameEnquiryResponse\022\025\n\rresponse_" +
+      "code\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022\026\n\016acco" +
+      "unt_number\030\003 \001(\t\022\021\n\tkyc_level\030\004 \001(\t\022\013\n\003b" +
+      "vn\030\005 \001(\t\022\024\n\014product_type\030\006 \001(\t\"\226\001\n\036Creat" +
+      "eBulkCorpCustomerResponse\0227\n\010response\030\001 " +
+      "\003(\0132%.customers.CreateBulkCustomerRespon" +
+      "se\022;\n\terrorData\030\002 \003(\0132(.customers.Create" +
+      "BulkCustomerErrResponse\"M\n\032CreateBulkCus" +
+      "tomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016account_num" +
+      "ber\030\002 \001(\t\022\013\n\003tin\030\003 \001(\t\"<\n\035CreateBulkCust" +
+      "omerErrResponse\022\013\n\003tin\030\001 \001(\t\022\016\n\006reason\030\002" +
+      " \001(\t\"/\n\016ResponseStatus\022\014\n\004code\030\001 \001(\005\022\017\n\007" +
+      "message\030\002 \001(\t\"\315\r\n\035CreateCorporateAccount" +
+      "Request\022\024\n\014company_name\030\001 \001(\t\022\037\n\027company" +
+      "_registration_no\030\002 \001(\t\022\034\n\024date_of_regist" +
+      "ration\030\003 \001(\t\022\037\n\027country_of_registration\030" +
+      "\004 \001(\t\022\027\n\017company_address\030\005 \001(\t\022\r\n\005state\030" +
+      "\006 \001(\t\022\014\n\004city\030\007 \001(\t\022\017\n\007country\030\010 \001(\t\022\021\n\t" +
+      "last_name\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\013\n\003tin\030\013 \001(" +
+      "\t\022\017\n\007address\030\014 \001(\t\0227\n\rdirector_data\030\r \003(" +
+      "\0132 .customers.CreateDirectorRequest\022%\n\035p" +
+      "rincipal_officer_middle_name\030\016 \001(\t\022\013\n\003se" +
+      "x\030\017 \001(\t\022\025\n\rdate_of_birth\030\020 \001(\t\022\r\n\005title\030" +
+      "\021 \001(\t\022\034\n\024contact_phone_number\030\022 \001(\t\022\027\n\017a" +
+      "lternate_phone\030\023 \001(\t\022\033\n\023office_phone_num" +
+      "ber\030\024 \001(\t\022\025\n\remail_address\030\025 \001(\t\022\013\n\003nin\030" +
+      "\026 \001(\t\022\017\n\007id_type\030\027 \001(\t\022\032\n\022date_of_expira" +
+      "tion\030\030 \001(\t\022\031\n\021place_of_issuance\030\031 \001(\t\022\021\n" +
+      "\tid_number\030\032 \001(\t\022\033\n\023country_of_issuance\030" +
+      "\033 \001(\t\022\030\n\020date_of_issuance\030\034 \001(\t\022\024\n\014fathe" +
+      "rs_name\030\035 \001(\t\022\024\n\014mothers_name\030\036 \001(\t\022\023\n\013n" +
+      "ationality\030\037 \001(\t\022\031\n\021business_category\030  " +
+      "\001(\t\022\033\n\023ownership_structure\030! \001(\t\022\017\n\007Prod" +
+      "uct\030\" \001(\t\022\021\n\tbranch_id\030# \001(\t\022\021\n\tsignatur" +
+      "e\030$ \001(\t\022\024\n\014Photo_upload\030% \001(\t\022\022\n\nintrodu" +
+      "cer\030& \001(\t\022\013\n\003rsm\030\' \001(\t\022\023\n\013restriction\030( " +
+      "\001(\t\022\"\n\032principal_officer_lastname\030) \001(\t\022" +
+      "$\n\034principal_officer_first_name\030* \001(\t\022\037\n" +
+      "\027primary_company_address\030+ \001(\t\022\035\n\025primar" +
+      "y_company_state\030, \001(\t\022\034\n\024primary_company" +
+      "_city\030- \001(\t\022\037\n\027primary_company_country\030." +
+      " \001(\t\022\022\n\nfirst_name\030/ \001(\t\022\023\n\013middle_name\030" +
+      "0 \001(\t\022\022\n\nproduct_id\0301 \001(\t\022\022\n\nblock_view\030" +
+      "2 \001(\010\0220\n\tdocuments\0303 \003(\0132\035.customers.Cre" +
+      "ateDocumentData\022\027\n\017no_of_signatory\0304 \001(\t" +
+      "\022\030\n\020sms_notification\0305 \001(\010\022\032\n\022email_noti" +
+      "fication\0306 \001(\010\022+\n\rreferenceData\0307 \003(\0132\024." +
+      "customers.Reference\022:\n\017signatoriesData\0308" +
+      " \003(\0132!.customers.CreateSignatoryRequest\022" +
+      "4\n\020customer_options\0309 \001(\0132\032.customers.Cu" +
+      "stomerOptions\022:\n\017product_options\030: \001(\0132!" +
+      ".customers.CustomerProductOptions\022\031\n\021is_" +
+      "linked_account\030; \001(\010\022\035\n\025linked_account_n" +
+      "umber\030< \001(\t\022\035\n\025creation_channel_code\030= \001" +
+      "(\t\022\033\n\023primary_company_lga\030> \001(\t\022\023\n\013secto" +
+      "r_code\030? \001(\t\022\027\n\017driving_license\030@ \001(\t\"h\n" +
+      "\026CustomerProductOptions\022\032\n\022product_creat" +
+      "ed_at\030\001 \001(\t\022\032\n\022old_account_number\030\002 \001(\t\022" +
+      "\026\n\016account_number\030\003 \001(\t\"\275\002\n\tReference\022\032\n" +
+      "\022reference_lastname\030\001 \001(\t\022\034\n\024reference_f" +
+      "irst_name\030\002 \001(\t\022\035\n\025reference_middle_name" +
+      "\030\003 \001(\t\022\021\n\tbank_name\030\004 \001(\t\022\024\n\014bank_addres" +
+      "s\030\005 \001(\t\022\026\n\016account_number\030\006 \001(\t\022\024\n\014phone" +
+      "_number\030\007 \001(\t\022\r\n\005email\030\010 \001(\t\022\026\n\016referenc" +
+      "e_form\030\t \001(\t\022\023\n\013father_name\030\n \001(\t\022\023\n\013mot" +
+      "her_name\030\013 \001(\t\022\023\n\013nationality\030\014 \001(\t\022\032\n\022r" +
+      "eference_verified\030\r \001(\010\"A\n\017CustomerOptio" +
+      "ns\022\033\n\023customer_created_at\030\001 \001(\t\022\021\n\tis_ac" +
+      "tive\030\002 \001(\t\"\303\003\n\026CreateSignatoryRequest\022\021\n" +
+      "\tlast_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013" +
+      "middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_o" +
+      "f_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024contact_" +
+      "phone_number\030\007 \001(\t\022\027\n\017alternate_phone\030\010 " +
+      "\001(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022" +
+      "\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023p" +
+      "assport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\022\023\n" +
+      "\013customer_id\030\020 \001(\t\022=\n\026documents_and_iden" +
+      "tity\030\021 \003(\0132\035.customers.CreateDocumentDat" +
+      "a\022\023\n\013father_name\030\022 \001(\t\022\023\n\013mother_name\030\023 " +
+      "\001(\t\022\023\n\013nationality\030\024 \001(\t\"\212\003\n\025CreateDirec" +
+      "torRequest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_n" +
+      "ame\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 " +
+      "\001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(" +
+      "\t\022\025\n\rcontact_phone\030\007 \001(\t\022\027\n\017alternate_ph" +
+      "one\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n" +
+      "\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023pas" +
+      "sport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\022\023\n\013c" +
+      "ustomer_id\030\020 \001(\t\022\024\n\014is_principal\030\021 \001(\010\022=" +
+      "\n\026documents_and_identity\030\022 \003(\0132\035.custome" +
+      "rs.CreateDocumentData\"\305\001\n\022CreateDocument" +
+      "Data\022\025\n\rdocument_name\030\001 \001(\t\022\024\n\014document_" +
+      "url\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(\t\022\027\n\017do" +
+      "cument_number\030\004 \001(\t\022\033\n\023country_of_issuan" +
+      "ce\030\005 \001(\t\022\030\n\020date_of_issuance\030\006 \001(\t\022\031\n\021pl" +
+      "ace_of_issuance\030\007 \001(\t\"<\n\026CreateCustomerR" +
+      "esponse\022\n\n\002id\030\001 \001(\t\022\026\n\016account_number\030\002 " +
+      "\001(\t2\324\001\n\017CustomerService\022q\n\031CreatBulkCorp" +
+      "orateAccount\022\'.customers.CreateBulkCorpA" +
+      "ccountRequest\032).customers.CreateBulkCorp" +
+      "CustomerResponse\"\000\022N\n\013NameEnquiry\022\035.cust" +
+      "omers.NameEnquiryRequest\032\036.customers.Nam" +
+      "eEnquiryResponse\"\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -28033,74 +29972,86 @@ public final class Customer {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpAccountRequest_descriptor,
         new java.lang.String[] { "CustomerData", });
-    internal_static_customers_CreateBulkCorpCustomerResponse_descriptor =
+    internal_static_customers_NameEnquiryRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_customers_NameEnquiryRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_NameEnquiryRequest_descriptor,
+        new java.lang.String[] { "AccountNumber", });
+    internal_static_customers_NameEnquiryResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_customers_NameEnquiryResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_NameEnquiryResponse_descriptor,
+        new java.lang.String[] { "ResponseCode", "AccountName", "AccountNumber", "KycLevel", "Bvn", "ProductType", });
+    internal_static_customers_CreateBulkCorpCustomerResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_customers_CreateBulkCorpCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpCustomerResponse_descriptor,
         new java.lang.String[] { "Response", "ErrorData", });
     internal_static_customers_CreateBulkCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_customers_CreateBulkCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerResponse_descriptor,
         new java.lang.String[] { "Id", "AccountNumber", "Tin", });
     internal_static_customers_CreateBulkCustomerErrResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_customers_CreateBulkCustomerErrResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerErrResponse_descriptor,
         new java.lang.String[] { "Tin", "Reason", });
     internal_static_customers_ResponseStatus_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_customers_ResponseStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_ResponseStatus_descriptor,
         new java.lang.String[] { "Code", "Message", });
     internal_static_customers_CreateCorporateAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_customers_CreateCorporateAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCorporateAccountRequest_descriptor,
         new java.lang.String[] { "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "CompanyAddress", "State", "City", "Country", "LastName", "Bvn", "Tin", "Address", "DirectorData", "PrincipalOfficerMiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "OfficePhoneNumber", "EmailAddress", "Nin", "IdType", "DateOfExpiration", "PlaceOfIssuance", "IdNumber", "CountryOfIssuance", "DateOfIssuance", "FathersName", "MothersName", "Nationality", "BusinessCategory", "OwnershipStructure", "Product", "BranchId", "Signature", "PhotoUpload", "Introducer", "Rsm", "Restriction", "PrincipalOfficerLastname", "PrincipalOfficerFirstName", "PrimaryCompanyAddress", "PrimaryCompanyState", "PrimaryCompanyCity", "PrimaryCompanyCountry", "FirstName", "MiddleName", "ProductId", "BlockView", "Documents", "NoOfSignatory", "SmsNotification", "EmailNotification", "ReferenceData", "SignatoriesData", "CustomerOptions", "ProductOptions", "IsLinkedAccount", "LinkedAccountNumber", "CreationChannelCode", "PrimaryCompanyLga", "SectorCode", "DrivingLicense", });
     internal_static_customers_CustomerProductOptions_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_customers_CustomerProductOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerProductOptions_descriptor,
         new java.lang.String[] { "ProductCreatedAt", "OldAccountNumber", "AccountNumber", });
     internal_static_customers_Reference_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_customers_Reference_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Reference_descriptor,
         new java.lang.String[] { "ReferenceLastname", "ReferenceFirstName", "ReferenceMiddleName", "BankName", "BankAddress", "AccountNumber", "PhoneNumber", "Email", "ReferenceForm", "FatherName", "MotherName", "Nationality", "ReferenceVerified", });
     internal_static_customers_CustomerOptions_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_customers_CustomerOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerOptions_descriptor,
         new java.lang.String[] { "CustomerCreatedAt", "IsActive", });
     internal_static_customers_CreateSignatoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_customers_CreateSignatoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateSignatoryRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "EmailAddress", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "DocumentsAndIdentity", "FatherName", "MotherName", "Nationality", });
     internal_static_customers_CreateDirectorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_customers_CreateDirectorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDirectorRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhone", "AlternatePhone", "Email", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "IsPrincipal", "DocumentsAndIdentity", });
     internal_static_customers_CreateDocumentData_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_customers_CreateDocumentData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDocumentData_descriptor,
         new java.lang.String[] { "DocumentName", "DocumentUrl", "ExpirationDate", "DocumentNumber", "CountryOfIssuance", "DateOfIssuance", "PlaceOfIssuance", });
     internal_static_customers_CreateCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_customers_CreateCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerResponse_descriptor,

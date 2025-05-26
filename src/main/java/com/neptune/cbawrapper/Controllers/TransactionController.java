@@ -216,7 +216,7 @@ public class TransactionController {
                 status = "SUCCESS";
             }
 
-            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(request.getTransactionPlatform());
+            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByNameAndId(request.getTransactionPlatform(), request.getPaymentTypeId());
 
             if(platformCharges.isEmpty()){
                 errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "transactionPlatform not found", "transactionPlatform not found");
@@ -315,7 +315,7 @@ public class TransactionController {
                 transactionDrCr.setParent_id("");
                 transactionDrCr.setCbaMessage("");
                 transactionDrCr.setResourceId(responseSchema.getResourceId());
-//                transactionDrCr.setTransaction_platform_id(String.valueOf(transactionRequestSchema.getTransactionPlatformId()));
+                transactionDrCr.setTransaction_platform_id(String.valueOf(request.getPaymentTypeId()));
                 transactionDrCr.setCardScheme(request.getCardScheme());
                 transactionDrCr.setCreated_at(LocalDateTime.now().toString());
                 transactionDrCr.setUpdated_at(LocalDateTime.now().toString());

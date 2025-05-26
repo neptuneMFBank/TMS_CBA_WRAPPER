@@ -4,7 +4,9 @@ import com.neptune.cba.transaction.easy_pay.*;
 import com.neptune.cbawrapper.Models.EasypayTransactionsModel;
 import com.neptune.cbawrapper.Repository.EasypayTransactionsRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.Services.CustomerService;
 import com.neptune.cbawrapper.Services.Easypay;
+import customers.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,14 @@ public class EasypayController {
     @Autowired
     private EasypayTransactionsRepository easypayTransactionsRepository;
 
+    private CustomerService customerService;
+
     @Autowired
     private Easypay easypay;
 
     @PostMapping("/outward_transfer")
     public ResponseEntity<ResponseSchema<?>> transferOutward(@RequestBody EasyPayTransferRequestPayload requestPayload){
+//        remove originator data and add from our user details
         EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
         transactionsModel.setRequestId(requestPayload.getRequestId());
         transactionsModel.setSourceInstitutionCode(requestPayload.getSourceInstitutionCode());
@@ -94,8 +99,26 @@ public class EasypayController {
 
     @GetMapping("/name_enquiry")
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
-        NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
+        if(requestPayload.getDestinationInstitutionCode().equals("inter")){
+            Customer.NameEnquiryRequest request = Customer.NameEnquiryRequest.newBuilder().setAccountNumber(requestPayload.getAccountNumber()).build();
+            Customer.NameEnquiryResponse response = customerService.getCustomerData(request);
+            NameEnquiryResponseData data = new NameEnquiryResponseData();
+            data.setResponseCode(response.getResponseCode());
+            data.setSessionID("response.getSessionID()");
+            data.setTransactionId("response.getTransactionId()");
+            data.setChannelCode(1);
+            data.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+            data.setAccountName(response.getAccountName());
+            data.setAccountNumber(response.getAccountNumber());
+            data.setBankVerificationNumber("response.getBankVerificationNumber()");
+            data.setKycLevel(1);
 
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+        NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
+//
+//        remove channel_code, senderBankCode, platform from request body and add from env
         NameEnquiryResponseData data = new NameEnquiryResponseData();
         data.setResponseCode(response.getResponseCode());
         data.setSessionID(response.getSessionID());
