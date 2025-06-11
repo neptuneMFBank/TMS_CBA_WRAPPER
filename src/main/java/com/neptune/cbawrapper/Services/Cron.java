@@ -408,6 +408,10 @@ public class Cron {
 
         System.out.println("transactionDrCr = " + transactionDrCr);
 
+        if(transactionDrCr.isEmpty()){
+            return;
+        }
+
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
             if (transactionDrCr1.getAccountnumber() != null) {
 
@@ -486,13 +490,16 @@ public class Cron {
                                         System.out.println("========================================= 6");
                                         TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, transactionDrCr1.getPosRef(), "charge", businessPlatformCharges.get().getBusinessName(), businessPlatformCharges.get().getBusinessWalletId(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
                                         DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr5);
-                                        if (response4.getCode().equals("200")) {
-                                            System.out.println("========================================= 7");
-                                            transactionDrCr5.setUpdatedToCba(true);
+                                        if(response4 != null) {
+                                            if (response4.getCode().equals("200")) {
+                                                System.out.println("========================================= 7");
+                                                transactionDrCr5.setUpdatedToCba(true);
+                                            }
+
+                                            transactionDrCr5.setCbaMessage(response4.getMessage());
+                                            cbaTransactionRequests.save(transactionDrCr5);
+                                            System.out.println("response4 = " + response4);
                                         }
-                                        transactionDrCr5.setCbaMessage(response4.getMessage());
-                                        cbaTransactionRequests.save(transactionDrCr5);
-                                        System.out.println("response4 = " + response4);
                                     }
 
                                 }

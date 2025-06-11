@@ -49,8 +49,9 @@ public class DebitCreditService {
         System.out.println("transactionDrCr.getTransactionreference() = " + transactionDrCr.getTransactionreference());
         System.out.println("transactionDrCr.getNarration() = " + transactionDrCr.getNarration());
         System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
-        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
+//        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
         try {
+            System.out.println("got here");
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
                     .setIsccode("7002")
@@ -69,9 +70,12 @@ public class DebitCreditService {
 
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
+            System.out.println("response = " + response);
         }catch (StatusRuntimeException e) {
+            System.out.println("StatusRuntimeException = " +e.getMessage() );
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("Exception = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
         }finally {
             channel.shutdownNow();
