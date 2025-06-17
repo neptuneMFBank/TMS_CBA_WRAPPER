@@ -73,9 +73,14 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/BillInfoData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/Categories.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/CategoryServices.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/Customer.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/CustomerValidationResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/DataItems.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/DataServices.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePayment.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePaymentResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ResponseCustomerData.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ResponseData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ValidateCustomerRequest.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BusinessPlatformChargesRequest.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/CoreExceptionResponse.java

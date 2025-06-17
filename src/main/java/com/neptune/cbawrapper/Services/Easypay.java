@@ -100,10 +100,10 @@ public class Easypay {
         try {
             NameEnquiryRpcRequest rpcRequest = NameEnquiryRpcRequest.newBuilder()
                     .setAccountNumber(request.getAccountNumber())
-                    .setChannelCode(request.getChannelCode())
+                    .setChannelCode("WEB")
                     .setDestinationInstitutionCode(request.getDestinationInstitutionCode())
-                    .setSenderBankCode(request.getSenderBankCode())
-                    .setPlatform(request.getPlatform())
+                    .setSenderBankCode("BANK002")
+                    .setPlatform("MOBILE")
                     .build();
             response = stub.nameEnquiry(rpcRequest);
         }catch (StatusRuntimeException e){

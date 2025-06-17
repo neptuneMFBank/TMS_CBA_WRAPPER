@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Controllers;
 
-
 import com.neptune.cbawrapper.Models.BillsPaymentData;
 import com.neptune.cbawrapper.Repository.BillsPaymentDataRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
@@ -60,7 +59,7 @@ public class BillsPaymentController {
 
     @PostMapping("/bill/make-payment")
     public ResponseEntity<ResponseSchema<?>> makePayment(@RequestBody MakePayment request){
-        Object validateCustomer = billsPayment.makePayment(request);
+         MakePaymentResponse validateCustomer = billsPayment.makePayment(request);
 
         BillsPaymentData billsPaymentData = new BillsPaymentData();
         billsPaymentData.setPaymentCode(request.getPaymentCode());
