@@ -6,13 +6,12 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CategoryServicesRepository extends MongoRepository<CategoryServicesModel, String> {
 
-    @Query("{ 'serviceId': {$eq: ?0}, 'name': { $eq: ?1 } }")
-    Optional<CategoryServicesModel> findCategoryService(String serviceId, String categoryName);
+    @Query("{ 'serviceId': {$eq: ?0}, 'categoryName': { $eq: ?1 } }")
+    List<CategoryServicesModel> findCategoryService(String serviceId, String categoryName);
 
     @Query("{ 'interswitchId': {$eq: ?0} }")
     List<CategoryServicesModel> findAllById(String id);
