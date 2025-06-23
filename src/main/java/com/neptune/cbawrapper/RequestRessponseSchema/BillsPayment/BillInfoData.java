@@ -6,6 +6,9 @@ public class BillInfoData {
     private String fee;
     private String id;
     private String paymentCode;
+    private String customerIdField;
+    private String isAmountFixed;
+    private String currencySymbol;
 
     public String getAmount() {
         return amount;
@@ -41,6 +44,30 @@ public class BillInfoData {
 
     public String getPaymentCode() {
         return paymentCode;
+    }
+
+    public String getCustomerIdField() {
+        return customerIdField;
+    }
+
+    public void setCustomerIdField(String customerIdField) {
+        this.customerIdField = customerIdField;
+    }
+
+    public String getIsAmountFixed() {
+        return isAmountFixed;
+    }
+
+    public void setIsAmountFixed(String isAmountFixed) {
+        this.isAmountFixed = isAmountFixed;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
     }
 
     public void setPaymentCode(String paymentCode) {

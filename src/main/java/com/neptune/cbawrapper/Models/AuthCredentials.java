@@ -16,7 +16,6 @@ public class AuthCredentials {
     private String customer_id;
     private String API_key;
     private String two_fa_token;
-
     private String first_name;
     private String last_name;
     private String business_name;

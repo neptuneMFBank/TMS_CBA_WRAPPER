@@ -1,7 +1,11 @@
 package com.neptune.cbawrapper.Controllers;
 
 import com.neptune.cbawrapper.Models.BillsPaymentData;
+import com.neptune.cbawrapper.Models.CategoriesModel;
+import com.neptune.cbawrapper.Models.CategoryServicesModel;
 import com.neptune.cbawrapper.Repository.BillsPaymentDataRepository;
+import com.neptune.cbawrapper.Repository.CategoriesRepository;
+import com.neptune.cbawrapper.Repository.CategoryServicesRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.ResponseSchema;
 import com.neptune.cbawrapper.Services.BillsPayment;
@@ -11,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/bills_payment")
@@ -20,24 +25,28 @@ public class BillsPaymentController {
     private BillsPayment billsPayment;
 
     private final BillsPaymentDataRepository billsPaymentDataRepository;
+    private final CategoriesRepository categoriesRepository;
+    private final CategoryServicesRepository categoryServicesRepository;
 
-    public BillsPaymentController(BillsPaymentDataRepository billsPaymentDataRepository) {
+    public BillsPaymentController(BillsPaymentDataRepository billsPaymentDataRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository) {
         this.billsPaymentDataRepository = billsPaymentDataRepository;
+        this.categoryServicesRepository = categoryServicesRepository;
+        this.categoriesRepository =  categoriesRepository;
     }
 
     @GetMapping("/bill/categories")
     public ResponseEntity<ResponseSchema<?>> getBillsCategories(){
-        Categories getBillsCat = billsPayment.getBillsCategories();
+        List<CategoriesModel> findCategory = categoriesRepository.findCategory(true);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", getBillsCat, "", ZonedDateTime.now(), true);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", findCategory, "", ZonedDateTime.now(), true);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @GetMapping("/bill/category-service/{categoryId}")
     public ResponseEntity<ResponseSchema<?>> getCategoryServices(@PathVariable("categoryId") String categoryId){
-        CategoryServices getCatServices = billsPayment.getCategoryServices(categoryId);
+        List<CategoryServicesModel> findAllById = categoryServicesRepository.findAllById(categoryId);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", getCatServices, "", ZonedDateTime.now(), true);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", findAllById, "", ZonedDateTime.now(), true);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 

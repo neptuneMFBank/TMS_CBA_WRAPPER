@@ -8,6 +8,8 @@ import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.CategoryServices;
 import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
 import com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse;
 import customers.Customer;
@@ -35,6 +37,9 @@ public class Cron {
     private CorePayRestController corePayRestController;
 
     @Autowired
+    private BillsPayment billsPayment;
+
+    @Autowired
     private TmsCoreWalletAccount tmsCoreWalletAccount;
 
     @Autowired
@@ -50,16 +55,20 @@ public class Cron {
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
     private final DebitCreditService debitCreditService;
+    private final CategoriesRepository categoriesRepository;
+    private final CategoryServicesRepository categoryServicesRepository;
     private final TransactionCoreController transactionCoreController;
     private final PlatformChargeRepository platformChargeRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequestsRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Cron(CustomersRepository customersRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
+    public Cron(CustomersRepository customersRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
         this.helpers = helpers;
+        this.categoryServicesRepository = categoryServicesRepository;
+        this.categoriesRepository = categoriesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.authCredentialsRepository = authCredentialsRepository;
         this.virtualAccountService = virtualAccountService;
@@ -71,7 +80,7 @@ public class Cron {
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+//    @Scheduled(cron = "0 */3 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -151,7 +160,7 @@ public class Cron {
         return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId(), ZonedDateTime.now().toString(), ZonedDateTime.now().toString());
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+//    @Scheduled(cron = "0 */5 * * * *")
     public void updateCustomerAccountNumFromCba() {
         try {
             //TODO: get customers without account number and send them to CBA to generate account numbers for them
@@ -212,7 +221,7 @@ public class Cron {
 
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
+//    @Scheduled(cron = "0 */7 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -256,7 +265,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+//    @Scheduled(cron = "0 */3 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -322,7 +331,7 @@ public class Cron {
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */2 * * * *")
+//    @Scheduled(cron = "0 */2 * * * *")
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -377,7 +386,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */6 * * * *")
+//    @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -402,7 +411,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+//    @Scheduled(cron = "0 */1 * * * *")
     public void pushTransactionsToCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
@@ -530,7 +539,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+//    @Scheduled(cron = "0 */5 * * * *")
     public void checkTransactionStatusOnCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsLoggedToCba(true);
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
@@ -568,6 +577,74 @@ public class Cron {
             requestSchema.setStatus(300);
             System.out.println("requestSchema = " + requestSchema);
             Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+        }
+    }
+
+    @Scheduled(cron = "0 */3 * * * *")
+    public void getCategories(){
+        Categories getBillsCat = billsPayment.getBillsCategories();
+        if(!getBillsCat.getData().isEmpty()){
+            for (DataItems i : getBillsCat.getData()) {
+                Optional<CategoriesModel> categoriesModel = categoriesRepository.findCategory(i.getId(), i.getName());
+                if(categoriesModel.isEmpty()) {
+                    System.out.println("Kalu");
+                    boolean isActive = i.getName().equalsIgnoreCase("Utility Bills") || i.getName().equalsIgnoreCase("Cable TV Bills") || i.getName().equalsIgnoreCase("State Payments") || i.getName().equalsIgnoreCase("Mobile/Recharge");
+                    CategoriesModel categories = new CategoriesModel();
+                    categories.setInterswitchId(i.getId());
+                    categories.setName(i.getName());
+                    categories.setDescription(i.getDescription());
+                    categories.setActive(isActive);
+                    categories.setLogo("");
+                    categoriesRepository.save(categories);
+                }
+            }
+
+            List<CategoriesModel> dataItems = categoriesRepository.findCategory(true);
+
+            for (CategoriesModel model : dataItems){
+                System.out.println("Philomena");
+                if(model.getActive()) {
+                    System.out.println("Here");
+                    CategoryServices getCatServices = billsPayment.getCategoryServices(model.getInterswitchId());
+
+                    if (!getCatServices.getData().isEmpty()) {
+                        for (DataServices i : getCatServices.getData()) {
+                            Optional<CategoryServicesModel> categoryServicesChecker = categoryServicesRepository.findCategoryService(i.getServiceId(), i.getCategoryName());
+                            if(categoryServicesChecker.isEmpty()) {
+                                System.out.println("Danny");
+                                CategoryServicesModel categoryServicesModel = new CategoryServicesModel();
+                                categoryServicesModel.setServiceName(i.getServiceName());
+                                categoryServicesModel.setCategoryName(i.getCategoryName());
+                                categoryServicesModel.setLogo(i.getLogo());
+                                categoryServicesModel.setInterswitchId(model.getInterswitchId());
+                                categoryServicesModel.setServiceId(i.getServiceId());
+                                categoryServicesModel.setSupportEmail(i.getSupportEmail());
+
+                                BillInfo getBillInfo = billsPayment.getBillerInfo(i.getServiceId());
+                                List<BillerInfo> billerInfos = new ArrayList<>();
+                                if (!getBillInfo.getData().isEmpty()) {
+                                    for (BillInfoData j : getBillInfo.getData()) {
+                                        BillerInfo info = new BillerInfo();
+                                        info.setAmount(j.getAmount());
+                                        info.setName(j.getName());
+                                        info.setFee(j.getFee());
+                                        info.setBillerInfoId(j.getId());
+                                        info.setPaymentCode(j.getPaymentCode());
+                                        info.setCustomerIdField(j.getCustomerIdField());
+                                        info.setIsAmountFixed(j.getIsAmountFixed());
+                                        info.setCurrencySymbol(j.getCurrencySymbol());
+                                        billerInfos.add(info);
+                                    }
+                                }
+                                categoryServicesModel.setBillerInfos(billerInfos);
+                                categoryServicesRepository.save(categoryServicesModel);
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println("DONE");
         }
     }
 }
