@@ -54,4 +54,24 @@ public interface EasyPayListRequestOrBuilder extends
    * @return The pageSize.
    */
   int getPageSize();
+
+  /**
+   * <pre>
+   * new june 13
+   * </pre>
+   *
+   * <code>string type = 6;</code>
+   * @return The type.
+   */
+  java.lang.String getType();
+  /**
+   * <pre>
+   * new june 13
+   * </pre>
+   *
+   * <code>string type = 6;</code>
+   * @return The bytes for type.
+   */
+  com.google.protobuf.ByteString
+      getTypeBytes();
 }

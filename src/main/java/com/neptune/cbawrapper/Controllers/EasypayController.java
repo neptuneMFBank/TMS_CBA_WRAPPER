@@ -1,12 +1,15 @@
 package com.neptune.cbawrapper.Controllers;
 
 import com.neptune.cba.transaction.easy_pay.*;
+import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.EasypayTransactionsModel;
 import com.neptune.cbawrapper.Repository.EasypayTransactionsRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.CustomerService;
 import com.neptune.cbawrapper.Services.Easypay;
 import customers.Customer;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/easy_pay")
 public class EasypayController {
+
+
+    private final ErrorLoggingException errorLoggingException;
 
     @Autowired
     private EasypayTransactionsRepository easypayTransactionsRepository;
@@ -28,11 +35,9 @@ public class EasypayController {
     private Easypay easypay;
 
     @PostMapping("/outward_transfer")
-    public ResponseEntity<ResponseSchema<?>> transferOutward(@RequestBody EasyPayTransferRequestPayload requestPayload){
+    public ResponseEntity<ResponseSchema<?>> transferOutward(@Valid @RequestBody EasyPayTransferRequestPayload requestPayload){
 //        remove originator data and add from our user details
         EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-        transactionsModel.setRequestId(requestPayload.getRequestId());
-        transactionsModel.setSourceInstitutionCode(requestPayload.getSourceInstitutionCode());
         transactionsModel.setBeneficiaryAccountName(requestPayload.getBeneficiaryAccountName());
         transactionsModel.setBeneficiaryAccountNumber(requestPayload.getBeneficiaryAccountNumber());
         transactionsModel.setBeneficiaryBankVerificationNumber(requestPayload.getBeneficiaryBankVerificationNumber());
@@ -42,23 +47,27 @@ public class EasypayController {
         transactionsModel.setOriginatorAccountNumber(requestPayload.getOriginatorAccountNumber());
         transactionsModel.setOriginatorBankVerificationNumber(requestPayload.getOriginatorBankVerificationNumber());
         transactionsModel.setOriginatorKYCLevel(requestPayload.getOriginatorKYCLevel());
-        transactionsModel.setMandateReferenceNumber(requestPayload.getMandateReferenceNumber());
         transactionsModel.setNameEnquiryRef(requestPayload.getNameEnquiryRef());
         transactionsModel.setOriginatorNarration(requestPayload.getOriginatorNarration());
         transactionsModel.setPaymentReference(requestPayload.getPaymentReference());
         transactionsModel.setTransactionLocation(requestPayload.getTransactionLocation());
-        transactionsModel.setBeneficiaryNarration(requestPayload.getBeneficiaryNarration());
-        transactionsModel.setBillerId(requestPayload.getBillerId());
         transactionsModel.setCustomerAccountName(requestPayload.getCustomerAccountName());
         transactionsModel.setCustomerAccountNumber(requestPayload.getCustomerAccountNumber());
         transactionsModel.setAmount(requestPayload.getAmount());
-        transactionsModel.setNipResponse(requestPayload.getNipResponse());
-        transactionsModel.setStatus(requestPayload.getStatus());
-        transactionsModel.setSessionId(requestPayload.getSessionId());
-        transactionsModel.setTransactionId(requestPayload.getTransactionId());
         easypayTransactionsRepository.save(transactionsModel);
 
         EasyPayResponse response = easypay.transferOutward(requestPayload);
+
+        if(response == null){
+            System.out.println("Response from outward transfer returned null");
+            errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
+
+            EasypayResponseData easypayResponseData = new EasypayResponseData();
+            easypayResponseData.setCode("500");
+            easypayResponseData.setMessage("Response from outward transfer returned null");
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
         transactionsModel.setMessage(response.getMessage());
         transactionsModel.setCode(response.getCode());
         easypayTransactionsRepository.save(transactionsModel);
@@ -146,7 +155,6 @@ public class EasypayController {
         for (int i = 0; i < response.getEasypaysList().size(); i++) {
             EasyPayRequest easyPayRequest = response.getEasypays(i);
             EasyPayRequestData easyPayRequestData = new EasyPayRequestData();
-            easyPayRequestData.setSourceInstitutionCode(easyPayRequest.getSourceInstitutionCode());
             easyPayRequestData.setBeneficiaryAccountName(easyPayRequest.getBeneficiaryAccountName());
             easyPayRequestData.setBeneficiaryAccountNumber(easyPayRequest.getBeneficiaryAccountNumber());
             easyPayRequestData.setBeneficiaryBankVerificationNumber(easyPayRequest.getBeneficiaryBankVerificationNumber());
@@ -156,21 +164,13 @@ public class EasypayController {
             easyPayRequestData.setOriginatorAccountNumber(easyPayRequest.getOriginatorAccountNumber());
             easyPayRequestData.setOriginatorBankVerificationNumber(easyPayRequest.getOriginatorBankVerificationNumber());
             easyPayRequestData.setOriginatorKYCLevel(easyPayRequest.getOriginatorKYCLevel());
-            easyPayRequestData.setMandateReferenceNumber(easyPayRequest.getMandateReferenceNumber());
             easyPayRequestData.setNameEnquiryRef(easyPayRequest.getNameEnquiryRef());
             easyPayRequestData.setOriginatorNarration(easyPayRequest.getOriginatorNarration());
             easyPayRequestData.setPaymentReference(easyPayRequest.getPaymentReference());
             easyPayRequestData.setTransactionLocation(easyPayRequest.getTransactionLocation());
-            easyPayRequestData.setBeneficiaryNarration(easyPayRequest.getBeneficiaryNarration());
-            easyPayRequestData.setBillerId(easyPayRequest.getBillerId());
             easyPayRequestData.setCustomerAccountName(easyPayRequest.getCustomerAccountName());
             easyPayRequestData.setCustomerAccountNumber(easyPayRequest.getCustomerAccountNumber());
             easyPayRequestData.setAmount(easyPayRequest.getAmount());
-            easyPayRequestData.setId(easyPayRequest.getId());
-            easyPayRequestData.setNipResponse(easyPayRequest.getNipResponse());
-            easyPayRequestData.setStatus(easyPayRequest.getStatus());
-            easyPayRequestData.setSessionId(easyPayRequest.getSessionId());
-            easyPayRequestData.setTransactionId(easyPayRequest.getTransactionId());
             requestDataList.add(easyPayRequestData);
         }
         easyPayListResponseData.setEasyPayRequestData(requestDataList);

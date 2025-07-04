@@ -98,64 +98,64 @@ public final class Easypay {
       "\"7\n\025EasyPayStatusResponse\022\020\n\010response\030\001 " +
       "\001(\t\022\014\n\004code\030\002 \001(\t\"\035\n\016ReverseRequest\022\013\n\003r" +
       "ef\030\001 \001(\t\"1\n\017ReverseResponse\022\020\n\010response\030" +
-      "\001 \001(\t\022\014\n\004code\030\002 \001(\t\"\016\n\014getInstEmpty\"g\n\022E" +
+      "\001 \001(\t\022\014\n\004code\030\002 \001(\t\"\016\n\014getInstEmpty\"u\n\022E" +
       "asyPayListRequest\022\020\n\010fromdate\030\001 \001(\t\022\016\n\006t" +
       "odate\030\002 \001(\t\022\017\n\007account\030\005 \001(\t\022\014\n\004page\030\003 \001" +
-      "(\005\022\020\n\010pageSize\030\004 \001(\005\"\206\001\n\023EasyPayListResp" +
-      "onse\0221\n\010easypays\030\001 \003(\0132\037.com.neptune.cba" +
-      ".EasyPayRequest\022\022\n\ntotalItems\030\002 \001(\003\022\022\n\nt" +
-      "otalPages\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(\003\"f\n" +
-      "\022listEasyPayRequest\022\016\n\006acctNo\030\001 \001(\t\022\020\n\010f" +
-      "romdate\030\002 \001(\t\022\016\n\006todate\030\003 \001(\t\022\014\n\004page\030\004 " +
-      "\001(\005\022\020\n\010pageSize\030\005 \001(\005\"\221\001\n\025NameEnquiryRpc" +
-      "Request\022\025\n\raccountNumber\030\001 \001(\t\022\023\n\013channe" +
-      "lCode\030\002 \001(\t\022\"\n\032destinationInstitutionCod" +
-      "e\030\003 \001(\t\022\026\n\016senderBankCode\030\004 \001(\t\022\020\n\010platf" +
-      "orm\030\005 \001(\t\"\354\001\n\023NameEnquiryResponse\022\024\n\014res" +
-      "ponseCode\030\001 \001(\t\022\021\n\tsessionID\030\002 \001(\t\022\025\n\rtr" +
-      "ansactionId\030\003 \001(\t\022\023\n\013channelCode\030\004 \001(\005\022\"" +
-      "\n\032destinationInstitutionCode\030\005 \001(\t\022\025\n\rac" +
-      "countNumber\030\006 \001(\t\022\023\n\013accountName\030\007 \001(\t\022\036" +
-      "\n\026bankVerificationNumber\030\010 \001(\t\022\020\n\010kycLev" +
-      "el\030\t \001(\005\"Q\n\013Institution\022\027\n\017institutionCo" +
-      "de\030\001 \001(\t\022\027\n\017institutionName\030\002 \001(\t\022\020\n\010cat" +
-      "egory\030\003 \001(\005\"B\n\014Institutions\0222\n\014Instituti" +
-      "ons\030\001 \003(\0132\034.com.neptune.cba.Institution\"" +
-      "\306\005\n\016EasyPayRequest\022\035\n\025sourceInstitutionC" +
-      "ode\030\001 \001(\t\022\036\n\026beneficiaryAccountName\030\002 \001(" +
-      "\t\022 \n\030beneficiaryAccountNumber\030\003 \001(\t\022)\n!b" +
-      "eneficiaryBankVerificationNumber\030\004 \001(\t\022\033" +
-      "\n\023beneficiaryKYCLevel\030\005 \001(\t\022\035\n\025originato" +
-      "rAccountName\030\006 \001(\t\022\"\n\032destinationInstitu" +
-      "tionCode\030\007 \001(\t\022\037\n\027originatorAccountNumbe" +
-      "r\030\010 \001(\t\022(\n originatorBankVerificationNum" +
-      "ber\030\t \001(\t\022\032\n\022originatorKYCLevel\030\n \001(\005\022\036\n" +
-      "\026mandateReferenceNumber\030\013 \001(\t\022\026\n\016nameEnq" +
-      "uiryRef\030\014 \001(\t\022\033\n\023originatorNarration\030\r \001" +
-      "(\t\022\030\n\020paymentReference\030\016 \001(\t\022\033\n\023transact" +
-      "ionLocation\030\017 \001(\t\022\034\n\024beneficiaryNarratio" +
-      "n\030\020 \001(\t\022\020\n\010billerId\030\021 \001(\t\022\033\n\023customerAcc" +
-      "ountName\030\022 \001(\t\022\035\n\025customerAccountNumber\030" +
-      "\023 \001(\t\022\016\n\006amount\030\024 \001(\001\022\n\n\002id\030\025 \001(\003\022\023\n\013nip" +
-      "Response\030\026 \001(\t\022\016\n\006status\030\027 \001(\t\022\021\n\tsessio" +
-      "nId\030\030 \001(\t\022\025\n\rtransactionId\030\031 \001(\t\"0\n\017Easy" +
-      "PayResponse\022\017\n\007message\030\001 \001(\t\022\014\n\004code\030\002 \001" +
-      "(\t2\253\004\n\016EasyPayService\022O\n\010easy_pay\022\037.com." +
-      "neptune.cba.EasyPayRequest\032 .com.neptune" +
-      ".cba.EasyPayResponse\"\000\022N\n\014institutions\022\035" +
-      ".com.neptune.cba.getInstEmpty\032\035.com.nept" +
-      "une.cba.Institutions\"\000\022]\n\013nameEnquiry\022&." +
-      "com.neptune.cba.NameEnquiryRpcRequest\032$." +
-      "com.neptune.cba.NameEnquiryResponse\"\000\022\\\n" +
-      "\rlist_easy_pay\022#.com.neptune.cba.EasyPay" +
-      "ListRequest\032$.com.neptune.cba.EasyPayLis" +
-      "tResponse\"\000\022W\n\020reverse_easy_pay\022\037.com.ne" +
-      "ptune.cba.ReverseRequest\032 .com.neptune.c" +
-      "ba.ReverseResponse\"\000\022b\n\017easy_pay_status\022" +
-      "%.com.neptune.cba.EasyPayStatusRequest\032&" +
-      ".com.neptune.cba.EasyPayStatusResponse\"\000" +
-      "B(\n$com.neptune.cba.transaction.easy_pay" +
-      "P\001b\006proto3"
+      "(\005\022\020\n\010pageSize\030\004 \001(\005\022\014\n\004type\030\006 \001(\t\"\206\001\n\023E" +
+      "asyPayListResponse\0221\n\010easypays\030\001 \003(\0132\037.c" +
+      "om.neptune.cba.EasyPayRequest\022\022\n\ntotalIt" +
+      "ems\030\002 \001(\003\022\022\n\ntotalPages\030\003 \001(\003\022\024\n\014current" +
+      "Pages\030\004 \001(\003\"f\n\022listEasyPayRequest\022\016\n\006acc" +
+      "tNo\030\001 \001(\t\022\020\n\010fromdate\030\002 \001(\t\022\016\n\006todate\030\003 " +
+      "\001(\t\022\014\n\004page\030\004 \001(\005\022\020\n\010pageSize\030\005 \001(\005\"\221\001\n\025" +
+      "NameEnquiryRpcRequest\022\025\n\raccountNumber\030\001" +
+      " \001(\t\022\023\n\013channelCode\030\002 \001(\t\022\"\n\032destination" +
+      "InstitutionCode\030\003 \001(\t\022\026\n\016senderBankCode\030" +
+      "\004 \001(\t\022\020\n\010platform\030\005 \001(\t\"\354\001\n\023NameEnquiryR" +
+      "esponse\022\024\n\014responseCode\030\001 \001(\t\022\021\n\tsession" +
+      "ID\030\002 \001(\t\022\025\n\rtransactionId\030\003 \001(\t\022\023\n\013chann" +
+      "elCode\030\004 \001(\005\022\"\n\032destinationInstitutionCo" +
+      "de\030\005 \001(\t\022\025\n\raccountNumber\030\006 \001(\t\022\023\n\013accou" +
+      "ntName\030\007 \001(\t\022\036\n\026bankVerificationNumber\030\010" +
+      " \001(\t\022\020\n\010kycLevel\030\t \001(\005\"Q\n\013Institution\022\027\n" +
+      "\017institutionCode\030\001 \001(\t\022\027\n\017institutionNam" +
+      "e\030\002 \001(\t\022\020\n\010category\030\003 \001(\005\"B\n\014Institution" +
+      "s\0222\n\014Institutions\030\001 \003(\0132\034.com.neptune.cb" +
+      "a.Institution\"\306\005\n\016EasyPayRequest\022\035\n\025sour" +
+      "ceInstitutionCode\030\001 \001(\t\022\036\n\026beneficiaryAc" +
+      "countName\030\002 \001(\t\022 \n\030beneficiaryAccountNum" +
+      "ber\030\003 \001(\t\022)\n!beneficiaryBankVerification" +
+      "Number\030\004 \001(\t\022\033\n\023beneficiaryKYCLevel\030\005 \001(" +
+      "\t\022\035\n\025originatorAccountName\030\006 \001(\t\022\"\n\032dest" +
+      "inationInstitutionCode\030\007 \001(\t\022\037\n\027originat" +
+      "orAccountNumber\030\010 \001(\t\022(\n originatorBankV" +
+      "erificationNumber\030\t \001(\t\022\032\n\022originatorKYC" +
+      "Level\030\n \001(\005\022\036\n\026mandateReferenceNumber\030\013 " +
+      "\001(\t\022\026\n\016nameEnquiryRef\030\014 \001(\t\022\033\n\023originato" +
+      "rNarration\030\r \001(\t\022\030\n\020paymentReference\030\016 \001" +
+      "(\t\022\033\n\023transactionLocation\030\017 \001(\t\022\034\n\024benef" +
+      "iciaryNarration\030\020 \001(\t\022\020\n\010billerId\030\021 \001(\t\022" +
+      "\033\n\023customerAccountName\030\022 \001(\t\022\035\n\025customer" +
+      "AccountNumber\030\023 \001(\t\022\016\n\006amount\030\024 \001(\001\022\n\n\002i" +
+      "d\030\025 \001(\003\022\023\n\013nipResponse\030\026 \001(\t\022\016\n\006status\030\027" +
+      " \001(\t\022\021\n\tsessionId\030\030 \001(\t\022\025\n\rtransactionId" +
+      "\030\031 \001(\t\"0\n\017EasyPayResponse\022\017\n\007message\030\001 \001" +
+      "(\t\022\014\n\004code\030\002 \001(\t2\253\004\n\016EasyPayService\022O\n\010e" +
+      "asy_pay\022\037.com.neptune.cba.EasyPayRequest" +
+      "\032 .com.neptune.cba.EasyPayResponse\"\000\022N\n\014" +
+      "institutions\022\035.com.neptune.cba.getInstEm" +
+      "pty\032\035.com.neptune.cba.Institutions\"\000\022]\n\013" +
+      "nameEnquiry\022&.com.neptune.cba.NameEnquir" +
+      "yRpcRequest\032$.com.neptune.cba.NameEnquir" +
+      "yResponse\"\000\022\\\n\rlist_easy_pay\022#.com.neptu" +
+      "ne.cba.EasyPayListRequest\032$.com.neptune." +
+      "cba.EasyPayListResponse\"\000\022W\n\020reverse_eas" +
+      "y_pay\022\037.com.neptune.cba.ReverseRequest\032 " +
+      ".com.neptune.cba.ReverseResponse\"\000\022b\n\017ea" +
+      "sy_pay_status\022%.com.neptune.cba.EasyPayS" +
+      "tatusRequest\032&.com.neptune.cba.EasyPaySt" +
+      "atusResponse\"\000B(\n$com.neptune.cba.transa" +
+      "ction.easy_payP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -196,7 +196,7 @@ public final class Easypay {
     internal_static_com_neptune_cba_EasyPayListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_EasyPayListRequest_descriptor,
-        new java.lang.String[] { "Fromdate", "Todate", "Account", "Page", "PageSize", });
+        new java.lang.String[] { "Fromdate", "Todate", "Account", "Page", "PageSize", "Type", });
     internal_static_com_neptune_cba_EasyPayListResponse_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_com_neptune_cba_EasyPayListResponse_fieldAccessorTable = new

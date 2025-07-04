@@ -19,6 +19,7 @@ private static final long serialVersionUID = 0L;
     fromdate_ = "";
     todate_ = "";
     account_ = "";
+    type_ = "";
   }
 
   @java.lang.Override
@@ -77,6 +78,12 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             account_ = s;
+            break;
+          }
+          case 50: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            type_ = s;
             break;
           }
           default: {
@@ -247,6 +254,52 @@ private static final long serialVersionUID = 0L;
     return pageSize_;
   }
 
+  public static final int TYPE_FIELD_NUMBER = 6;
+  private volatile java.lang.Object type_;
+  /**
+   * <pre>
+   * new june 13
+   * </pre>
+   *
+   * <code>string type = 6;</code>
+   * @return The type.
+   */
+  @java.lang.Override
+  public java.lang.String getType() {
+    java.lang.Object ref = type_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      type_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * new june 13
+   * </pre>
+   *
+   * <code>string type = 6;</code>
+   * @return The bytes for type.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getTypeBytes() {
+    java.lang.Object ref = type_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      type_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -276,6 +329,9 @@ private static final long serialVersionUID = 0L;
     if (!getAccountBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 5, account_);
     }
+    if (!getTypeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, type_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -302,6 +358,9 @@ private static final long serialVersionUID = 0L;
     if (!getAccountBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, account_);
     }
+    if (!getTypeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, type_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -327,6 +386,8 @@ private static final long serialVersionUID = 0L;
         != other.getPage()) return false;
     if (getPageSize()
         != other.getPageSize()) return false;
+    if (!getType()
+        .equals(other.getType())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -348,6 +409,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getPage();
     hash = (37 * hash) + PAGESIZE_FIELD_NUMBER;
     hash = (53 * hash) + getPageSize();
+    hash = (37 * hash) + TYPE_FIELD_NUMBER;
+    hash = (53 * hash) + getType().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -491,6 +554,8 @@ private static final long serialVersionUID = 0L;
 
       pageSize_ = 0;
 
+      type_ = "";
+
       return this;
     }
 
@@ -522,6 +587,7 @@ private static final long serialVersionUID = 0L;
       result.account_ = account_;
       result.page_ = page_;
       result.pageSize_ = pageSize_;
+      result.type_ = type_;
       onBuilt();
       return result;
     }
@@ -587,6 +653,10 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getPageSize() != 0) {
         setPageSize(other.getPageSize());
+      }
+      if (!other.getType().isEmpty()) {
+        type_ = other.type_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -903,6 +973,102 @@ private static final long serialVersionUID = 0L;
     public Builder clearPageSize() {
       
       pageSize_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object type_ = "";
+    /**
+     * <pre>
+     * new june 13
+     * </pre>
+     *
+     * <code>string type = 6;</code>
+     * @return The type.
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * new june 13
+     * </pre>
+     *
+     * <code>string type = 6;</code>
+     * @return The bytes for type.
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * new june 13
+     * </pre>
+     *
+     * <code>string type = 6;</code>
+     * @param value The type to set.
+     * @return This builder for chaining.
+     */
+    public Builder setType(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      type_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * new june 13
+     * </pre>
+     *
+     * <code>string type = 6;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearType() {
+      
+      type_ = getDefaultInstance().getType();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * new june 13
+     * </pre>
+     *
+     * <code>string type = 6;</code>
+     * @param value The bytes for type to set.
+     * @return This builder for chaining.
+     */
+    public Builder setTypeBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      type_ = value;
       onChanged();
       return this;
     }

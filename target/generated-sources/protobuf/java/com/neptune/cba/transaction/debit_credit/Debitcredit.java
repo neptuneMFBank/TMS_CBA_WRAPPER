@@ -15,6 +15,16 @@ public final class Debitcredit {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_neptune_cba_DebitCreditApprovalRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_neptune_cba_DebitCreditApprovalRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_neptune_cba_DebitCreditApprovalResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_neptune_cba_DebitCreditApprovalResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_neptune_cba_DebitCreditStatusRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -48,58 +58,76 @@ public final class Debitcredit {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021debitcredit.proto\022\017com.neptune.cba\"2\n\030" +
-      "DebitCreditStatusRequest\022\026\n\016transactionR" +
-      "ef\030\001 \001(\t\";\n\031DebitCreditStatusResponse\022\020\n" +
-      "\010response\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\"\214\002\n\022DebitC" +
-      "reditRequest\022\025\n\raccountnumber\030\001 \001(\t\022\017\n\007i" +
-      "sccode\030\002 \001(\t\022\025\n\raccountstatus\030\003 \001(\t\022\020\n\010a" +
-      "cctname\030\004 \001(\t\022\014\n\004drcr\030\005 \001(\t\022\017\n\007acctype\030\006" +
-      " \001(\t\022\016\n\006amount\030\007 \001(\001\022\034\n\024transactionrefer" +
-      "ence\030\010 \001(\t\022\021\n\tnarration\030\t \001(\t\022\017\n\007channel" +
-      "\030\n \001(\t\022\013\n\003eid\030\013 \001(\t\022\'\n\006charge\030\014 \003(\0132\027.co" +
-      "m.neptune.cba.Charge\"=\n\006Charge\022\016\n\006amount" +
-      "\030\001 \001(\001\022\023\n\013description\030\002 \001(\t\022\016\n\006ledger\030\003 " +
-      "\001(\t\"4\n\023DebitCreditResponse\022\017\n\007message\030\001 " +
-      "\001(\t\022\014\n\004code\030\002 \001(\t2\341\001\n\022DebitCreditService" +
-      "\022[\n\014debit_credit\022#.com.neptune.cba.Debit" +
-      "CreditRequest\032$.com.neptune.cba.DebitCre" +
-      "ditResponse\"\000\022n\n\023debit_credit_status\022).c" +
-      "om.neptune.cba.DebitCreditStatusRequest\032" +
-      "*.com.neptune.cba.DebitCreditStatusRespo" +
-      "nse\"\000B,\n(com.neptune.cba.transaction.deb" +
-      "it_creditP\001b\006proto3"
+      "\n\021debitcredit.proto\022\017com.neptune.cba\"G\n\032" +
+      "DebitCreditApprovalRequest\022\034\n\024transactio" +
+      "nreference\030\001 \001(\t\022\013\n\003eid\030\002 \001(\t\"<\n\033DebitCr" +
+      "editApprovalResponse\022\017\n\007message\030\001 \001(\t\022\014\n" +
+      "\004code\030\002 \001(\t\"2\n\030DebitCreditStatusRequest\022" +
+      "\026\n\016transactionRef\030\001 \001(\t\";\n\031DebitCreditSt" +
+      "atusResponse\022\020\n\010response\030\001 \001(\t\022\014\n\004code\030\002" +
+      " \001(\t\"\214\002\n\022DebitCreditRequest\022\025\n\raccountnu" +
+      "mber\030\001 \001(\t\022\017\n\007isccode\030\002 \001(\t\022\025\n\raccountst" +
+      "atus\030\003 \001(\t\022\020\n\010acctname\030\004 \001(\t\022\014\n\004drcr\030\005 \001" +
+      "(\t\022\017\n\007acctype\030\006 \001(\t\022\016\n\006amount\030\007 \001(\001\022\034\n\024t" +
+      "ransactionreference\030\010 \001(\t\022\021\n\tnarration\030\t" +
+      " \001(\t\022\017\n\007channel\030\n \001(\t\022\013\n\003eid\030\013 \001(\t\022\'\n\006ch" +
+      "arge\030\014 \003(\0132\027.com.neptune.cba.Charge\"=\n\006C" +
+      "harge\022\016\n\006amount\030\001 \001(\001\022\023\n\013description\030\002 \001" +
+      "(\t\022\016\n\006ledger\030\003 \001(\t\"4\n\023DebitCreditRespons" +
+      "e\022\017\n\007message\030\001 \001(\t\022\014\n\004code\030\002 \001(\t2\327\002\n\022Deb" +
+      "itCreditService\022[\n\014debit_credit\022#.com.ne" +
+      "ptune.cba.DebitCreditRequest\032$.com.neptu" +
+      "ne.cba.DebitCreditResponse\"\000\022n\n\023debit_cr" +
+      "edit_status\022).com.neptune.cba.DebitCredi" +
+      "tStatusRequest\032*.com.neptune.cba.DebitCr" +
+      "editStatusResponse\"\000\022t\n\025debit_credit_app" +
+      "roval\022+.com.neptune.cba.DebitCreditAppro" +
+      "valRequest\032,.com.neptune.cba.DebitCredit" +
+      "ApprovalResponse\"\000B,\n(com.neptune.cba.tr" +
+      "ansaction.debit_creditP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_com_neptune_cba_DebitCreditStatusRequest_descriptor =
+    internal_static_com_neptune_cba_DebitCreditApprovalRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_com_neptune_cba_DebitCreditApprovalRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_neptune_cba_DebitCreditApprovalRequest_descriptor,
+        new java.lang.String[] { "Transactionreference", "Eid", });
+    internal_static_com_neptune_cba_DebitCreditApprovalResponse_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_neptune_cba_DebitCreditApprovalResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_neptune_cba_DebitCreditApprovalResponse_descriptor,
+        new java.lang.String[] { "Message", "Code", });
+    internal_static_com_neptune_cba_DebitCreditStatusRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_com_neptune_cba_DebitCreditStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_DebitCreditStatusRequest_descriptor,
         new java.lang.String[] { "TransactionRef", });
     internal_static_com_neptune_cba_DebitCreditStatusResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_com_neptune_cba_DebitCreditStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_DebitCreditStatusResponse_descriptor,
         new java.lang.String[] { "Response", "Code", });
     internal_static_com_neptune_cba_DebitCreditRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_com_neptune_cba_DebitCreditRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_DebitCreditRequest_descriptor,
         new java.lang.String[] { "Accountnumber", "Isccode", "Accountstatus", "Acctname", "Drcr", "Acctype", "Amount", "Transactionreference", "Narration", "Channel", "Eid", "Charge", });
     internal_static_com_neptune_cba_Charge_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_com_neptune_cba_Charge_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_Charge_descriptor,
         new java.lang.String[] { "Amount", "Description", "Ledger", });
     internal_static_com_neptune_cba_DebitCreditResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_com_neptune_cba_DebitCreditResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_DebitCreditResponse_descriptor,

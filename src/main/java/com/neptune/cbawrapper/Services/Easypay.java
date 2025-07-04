@@ -1,6 +1,9 @@
 package com.neptune.cbawrapper.Services;
 
 import com.neptune.cba.transaction.easy_pay.*;
+import com.neptune.cba.transaction.type.Empty;
+import com.neptune.cba.transaction.type.TransactionTypeResponse;
+import com.neptune.cba.transaction.type.TransactionTypeServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayHistoryRequest;
 import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayTransferRequestPayload;
@@ -28,44 +31,40 @@ public class Easypay {
     private int easy_pay_port;
 
     public EasyPayResponse transferOutward(EasyPayTransferRequestPayload payload){
+        System.out.println("payload = " + payload);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(easy_pay_ip, easy_pay_port).usePlaintext().build();
         EasyPayResponse response = null;
+        System.out.println("payload.getAmount() = " + payload.getAmount());
         try {
             EasyPayServiceGrpc.EasyPayServiceBlockingStub stub = EasyPayServiceGrpc.newBlockingStub(channel);
 
             EasyPayRequest request = EasyPayRequest.newBuilder()
-                    .setSourceInstitutionCode(payload.getSourceInstitutionCode())
                     .setBeneficiaryAccountName(payload.getBeneficiaryAccountName())
                     .setBeneficiaryAccountNumber(payload.getBeneficiaryAccountNumber())
                     .setBeneficiaryBankVerificationNumber(payload.getBeneficiaryBankVerificationNumber())
                     .setBeneficiaryKYCLevel(payload.getBeneficiaryKYCLevel())
                     .setOriginatorAccountName(payload.getOriginatorAccountName())
-                    .setDestinationInstitutionCode(payload.getDestinationInstitutionCode())
                     .setOriginatorAccountNumber(payload.getOriginatorAccountNumber())
                     .setOriginatorBankVerificationNumber(payload.getOriginatorBankVerificationNumber())
                     .setOriginatorKYCLevel(payload.getOriginatorKYCLevel())
-                    .setMandateReferenceNumber(payload.getMandateReferenceNumber())
                     .setNameEnquiryRef(payload.getNameEnquiryRef())
                     .setOriginatorNarration(payload.getOriginatorNarration())
                     .setPaymentReference(payload.getPaymentReference())
                     .setTransactionLocation(payload.getTransactionLocation())
-                    .setBeneficiaryNarration(payload.getBeneficiaryNarration())
-                    .setBillerId(payload.getBillerId())
                     .setCustomerAccountName(payload.getCustomerAccountName())
                     .setCustomerAccountNumber(payload.getCustomerAccountNumber())
                     .setAmount(payload.getAmount())
-                    .setId(payload.getRequestId())
-                    .setNipResponse(payload.getNipResponse())
-                    .setStatus(payload.getStatus())
-                    .setSessionId(payload.getSessionId())
-                    .setTransactionId(payload.getTransactionId())
                     .build();
+
+            System.out.println("request = " + request);
 
             response = stub.easyPay(request);
 
         }catch (StatusRuntimeException e){
+            System.out.println("error 1 = " + e.getMessage());
             errorLoggingException.logError("EASY_PAY_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("error 2 = " + e.getMessage());
             errorLoggingException.logError("EASY_PAY_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }finally {
             channel.shutdownNow();
@@ -169,6 +168,23 @@ public class Easypay {
             errorLoggingException.logError("EASY_PAY_STATUS_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }catch (Exception e){
             errorLoggingException.logError("EASY_PAY_STATUS_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
+
+    public TransactionTypeResponse getTransactionType(){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(easy_pay_ip, easy_pay_port).usePlaintext().build();
+        TransactionTypeServiceGrpc.TransactionTypeServiceBlockingStub stub = TransactionTypeServiceGrpc.newBlockingStub(channel);
+        TransactionTypeResponse response = null;
+        try {
+            Empty request = Empty.newBuilder().build();
+            response = stub.transactionType(request);
+        }catch (StatusRuntimeException e){
+            errorLoggingException.logError("TRANSACTION_TYPE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }catch (Exception e){
+            errorLoggingException.logError("TRANSACTION_TYPE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }finally {
             channel.shutdownNow();
         }

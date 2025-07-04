@@ -21,12 +21,14 @@ public class CategoriesModel {
     private String description;
     private Boolean isActive;
     private String logo;
-
-    public Boolean getActive() {
-        return isActive;
-    }
+    private Integer paymentTypeId; // 2	Airtime_Data	Airtime and Data || 3	Bills	Bills Payment
+    private boolean validateNum;
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean getActive() {
+        return isActive;
     }
 }

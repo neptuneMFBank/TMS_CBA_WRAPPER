@@ -10,7 +10,17 @@ service DebitCreditService {
   }
   rpc debit_credit_status(DebitCreditStatusRequest) returns (DebitCreditStatusResponse) {
   }
+  rpc debit_credit_approval(DebitCreditApprovalRequest) returns (DebitCreditApprovalResponse){
+  } // new mar/4/2025
 
+}
+message DebitCreditApprovalRequest{
+  string transactionreference = 1;
+  string eid = 2;
+}
+message DebitCreditApprovalResponse{
+  string message = 1;
+  string code = 2;
 }
 message DebitCreditStatusRequest {
   string transactionRef = 1;

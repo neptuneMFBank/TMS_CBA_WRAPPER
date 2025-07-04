@@ -595,6 +595,12 @@ public class Cron {
                     categories.setDescription(i.getDescription());
                     categories.setActive(isActive);
                     categories.setLogo("");
+                    categories.setPaymentTypeId(3);
+                    categories.setValidateNum(true);
+                    if(i.getName().equalsIgnoreCase("Mobile Recharge") || i.getName().equalsIgnoreCase("Airtime and Data") || i.getName().equalsIgnoreCase("Internet Services")){
+                        categories.setPaymentTypeId(2);
+                        categories.setValidateNum(false);
+                    }
                     categoriesRepository.save(categories);
                 }
             }

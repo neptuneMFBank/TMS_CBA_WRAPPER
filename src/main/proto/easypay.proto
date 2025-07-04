@@ -19,7 +19,7 @@ service EasyPayService {
   } // exposeable
 
   rpc easy_pay_status(EasyPayStatusRequest) returns (EasyPayStatusResponse) {
-  }
+  } // exposeable
 
 }
 
@@ -45,6 +45,7 @@ message  EasyPayListRequest {
   string account =5;
   int32 page =3;
   int32 pageSize = 4;
+  string type = 6;// new june 13
 }
 message EasyPayListResponse {
   repeated EasyPayRequest easypays = 1;
@@ -117,8 +118,6 @@ message EasyPayRequest {
   string sessionId =24;
   string transactionId =25;
 }
-
-
 
 message EasyPayResponse {
   string message = 1;

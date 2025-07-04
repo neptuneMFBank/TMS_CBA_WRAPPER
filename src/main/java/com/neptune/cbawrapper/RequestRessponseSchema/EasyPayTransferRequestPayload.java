@@ -1,8 +1,6 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class EasyPayTransferRequestPayload {
-    private Long requestId;
-    private String sourceInstitutionCode;
     private String beneficiaryAccountName;
     private String beneficiaryAccountNumber;
     private String beneficiaryBankVerificationNumber;
@@ -12,36 +10,13 @@ public class EasyPayTransferRequestPayload {
     private String originatorAccountNumber;
     private String originatorBankVerificationNumber;
     private Integer originatorKYCLevel;
-    private String mandateReferenceNumber;
     private String nameEnquiryRef;
     private String originatorNarration;
     private String paymentReference;
     private String transactionLocation;
-    private String beneficiaryNarration;
-    private String billerId;
     private String customerAccountName;
     private String customerAccountNumber;
     private Double amount;
-    private String nipResponse;
-    private String status;
-    private String sessionId;
-    private String transactionId;
-
-    public Long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getSourceInstitutionCode() {
-        return sourceInstitutionCode;
-    }
-
-    public void setSourceInstitutionCode(String sourceInstitutionCode) {
-        this.sourceInstitutionCode = sourceInstitutionCode;
-    }
 
     public String getBeneficiaryAccountName() {
         return beneficiaryAccountName;
@@ -51,20 +26,20 @@ public class EasyPayTransferRequestPayload {
         this.beneficiaryAccountName = beneficiaryAccountName;
     }
 
-    public String getBeneficiaryBankVerificationNumber() {
-        return beneficiaryBankVerificationNumber;
-    }
-
-    public void setBeneficiaryBankVerificationNumber(String beneficiaryBankVerificationNumber) {
-        this.beneficiaryBankVerificationNumber = beneficiaryBankVerificationNumber;
-    }
-
     public String getBeneficiaryAccountNumber() {
         return beneficiaryAccountNumber;
     }
 
     public void setBeneficiaryAccountNumber(String beneficiaryAccountNumber) {
         this.beneficiaryAccountNumber = beneficiaryAccountNumber;
+    }
+
+    public String getBeneficiaryBankVerificationNumber() {
+        return beneficiaryBankVerificationNumber;
+    }
+
+    public void setBeneficiaryBankVerificationNumber(String beneficiaryBankVerificationNumber) {
+        this.beneficiaryBankVerificationNumber = beneficiaryBankVerificationNumber;
     }
 
     public String getBeneficiaryKYCLevel() {
@@ -115,14 +90,6 @@ public class EasyPayTransferRequestPayload {
         this.originatorKYCLevel = originatorKYCLevel;
     }
 
-    public String getMandateReferenceNumber() {
-        return mandateReferenceNumber;
-    }
-
-    public void setMandateReferenceNumber(String mandateReferenceNumber) {
-        this.mandateReferenceNumber = mandateReferenceNumber;
-    }
-
     public String getNameEnquiryRef() {
         return nameEnquiryRef;
     }
@@ -155,22 +122,6 @@ public class EasyPayTransferRequestPayload {
         this.transactionLocation = transactionLocation;
     }
 
-    public String getBeneficiaryNarration() {
-        return beneficiaryNarration;
-    }
-
-    public void setBeneficiaryNarration(String beneficiaryNarration) {
-        this.beneficiaryNarration = beneficiaryNarration;
-    }
-
-    public String getBillerId() {
-        return billerId;
-    }
-
-    public void setBillerId(String billerId) {
-        this.billerId = billerId;
-    }
-
     public String getCustomerAccountName() {
         return customerAccountName;
     }
@@ -187,14 +138,6 @@ public class EasyPayTransferRequestPayload {
         this.customerAccountNumber = customerAccountNumber;
     }
 
-    public String getNipResponse() {
-        return nipResponse;
-    }
-
-    public void setNipResponse(String nipResponse) {
-        this.nipResponse = nipResponse;
-    }
-
     public Double getAmount() {
         return amount;
     }
@@ -203,27 +146,25 @@ public class EasyPayTransferRequestPayload {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    @Override
+    public String toString() {
+        return "EasyPayTransferRequestPayload{" +
+                "beneficiaryAccountName='" + beneficiaryAccountName + '\'' +
+                ", beneficiaryAccountNumber='" + beneficiaryAccountNumber + '\'' +
+                ", beneficiaryBankVerificationNumber='" + beneficiaryBankVerificationNumber + '\'' +
+                ", beneficiaryKYCLevel='" + beneficiaryKYCLevel + '\'' +
+                ", originatorAccountName='" + originatorAccountName + '\'' +
+                ", destinationInstitutionCode='" + destinationInstitutionCode + '\'' +
+                ", originatorAccountNumber='" + originatorAccountNumber + '\'' +
+                ", originatorBankVerificationNumber='" + originatorBankVerificationNumber + '\'' +
+                ", originatorKYCLevel=" + originatorKYCLevel +
+                ", nameEnquiryRef='" + nameEnquiryRef + '\'' +
+                ", originatorNarration='" + originatorNarration + '\'' +
+                ", paymentReference='" + paymentReference + '\'' +
+                ", transactionLocation='" + transactionLocation + '\'' +
+                ", customerAccountName='" + customerAccountName + '\'' +
+                ", customerAccountNumber='" + customerAccountNumber + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }
