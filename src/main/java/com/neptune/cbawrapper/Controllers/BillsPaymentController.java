@@ -35,8 +35,14 @@ public class BillsPaymentController {
     }
 
     @GetMapping("/bill/categories")
-    public ResponseEntity<ResponseSchema<?>> getBillsCategories(){
-        List<CategoriesModel> findCategory = categoriesRepository.findCategory(true);
+    public ResponseEntity<ResponseSchema<?>> getBillsCategories( @RequestParam(value = "paymentTypeId", required = false) Integer paymentTypeId){
+        List<CategoriesModel> findCategory;// = categoriesRepository.findCategoryByPaymentTypeId(true, paymentTypeId);
+
+        if (paymentTypeId != null) {
+            findCategory = categoriesRepository.findCategoryByPaymentTypeId(true, paymentTypeId);
+        } else {
+            findCategory = categoriesRepository.findCategory(true);
+        }
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", findCategory, "", ZonedDateTime.now(), true);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);

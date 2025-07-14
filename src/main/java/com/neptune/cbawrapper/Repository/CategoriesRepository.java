@@ -17,4 +17,7 @@ public interface CategoriesRepository extends MongoRepository<CategoriesModel, S
 
     @Query("{ 'isActive': {$eq: ?0} }")
     List<CategoriesModel> findCategory(boolean status);
+
+    @Query("{ 'isActive': ?0, 'paymentTypeId': ?1 }")
+    List<CategoriesModel> findCategoryByPaymentTypeId(boolean status, int paymentTypeId);
 }
