@@ -2,6 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -38,6 +39,9 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String status;
     private String narration;
     private String cardScheme;
+    private boolean isBillsPayment;
+
+    private MakePayment makePayment;
 
     public String getTerminalId() {
         return terminalId;
@@ -253,6 +257,22 @@ public class CorepayPosTransactionRequest implements Serializable {
 
     public void setCardScheme(String cardScheme) {
         this.cardScheme = cardScheme;
+    }
+
+    public boolean isBillsPayment() {
+        return isBillsPayment;
+    }
+
+    public void setBillsPayment(boolean billsPayment) {
+        isBillsPayment = billsPayment;
+    }
+
+    public MakePayment getMakePayment() {
+        return makePayment;
+    }
+
+    public void setMakePayment(MakePayment makePayment) {
+        this.makePayment = makePayment;
     }
 
     @Override

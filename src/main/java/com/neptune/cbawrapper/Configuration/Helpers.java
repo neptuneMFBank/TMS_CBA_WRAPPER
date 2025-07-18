@@ -11,7 +11,10 @@ import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.CustomersRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
+import com.neptune.cbawrapper.RequestRessponseSchema.TransactionDetails;
 import com.neptune.cbawrapper.RequestRessponseSchema.TransactionRequestSchema;
+import com.neptune.cbawrapper.RequestRessponseSchema.UpdateTransactionResponseSchema;
+import com.neptune.cbawrapper.Services.TransactionCoreController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -41,10 +44,12 @@ public class Helpers {
 
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final PlatformChargeRepository platformChargeRepository;
+    private final TransactionCoreController transactionCoreController;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
+    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
         this.platformChargeRepository = platformChargeRepository;
+        this.transactionCoreController = transactionCoreController;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
     }
@@ -52,6 +57,37 @@ public class Helpers {
     public List<CustomersModel> getCustomersBySavingsId(List<Integer> details) {
         // Fetch customers matching savings IDs
         return customersRepository.findBySavingsId(details);
+    }
+
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges){
+        TransactionDetails transactionDetails = new TransactionDetails();
+        transactionDetails.setTerminalId(request.getTerminalId());
+        transactionDetails.setNarration("POS");
+        transactionDetails.setStatus("PENDING");
+        transactionDetails.setDateFormat("dd MMMM yyyy");
+        transactionDetails.setTransactionType(request.getTransactionType());
+        transactionDetails.setTransactionDate(request.getTransactionDate());
+        transactionDetails.setAmount(request.getAmount());
+        transactionDetails.setTransactionReference(request.getTransactionReference());
+        transactionDetails.setReference(request.getReference());
+        transactionDetails.setPtad(request.getPtad());
+        transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+        transactionDetails.setResponseCode(request.getResponseCode());
+        transactionDetails.setPan(request.getPan());
+        transactionDetails.setCardExpiry(request.getCardExpiry());
+        transactionDetails.setTransactionFee(request.getTransactionFee());
+        transactionDetails.setProcessingFee(request.getProcessingFee());
+        transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+        transactionDetails.setAuthCode(request.getAuthCode());
+        transactionDetails.setMerchantCode(request.getMerchantCode());
+        transactionDetails.setReversal(request.getReversal());
+        transactionDetails.setMerchantName(request.getMerchantName());
+        transactionDetails.setStan(request.getStan());
+        transactionDetails.setSerialNo(request.getSerialNo());
+        transactionDetails.setLocale(request.getLocale());
+        transactionDetails.setCardScheme(request.getCardScheme());
+
+        return transactionCoreController.createTransaction(transactionDetails);
     }
 
 

@@ -10,10 +10,12 @@ import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentResponse;
 import com.neptune.cbawrapper.Services.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +30,9 @@ import java.util.*;
 public class TransactionController {
 
 
+    @Autowired
+    private BillsPayment billsPayment;
+
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     private final TransactionsRepository transactionsRepository;
@@ -41,15 +46,17 @@ public class TransactionController {
     private final DebitCreditService debitCreditService;
     private final PosTransactionRepository posTransactionRepository;
     private final Helpers helpers;
+    private final BillsPaymentDataRepository billsPaymentDataRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
 
-    public TransactionController(DebitCreditService debitCreditService, BusinessPlatformChargesRepository businessPlatformChargesRepository, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
+    public TransactionController(DebitCreditService debitCreditService, BillsPaymentDataRepository billsPaymentDataRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
         this.transactionsRepository = transactionsRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.debitCreditService = debitCreditService;
+        this.billsPaymentDataRepository = billsPaymentDataRepository;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.errorLoggingException = errorLoggingException;
         this.platformChargeRepository = platformChargeRepository;
@@ -232,33 +239,6 @@ public class TransactionController {
                 return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
             }
 
-            TransactionDetails transactionDetails = new TransactionDetails();
-            transactionDetails.setTerminalId(request.getTerminalId());
-            transactionDetails.setNarration("POS");
-            transactionDetails.setStatus("PENDING");
-            transactionDetails.setDateFormat("dd MMMM yyyy");
-            transactionDetails.setTransactionType(request.getTransactionType());
-            transactionDetails.setTransactionDate(request.getTransactionDate());
-            transactionDetails.setAmount(request.getAmount());
-            transactionDetails.setTransactionReference(request.getTransactionReference());
-            transactionDetails.setReference(request.getReference());
-            transactionDetails.setPtad(request.getPtad());
-            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-            transactionDetails.setResponseCode(request.getResponseCode());
-            transactionDetails.setPan(request.getPan());
-            transactionDetails.setCardExpiry(request.getCardExpiry());
-            transactionDetails.setTransactionFee(request.getTransactionFee());
-            transactionDetails.setProcessingFee(request.getProcessingFee());
-            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-            transactionDetails.setAuthCode(request.getAuthCode());
-            transactionDetails.setMerchantCode(request.getMerchantCode());
-            transactionDetails.setReversal(request.getReversal());
-            transactionDetails.setMerchantName(request.getMerchantName());
-            transactionDetails.setStan(request.getStan());
-            transactionDetails.setSerialNo(request.getSerialNo());
-            transactionDetails.setLocale(request.getLocale());
-            transactionDetails.setCardScheme(request.getCardScheme());
-
 
             TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
             transactionRequestSchema.setPan(request.getPan());
@@ -292,57 +272,78 @@ public class TransactionController {
             transactionRequestSchema.setUpdated_at(ZonedDateTime.now().toString());
             posTransactionRepository.save(transactionRequestSchema);
 
-            System.out.println("request = " + transactionDetails);
-            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
+            if(request.isBillsPayment()){
+                MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
 
-            System.out.println("responseSchema = " + responseSchema.getResourceId());
+                BillsPaymentData billsPaymentData = new BillsPaymentData();
+                billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
+                billsPaymentData.setCustomerId(request.getMakePayment().getCustomerId());
+                billsPaymentData.setEmail(request.getMakePayment().getEmail());
+                billsPaymentData.setMobile(request.getMakePayment().getMobile());
+                billsPaymentData.setAmount(request.getMakePayment().getAmount());
+                billsPaymentData.setCustomerAccountNumber(request.getMakePayment().getCustomerAccountNumber());
+                billsPaymentData.setBillType(request.getMakePayment().getBillType());
+                billsPaymentData.setResponse(validateCustomer);
+                billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
 
-            if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
-                System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
+                billsPaymentDataRepository.save(billsPaymentData);
 
-                Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
+                ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
+                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            }else {
 
-                if(businessPlatformCharges == null || businessPlatformCharges.isEmpty()){
-                    errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
-                    responseData.setMessage("business platform charge not found");
-                    responseData.setStatus(404);
+//                System.out.println("request = " + transactionDetails);
+                UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
+
+                System.out.println("responseSchema = " + responseSchema.getResourceId());
+
+                if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
+                    System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
+
+                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
+
+                    if (businessPlatformCharges == null || businessPlatformCharges.isEmpty()) {
+                        errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
+                        responseData.setMessage("business platform charge not found");
+                        responseData.setStatus(404);
+                        responseData.setTimeStamp(ZonedDateTime.now());
+                        responseData.setData(null);
+                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+                    }
+
+                    TransactionDrCr transactionDrCr = new TransactionDrCr();
+                    transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
+                    transactionDrCr.setIsccode("2");
+                    transactionDrCr.setAccountstatus("active");
+                    transactionDrCr.setUpdatedToCba(false);
+                    transactionDrCr.setTerminalId(request.getTerminalId());
+                    transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
+                    transactionDrCr.setDrcr("cr");
+                    transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getId());
+                    transactionDrCr.setAcctype("savings");
+                    transactionDrCr.setAmount(transactionRequestSchema.getAmount());
+                    transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
+                    transactionDrCr.setNarration(transactionRequestSchema.getNarration());
+                    transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
+                    transactionDrCr.setChannel("1");
+                    transactionDrCr.setResponseCode(request.getResponseCode());
+                    transactionDrCr.setEid("");
+                    transactionDrCr.setType("transaction");
+                    transactionDrCr.setParent_id("");
+                    transactionDrCr.setCbaMessage("");
+                    transactionDrCr.setResourceId(responseSchema.getResourceId());
+                    transactionDrCr.setTransaction_platform_id(String.valueOf(request.getPaymentTypeId()));
+                    transactionDrCr.setCardScheme(request.getCardScheme());
+                    transactionDrCr.setCreated_at(LocalDateTime.now().toString());
+                    transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
+                    cbaTransactionRequests.save(transactionDrCr);
+
+                    responseData.setMessage("success");
+                    responseData.setStatus(200);
                     responseData.setTimeStamp(ZonedDateTime.now());
-                    responseData.setData(null);
-                    return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+                    responseData.setData(transactionDrCr);
+                    return new ResponseEntity<>(responseData, HttpStatus.OK);
                 }
-
-                TransactionDrCr transactionDrCr = new TransactionDrCr();
-                transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
-                transactionDrCr.setIsccode("2");
-                transactionDrCr.setAccountstatus("active");
-                transactionDrCr.setUpdatedToCba(false);
-                transactionDrCr.setTerminalId(request.getTerminalId());
-                transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
-                transactionDrCr.setDrcr("cr");
-                transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getId());
-                transactionDrCr.setAcctype("savings");
-                transactionDrCr.setAmount(transactionRequestSchema.getAmount());
-                transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
-                transactionDrCr.setNarration(transactionRequestSchema.getNarration());
-                transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
-                transactionDrCr.setChannel("1");
-                transactionDrCr.setResponseCode(request.getResponseCode());
-                transactionDrCr.setEid("");
-                transactionDrCr.setType("transaction");
-                transactionDrCr.setParent_id("");
-                transactionDrCr.setCbaMessage("");
-                transactionDrCr.setResourceId(responseSchema.getResourceId());
-                transactionDrCr.setTransaction_platform_id(String.valueOf(request.getPaymentTypeId()));
-                transactionDrCr.setCardScheme(request.getCardScheme());
-                transactionDrCr.setCreated_at(LocalDateTime.now().toString());
-                transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
-                cbaTransactionRequests.save(transactionDrCr);
-
-                responseData.setMessage("success");
-                responseData.setStatus(200);
-                responseData.setTimeStamp(ZonedDateTime.now());
-                responseData.setData(transactionDrCr);
-                return new ResponseEntity<>(responseData, HttpStatus.OK);
             }
 
         } catch (Exception e) {
