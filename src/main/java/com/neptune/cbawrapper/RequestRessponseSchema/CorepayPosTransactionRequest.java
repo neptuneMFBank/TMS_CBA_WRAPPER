@@ -2,6 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,8 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String status;
     private String narration;
     private String cardScheme;
+
+    @JsonProperty("isBillsPayment")
     private boolean isBillsPayment;
 
     private MakePayment makePayment;

@@ -1,5 +1,11 @@
 package com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class MakePayment {
     private String paymentCode;
     private String customerId;
