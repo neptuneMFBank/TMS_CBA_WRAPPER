@@ -5,6 +5,7 @@ import com.neptune.cba.transaction.type.Empty;
 import com.neptune.cba.transaction.type.TransactionTypeResponse;
 import com.neptune.cba.transaction.type.TransactionTypeServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
+import com.neptune.cbawrapper.Models.EasypayTransactionsModel;
 import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayHistoryRequest;
 import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayTransferRequestPayload;
 import com.neptune.cbawrapper.RequestRessponseSchema.NameEnquiryRequestPayload;
@@ -30,7 +31,7 @@ public class Easypay {
     @Value("${grpc.easypay.request.port}")
     private int easy_pay_port;
 
-    public EasyPayResponse transferOutward(EasyPayTransferRequestPayload payload){
+    public EasyPayResponse transferOutward(EasypayTransactionsModel payload){
         System.out.println("payload = " + payload);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(easy_pay_ip, easy_pay_port).usePlaintext().build();
         EasyPayResponse response = null;

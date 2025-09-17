@@ -2,6 +2,7 @@ package com.neptune.cbawrapper.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
+import com.neptune.cba.transaction.easy_pay.EasyPayResponse;
 import com.neptune.cba.transaction.history.HistoryResponse;
 import com.neptune.cbawrapper.BuilderPattern.HistoryBuilder;
 import com.neptune.cbawrapper.BuilderPattern.TransactionHistoryBuilder;
@@ -13,6 +14,7 @@ import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentResponse;
 import com.neptune.cbawrapper.Services.*;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import printable.PrintableOuterClass;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -27,8 +30,8 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/pos")
+@RequiredArgsConstructor
 public class TransactionController {
-
 
     @Autowired
     private BillsPayment billsPayment;
@@ -48,25 +51,18 @@ public class TransactionController {
     private final Helpers helpers;
     private final BillsPaymentDataRepository billsPaymentDataRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
+    private final NameEnquiryResponseRepository nameEnquiryResponseRepository;
+    private EasypayTransactionsRepository easypayTransactionsRepository;
+    private final EchannelServices echannelServices;
+    private final Notifications notifications;
+    private final Printable printable;
 
 
-    public TransactionController(DebitCreditService debitCreditService, BillsPaymentDataRepository billsPaymentDataRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, HistoryService historyService, PlatformChargeRepository platformChargeRepository, PushyAPI pushyAPI, TransactionsRepository transactionsRepository, TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, CbaTransactionRequestsRepository cbaTransactionRequests, ErrorLoggingException errorLoggingException, PosTransactionRepository posTransactionRepository, Helpers helpers) {
-        this.transactionsRepository = transactionsRepository;
-        this.transactionCoreController = transactionCoreController;
-        this.virtualAccountRepository = virtualAccountRepository;
-        this.cbaTransactionRequests = cbaTransactionRequests;
-        this.debitCreditService = debitCreditService;
-        this.billsPaymentDataRepository = billsPaymentDataRepository;
-        this.businessPlatformChargesRepository = businessPlatformChargesRepository;
-        this.errorLoggingException = errorLoggingException;
-        this.platformChargeRepository = platformChargeRepository;
-        this.pushyAPI = pushyAPI;
-        this.historyService = historyService;
-        this.posTransactionRepository = posTransactionRepository;
-        this.helpers = helpers;
-    }
+    @Autowired
+    private Easypay easypay;
 
     //todo: transactions notifications from CBA
+    @CrossOrigin(origins = "*")
     @PutMapping("/update-terminal-fcm-token")
     public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
@@ -91,6 +87,7 @@ public class TransactionController {
     }
 
     //TODO: CBA transaction notification webhook
+    @CrossOrigin(origins = "*")
     @PostMapping("/pos-credit-webhook")
     public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webHookRequest) {
         try {
@@ -239,7 +236,6 @@ public class TransactionController {
                 return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
             }
 
-
             TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
             transactionRequestSchema.setPan(request.getPan());
             transactionRequestSchema.setResponseCode(request.getResponseCode());
@@ -273,24 +269,85 @@ public class TransactionController {
             posTransactionRepository.save(transactionRequestSchema);
 
             if(request.isBillsPayment()){
-                MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
+                try {
+                    MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
 
-                BillsPaymentData billsPaymentData = new BillsPaymentData();
-                billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
-                billsPaymentData.setCustomerId(request.getMakePayment().getCustomerId());
-                billsPaymentData.setEmail(request.getMakePayment().getEmail());
-                billsPaymentData.setMobile(request.getMakePayment().getMobile());
-                billsPaymentData.setAmount(request.getMakePayment().getAmount());
-                billsPaymentData.setCustomerAccountNumber(request.getMakePayment().getCustomerAccountNumber());
-                billsPaymentData.setBillType(request.getMakePayment().getBillType());
-                billsPaymentData.setResponse(validateCustomer);
-                billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
+                    BillsPaymentData billsPaymentData = new BillsPaymentData();
+                    billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
+                    billsPaymentData.setCustomerId(request.getMakePayment().getCustomerId());
+                    billsPaymentData.setEmail(request.getMakePayment().getEmail());
+                    billsPaymentData.setMobile(request.getMakePayment().getMobile());
+                    billsPaymentData.setAmount(request.getMakePayment().getAmount());
+                    billsPaymentData.setCustomerAccountNumber(request.getMakePayment().getCustomerAccountNumber());
+                    billsPaymentData.setBillType(request.getMakePayment().getBillType());
+                    billsPaymentData.setResponse(validateCustomer);
+                    billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
 
-                billsPaymentDataRepository.save(billsPaymentData);
+                    billsPaymentDataRepository.save(billsPaymentData);
 
-                ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
-                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-            }else {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), e, "", ZonedDateTime.now(), true);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else if (request.isEasyPay()) {
+                try {
+                    Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
+
+                    if(enquiryResponseModel.isEmpty()){
+                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+                    }
+
+                    EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
+                    transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
+                    transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
+                    transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
+                    transactionsModel.setBeneficiaryKYCLevel(String.valueOf(enquiryResponseModel.get().getKycLevel()));
+                    transactionsModel.setOriginatorAccountName(virtualAccountModel.get().getAccount_name());
+                    transactionsModel.setDestinationInstitutionCode(enquiryResponseModel.get().getDestinationInstitutionCode());
+                    transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
+                    transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
+                    transactionsModel.setOriginatorKYCLevel(1);
+                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getSessionID());
+                    transactionsModel.setOriginatorNarration(request.getNarration());
+                    transactionsModel.setPaymentReference(request.getReference());
+                    transactionsModel.setTransactionLocation(request.getTransactionLocation());
+                    transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
+                    transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
+                    transactionsModel.setAmount(request.getAmount());
+                    easypayTransactionsRepository.save(transactionsModel);
+
+                    EasyPayResponse response = easypay.transferOutward(transactionsModel);
+
+                    if(response == null){
+                        System.out.println("Response from outward transfer returned null");
+                        errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
+
+                        EasypayResponseData easypayResponseData = new EasypayResponseData();
+                        easypayResponseData.setCode("500");
+                        easypayResponseData.setMessage("Response from outward transfer returned null");
+                        ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
+                        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+                    }
+                    transactionsModel.setMessage(response.getMessage());
+                    transactionsModel.setCode(response.getCode());
+                    easypayTransactionsRepository.save(transactionsModel);
+
+                    System.out.println("response = " + response);
+
+                    EasypayResponseData easypayResponseData = new EasypayResponseData();
+                    easypayResponseData.setCode(response.getCode());
+                    easypayResponseData.setMessage(response.getMessage());
+
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+                } catch (Exception e) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), e, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
 
 //                System.out.println("request = " + transactionDetails);
                 UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
@@ -442,6 +499,34 @@ public class TransactionController {
                 .setHistory(transactionHistoryList);
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "balance request successful", historyBuilder.build(), "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @Validated
+    @GetMapping("/generate-statement")
+    public ResponseEntity<ResponseSchema<?>> generateStatement(@Valid @RequestBody GenerateStatementRequest request){
+        Optional<VirtualAccountModel> accountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNo());
+        if(accountModel.isEmpty()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+
+        PrintableOuterClass.StatementOfAccountResponse res = printable.generateState(request, accountModel.get().getEmail(), accountModel.get().getAccount_name());
+
+        if (res != null){
+            SendNotifications notifications1 = SendNotifications.builder()
+                    .title("Statement Of Account")
+                    .file(res.getPdf())
+                    .receiver_email(accountModel.get().getEmail())
+                    .sendmail(true)
+                    .attachment(true)
+                    .build();
+            notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notifications1);
+            System.out.println("NotificationResponse = " + response);
+        }
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Statement of account sent to your email", null, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 }

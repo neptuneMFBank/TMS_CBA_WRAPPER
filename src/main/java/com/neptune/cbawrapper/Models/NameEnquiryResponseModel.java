@@ -1,6 +1,15 @@
-package com.neptune.cbawrapper.RequestRessponseSchema;
+package com.neptune.cbawrapper.Models;
 
-public class NameEnquiryResponseData {
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@Document(collection = "name_enquiry_data")
+public class NameEnquiryResponseModel {
+
+    @Id
+    private String id;
     private String  responseCode;
     private String sessionID;
     private String transactionId;
@@ -10,6 +19,15 @@ public class NameEnquiryResponseData {
     private String accountName;
     private String bankVerificationNumber;
     private Integer kycLevel;
+    private String expiry_time;
+
+    public String getExpiry_time() {
+        return expiry_time;
+    }
+
+    public void setExpiry_time(String expiry_time) {
+        this.expiry_time = expiry_time;
+    }
 
     public String getResponseCode() {
         return responseCode;
@@ -83,6 +101,6 @@ public class NameEnquiryResponseData {
         this.kycLevel = kycLevel;
     }
 
-    public NameEnquiryResponseData() {
+    public NameEnquiryResponseModel() {
     }
 }

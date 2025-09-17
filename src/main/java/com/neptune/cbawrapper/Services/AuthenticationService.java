@@ -137,8 +137,10 @@ public class AuthenticationService {
             AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
             response = stub.verify3ppPhoneNumberOtp(request);
         }catch (StatusRuntimeException e) {
+            System.out.println("kkkkkkkkkkkk = " + e.getMessage());
             errorLoggingException.logError("VERIFY_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("jjjjjjj = " + e.getMessage());
             errorLoggingException.logError("VERIFY_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         }finally {
             channel.shutdownNow();

@@ -1,9 +1,11 @@
 package com.neptune.cbawrapper.Controllers;
 
 import com.neptune.cba.transaction.easy_pay.*;
+import com.neptune.cba.transaction.easy_pay.EasyPayRequest;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
-import com.neptune.cbawrapper.Models.EasypayTransactionsModel;
+import com.neptune.cbawrapper.Models.NameEnquiryResponseModel;
 import com.neptune.cbawrapper.Repository.EasypayTransactionsRepository;
+import com.neptune.cbawrapper.Repository.NameEnquiryResponseRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.CustomerService;
 import com.neptune.cbawrapper.Services.Easypay;
@@ -14,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,56 +36,58 @@ public class EasypayController {
 
     private CustomerService customerService;
 
+    private NameEnquiryResponseRepository nameEnquiryResponseRepository;
+
     @Autowired
     private Easypay easypay;
 
-    @PostMapping("/outward_transfer")
-    public ResponseEntity<ResponseSchema<?>> transferOutward(@Valid @RequestBody EasyPayTransferRequestPayload requestPayload){
+//    @PostMapping("/outward_transfer")
+//    public ResponseEntity<ResponseSchema<?>> transferOutward(@Valid @RequestBody EasyPayTransferRequestPayload requestPayload){
 //        remove originator data and add from our user details
-        EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-        transactionsModel.setBeneficiaryAccountName(requestPayload.getBeneficiaryAccountName());
-        transactionsModel.setBeneficiaryAccountNumber(requestPayload.getBeneficiaryAccountNumber());
-        transactionsModel.setBeneficiaryBankVerificationNumber(requestPayload.getBeneficiaryBankVerificationNumber());
-        transactionsModel.setBeneficiaryKYCLevel(requestPayload.getBeneficiaryKYCLevel());
-        transactionsModel.setOriginatorAccountName(requestPayload.getOriginatorAccountName());
-        transactionsModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
-        transactionsModel.setOriginatorAccountNumber(requestPayload.getOriginatorAccountNumber());
-        transactionsModel.setOriginatorBankVerificationNumber(requestPayload.getOriginatorBankVerificationNumber());
-        transactionsModel.setOriginatorKYCLevel(requestPayload.getOriginatorKYCLevel());
-        transactionsModel.setNameEnquiryRef(requestPayload.getNameEnquiryRef());
-        transactionsModel.setOriginatorNarration(requestPayload.getOriginatorNarration());
-        transactionsModel.setPaymentReference(requestPayload.getPaymentReference());
-        transactionsModel.setTransactionLocation(requestPayload.getTransactionLocation());
-        transactionsModel.setCustomerAccountName(requestPayload.getCustomerAccountName());
-        transactionsModel.setCustomerAccountNumber(requestPayload.getCustomerAccountNumber());
-        transactionsModel.setAmount(requestPayload.getAmount());
-        easypayTransactionsRepository.save(transactionsModel);
-
-        EasyPayResponse response = easypay.transferOutward(requestPayload);
-
-        if(response == null){
-            System.out.println("Response from outward transfer returned null");
-            errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
-
-            EasypayResponseData easypayResponseData = new EasypayResponseData();
-            easypayResponseData.setCode("500");
-            easypayResponseData.setMessage("Response from outward transfer returned null");
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-        }
-        transactionsModel.setMessage(response.getMessage());
-        transactionsModel.setCode(response.getCode());
-        easypayTransactionsRepository.save(transactionsModel);
-
-        System.out.println("response = " + response);
-
-        EasypayResponseData easypayResponseData = new EasypayResponseData();
-        easypayResponseData.setCode(response.getCode());
-        easypayResponseData.setMessage(response.getMessage());
-
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
-        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-    }
+//        EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
+//        transactionsModel.setBeneficiaryAccountName(requestPayload.getBeneficiaryAccountName());
+//        transactionsModel.setBeneficiaryAccountNumber(requestPayload.getBeneficiaryAccountNumber());
+//        transactionsModel.setBeneficiaryBankVerificationNumber(requestPayload.getBeneficiaryBankVerificationNumber());
+//        transactionsModel.setBeneficiaryKYCLevel(requestPayload.getBeneficiaryKYCLevel());
+//        transactionsModel.setOriginatorAccountName(requestPayload.getOriginatorAccountName());
+//        transactionsModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+//        transactionsModel.setOriginatorAccountNumber(requestPayload.getOriginatorAccountNumber());
+//        transactionsModel.setOriginatorBankVerificationNumber(requestPayload.getOriginatorBankVerificationNumber());
+//        transactionsModel.setOriginatorKYCLevel(requestPayload.getOriginatorKYCLevel());
+//        transactionsModel.setNameEnquiryRef(requestPayload.getNameEnquiryRef());
+//        transactionsModel.setOriginatorNarration(requestPayload.getOriginatorNarration());
+//        transactionsModel.setPaymentReference(requestPayload.getPaymentReference());
+//        transactionsModel.setTransactionLocation(requestPayload.getTransactionLocation());
+//        transactionsModel.setCustomerAccountName(requestPayload.getCustomerAccountName());
+//        transactionsModel.setCustomerAccountNumber(requestPayload.getCustomerAccountNumber());
+//        transactionsModel.setAmount(requestPayload.getAmount());
+//        easypayTransactionsRepository.save(transactionsModel);
+//
+//        EasyPayResponse response = easypay.transferOutward(requestPayload);
+//
+//        if(response == null){
+//            System.out.println("Response from outward transfer returned null");
+//            errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
+//
+//            EasypayResponseData easypayResponseData = new EasypayResponseData();
+//            easypayResponseData.setCode("500");
+//            easypayResponseData.setMessage("Response from outward transfer returned null");
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
+//            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+//        }
+//        transactionsModel.setMessage(response.getMessage());
+//        transactionsModel.setCode(response.getCode());
+//        easypayTransactionsRepository.save(transactionsModel);
+//
+//        System.out.println("response = " + response);
+//
+//        EasypayResponseData easypayResponseData = new EasypayResponseData();
+//        easypayResponseData.setCode(response.getCode());
+//        easypayResponseData.setMessage(response.getMessage());
+//
+//        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
+//        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+//    }
 
     @GetMapping("/get_institutions")
     public ResponseEntity<ResponseSchema<?>> getInstitutionsList(){
@@ -108,19 +115,31 @@ public class EasypayController {
 
     @GetMapping("/name_enquiry")
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
+        String expiry = LocalDateTime.now().plusMinutes(30).toString();
         if(requestPayload.getDestinationInstitutionCode().equals("inter")){
+//            save name enquiry data and use the result for /outward_transfer
+            String session_Id = UUID.randomUUID().toString();
+            String transaction_id = UUID.randomUUID().toString();;
             Customer.NameEnquiryRequest request = Customer.NameEnquiryRequest.newBuilder().setAccountNumber(requestPayload.getAccountNumber()).build();
             Customer.NameEnquiryResponse response = customerService.getCustomerData(request);
-            NameEnquiryResponseData data = new NameEnquiryResponseData();
-            data.setResponseCode(response.getResponseCode());
-            data.setSessionID("response.getSessionID()");
-            data.setTransactionId("response.getTransactionId()");
-            data.setChannelCode(1);
-            data.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+            NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
+            enquiryResponseModel.setResponseCode(response.getResponseCode());
+            enquiryResponseModel.setSessionID(session_Id);
+            enquiryResponseModel.setTransactionId(transaction_id);
+            enquiryResponseModel.setChannelCode(1);
+            enquiryResponseModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+            enquiryResponseModel.setAccountName(response.getAccountName());
+            enquiryResponseModel.setAccountNumber(response.getAccountNumber());
+            enquiryResponseModel.setBankVerificationNumber("response.getBankVerificationNumber()");
+            enquiryResponseModel.setKycLevel(1);
+            enquiryResponseModel.setExpiry_time(expiry);
+            nameEnquiryResponseRepository.save(enquiryResponseModel);
+
+            NameEnquiry data = new NameEnquiry();
+            data.setExpiry_time(expiry);
+            data.setUnique_id(session_Id);
             data.setAccountName(response.getAccountName());
-            data.setAccountNumber(response.getAccountNumber());
-            data.setBankVerificationNumber("response.getBankVerificationNumber()");
-            data.setKycLevel(1);
+
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
@@ -128,16 +147,23 @@ public class EasypayController {
         NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
 //
 //        remove channel_code, senderBankCode, platform from request body and add from env
-        NameEnquiryResponseData data = new NameEnquiryResponseData();
-        data.setResponseCode(response.getResponseCode());
-        data.setSessionID(response.getSessionID());
-        data.setTransactionId(response.getTransactionId());
-        data.setChannelCode(response.getChannelCode());
-        data.setDestinationInstitutionCode(response.getDestinationInstitutionCode());
+        NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
+        enquiryResponseModel.setResponseCode(response.getResponseCode());
+        enquiryResponseModel.setSessionID(response.getSessionID());
+        enquiryResponseModel.setTransactionId(response.getTransactionId());
+        enquiryResponseModel.setChannelCode(response.getChannelCode());
+        enquiryResponseModel.setDestinationInstitutionCode(response.getDestinationInstitutionCode());
+        enquiryResponseModel.setAccountName(response.getAccountName());
+        enquiryResponseModel.setAccountNumber(response.getAccountNumber());
+        enquiryResponseModel.setBankVerificationNumber(response.getBankVerificationNumber());
+        enquiryResponseModel.setKycLevel(response.getKycLevel());
+        enquiryResponseModel.setExpiry_time(expiry);
+        nameEnquiryResponseRepository.save(enquiryResponseModel);
+
+        NameEnquiry data = new NameEnquiry();
+        data.setExpiry_time(expiry);
+        data.setUnique_id(response.getSessionID());
         data.setAccountName(response.getAccountName());
-        data.setAccountNumber(response.getAccountNumber());
-        data.setBankVerificationNumber(response.getBankVerificationNumber());
-        data.setKycLevel(response.getKycLevel());
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);

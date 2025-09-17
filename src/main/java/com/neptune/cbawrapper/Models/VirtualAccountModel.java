@@ -4,8 +4,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.ZonedDateTime;
-
 @Data
 @Document(collection = "virtual_accounts")
 public class VirtualAccountModel {
@@ -221,8 +219,4 @@ public class VirtualAccountModel {
         this.parent_id = parent_id;
         this.parent_account = parent_account;
     }
-
-
-
-
 }

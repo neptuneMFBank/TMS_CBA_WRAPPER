@@ -44,10 +44,41 @@ public class CorepayPosTransactionRequest implements Serializable {
     @JsonProperty("isBillsPayment")
     private boolean isBillsPayment;
 
+    @JsonProperty("isEasyPay")
+    private boolean isEasyPay;
+
+    private String NameEnquirySessionID;
+
+    private String transactionLocation;
+
     private MakePayment makePayment;
 
     public String getTerminalId() {
         return terminalId;
+    }
+
+    public boolean isEasyPay() {
+        return isEasyPay;
+    }
+
+    public void setEasyPay(boolean easyPay) {
+        isEasyPay = easyPay;
+    }
+
+    public String getNameEnquirySessionID() {
+        return NameEnquirySessionID;
+    }
+
+    public void setNameEnquirySessionID(String nameEnquirySessionID) {
+        NameEnquirySessionID = nameEnquirySessionID;
+    }
+
+    public String getTransactionLocation() {
+        return transactionLocation;
+    }
+
+    public void setTransactionLocation(String transactionLocation) {
+        this.transactionLocation = transactionLocation;
     }
 
     public void setTerminalId(String terminalId) {

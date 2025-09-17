@@ -151,6 +151,7 @@ public class OnboardingController {
             VerifyUser verifyUser = new VerifyUser();
             verifyUser.setEmail(user.getEmail());
             verifyUser.setPassword(user.getPassword());
+            System.out.println("verifyUser = " + verifyUser);
             Auth.LoginResponse response = authenticationService.loginUser(verifyUser);
             System.out.println("response = " + response);
             if (response == null) {

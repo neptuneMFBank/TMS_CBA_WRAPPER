@@ -59,7 +59,6 @@ public class VirtualAccountService {
                         .setEmail(email)
                         .setBvn(bvn)
                         .setNin(nin)
-                        .setTin(tin)
                         .setSettlementAccount(settlementAcct)
                         .build();
 
@@ -76,6 +75,8 @@ public class VirtualAccountService {
 
             // Build the bulk request
             CreateBulkAccountRequest bulkRequest = bulkRequestBuilder.build();
+
+            System.out.println("bulkRequest = " + bulkRequest);
 
             // Send the request to the gRPC server
             response = stub.createBulkAcc(bulkRequest);
