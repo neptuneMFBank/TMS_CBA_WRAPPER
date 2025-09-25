@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.easy_pay.EasyPayResponse;
 import com.neptune.cba.transaction.history.HistoryResponse;
+import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cbawrapper.BuilderPattern.HistoryBuilder;
 import com.neptune.cbawrapper.BuilderPattern.TransactionHistoryBuilder;
 import com.neptune.cbawrapper.Configuration.Helpers;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import printable.PrintableOuterClass;
@@ -56,6 +58,8 @@ public class TransactionController {
     private final EchannelServices echannelServices;
     private final Notifications notifications;
     private final Printable printable;
+    private final TransactionService transactionService;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -191,6 +195,7 @@ public class TransactionController {
             request.setLocale("en");
 
 
+            System.out.println("got here 112233");
 //        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
 
 //        System.out.println("decryptedData = " + decryptedData);
@@ -215,6 +220,24 @@ public class TransactionController {
                 responseData.setData(null);
                 return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
             }
+
+            String hashedPassword = passwordEncoder.encode(request.getPin());
+
+            System.out.println("hashedPassword = " +hashedPassword);
+            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
+
+            boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
+
+            System.out.println("isAuthenticated = " + isAuthenticated);
+            System.out.println("abelkelly");
+            if(!isAuthenticated){
+                responseData.setMessage("Unauthorized");
+                responseData.setStatus(401);
+                responseData.setTimeStamp(ZonedDateTime.now());
+                responseData.setData(null);
+                return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
+            }
+            System.out.println("kellyabel");
 
             String status = "";
 
@@ -292,13 +315,41 @@ public class TransactionController {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), e, "", ZonedDateTime.now(), true);
                     return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            } else if (request.isEasyPay()) {
+            } else if (request.isTransfer()) {
                 try {
+                    System.out.println("PAUL");
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
                     if(enquiryResponseModel.isEmpty()){
                         return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
                     }
+
+                    if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("0000")){
+                        //TODO: Treat as neptune transfer
+                        IntraTransfer intraTransfer = IntraTransfer.builder()
+                                .customerId(virtualAccountModel.get().getParent_id())
+                                .mobilekey("")
+                                .fromaccount(virtualAccountModel.get().getVirtual_account_number())
+                                .fromacctname(virtualAccountModel.get().getAccount_name())
+                                .fromaccountstatus("active")
+                                .fromaccountemail(virtualAccountModel.get().getEmail())
+                                .fromacctype("")
+                                .toaccount(enquiryResponseModel.get().getAccountNumber())
+                                .toacctname(enquiryResponseModel.get().getAccountName())
+                                .toacctype("savings")
+                                .amount(request.getAmount())
+                                .tokenType("")
+                                .transactionreference(request.getReference())
+                                .narration(request.getNarration())
+                                .build();
+                        IntraTransferResponse response = transactionService.intraTransfer(intraTransfer);
+
+                        responseData.setMessage(response.getMessage());
+                        responseData.setStatus(Integer.parseInt(response.getCode()));
+                        responseData.setTimeStamp(ZonedDateTime.now());
+                        responseData.setData(response);
+                        return new ResponseEntity<>(responseData, HttpStatus.OK);
+                    } // after pos is activated -> send mail to set pin -> call the backend to save the pin
 
                     EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
                     transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
@@ -348,11 +399,7 @@ public class TransactionController {
                     return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else {
-
-//                System.out.println("request = " + transactionDetails);
                 UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
-
-                System.out.println("responseSchema = " + responseSchema.getResourceId());
 
                 if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                     System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());

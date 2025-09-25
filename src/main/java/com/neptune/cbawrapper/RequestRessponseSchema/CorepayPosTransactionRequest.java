@@ -40,13 +40,15 @@ public class CorepayPosTransactionRequest implements Serializable {
     private String status;
     private String narration;
     private String cardScheme;
+    private String pin;
 
     @JsonProperty("isBillsPayment")
     private boolean isBillsPayment;
 
-    @JsonProperty("isEasyPay")
-    private boolean isEasyPay;
+    @JsonProperty("isTransfer")
+    private boolean isTransfer;
 
+    @JsonProperty("NameEnquirySessionID")
     private String NameEnquirySessionID;
 
     private String transactionLocation;
@@ -57,12 +59,12 @@ public class CorepayPosTransactionRequest implements Serializable {
         return terminalId;
     }
 
-    public boolean isEasyPay() {
-        return isEasyPay;
+    public boolean isTransfer() {
+        return isTransfer;
     }
 
-    public void setEasyPay(boolean easyPay) {
-        isEasyPay = easyPay;
+    public void setTransfer(boolean transfer) {
+        isTransfer = transfer;
     }
 
     public String getNameEnquirySessionID() {
@@ -307,6 +309,14 @@ public class CorepayPosTransactionRequest implements Serializable {
 
     public void setMakePayment(MakePayment makePayment) {
         this.makePayment = makePayment;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     @Override

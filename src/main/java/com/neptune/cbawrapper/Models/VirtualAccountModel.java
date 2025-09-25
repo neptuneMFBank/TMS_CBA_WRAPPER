@@ -19,6 +19,7 @@ public class VirtualAccountModel {
     private Boolean is_updated;
     private String parent_id;
     private String parent_account;
+    private String pin;
     private String business_id;
     private String business_wallet;
     private String savingsId;
@@ -197,6 +198,14 @@ public class VirtualAccountModel {
 
     public void setTin(String tin) {
         this.tin = tin;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public VirtualAccountModel() {

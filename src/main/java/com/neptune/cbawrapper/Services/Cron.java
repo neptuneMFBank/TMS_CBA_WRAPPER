@@ -61,8 +61,9 @@ public class Cron {
     private final PlatformChargeRepository platformChargeRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequestsRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
+    private final Notifications notifications;
 
-    public Cron(CustomersRepository customersRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1) {
+    public Cron(CustomersRepository customersRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
@@ -78,6 +79,7 @@ public class Cron {
         this.platformChargeRepository = platformChargeRepository;
         this.cbaTransactionRequestsRepository = cbaTransactionRequestsRepository;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
+        this.notifications = notifications;
     }
 
     @Scheduled(cron = "0 */3 * * * *")
@@ -372,6 +374,8 @@ public class Cron {
                             System.out.println("response = " + response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
                             virtualAccountRepository.save(virtualAccountModel3);
+
+                            sendPasswordMail(virtualAccountModel3);
                         }
                     }
                 }
@@ -652,6 +656,19 @@ public class Cron {
 
             System.out.println("DONE");
         }
+    }
+
+    public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
+        String message = "Kindly click on the link below to activate your POS password <br /> <a href=\"https://twitter.com\" target=\"_blank\">Set Password</a>";
+        SendNotifications notifications1 = SendNotifications.builder()
+                .title("Set POS Password")
+                .file("")
+                .message(message)
+                .receiver_email(virtualAccountModel.getEmail())
+                .sendmail(true)
+                .attachment(true)
+                .build();
+        return notifications.sendNotification(notifications1);
     }
 }
 

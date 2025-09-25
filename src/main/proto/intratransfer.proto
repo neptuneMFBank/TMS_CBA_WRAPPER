@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.intra_transfer";
+
+service IntraTransferService {
+  rpc intra_transfer(IntraTransferRequest) returns (IntraTransferResponse) {
+  }
+  rpc intra_transfer_approval(IntraTransferApprovalRequest) returns (IntraTransferApprovalResponse){
+  } // new sept/15/2025
+}
+
+message IntraTransferApprovalRequest{
+  string transactionreference = 1;
+  string eid = 2;
+}
+message IntraTransferApprovalResponse{
+  string message = 1;
+  string code = 2;
+}
+message IntraTransferRequest {
+  string customerId =1;
+  string mobilekey =2;
+  string fromaccount = 3;
+  string fromacctname =4;
+  string fromaccountstatus =5;
+  string fromaccountemail =6;
+  string fromacctype =7;
+  string toaccount =8;
+  string toacctname = 9;
+  string toacctype =10;
+  double amount =11 ;
+  string tokenType =12;
+  string transactionreference =13;
+  string narration = 14;
+  string channel = 15;
+  string eid = 16;
+}
+
+message IntraTransferResponse {
+  string message = 1;
+  string code = 2;
+}
