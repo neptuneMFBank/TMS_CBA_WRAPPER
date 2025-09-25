@@ -551,7 +551,7 @@ public class TransactionController {
 
     @CrossOrigin(origins = "*")
     @Validated
-    @GetMapping("/generate-statement")
+    @PostMapping("/generate-statement")
     public ResponseEntity<ResponseSchema<?>> generateStatement(@Valid @RequestBody GenerateStatementRequest request){
         Optional<VirtualAccountModel> accountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNo());
         if(accountModel.isEmpty()){
@@ -560,6 +560,8 @@ public class TransactionController {
         }
 
         PrintableOuterClass.StatementOfAccountResponse res = printable.generateState(request, accountModel.get().getEmail(), accountModel.get().getAccount_name());
+
+        System.out.println("res = " + res);
 
         if (res != null){
             SendNotifications notifications1 = SendNotifications.builder()
