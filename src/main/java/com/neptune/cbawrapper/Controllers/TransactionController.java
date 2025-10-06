@@ -324,7 +324,7 @@ public class TransactionController {
                         return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
                     }
 
-                    if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("0000")){
+                    if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("090329")){
                         //TODO: Treat as neptune transfer
                         IntraTransfer intraTransfer = IntraTransfer.builder()
                                 .customerId(virtualAccountModel.get().getParent_id())
@@ -573,9 +573,12 @@ public class TransactionController {
                     .build();
             notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notifications1);
             System.out.println("NotificationResponse = " + response);
+
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Statement of account sent to your email", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         }
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Statement of account sent to your email", null, "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Error occured, kindly try again later", null, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 }

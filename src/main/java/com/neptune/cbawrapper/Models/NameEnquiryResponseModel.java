@@ -19,14 +19,14 @@ public class NameEnquiryResponseModel {
     private String accountName;
     private String bankVerificationNumber;
     private Integer kycLevel;
-    private String expiry_time;
+    private String expiryTime;
 
-    public String getExpiry_time() {
-        return expiry_time;
+    public String getExpiryTime() {
+        return expiryTime;
     }
 
-    public void setExpiry_time(String expiry_time) {
-        this.expiry_time = expiry_time;
+    public void setExpiryTime(String expiryTime) {
+        this.expiryTime = expiryTime;
     }
 
     public String getResponseCode() {

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -659,7 +660,10 @@ public class Cron {
     }
 
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
-        String message = "Kindly click on the link below to activate your POS password <br /> <a href=\"https://twitter.com\" target=\"_blank\">Set Password</a>";
+        String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
+        virtualAccountModel.setGenericCode(genericCode);
+        virtualAccountRepository.save(virtualAccountModel);
+        String message = "Kindly click on the link below to activate your POS password <br /> <a href=\"https://tms-neptune.netlify.app/terminal-pin-set/"+genericCode + "\" target=\"_blank\">Set Password</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")

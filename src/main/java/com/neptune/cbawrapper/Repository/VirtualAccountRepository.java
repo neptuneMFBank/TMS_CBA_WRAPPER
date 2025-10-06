@@ -31,6 +31,9 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'virtual_account_number': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByAccount(String virtual_account_number);
 
+    @Query("{ 'genericCode': { $eq: ?0 } }")
+    Optional<VirtualAccountModel> getVirtualAccountModelByGenericCode(String genericCode);
+
     @Query("{ 'businessWalletId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByBusinessAccount(String businessWalletId);
 

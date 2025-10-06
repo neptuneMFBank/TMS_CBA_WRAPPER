@@ -29,6 +29,7 @@ public class VirtualAccountModel {
     private Integer businessSavingsId;
     private String businessWalletId;
     private String fcmToken;
+    private String genericCode;
     private String created_at;
     private String updated_at;
 
@@ -202,6 +203,14 @@ public class VirtualAccountModel {
 
     public String getPin() {
         return pin;
+    }
+
+    public String getGenericCode() {
+        return genericCode;
+    }
+
+    public void setGenericCode(String genericCode) {
+        this.genericCode = genericCode;
     }
 
     public void setPin(String pin) {

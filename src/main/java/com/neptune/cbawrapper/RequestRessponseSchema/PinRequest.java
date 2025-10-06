@@ -2,7 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class PinRequest {
     private String pin;
-    private String account;
+    private String genericCode;
 
     public String getPin() {
         return pin;
@@ -12,11 +12,11 @@ public class PinRequest {
         this.pin = pin;
     }
 
-    public String getAccount() {
-        return account;
+    public String getGenericCode() {
+        return genericCode;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setGenericCode(String genericCode) {
+        this.genericCode = genericCode;
     }
 }

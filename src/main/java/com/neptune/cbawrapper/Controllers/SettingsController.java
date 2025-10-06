@@ -42,7 +42,7 @@ public class SettingsController {
 
     @PostMapping("/set-password")
     public ResponseEntity<ResponseSchema<?>> setPassword(@RequestBody PinRequest request) {
-        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByGenericCode(request.getGenericCode());
 
         if(virtualAccountModel.isEmpty()){
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "account number invalid", "", "", ZonedDateTime.now(), false);

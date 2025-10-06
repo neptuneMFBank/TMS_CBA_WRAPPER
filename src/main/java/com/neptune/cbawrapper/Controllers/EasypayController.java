@@ -116,7 +116,7 @@ public class EasypayController {
     @GetMapping("/name_enquiry")
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
-        if(requestPayload.getDestinationInstitutionCode().equals("inter")){
+        if(requestPayload.getDestinationInstitutionCode().equals("090329")){
 //            save name enquiry data and use the result for /outward_transfer
             String session_Id = UUID.randomUUID().toString();
             String transaction_id = UUID.randomUUID().toString();;
@@ -132,7 +132,7 @@ public class EasypayController {
             enquiryResponseModel.setAccountNumber(response.getAccountNumber());
             enquiryResponseModel.setBankVerificationNumber("response.getBankVerificationNumber()");
             enquiryResponseModel.setKycLevel(1);
-            enquiryResponseModel.setExpiry_time(expiry);
+            enquiryResponseModel.setExpiryTime(expiry);
             nameEnquiryResponseRepository.save(enquiryResponseModel);
 
             NameEnquiry data = new NameEnquiry();
@@ -157,7 +157,7 @@ public class EasypayController {
         enquiryResponseModel.setAccountNumber(response.getAccountNumber());
         enquiryResponseModel.setBankVerificationNumber(response.getBankVerificationNumber());
         enquiryResponseModel.setKycLevel(response.getKycLevel());
-        enquiryResponseModel.setExpiry_time(expiry);
+        enquiryResponseModel.setExpiryTime(expiry);
         nameEnquiryResponseRepository.save(enquiryResponseModel);
 
         NameEnquiry data = new NameEnquiry();
