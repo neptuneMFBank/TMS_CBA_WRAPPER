@@ -30,8 +30,17 @@ public class VirtualAccountModel {
     private String businessWalletId;
     private String fcmToken;
     private String genericCode;
+    private String token_expiry;
     private String created_at;
     private String updated_at;
+
+    public String getToken_expiry() {
+        return token_expiry;
+    }
+
+    public void setToken_expiry(String token_expiry) {
+        this.token_expiry = token_expiry;
+    }
 
     public String getCreated_at() {
         return created_at;

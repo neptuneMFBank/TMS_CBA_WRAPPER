@@ -24,6 +24,9 @@ public class OnboardingController {
     @Value("${grpc.debitCredit.webhook.url}")
     private String debitCredit_webhook_url;
 
+    @Value("${spring.profiles.active}")
+    private String env;
+
 
     private static final Logger log = LoggerFactory.getLogger(OnboardingController.class);
     private final AuthCredentialsRepository authCredentialsRepository;
@@ -161,7 +164,7 @@ public class OnboardingController {
             }
 
             AuthCredentials authCredentials;
-            Optional<AuthCredentials> credentials = authCredentialsRepository.getAuthByBusinessName(user.getBusiness_name());
+            Optional<AuthCredentials> credentials = authCredentialsRepository.getAuthByEmail(user.getEmail(), env);
 
             authCredentials = credentials.orElseGet(AuthCredentials::new);
             authCredentials.setEmail(user.getEmail());
@@ -197,6 +200,7 @@ public class OnboardingController {
                 authCredentials.setSettlement_account_number(response2.getUser().getSettlementAccountNumber());
                 authCredentials.setCreated_at(response2.getUser().getCreatedAt());
                 authCredentials.setUpdated_at(response2.getUser().getUpdatedAt());
+                authCredentials.setEnv(env);
 
                 Auth.Get3ppWebhookResponse checkIfWebhookUrlExists = authenticationService.get3ppWebhook(response.getAccessToken(), response2.getUser().getId());
 

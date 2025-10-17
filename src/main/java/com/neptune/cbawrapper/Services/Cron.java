@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Services;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.debit_credit.DebitCreditResponse;
 import com.neptune.cba.transaction.debit_credit.DebitCreditStatusResponse;
@@ -18,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 public class Cron {
+    @Value("${spring.profiles.active}")
+    private String env;
 
     @Autowired
     private CorePayRestController corePayRestController;
@@ -283,7 +285,7 @@ public class Cron {
             List<Integer> details = pendingTerminalData.stream().map(PendingTerminalData::getParentSavingsId).filter(Objects::nonNull).toList();
             List<CustomersModel> customersModels = helpers.getCustomersBySavingsId(details);
             System.out.println("2222222222222");
-            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
+            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth(env);
             System.out.println("3333333333333");
             List<String> details2 = pendingTerminalData.stream().map(PendingTerminalData::getTerminalId).filter(Objects::nonNull).toList();
             List<VirtualAccountModel> findByVirtualAccountsByTerminalId = virtualAccountRepository.findByVirtualAccountsByTerminalId(details2);
@@ -338,7 +340,7 @@ public class Cron {
     public void updateVirtualAccount() {
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
-            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth();
+            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth(env);
 
             System.out.println("virtualAccountModelList = " + virtualAccountModelList);
 
@@ -662,6 +664,7 @@ public class Cron {
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
+        virtualAccountModel.setToken_expiry(LocalDateTime.now().toString());
         virtualAccountRepository.save(virtualAccountModel);
         String message = "Kindly click on the link below to activate your POS password <br /> <a href=\"https://tms-neptune.netlify.app/terminal-pin-set/"+genericCode + "\" target=\"_blank\">Set Password</a>";
         SendNotifications notifications1 = SendNotifications.builder()

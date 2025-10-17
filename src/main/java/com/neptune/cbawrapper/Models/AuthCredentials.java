@@ -27,6 +27,7 @@ public class AuthCredentials {
     private String status;
     private String channel_code;
     private String settlement_account_number;
+    private String env;
     private String created_at;
     private String updated_at;
 
@@ -189,6 +190,14 @@ public class AuthCredentials {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getEnv() {
+        return env;
+    }
+
+    public void setEnv(String env) {
+        this.env = env;
     }
 
     public AuthCredentials() {

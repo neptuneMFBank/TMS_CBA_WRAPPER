@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface AuthCredentialsRepository extends MongoRepository<AuthCredentials, String> {
 
-    @Query("{ 'business_name': { $eq: ?0 } }")
-    Optional<AuthCredentials> getAuthByBusinessName(String business_name);
+    @Query("{ 'email': { $eq: ?0 }, 'env': ?1 }")
+    Optional<AuthCredentials> getAuthByEmail(String email, String env);
 
-    @Query("{ 'token': { $ne: null } }")
-    Optional<AuthCredentials> getAuth();
+    @Query("{ 'token': { $ne: null }, 'env': ?0 } }")
+    Optional<AuthCredentials> getAuth(String env);
 }
