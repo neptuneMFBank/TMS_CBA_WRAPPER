@@ -24,4 +24,4 @@ services:
       - mongodb
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATA_MONGODB_URI=mongodb://root:password@mongodb:27017/paydb
+      - SPRING_DATA_MONGODB_URI=mongodb://root:password@mongodb:27017/paydb?authSource=admin
