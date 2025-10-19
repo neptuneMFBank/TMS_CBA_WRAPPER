@@ -6,28 +6,15 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: mydatabase
-    volumes:
-      - mongo_data:/data/db
 
-  springboot-app:
+  cbawrapper:
     build: .
-    container_name: springboot-app
+    container_name: cbawrapper
     restart: always
     ports:
       - "8500:8500"
     depends_on:
       - mongodb
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://root:example@mongodb:27017/mydatabase?authSource=admin
-    networks:
-      - app-network
-
-volumes:
-  mongo_data:
-
-networks:
-  app-network:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://root:password@mongodb:27017/admin
