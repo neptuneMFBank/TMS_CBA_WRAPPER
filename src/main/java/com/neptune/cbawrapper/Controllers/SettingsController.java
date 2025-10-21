@@ -42,8 +42,8 @@ public class SettingsController {
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByGenericCode(request.getGenericCode());
 
         if(virtualAccountModel.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "account number invalid", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 404, "invalid code", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
         if(virtualAccountModel.get().getGenericCode().equalsIgnoreCase(request.getGenericCode())){
