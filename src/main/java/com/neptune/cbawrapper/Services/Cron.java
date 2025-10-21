@@ -293,6 +293,7 @@ public class Cron {
             for (PendingTerminalData data : pendingTerminalData) {
                 Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
                 System.out.println("444444444444444");
+                System.out.println("env = " + env);
                 if (authCredentials.isPresent()) {
                     if (customersModel.isPresent()) {
                         Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
