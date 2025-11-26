@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jdk
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY ./target/CbaWrapper.jar /app.jar
 EXPOSE 8500
