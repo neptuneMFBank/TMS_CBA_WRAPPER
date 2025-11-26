@@ -18,6 +18,7 @@ private static final long serialVersionUID = 0L;
   private Charge() {
     description_ = "";
     ledger_ = "";
+    nestedCharges_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -40,6 +41,7 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
+    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -67,6 +69,25 @@ private static final long serialVersionUID = 0L;
             ledger_ = s;
             break;
           }
+          case 32: {
+
+            isFixed_ = input.readBool();
+            break;
+          }
+          case 41: {
+
+            percentage_ = input.readDouble();
+            break;
+          }
+          case 50: {
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              nestedCharges_ = new java.util.ArrayList<com.neptune.cba.transaction.debit_credit.NestedCharge>();
+              mutable_bitField0_ |= 0x00000001;
+            }
+            nestedCharges_.add(
+                input.readMessage(com.neptune.cba.transaction.debit_credit.NestedCharge.parser(), extensionRegistry));
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -82,6 +103,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        nestedCharges_ = java.util.Collections.unmodifiableList(nestedCharges_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -186,6 +210,68 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int IS_FIXED_FIELD_NUMBER = 4;
+  private boolean isFixed_;
+  /**
+   * <code>bool is_fixed = 4;</code>
+   * @return The isFixed.
+   */
+  @java.lang.Override
+  public boolean getIsFixed() {
+    return isFixed_;
+  }
+
+  public static final int PERCENTAGE_FIELD_NUMBER = 5;
+  private double percentage_;
+  /**
+   * <code>double percentage = 5;</code>
+   * @return The percentage.
+   */
+  @java.lang.Override
+  public double getPercentage() {
+    return percentage_;
+  }
+
+  public static final int NESTED_CHARGES_FIELD_NUMBER = 6;
+  private java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge> nestedCharges_;
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge> getNestedChargesList() {
+    return nestedCharges_;
+  }
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<? extends com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder> 
+      getNestedChargesOrBuilderList() {
+    return nestedCharges_;
+  }
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  @java.lang.Override
+  public int getNestedChargesCount() {
+    return nestedCharges_.size();
+  }
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  @java.lang.Override
+  public com.neptune.cba.transaction.debit_credit.NestedCharge getNestedCharges(int index) {
+    return nestedCharges_.get(index);
+  }
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  @java.lang.Override
+  public com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder getNestedChargesOrBuilder(
+      int index) {
+    return nestedCharges_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -209,6 +295,15 @@ private static final long serialVersionUID = 0L;
     if (!getLedgerBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, ledger_);
     }
+    if (isFixed_ != false) {
+      output.writeBool(4, isFixed_);
+    }
+    if (percentage_ != 0D) {
+      output.writeDouble(5, percentage_);
+    }
+    for (int i = 0; i < nestedCharges_.size(); i++) {
+      output.writeMessage(6, nestedCharges_.get(i));
+    }
     unknownFields.writeTo(output);
   }
 
@@ -227,6 +322,18 @@ private static final long serialVersionUID = 0L;
     }
     if (!getLedgerBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, ledger_);
+    }
+    if (isFixed_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(4, isFixed_);
+    }
+    if (percentage_ != 0D) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(5, percentage_);
+    }
+    for (int i = 0; i < nestedCharges_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, nestedCharges_.get(i));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -250,6 +357,13 @@ private static final long serialVersionUID = 0L;
         .equals(other.getDescription())) return false;
     if (!getLedger()
         .equals(other.getLedger())) return false;
+    if (getIsFixed()
+        != other.getIsFixed()) return false;
+    if (java.lang.Double.doubleToLongBits(getPercentage())
+        != java.lang.Double.doubleToLongBits(
+            other.getPercentage())) return false;
+    if (!getNestedChargesList()
+        .equals(other.getNestedChargesList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -268,6 +382,16 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getDescription().hashCode();
     hash = (37 * hash) + LEDGER_FIELD_NUMBER;
     hash = (53 * hash) + getLedger().hashCode();
+    hash = (37 * hash) + IS_FIXED_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsFixed());
+    hash = (37 * hash) + PERCENTAGE_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getPercentage()));
+    if (getNestedChargesCount() > 0) {
+      hash = (37 * hash) + NESTED_CHARGES_FIELD_NUMBER;
+      hash = (53 * hash) + getNestedChargesList().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -396,6 +520,7 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getNestedChargesFieldBuilder();
       }
     }
     @java.lang.Override
@@ -407,6 +532,16 @@ private static final long serialVersionUID = 0L;
 
       ledger_ = "";
 
+      isFixed_ = false;
+
+      percentage_ = 0D;
+
+      if (nestedChargesBuilder_ == null) {
+        nestedCharges_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      } else {
+        nestedChargesBuilder_.clear();
+      }
       return this;
     }
 
@@ -433,9 +568,21 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.neptune.cba.transaction.debit_credit.Charge buildPartial() {
       com.neptune.cba.transaction.debit_credit.Charge result = new com.neptune.cba.transaction.debit_credit.Charge(this);
+      int from_bitField0_ = bitField0_;
       result.amount_ = amount_;
       result.description_ = description_;
       result.ledger_ = ledger_;
+      result.isFixed_ = isFixed_;
+      result.percentage_ = percentage_;
+      if (nestedChargesBuilder_ == null) {
+        if (((bitField0_ & 0x00000001) != 0)) {
+          nestedCharges_ = java.util.Collections.unmodifiableList(nestedCharges_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.nestedCharges_ = nestedCharges_;
+      } else {
+        result.nestedCharges_ = nestedChargesBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -495,6 +642,38 @@ private static final long serialVersionUID = 0L;
         ledger_ = other.ledger_;
         onChanged();
       }
+      if (other.getIsFixed() != false) {
+        setIsFixed(other.getIsFixed());
+      }
+      if (other.getPercentage() != 0D) {
+        setPercentage(other.getPercentage());
+      }
+      if (nestedChargesBuilder_ == null) {
+        if (!other.nestedCharges_.isEmpty()) {
+          if (nestedCharges_.isEmpty()) {
+            nestedCharges_ = other.nestedCharges_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureNestedChargesIsMutable();
+            nestedCharges_.addAll(other.nestedCharges_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.nestedCharges_.isEmpty()) {
+          if (nestedChargesBuilder_.isEmpty()) {
+            nestedChargesBuilder_.dispose();
+            nestedChargesBuilder_ = null;
+            nestedCharges_ = other.nestedCharges_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            nestedChargesBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getNestedChargesFieldBuilder() : null;
+          } else {
+            nestedChargesBuilder_.addAllMessages(other.nestedCharges_);
+          }
+        }
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -523,6 +702,7 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    private int bitField0_;
 
     private double amount_ ;
     /**
@@ -705,6 +885,308 @@ private static final long serialVersionUID = 0L;
       ledger_ = value;
       onChanged();
       return this;
+    }
+
+    private boolean isFixed_ ;
+    /**
+     * <code>bool is_fixed = 4;</code>
+     * @return The isFixed.
+     */
+    @java.lang.Override
+    public boolean getIsFixed() {
+      return isFixed_;
+    }
+    /**
+     * <code>bool is_fixed = 4;</code>
+     * @param value The isFixed to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsFixed(boolean value) {
+      
+      isFixed_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>bool is_fixed = 4;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsFixed() {
+      
+      isFixed_ = false;
+      onChanged();
+      return this;
+    }
+
+    private double percentage_ ;
+    /**
+     * <code>double percentage = 5;</code>
+     * @return The percentage.
+     */
+    @java.lang.Override
+    public double getPercentage() {
+      return percentage_;
+    }
+    /**
+     * <code>double percentage = 5;</code>
+     * @param value The percentage to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPercentage(double value) {
+      
+      percentage_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>double percentage = 5;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPercentage() {
+      
+      percentage_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge> nestedCharges_ =
+      java.util.Collections.emptyList();
+    private void ensureNestedChargesIsMutable() {
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        nestedCharges_ = new java.util.ArrayList<com.neptune.cba.transaction.debit_credit.NestedCharge>(nestedCharges_);
+        bitField0_ |= 0x00000001;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.neptune.cba.transaction.debit_credit.NestedCharge, com.neptune.cba.transaction.debit_credit.NestedCharge.Builder, com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder> nestedChargesBuilder_;
+
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge> getNestedChargesList() {
+      if (nestedChargesBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(nestedCharges_);
+      } else {
+        return nestedChargesBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public int getNestedChargesCount() {
+      if (nestedChargesBuilder_ == null) {
+        return nestedCharges_.size();
+      } else {
+        return nestedChargesBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.NestedCharge getNestedCharges(int index) {
+      if (nestedChargesBuilder_ == null) {
+        return nestedCharges_.get(index);
+      } else {
+        return nestedChargesBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder setNestedCharges(
+        int index, com.neptune.cba.transaction.debit_credit.NestedCharge value) {
+      if (nestedChargesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNestedChargesIsMutable();
+        nestedCharges_.set(index, value);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder setNestedCharges(
+        int index, com.neptune.cba.transaction.debit_credit.NestedCharge.Builder builderForValue) {
+      if (nestedChargesBuilder_ == null) {
+        ensureNestedChargesIsMutable();
+        nestedCharges_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        nestedChargesBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder addNestedCharges(com.neptune.cba.transaction.debit_credit.NestedCharge value) {
+      if (nestedChargesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNestedChargesIsMutable();
+        nestedCharges_.add(value);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder addNestedCharges(
+        int index, com.neptune.cba.transaction.debit_credit.NestedCharge value) {
+      if (nestedChargesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNestedChargesIsMutable();
+        nestedCharges_.add(index, value);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder addNestedCharges(
+        com.neptune.cba.transaction.debit_credit.NestedCharge.Builder builderForValue) {
+      if (nestedChargesBuilder_ == null) {
+        ensureNestedChargesIsMutable();
+        nestedCharges_.add(builderForValue.build());
+        onChanged();
+      } else {
+        nestedChargesBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder addNestedCharges(
+        int index, com.neptune.cba.transaction.debit_credit.NestedCharge.Builder builderForValue) {
+      if (nestedChargesBuilder_ == null) {
+        ensureNestedChargesIsMutable();
+        nestedCharges_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        nestedChargesBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder addAllNestedCharges(
+        java.lang.Iterable<? extends com.neptune.cba.transaction.debit_credit.NestedCharge> values) {
+      if (nestedChargesBuilder_ == null) {
+        ensureNestedChargesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, nestedCharges_);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder clearNestedCharges() {
+      if (nestedChargesBuilder_ == null) {
+        nestedCharges_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public Builder removeNestedCharges(int index) {
+      if (nestedChargesBuilder_ == null) {
+        ensureNestedChargesIsMutable();
+        nestedCharges_.remove(index);
+        onChanged();
+      } else {
+        nestedChargesBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.NestedCharge.Builder getNestedChargesBuilder(
+        int index) {
+      return getNestedChargesFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder getNestedChargesOrBuilder(
+        int index) {
+      if (nestedChargesBuilder_ == null) {
+        return nestedCharges_.get(index);  } else {
+        return nestedChargesBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public java.util.List<? extends com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder> 
+         getNestedChargesOrBuilderList() {
+      if (nestedChargesBuilder_ != null) {
+        return nestedChargesBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(nestedCharges_);
+      }
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.NestedCharge.Builder addNestedChargesBuilder() {
+      return getNestedChargesFieldBuilder().addBuilder(
+          com.neptune.cba.transaction.debit_credit.NestedCharge.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public com.neptune.cba.transaction.debit_credit.NestedCharge.Builder addNestedChargesBuilder(
+        int index) {
+      return getNestedChargesFieldBuilder().addBuilder(
+          index, com.neptune.cba.transaction.debit_credit.NestedCharge.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+     */
+    public java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge.Builder> 
+         getNestedChargesBuilderList() {
+      return getNestedChargesFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        com.neptune.cba.transaction.debit_credit.NestedCharge, com.neptune.cba.transaction.debit_credit.NestedCharge.Builder, com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder> 
+        getNestedChargesFieldBuilder() {
+      if (nestedChargesBuilder_ == null) {
+        nestedChargesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            com.neptune.cba.transaction.debit_credit.NestedCharge, com.neptune.cba.transaction.debit_credit.NestedCharge.Builder, com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder>(
+                nestedCharges_,
+                ((bitField0_ & 0x00000001) != 0),
+                getParentForChildren(),
+                isClean());
+        nestedCharges_ = null;
+      }
+      return nestedChargesBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

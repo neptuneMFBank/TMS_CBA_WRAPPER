@@ -434,112 +434,75 @@ public class Cron {
 
                 if (transactionDrCr1.getResponseCode().equals("00")) {
 
-                    Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(transactionDrCr1.getAccountnumber());
-                    DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1);
-
                     //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
                     //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
 
-                    if (response != null) {
-                        if (response.getCode().equals("200")) {
-                            String id = transactionDrCr1.getId();
-                            transactionDrCr1.setUpdatedToCba(true);
-                            transactionDrCr1.setCbaMessage(response.getMessage());
-                            transactionDrCr1.setCreated_at(LocalDateTime.now().toString());
-                            transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
-                            cbaTransactionRequestsRepository.save(transactionDrCr1);
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
+                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
 
-                            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
-                            Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+                    System.out.println("========================================= 1");
+                    if (businessPlatformCharges.isEmpty()) {
+                        return;
+                    }
 
-                            System.out.println("========================================= 1");
-                            if (businessPlatformCharges.isEmpty()) {
-                                return;
-                            }
+                    System.out.println("========================================= 2");
+                    if (platformCharges.isPresent()) {
+                        System.out.println("========================================= 3");
+                        //todo: debit platform charge from terminal
+                        String chargeType = platformCharges.get().getChargeType();
+                        double amount;
+                        double amount2;
 
-                            System.out.println("========================================= 2");
-                            if (platformCharges.isPresent()) {
-                                System.out.println("========================================= 3");
-                                //todo: debit platform charge from terminal
-                                String chargeType = platformCharges.get().getChargeType();
-                                double amount;
-//                                double amount2;
-                                double amount3;
-
-                                if (chargeType.equalsIgnoreCase("percentage")) {
-                                    amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
-                                } else {
-                                    amount = platformCharges.get().getAmount();
-                                }
-
-                                if (amount > platformCharges.get().getThreshold()) {
-                                    amount = platformCharges.get().getThreshold();
-                                }
-
-                                String chargeType2 = businessPlatformCharges.get().getChargeType();
-                                if (chargeType2.equalsIgnoreCase("percentage")) {
-                                    amount3 = (businessPlatformCharges.get().getAmount() / 100) * amount;
-                                } else {
-                                    amount3 = platformCharges.get().getAmount();
-                                }
-
-                                if (amount3 > businessPlatformCharges.get().getThreshold()) {
-                                    amount3 = platformCharges.get().getThreshold();
-                                }
-
-                                TransactionDrCr transactionDrCr2 = helpers.saveTransaction(id, transactionDrCr1.getPosRef(), "charge", virtualAccountModel.get().getAccount_name(), virtualAccountModel.get().getVirtual_account_number(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "dr", "debit platform charge from terminal", transactionDrCr1.getTerminalId(), amount, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
-                                DebitCreditResponse response1 = debitCreditService.debitCredit(transactionDrCr2);
-                                if (response1.getCode().equals("200")) {
-                                    transactionDrCr2.setUpdatedToCba(true);
-                                }
-
-                                System.out.println("========================================= 4");
-                                transactionDrCr2.setCbaMessage(response1.getMessage());
-                                cbaTransactionRequests.save(transactionDrCr2);
-                                System.out.println("response1 = " + response1);
-
-                                if (virtualAccountModel.isPresent()) {
-                                    System.out.println("========================================= 5");
-
-                                    //todo: credit business account charge with charge deducted from NeptunePay platform charge
-                                    if (businessPlatformCharges.get().getBusinessWalletId() != null) {
-
-                                        System.out.println("========================================= 6");
-                                        TransactionDrCr transactionDrCr5 = helpers.saveTransaction(id, transactionDrCr1.getPosRef(), "charge", businessPlatformCharges.get().getBusinessName(), businessPlatformCharges.get().getBusinessWalletId(), transactionDrCr1.getCardScheme(), platformCharges.get().getId(), transactionDrCr1.getResourceId(), "", "cr", "Business charge for amount transfer of " + amount, transactionDrCr1.getTerminalId(), amount3, helpers.generateId(transactionDrCr1.getTerminalId()), "create", "", false);
-                                        DebitCreditResponse response4 = debitCreditService.debitCredit(transactionDrCr5);
-                                        if(response4 != null) {
-                                            if (response4.getCode().equals("200")) {
-                                                System.out.println("========================================= 7");
-                                                transactionDrCr5.setUpdatedToCba(true);
-                                            }
-
-                                            transactionDrCr5.setCbaMessage(response4.getMessage());
-                                            cbaTransactionRequests.save(transactionDrCr5);
-                                            System.out.println("response4 = " + response4);
-                                        }
-                                    }
-
-                                }
-                            }
-                            System.out.println("========================================= 8");
-
-                            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                            requestSchema.setNote("SUBMITTED");
-                            requestSchema.setStatus(200);
-                            System.out.println("requestSchema = " + requestSchema);
-                            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                            System.out.println("SENT_TO_CBA");
-                            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                        if (chargeType.equalsIgnoreCase("percentage")) {
+                            amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
                         } else {
-                            System.out.println("jjjjjjjj here");
-                            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                            requestSchema.setNote(response.getMessage());
-                            requestSchema.setStatus(100);
-                            System.out.println("kkkkkkkkkkkkk");
-                            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                            System.out.println("jjsjsjadj");
-                            System.out.println("NOT_SENT_TO_CBA");
-                            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                            amount = platformCharges.get().getAmount();
+                        }
+
+                        if (amount > platformCharges.get().getThreshold()) {
+                            amount = platformCharges.get().getThreshold();
+                        }
+
+                        String chargeType2 = businessPlatformCharges.get().getChargeType();
+                        if (chargeType2.equalsIgnoreCase("percentage")) {
+                            amount2 = (businessPlatformCharges.get().getAmount() / 100) * amount;
+                        } else {
+                            amount2 = businessPlatformCharges.get().getAmount();
+                        }
+
+                        if (amount2 > businessPlatformCharges.get().getThreshold()) {
+                            amount2 = businessPlatformCharges.get().getThreshold();
+                        }
+
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, amount2, businessPlatformCharges.get().getBusinessWalletId());
+
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                                String id = transactionDrCr1.getId();
+                                transactionDrCr1.setUpdatedToCba(true);
+                                transactionDrCr1.setCbaMessage(response.getMessage());
+                                transactionDrCr1.setCreated_at(LocalDateTime.now().toString());
+                                transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
+                                cbaTransactionRequestsRepository.save(transactionDrCr1);
+
+                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+                                requestSchema.setNote("SUBMITTED");
+                                requestSchema.setStatus(200);
+                                System.out.println("requestSchema = " + requestSchema);
+                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                                System.out.println("SENT_TO_CBA");
+                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                            } else {
+                                System.out.println("jjjjjjjj here");
+                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+                                requestSchema.setNote(response.getMessage());
+                                requestSchema.setStatus(100);
+                                System.out.println("kkkkkkkkkkkkk");
+                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
+                                System.out.println("jjsjsjadj");
+                                System.out.println("NOT_SENT_TO_CBA");
+                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+                            }
                         }
                     }
                 }
@@ -667,7 +630,7 @@ public class Cron {
         virtualAccountModel.setGenericCode(genericCode);
         virtualAccountModel.setToken_expiry(LocalDateTime.now().toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS password <br /> <a href=\"https://tms-neptune.netlify.app/terminal-pin-set/"+genericCode + "\" target=\"_blank\">Set Password</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"https://tms-neptune.netlify.app/set-pin?code="+genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")

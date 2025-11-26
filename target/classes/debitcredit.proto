@@ -29,6 +29,7 @@ message DebitCreditStatusResponse {
   string response = 1;
   string code =2;
 }
+
 message DebitCreditRequest {
   string accountnumber =1;
   string isccode =2;
@@ -47,6 +48,16 @@ message Charge {
   double amount =1;
   string description =2;
   string ledger =3;
+  bool is_fixed =4;
+  double percentage=5;
+  repeated NestedCharge nested_charges =6;
+}
+
+message NestedCharge{
+  double amount =1;
+  string accountnumber =2;
+  bool is_fixed =3;
+  double percentage=4;
 }
 
 message DebitCreditResponse {

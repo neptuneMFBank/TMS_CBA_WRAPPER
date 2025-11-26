@@ -36,4 +36,40 @@ public interface ChargeOrBuilder extends
    */
   com.google.protobuf.ByteString
       getLedgerBytes();
+
+  /**
+   * <code>bool is_fixed = 4;</code>
+   * @return The isFixed.
+   */
+  boolean getIsFixed();
+
+  /**
+   * <code>double percentage = 5;</code>
+   * @return The percentage.
+   */
+  double getPercentage();
+
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  java.util.List<com.neptune.cba.transaction.debit_credit.NestedCharge> 
+      getNestedChargesList();
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  com.neptune.cba.transaction.debit_credit.NestedCharge getNestedCharges(int index);
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  int getNestedChargesCount();
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  java.util.List<? extends com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder> 
+      getNestedChargesOrBuilderList();
+  /**
+   * <code>repeated .com.neptune.cba.NestedCharge nested_charges = 6;</code>
+   */
+  com.neptune.cba.transaction.debit_credit.NestedChargeOrBuilder getNestedChargesOrBuilder(
+      int index);
 }

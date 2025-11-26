@@ -1,11 +1,13 @@
 package com.neptune.cbawrapper.Models;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "name_enquiry_data")
+@ToString
 public class NameEnquiryResponseModel {
 
     @Id

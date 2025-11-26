@@ -32,14 +32,14 @@ public class EasypayController {
     private final ErrorLoggingException errorLoggingException;
 
     @Autowired
-    private EasypayTransactionsRepository easypayTransactionsRepository;
+    private final EasypayTransactionsRepository easypayTransactionsRepository;
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
-    private NameEnquiryResponseRepository nameEnquiryResponseRepository;
+    private final NameEnquiryResponseRepository nameEnquiryResponseRepository;
 
     @Autowired
-    private Easypay easypay;
+    private final Easypay easypay;
 
 //    @PostMapping("/outward_transfer")
 //    public ResponseEntity<ResponseSchema<?>> transferOutward(@Valid @RequestBody EasyPayTransferRequestPayload requestPayload){
@@ -145,6 +145,7 @@ public class EasypayController {
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         }
         NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
+        System.out.println("response = " + response);
 //
 //        remove channel_code, senderBankCode, platform from request body and add from env
         NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
@@ -158,6 +159,7 @@ public class EasypayController {
         enquiryResponseModel.setBankVerificationNumber(response.getBankVerificationNumber());
         enquiryResponseModel.setKycLevel(response.getKycLevel());
         enquiryResponseModel.setExpiryTime(expiry);
+        System.out.println("enquiryResponseModel = " + enquiryResponseModel);
         nameEnquiryResponseRepository.save(enquiryResponseModel);
 
         NameEnquiry data = new NameEnquiry();

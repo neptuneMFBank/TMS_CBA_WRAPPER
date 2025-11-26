@@ -26,17 +26,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DebitCreditService {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
-
     @Value("${grpc.debitCredit.request.url}")
     private String debitCredit_server_ip;
 
     @Value("${grpc.debitCredit.request.port}")
     private int debitCredit_server_port;
 
+    @Value("${grpc.debitCredit.charge.ledger_code}")
+    private String charge_ledger_code;
+
+    @Value("${grpc.debitCredit.transaction.ledger_code}")
+    private String transaction_ledger_code;
+
     private final ErrorLoggingException errorLoggingException;
 
-    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr){
+    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, double businessCharge, String businessAcct){
+        double amount = 0.0;
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
 
@@ -50,23 +55,23 @@ public class DebitCreditService {
         System.out.println("transactionDrCr.getNarration() = " + transactionDrCr.getNarration());
         System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
 //        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
+
         try {
-            System.out.println("got here");
+            Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).addNestedCharges(NestedCharge.newBuilder().setAmount(businessCharge).setAccountnumber(businessAcct).setIsFixed(true).setPercentage(0).build()).setDescription("Platform charge").setLedger("").build();
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
-                    .setIsccode("7002")
+                    .setIsccode(transaction_ledger_code)
                     .setAccountstatus(transactionDrCr.getAccountstatus())
                     .setAcctname(transactionDrCr.getAcctname())
                     .setDrcr(transactionDrCr.getDrcr())
                     .setAcctype(transactionDrCr.getAcctype())
                     .setAmount(transactionDrCr.getAmount())
+                    .addCharge(charge)
                     .setTransactionreference(transactionDrCr.getTransactionreference())
                     .setNarration(transactionDrCr.getNarration())
                     .setChannel(transactionDrCr.getChannel())
                     .setEid(transactionDrCr.getEid())
                     .build();
-
-            System.out.println("request = " + request);
 
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
