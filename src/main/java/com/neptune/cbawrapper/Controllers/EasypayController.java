@@ -147,11 +147,13 @@ public class EasypayController {
             }
             System.out.println("11111111111222222222222");
             NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
+            boolean isNull = response == null;
+            System.out.println("isNull = " + isNull);
             if(response == null){
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Error occured, kindly enter valid account details for name enquiry", "", "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
             }
-            System.out.println("response = " + response);
+            System.out.println("response1 = " + response);
 //
 //        remove channel_code, senderBankCode, platform from request body and add from env
             NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
