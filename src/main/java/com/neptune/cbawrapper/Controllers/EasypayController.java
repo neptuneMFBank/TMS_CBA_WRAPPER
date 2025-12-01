@@ -90,7 +90,7 @@ public class EasypayController {
 //    }
 
     @GetMapping("/get_institutions")
-    public ResponseEntity<ResponseSchema<?>> getInstitutionsList(){
+    public ResponseEntity<ResponseSchema<?>> getInstitutionsList() {
         Institutions response = easypay.getInstitutions();
 
         InstitutionsData institutionsData = new InstitutionsData();
@@ -114,65 +114,81 @@ public class EasypayController {
     }
 
     @PostMapping("/name_enquiry")
-    public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
+    public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload) {
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
-        if(requestPayload.getDestinationInstitutionCode().equals("090329")){
+        try {
+            if (requestPayload.getDestinationInstitutionCode().equals("090329")) {
 //            save name enquiry data and use the result for /outward_transfer
-            String session_Id = UUID.randomUUID().toString();
-            String transaction_id = UUID.randomUUID().toString();;
-            Customer.NameEnquiryRequest request = Customer.NameEnquiryRequest.newBuilder().setAccountNumber(requestPayload.getAccountNumber()).build();
-            Customer.NameEnquiryResponse response = customerService.getCustomerData(request);
+                String session_Id = UUID.randomUUID().toString();
+                String transaction_id = UUID.randomUUID().toString();
+                ;
+                Customer.NameEnquiryRequest request = Customer.NameEnquiryRequest.newBuilder().setAccountNumber(requestPayload.getAccountNumber()).build();
+                Customer.NameEnquiryResponse response = customerService.getCustomerData(request);
+                NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
+                enquiryResponseModel.setResponseCode(response.getResponseCode());
+                enquiryResponseModel.setSessionID(session_Id);
+                enquiryResponseModel.setTransactionId(transaction_id);
+                enquiryResponseModel.setChannelCode(1);
+                enquiryResponseModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+                enquiryResponseModel.setAccountName(response.getAccountName());
+                enquiryResponseModel.setAccountNumber(response.getAccountNumber());
+                enquiryResponseModel.setBankVerificationNumber("response.getBankVerificationNumber()");
+                enquiryResponseModel.setKycLevel(1);
+                enquiryResponseModel.setExpiryTime(expiry);
+                nameEnquiryResponseRepository.save(enquiryResponseModel);
+
+                NameEnquiry data = new NameEnquiry();
+                data.setExpiry_time(expiry);
+                data.setUnique_id(session_Id);
+                data.setAccountName(response.getAccountName());
+
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            }
+            NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
+            if(response == null){
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Error occured, kindly enter valid account details for name enquiry", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+            }
+            System.out.println("response = " + response);
+//
+//        remove channel_code, senderBankCode, platform from request body and add from env
             NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
             enquiryResponseModel.setResponseCode(response.getResponseCode());
-            enquiryResponseModel.setSessionID(session_Id);
-            enquiryResponseModel.setTransactionId(transaction_id);
-            enquiryResponseModel.setChannelCode(1);
-            enquiryResponseModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
+            enquiryResponseModel.setSessionID(response.getSessionID());
+            enquiryResponseModel.setTransactionId(response.getTransactionId());
+            enquiryResponseModel.setChannelCode(response.getChannelCode());
+            enquiryResponseModel.setDestinationInstitutionCode(response.getDestinationInstitutionCode());
             enquiryResponseModel.setAccountName(response.getAccountName());
             enquiryResponseModel.setAccountNumber(response.getAccountNumber());
-            enquiryResponseModel.setBankVerificationNumber("response.getBankVerificationNumber()");
-            enquiryResponseModel.setKycLevel(1);
+            enquiryResponseModel.setBankVerificationNumber(response.getBankVerificationNumber());
+            enquiryResponseModel.setKycLevel(response.getKycLevel());
             enquiryResponseModel.setExpiryTime(expiry);
+            System.out.println("enquiryResponseModel = " + enquiryResponseModel);
             nameEnquiryResponseRepository.save(enquiryResponseModel);
 
             NameEnquiry data = new NameEnquiry();
             data.setExpiry_time(expiry);
-            data.setUnique_id(session_Id);
+            data.setUnique_id(response.getSessionID());
             data.setAccountName(response.getAccountName());
-
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        } catch (Exception e) {
+            String rawMessage = e.getMessage();  // e.g. "NOT_FOUND: Customer not found 2011036112"
+
+            // Extract the actual message after the last ':'
+            String cleanMessage = rawMessage;
+            if (rawMessage != null && rawMessage.contains(":")) {
+                cleanMessage = rawMessage.substring(rawMessage.lastIndexOf(":") + 1).trim();
+            }
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, cleanMessage, "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
-        NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
-        System.out.println("response = " + response);
-//
-//        remove channel_code, senderBankCode, platform from request body and add from env
-        NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
-        enquiryResponseModel.setResponseCode(response.getResponseCode());
-        enquiryResponseModel.setSessionID(response.getSessionID());
-        enquiryResponseModel.setTransactionId(response.getTransactionId());
-        enquiryResponseModel.setChannelCode(response.getChannelCode());
-        enquiryResponseModel.setDestinationInstitutionCode(response.getDestinationInstitutionCode());
-        enquiryResponseModel.setAccountName(response.getAccountName());
-        enquiryResponseModel.setAccountNumber(response.getAccountNumber());
-        enquiryResponseModel.setBankVerificationNumber(response.getBankVerificationNumber());
-        enquiryResponseModel.setKycLevel(response.getKycLevel());
-        enquiryResponseModel.setExpiryTime(expiry);
-        System.out.println("enquiryResponseModel = " + enquiryResponseModel);
-        nameEnquiryResponseRepository.save(enquiryResponseModel);
-
-        NameEnquiry data = new NameEnquiry();
-        data.setExpiry_time(expiry);
-        data.setUnique_id(response.getSessionID());
-        data.setAccountName(response.getAccountName());
-
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
-        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
     @GetMapping("/transaction_history")
-    public ResponseEntity<ResponseSchema<?>> getEasyPayHistory(@RequestBody EasyPayHistoryRequest request){
+    public ResponseEntity<ResponseSchema<?>> getEasyPayHistory(@RequestBody EasyPayHistoryRequest request) {
         EasyPayListResponse response = easypay.getEasyPayHistory(request);
 
         System.out.println("response = " + response);
@@ -210,12 +226,12 @@ public class EasypayController {
     }
 
     @GetMapping("/reverse_transaction")
-    public ResponseEntity<ResponseSchema<?>> reverseTransaction(@RequestParam String ref){
+    public ResponseEntity<ResponseSchema<?>> reverseTransaction(@RequestParam String ref) {
         ReverseResponse response = easypay.reverseTransaction(ref);
 
         System.out.println("response = " + response);
 
-        if(response == null){
+        if (response == null) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
         }
@@ -228,7 +244,7 @@ public class EasypayController {
     }
 
     @GetMapping("/get_transaction-status")
-    public ResponseEntity<ResponseSchema<?>> getTransactionStatus(@RequestParam String ref){
+    public ResponseEntity<ResponseSchema<?>> getTransactionStatus(@RequestParam String ref) {
         EasyPayStatusResponse response = easypay.getEasyPayStatus(ref);
 
         ReverseResponseData reverseResponseData = new ReverseResponseData();
