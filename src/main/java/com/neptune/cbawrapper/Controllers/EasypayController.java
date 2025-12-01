@@ -89,7 +89,7 @@ public class EasypayController {
 //        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
 //    }
 
-    @PostMapping("/get_institutions")
+    @GetMapping("/get_institutions")
     public ResponseEntity<ResponseSchema<?>> getInstitutionsList(){
         Institutions response = easypay.getInstitutions();
 
@@ -113,7 +113,7 @@ public class EasypayController {
         return institutionDataList;
     }
 
-    @GetMapping("/name_enquiry")
+    @PostMapping("/name_enquiry")
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload){
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
         if(requestPayload.getDestinationInstitutionCode().equals("090329")){
