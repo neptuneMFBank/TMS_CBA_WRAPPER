@@ -145,6 +145,7 @@ public class EasypayController {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
+            System.out.println("11111111111222222222222");
             NameEnquiryResponse response = easypay.nameEnquiry(requestPayload);
             if(response == null){
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Error occured, kindly enter valid account details for name enquiry", "", "", ZonedDateTime.now(), false);
