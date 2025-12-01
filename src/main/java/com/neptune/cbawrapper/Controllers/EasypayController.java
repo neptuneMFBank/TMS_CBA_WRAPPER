@@ -89,7 +89,7 @@ public class EasypayController {
 //        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
 //    }
 
-    @GetMapping("/get_institutions")
+    @PostMapping("/get_institutions")
     public ResponseEntity<ResponseSchema<?>> getInstitutionsList(){
         Institutions response = easypay.getInstitutions();
 
