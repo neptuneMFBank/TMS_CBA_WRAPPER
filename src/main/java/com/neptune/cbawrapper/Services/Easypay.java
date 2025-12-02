@@ -100,7 +100,7 @@ public class Easypay {
         try {
             NameEnquiryRpcRequest rpcRequest = NameEnquiryRpcRequest.newBuilder()
                     .setAccountNumber(request.getAccountNumber())
-                    .setChannelCode("WEB")
+                    .setChannelCode("1")
                     .setDestinationInstitutionCode(request.getDestinationInstitutionCode())
                     .setSenderBankCode("BANK002")
                     .setPlatform("MOBILE")
