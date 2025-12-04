@@ -4,9 +4,11 @@ import com.neptune.cba.transaction.intra_transfer.IntraTransferRequest;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
+import com.neptune.cbawrapper.Models.IntraTransferResponseData;
 import com.neptune.cbawrapper.RequestRessponseSchema.IntraTransfer;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,12 +26,16 @@ public class TransactionService {
     @Value("${grpc.debitCredit.request.port}")
     private int transaction_port;
 
-    public IntraTransferResponse intraTransfer(IntraTransfer intraTransfer){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(transaction_ip, transaction_port).usePlaintext().build();
+    public IntraTransferResponseData intraTransfer(IntraTransfer intraTransfer) {
 
-        IntraTransferResponse response = null;
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(transaction_ip, transaction_port)
+                .usePlaintext()
+                .build();
+
         try {
-            IntraTransferServiceGrpc.IntraTransferServiceBlockingStub stub = IntraTransferServiceGrpc.newBlockingStub(channel);
+            IntraTransferServiceGrpc.IntraTransferServiceBlockingStub stub =
+                    IntraTransferServiceGrpc.newBlockingStub(channel);
 
             IntraTransferRequest request = IntraTransferRequest.newBuilder()
                     .setCustomerId(intraTransfer.getCustomerId())
@@ -49,17 +55,41 @@ public class TransactionService {
                     .setChannel("MOBILE")
                     .setEid("")
                     .build();
-            response = stub.intraTransfer(request);
-        }catch (StatusRuntimeException e){
-            System.out.println("error 1 = " + e.getMessage());
-            errorLoggingException.logError("INTRA_TRANSFER_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
-        } catch (Exception e){
-            System.out.println("error 2 = " + e.getMessage());
-            errorLoggingException.logError("INTRA_TRANSFER_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
-        }finally {
+
+            IntraTransferResponse response = stub.intraTransfer(request);
+
+            return IntraTransferResponseData.builder()
+                    .responsecode(response.getCode())
+                    .responsemessage(response.getMessage())
+                    .build();
+        } catch (StatusRuntimeException e) {
+
+            Status.Code errorCode = e.getStatus().getCode();
+            String errorMsg = e.getStatus().getDescription();
+
+            System.out.println("gRPC Error Code = " + errorCode);
+            System.out.println("gRPC Error Message = " + errorMsg);
+
+            // ⭐ Build a custom error response instead of returning null
+            return IntraTransferResponseData.builder()
+                    .responsecode(errorCode.toString())  // e.g. FAILED_PRECONDITION
+                    .responsemessage(errorMsg)           // e.g. "Insufficient balance"
+                    .build();
+
+        } catch (Exception e) {
+
+            System.out.println("gRPC Error Code = " + e.getCause());
+//            System.out.println("gRPC Error Message = " + e.getCause().initCause().getMessage());
+
+            return IntraTransferResponseData.builder()
+                    .responsecode("401")
+                    .responsemessage("insufficient balance")
+                    .build();
+
+        } finally {
             channel.shutdownNow();
         }
-        return response;
     }
+
 
 }

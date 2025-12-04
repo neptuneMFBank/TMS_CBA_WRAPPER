@@ -215,6 +215,7 @@ com/virtualAccountApplication/createAccount/proto/AccountTypes$1.class
 com/neptune/cbawrapper/Models/BillerInfo$BillerInfoBuilder.class
 customers/Customer$CustomerOptions.class
 customers/Customer.class
+com/neptune/cbawrapper/Models/IntraTransferResponseData.class
 notification_service/NotificationServiceGrpc$3.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryRequest$Builder.class
 auth/Auth$Region$1.class
@@ -981,6 +982,7 @@ com/neptune/cba/transaction/type/TransactionTypeResponse$1.class
 auth/Auth$Get3ppWebhookResponse$1.class
 auth/Auth$Employee$Builder.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequestOrBuilder.class
+com/neptune/cbawrapper/Models/IntraTransferResponseData$IntraTransferResponseDataBuilder.class
 com/neptune/cba/transaction/balance/BulkBalanceRequestOrBuilder.class
 notification_service/Notifications$UserNotificationOrBuilder.class
 auth/Auth$TwoFactorAuthRequest$Builder.class

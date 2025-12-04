@@ -342,10 +342,16 @@ public class TransactionController {
                                 .transactionreference(request.getReference())
                                 .narration(request.getNarration())
                                 .build();
-                        IntraTransferResponse response = transactionService.intraTransfer(intraTransfer);
+                        System.out.println("intraTransfer = " + intraTransfer);
+                        IntraTransferResponseData response = transactionService.intraTransfer(intraTransfer);
 
-                        responseData.setMessage(response.getMessage());
-                        responseData.setStatus(Integer.parseInt(response.getCode()));
+                        System.out.println("response 22 = " + response);
+                        if(response.getResponsecode().equals("401")){
+                            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, response.getResponsemessage(), "", "", ZonedDateTime.now(), false);
+                            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+                        }
+                        responseData.setMessage(response.getResponsemessage());
+                        responseData.setStatus(Integer.parseInt(response.getResponsecode()));
                         responseData.setTimeStamp(ZonedDateTime.now());
                         responseData.setData(response);
                         return new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -380,7 +386,7 @@ public class TransactionController {
                         easypayResponseData.setCode("500");
                         easypayResponseData.setMessage("Response from outward transfer returned null");
                         ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
-                        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     transactionsModel.setMessage(response.getMessage());
                     transactionsModel.setCode(response.getCode());
