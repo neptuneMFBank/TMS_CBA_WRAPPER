@@ -239,12 +239,6 @@ public class TransactionController {
             }
             System.out.println("kellyabel");
 
-            String status = "";
-
-            if (request.getResponseCode().equals("00")) {
-                status = "SUCCESS";
-            }
-
             System.out.println("platformName = " + request.getTransactionPlatform());
             System.out.println("platformId = " + request.getPaymentTypeId());
 
