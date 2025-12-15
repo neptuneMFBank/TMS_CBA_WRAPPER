@@ -186,6 +186,7 @@ public class OnboardingController {
             Auth.Get3ppUserDataResponse response2 = authenticationService.getUserData(response.getAccessToken());
             System.out.println("response2 = " + response2);
             if (response2.hasUser()) {
+                System.out.println("got here 1234567890");
                 authCredentials.setFirst_name(response2.getUser().getFirstName());
                 authCredentials.setLast_name(response2.getUser().getLastName());
                 authCredentials.setBusiness_name(response2.getUser().getBusinessName());
@@ -203,7 +204,7 @@ public class OnboardingController {
                 authCredentials.setEnv(env);
 
                 Auth.Get3ppWebhookResponse checkIfWebhookUrlExists = authenticationService.get3ppWebhook(response.getAccessToken(), response2.getUser().getId());
-
+                System.out.println("checkIfWebhookUrlExists = " + checkIfWebhookUrlExists);
                 if (checkIfWebhookUrlExists == null) {
                     System.out.println("webhook 1");
                     authenticationService.createWebHookCba(response.getAccessToken(), debitCredit_webhook_url);
