@@ -36,6 +36,7 @@ public class SettingsController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
+
     @CrossOrigin(origins = "*")
     @PostMapping("/set-password")
     public ResponseEntity<ResponseSchema<?>> setPassword(@RequestBody PinRequest request) {

@@ -205,8 +205,10 @@ public class OnboardingController {
                 Auth.Get3ppWebhookResponse checkIfWebhookUrlExists = authenticationService.get3ppWebhook(response.getAccessToken(), response2.getUser().getId());
 
                 if (checkIfWebhookUrlExists == null) {
+                    System.out.println("webhook 1");
                     authenticationService.createWebHookCba(response.getAccessToken(), debitCredit_webhook_url);
                 } else if (!checkIfWebhookUrlExists.getUrl().equalsIgnoreCase(debitCredit_webhook_url)) {
+                    System.out.println("webhook 2");
                     authenticationService.createWebHookCba(response.getAccessToken(), debitCredit_webhook_url);
                 }
             }
