@@ -40,18 +40,18 @@ public class TransactionService {
             IntraTransferRequest request = IntraTransferRequest.newBuilder()
                     .setCustomerId(intraTransfer.getCustomerId())
                     .setMobilekey("")
-                    .setFromaccount(intraTransfer.getFromaccount())
-                    .setFromacctname(intraTransfer.getFromacctname())
-                    .setFromaccountstatus(intraTransfer.getFromaccountstatus())
-                    .setFromaccountemail(intraTransfer.getFromaccountemail())
-                    .setFromacctype(intraTransfer.getFromacctype())
-                    .setToaccount(intraTransfer.getToaccount())
-                    .setToacctname(intraTransfer.getToacctname())
-                    .setToacctype(intraTransfer.getToacctype())
+                    .setFromaccount(safe(intraTransfer.getFromaccount()))
+                    .setFromacctname(safe(intraTransfer.getFromacctname()))
+                    .setFromaccountstatus(safe(intraTransfer.getFromaccountstatus()))
+                    .setFromaccountemail(safe(intraTransfer.getFromaccountemail()))
+                    .setFromacctype(safe(intraTransfer.getFromacctype()))
+                    .setToaccount(safe(intraTransfer.getToaccount()))
+                    .setToacctname(safe(intraTransfer.getToacctname()))
+                    .setToacctype(safe(intraTransfer.getToacctype()))
                     .setAmount(intraTransfer.getAmount())
                     .setTokenType("")
-                    .setTransactionreference(intraTransfer.getTransactionreference())
-                    .setNarration(intraTransfer.getNarration())
+                    .setTransactionreference(safe(intraTransfer.getTransactionreference()))
+                    .setNarration(safe(intraTransfer.getNarration()))
                     .setChannel("MOBILE")
                     .setEid("")
                     .build();
@@ -92,4 +92,7 @@ public class TransactionService {
     }
 
 
+    private String safe(String value) {
+        return value == null ? "" : value;
+    }
 }
