@@ -385,8 +385,8 @@ public class TransactionController {
 
                         EasypayResponseData easypayResponseData = new EasypayResponseData();
                         easypayResponseData.setCode("500");
-                        easypayResponseData.setMessage("Response from outward transfer returned null");
-                        ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Response from outward transfer returned null", easypayResponseData, "", ZonedDateTime.now(), false);
+                        easypayResponseData.setMessage("insufficient funds");
+                        ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "insufficient funds", easypayResponseData, "", ZonedDateTime.now(), false);
                         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     System.out.println("response 112 = " + response.getCode());
