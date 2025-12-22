@@ -1,5 +1,6 @@
 package com.neptune.cbawrapper.Controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.easy_pay.EasyPayResponse;
@@ -183,12 +184,17 @@ public class TransactionController {
         System.out.println("data = " + data);
         ResponseSchema responseData = new ResponseSchema<>();
         ObjectMapper mapper = new ObjectMapper();
-        try {
+//        try {
             boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, data);
 
-            CorepayPosTransactionRequest request = mapper.readValue(data, CorepayPosTransactionRequest.class);
+        CorepayPosTransactionRequest request = null;
+        try {
+            request = mapper.readValue(data, CorepayPosTransactionRequest.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
-            System.out.println("request = " + request);
+        System.out.println("request = " + request);
             request.setDateFormat("dd MMMM yyyy");
             request.setStatus("pending");
             request.setNarration("credit user");
@@ -287,6 +293,7 @@ public class TransactionController {
 
             if(request.isBillsPayment()){
                 try {
+                    request.getMakePayment().setRequestReference("2013" + (System.currentTimeMillis() / 1000));
                     MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
 
                     BillsPaymentData billsPaymentData = new BillsPaymentData();
@@ -460,15 +467,15 @@ public class TransactionController {
                 }
             }
 
-        } catch (Exception e) {
-            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-            log.error("error from debit credit1 =: {}", e.getMessage());
-            responseData.setMessage(e.getMessage());
-            responseData.setStatus(500);
-            responseData.setTimeStamp(ZonedDateTime.now());
-            responseData.setData(null);
-            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//        } catch (Exception e) {
+//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
+//            log.error("error from debit credit1 =: {}", e.getMessage());
+//            responseData.setMessage(e.getMessage());
+//            responseData.setStatus(500);
+//            responseData.setTimeStamp(ZonedDateTime.now());
+//            responseData.setData(null);
+//            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 //        return responseData;
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }

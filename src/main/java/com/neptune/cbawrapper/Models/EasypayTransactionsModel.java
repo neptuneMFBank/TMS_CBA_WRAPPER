@@ -29,6 +29,7 @@ public class EasypayTransactionsModel {
     private String beneficiaryNarration;
     private String billerId;
     private String customerAccountName;
+    private Boolean isApproved;
     private String customerAccountNumber;
     private Double amount;
     private String nipResponse;
@@ -60,6 +61,14 @@ public class EasypayTransactionsModel {
 
     public void setSourceInstitutionCode(String sourceInstitutionCode) {
         this.sourceInstitutionCode = sourceInstitutionCode;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
     }
 
     public String getBeneficiaryAccountName() {

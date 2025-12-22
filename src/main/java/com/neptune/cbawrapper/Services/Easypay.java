@@ -40,20 +40,22 @@ public class Easypay {
             EasyPayServiceGrpc.EasyPayServiceBlockingStub stub = EasyPayServiceGrpc.newBlockingStub(channel);
 
             EasyPayRequest request = EasyPayRequest.newBuilder()
-                    .setBeneficiaryAccountName(payload.getBeneficiaryAccountName())
-                    .setBeneficiaryAccountNumber(payload.getBeneficiaryAccountNumber())
-                    .setBeneficiaryBankVerificationNumber(payload.getBeneficiaryBankVerificationNumber())
-                    .setBeneficiaryKYCLevel(payload.getBeneficiaryKYCLevel())
-                    .setOriginatorAccountName(payload.getOriginatorAccountName())
-                    .setOriginatorAccountNumber(payload.getOriginatorAccountNumber())
-                    .setOriginatorBankVerificationNumber(payload.getOriginatorBankVerificationNumber())
+                    .setBeneficiaryAccountName(safe(payload.getBeneficiaryAccountName()))
+                    .setBeneficiaryAccountNumber(safe(payload.getBeneficiaryAccountNumber()))
+                    .setBeneficiaryBankVerificationNumber(safe(payload.getBeneficiaryBankVerificationNumber()))
+                    .setBeneficiaryKYCLevel(safe(payload.getBeneficiaryKYCLevel()))
+                    .setOriginatorAccountName(safe(payload.getOriginatorAccountName()))
+                    .setOriginatorAccountNumber(safe(payload.getOriginatorAccountNumber()))
+                    .setOriginatorBankVerificationNumber(safe(payload.getOriginatorBankVerificationNumber()))
                     .setOriginatorKYCLevel(payload.getOriginatorKYCLevel())
-                    .setNameEnquiryRef(payload.getNameEnquiryRef())
-                    .setOriginatorNarration(payload.getOriginatorNarration())
-                    .setPaymentReference(payload.getPaymentReference())
-                    .setTransactionLocation(payload.getTransactionLocation())
-                    .setCustomerAccountName(payload.getCustomerAccountName())
-                    .setCustomerAccountNumber(payload.getCustomerAccountNumber())
+                    .setBeneficiaryNarration(safe(payload.getOriginatorNarration()))
+                    .setNameEnquiryRef(safe(payload.getNameEnquiryRef()))
+                    .setDestinationInstitutionCode(payload.getDestinationInstitutionCode())
+                    .setOriginatorNarration(safe(payload.getOriginatorNarration()))
+                    .setPaymentReference(safe(payload.getPaymentReference()))
+                    .setTransactionLocation(safe(payload.getTransactionLocation()))
+                    .setCustomerAccountName(safe(payload.getCustomerAccountName()))
+                    .setCustomerAccountNumber(safe(payload.getCustomerAccountNumber()))
                     .setAmount(payload.getAmount())
                     .build();
 
@@ -64,6 +66,7 @@ public class Easypay {
         }catch (StatusRuntimeException e){
             System.out.println("error 1 = " + e.getMessage());
             errorLoggingException.logError("EASY_PAY_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+//            EasyPayResponse response1 = EasyPayResponse.newBuilder().setCode().build();
         } catch (Exception e) {
             System.out.println("error 2 = " + e.getMessage());
             errorLoggingException.logError("EASY_PAY_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
@@ -71,6 +74,10 @@ public class Easypay {
             channel.shutdownNow();
         }
         return response;
+    }
+
+    private String safe(String value) {
+        return value == null ? "" : value;
     }
 
     public Institutions getInstitutions(){
