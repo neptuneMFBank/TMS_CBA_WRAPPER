@@ -121,7 +121,7 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload) {
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
         try {
-            String session_Id = "POS-2013" + (System.currentTimeMillis() / 1000);
+            String session_Id = "POS2013" + (System.currentTimeMillis() / 1000);
             if (requestPayload.getDestinationInstitutionCode().equals("090329")) {
 //            save name enquiry data and use the result for /outward_transfer
                 String transaction_id = UUID.randomUUID().toString();
@@ -262,11 +262,14 @@ public class EasypayController {
 
     @GetMapping("/get_transaction-status")
     public ResponseEntity<ResponseSchema<?>> getTransactionStatus(@RequestParam String ref) {
+        System.out.println("here 112");
         EasyPayStatusResponse response = easypay.getEasyPayStatus(ref);
 
+        System.out.println("hello world = " + response);
         ReverseResponseData reverseResponseData = new ReverseResponseData();
         reverseResponseData.setResponse(response.getResponse());
         reverseResponseData.setCode(response.getCode());
+        System.out.println("response = " + response);
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", reverseResponseData, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
