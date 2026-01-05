@@ -46,6 +46,9 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/IntraTransferResponseData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/MenuDataModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/MenuListModel.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/NameEnquiryData.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/NameEnquiryRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/NameEnquiryResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/NameEnquiryResponseModel.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/PageItems.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/PendingRequestResponse.java
@@ -142,6 +145,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Easypay.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/EchannelServices.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/HistoryService.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/NameEnquiryAPI.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Notifications.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/PlatformChargesService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Printable.java

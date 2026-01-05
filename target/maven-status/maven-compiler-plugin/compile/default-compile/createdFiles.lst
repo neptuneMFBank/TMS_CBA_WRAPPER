@@ -15,6 +15,7 @@ auth/Auth$Get2faQrCodeUrlRequest.class
 auth/Auth$Country.class
 customers/Customer$CustomerProductOptions.class
 auth/Auth$Limit$1.class
+com/neptune/cbawrapper/Models/NameEnquiryRequest.class
 auth/Auth$Authorization.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc$TransactionTypeServiceImplBase.class
 customers/Customer$Reference$Builder.class
@@ -221,6 +222,7 @@ com/virtualAccountApplication/createAccount/proto/NameEnquiryRequest$Builder.cla
 auth/Auth$Region$1.class
 com/neptune/cba/transaction/easy_pay/EasyPayServiceGrpc$EasyPayServiceBlockingStub.class
 com/neptune/cbawrapper/Models/CustomersModel.class
+com/neptune/cbawrapper/Models/NameEnquiryData.class
 com/neptune/cba/transaction/debit_credit/DebitCreditStatusResponse.class
 com/neptune/cba/transaction/type/UpdateTypeRequestOrBuilder.class
 auth/Auth$AuthenticateApiKeyResponse$1.class
@@ -445,6 +447,7 @@ com/neptune/cba/transaction/intra_transfer/IntraTransferServiceGrpc$2.class
 notification_service/Notifications$UserNotification$1.class
 com/neptune/cba/transaction/easy_pay/EasyPayRequest.class
 auth/Auth$Region$Builder.class
+com/neptune/cbawrapper/Models/NameEnquiryResponse.class
 com/virtualAccountApplication/createAccount/proto/DynamicAccountCreationResponse$1.class
 com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/Customer.class
 com/neptune/cba/transaction/debit_credit/Charge.class
@@ -787,6 +790,7 @@ com/neptune/cbawrapper/Models/Reference.class
 com/neptune/cba/transaction/history/SpentTodayRequestOrBuilder.class
 printable/PrintableOuterClass$AccountSummaryOrBuilder.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferApprovalResponse.class
+com/neptune/cbawrapper/Services/NameEnquiryAPI.class
 com/neptune/cba/transaction/type/Empty.class
 com/neptune/cba/transaction/history/History.class
 com/neptune/cbawrapper/RequestRessponseSchema/BusinessPlatformChargesRequest.class

@@ -1,5 +1,8 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
+import lombok.ToString;
+
+@ToString
 public class NameEnquiryRequestPayload {
 
     private String accountNumber;

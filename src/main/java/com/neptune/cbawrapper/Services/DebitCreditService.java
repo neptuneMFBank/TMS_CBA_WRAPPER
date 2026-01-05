@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Services;
 
-
 import com.neptune.cba.transaction.balance.BalanceRequest;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BalanceServiceGrpc;

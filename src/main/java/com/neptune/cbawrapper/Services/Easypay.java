@@ -11,6 +11,7 @@ import com.neptune.cbawrapper.RequestRessponseSchema.EasyPayTransferRequestPaylo
 import com.neptune.cbawrapper.RequestRessponseSchema.NameEnquiryRequestPayload;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,12 +65,52 @@ public class Easypay {
             response = stub.easyPay(request);
 
         }catch (StatusRuntimeException e){
-            System.out.println("error 1 = " + e.getMessage());
+            Status status = Status.fromThrowable(e);
             errorLoggingException.logError("EASY_PAY_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+
+            String fullMessage = e.getMessage(); // "INTERNAL: Duplicate transaction"
+
+            String userMessage = fullMessage;
+            if (fullMessage != null && fullMessage.contains(":")) {
+                userMessage = fullMessage.substring(fullMessage.indexOf(":") + 1).trim();
+            }
+            String code = status.getCode().name();
+
+            System.out.println("Clean error = " + userMessage); // "Duplicate transaction"
+
+            errorLoggingException.logError(
+                    "EASY_PAY_STATUS_RUNTIME_EXCEPTION_HANDLER",
+                    String.valueOf(e.getCause()),
+                    userMessage
+            );
+
+            response = EasyPayResponse.newBuilder()
+                    .setCode(code)
+                    .setMessage(userMessage)
+                    .build();
 //            EasyPayResponse response1 = EasyPayResponse.newBuilder().setCode().build();
         } catch (Exception e) {
+            Status status = Status.fromThrowable(e);
             System.out.println("error 2 = " + e.getMessage());
-            errorLoggingException.logError("EASY_PAY_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+            String fullMessage = e.getMessage(); // "INTERNAL: Duplicate transaction"
+            String code = status.getCode().name();
+
+            String userMessage = fullMessage;
+            if (fullMessage != null && fullMessage.contains(":")) {
+                userMessage = fullMessage.substring(fullMessage.indexOf(":") + 1).trim();
+            }
+
+            System.out.println("Clean 2 error = " + userMessage); // "Duplicate transaction"
+
+            errorLoggingException.logError(
+                    "EASY_PAY_STATUS_RUNTIME_EXCEPTION_HANDLER",
+                    String.valueOf(e.getCause()),
+                    userMessage
+            );
+            response = EasyPayResponse.newBuilder()
+                    .setCode(code)
+                    .setMessage(userMessage)
+                    .build();
         }finally {
             channel.shutdownNow();
         }
