@@ -38,6 +38,7 @@ public class EasypayTransactionsModel {
     private String transactionId;
     private String message;
     private String code;
+    private double charge;
 
     public String getId() {
         return Id;
@@ -269,6 +270,14 @@ public class EasypayTransactionsModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public double getCharge() {
+        return charge;
+    }
+
+    public void setCharge(double charge) {
+        this.charge = charge;
     }
 
     public EasypayTransactionsModel() {

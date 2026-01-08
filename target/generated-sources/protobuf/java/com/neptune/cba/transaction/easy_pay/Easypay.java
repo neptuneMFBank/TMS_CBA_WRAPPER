@@ -121,7 +121,7 @@ public final class Easypay {
       "\017institutionCode\030\001 \001(\t\022\027\n\017institutionNam" +
       "e\030\002 \001(\t\022\020\n\010category\030\003 \001(\005\"B\n\014Institution" +
       "s\0222\n\014Institutions\030\001 \003(\0132\034.com.neptune.cb" +
-      "a.Institution\"\306\005\n\016EasyPayRequest\022\035\n\025sour" +
+      "a.Institution\"\326\005\n\016EasyPayRequest\022\035\n\025sour" +
       "ceInstitutionCode\030\001 \001(\t\022\036\n\026beneficiaryAc" +
       "countName\030\002 \001(\t\022 \n\030beneficiaryAccountNum" +
       "ber\030\003 \001(\t\022)\n!beneficiaryBankVerification" +
@@ -139,23 +139,23 @@ public final class Easypay {
       "AccountNumber\030\023 \001(\t\022\016\n\006amount\030\024 \001(\001\022\n\n\002i" +
       "d\030\025 \001(\003\022\023\n\013nipResponse\030\026 \001(\t\022\016\n\006status\030\027" +
       " \001(\t\022\021\n\tsessionId\030\030 \001(\t\022\025\n\rtransactionId" +
-      "\030\031 \001(\t\"0\n\017EasyPayResponse\022\017\n\007message\030\001 \001" +
-      "(\t\022\014\n\004code\030\002 \001(\t2\253\004\n\016EasyPayService\022O\n\010e" +
-      "asy_pay\022\037.com.neptune.cba.EasyPayRequest" +
-      "\032 .com.neptune.cba.EasyPayResponse\"\000\022N\n\014" +
-      "institutions\022\035.com.neptune.cba.getInstEm" +
-      "pty\032\035.com.neptune.cba.Institutions\"\000\022]\n\013" +
-      "nameEnquiry\022&.com.neptune.cba.NameEnquir" +
-      "yRpcRequest\032$.com.neptune.cba.NameEnquir" +
-      "yResponse\"\000\022\\\n\rlist_easy_pay\022#.com.neptu" +
-      "ne.cba.EasyPayListRequest\032$.com.neptune." +
-      "cba.EasyPayListResponse\"\000\022W\n\020reverse_eas" +
-      "y_pay\022\037.com.neptune.cba.ReverseRequest\032 " +
-      ".com.neptune.cba.ReverseResponse\"\000\022b\n\017ea" +
-      "sy_pay_status\022%.com.neptune.cba.EasyPayS" +
-      "tatusRequest\032&.com.neptune.cba.EasyPaySt" +
-      "atusResponse\"\000B(\n$com.neptune.cba.transa" +
-      "ction.easy_payP\001b\006proto3"
+      "\030\031 \001(\t\022\016\n\006charge\030\032 \001(\001\"0\n\017EasyPayRespons" +
+      "e\022\017\n\007message\030\001 \001(\t\022\014\n\004code\030\002 \001(\t2\253\004\n\016Eas" +
+      "yPayService\022O\n\010easy_pay\022\037.com.neptune.cb" +
+      "a.EasyPayRequest\032 .com.neptune.cba.EasyP" +
+      "ayResponse\"\000\022N\n\014institutions\022\035.com.neptu" +
+      "ne.cba.getInstEmpty\032\035.com.neptune.cba.In" +
+      "stitutions\"\000\022]\n\013nameEnquiry\022&.com.neptun" +
+      "e.cba.NameEnquiryRpcRequest\032$.com.neptun" +
+      "e.cba.NameEnquiryResponse\"\000\022\\\n\rlist_easy" +
+      "_pay\022#.com.neptune.cba.EasyPayListReques" +
+      "t\032$.com.neptune.cba.EasyPayListResponse\"" +
+      "\000\022W\n\020reverse_easy_pay\022\037.com.neptune.cba." +
+      "ReverseRequest\032 .com.neptune.cba.Reverse" +
+      "Response\"\000\022b\n\017easy_pay_status\022%.com.nept" +
+      "une.cba.EasyPayStatusRequest\032&.com.neptu" +
+      "ne.cba.EasyPayStatusResponse\"\000B(\n$com.ne" +
+      "ptune.cba.transaction.easy_payP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -238,7 +238,7 @@ public final class Easypay {
     internal_static_com_neptune_cba_EasyPayRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_EasyPayRequest_descriptor,
-        new java.lang.String[] { "SourceInstitutionCode", "BeneficiaryAccountName", "BeneficiaryAccountNumber", "BeneficiaryBankVerificationNumber", "BeneficiaryKYCLevel", "OriginatorAccountName", "DestinationInstitutionCode", "OriginatorAccountNumber", "OriginatorBankVerificationNumber", "OriginatorKYCLevel", "MandateReferenceNumber", "NameEnquiryRef", "OriginatorNarration", "PaymentReference", "TransactionLocation", "BeneficiaryNarration", "BillerId", "CustomerAccountName", "CustomerAccountNumber", "Amount", "Id", "NipResponse", "Status", "SessionId", "TransactionId", });
+        new java.lang.String[] { "SourceInstitutionCode", "BeneficiaryAccountName", "BeneficiaryAccountNumber", "BeneficiaryBankVerificationNumber", "BeneficiaryKYCLevel", "OriginatorAccountName", "DestinationInstitutionCode", "OriginatorAccountNumber", "OriginatorBankVerificationNumber", "OriginatorKYCLevel", "MandateReferenceNumber", "NameEnquiryRef", "OriginatorNarration", "PaymentReference", "TransactionLocation", "BeneficiaryNarration", "BillerId", "CustomerAccountName", "CustomerAccountNumber", "Amount", "Id", "NipResponse", "Status", "SessionId", "TransactionId", "Charge", });
     internal_static_com_neptune_cba_EasyPayResponse_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_com_neptune_cba_EasyPayResponse_fieldAccessorTable = new

@@ -293,10 +293,11 @@ public class TransactionController {
 
             if(request.isBillsPayment()){
                 try {
-                    String random = String.format("%05d", new Random().nextInt(100000));
-                    request.getMakePayment().setRequestReference("2013" + (System.currentTimeMillis() / 1000) + random);
+//                    String random = String.format("%05d", new Random().nextInt(100000));
+                    request.getMakePayment().setRequestReference("2013" + (System.currentTimeMillis() / 1000));
+                    System.out.println("request = " + request);
                     MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
-                    System.out.println("validateCustomer = " + validateCustomer + " random = " + random);
+                    System.out.println("validateCustomer = " + validateCustomer);
 
                     BillsPaymentData billsPaymentData = new BillsPaymentData();
                     billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
@@ -319,16 +320,13 @@ public class TransactionController {
                     return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else if (request.isTransfer()) {
-//                try {
-                    System.out.println("PAUL");
+                try {
                     String session_Id = "POS2013" + (System.currentTimeMillis() / 1000);
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
                     if(enquiryResponseModel.isEmpty()){
                         return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
                     }
-
-                    System.out.println("1122222222222");
 
                     if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("090329")){
                         System.out.println("ggggggg");
@@ -364,7 +362,6 @@ public class TransactionController {
                         return new ResponseEntity<>(responseData, HttpStatus.OK);
                     } // after pos is activated -> send mail to set pin -> call the backend to save the pin
 
-                    System.out.println("jjjjjjjjjjjjjjj");
                     EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
                     transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
                     transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
@@ -382,15 +379,12 @@ public class TransactionController {
                     transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
                     transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                     transactionsModel.setAmount(request.getAmount());
-                    System.out.println("herererere");
                     easypayTransactionsRepository.save(transactionsModel);
 
-                    System.out.println("hhhhhhhhhhhhhh");
                     EasyPayResponse response = easypay.transferOutward(transactionsModel);
 
                     System.out.println("response = " + response);
                     if(response == null){
-                        System.out.println("Response from outward transfer returned null");
                         errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
 
                         EasypayResponseData easypayResponseData = new EasypayResponseData();
@@ -413,11 +407,10 @@ public class TransactionController {
 
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
                     return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-//                } catch (Exception e) {
-//                    System.out.println("kkkkk3333");
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), e, "", ZonedDateTime.now(), false);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
+                } catch (Exception e) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), e, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             } else {
                 UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
 

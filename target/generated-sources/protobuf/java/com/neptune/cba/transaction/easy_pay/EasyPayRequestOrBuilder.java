@@ -288,4 +288,10 @@ public interface EasyPayRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getTransactionIdBytes();
+
+  /**
+   * <code>double charge = 26;</code>
+   * @return The charge.
+   */
+  double getCharge();
 }

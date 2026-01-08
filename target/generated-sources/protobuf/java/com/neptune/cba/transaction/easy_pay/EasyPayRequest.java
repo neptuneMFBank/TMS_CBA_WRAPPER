@@ -217,6 +217,11 @@ private static final long serialVersionUID = 0L;
             transactionId_ = s;
             break;
           }
+          case 209: {
+
+            charge_ = input.readDouble();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -1118,6 +1123,17 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int CHARGE_FIELD_NUMBER = 26;
+  private double charge_;
+  /**
+   * <code>double charge = 26;</code>
+   * @return The charge.
+   */
+  @java.lang.Override
+  public double getCharge() {
+    return charge_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -1207,6 +1223,9 @@ private static final long serialVersionUID = 0L;
     if (!getTransactionIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 25, transactionId_);
     }
+    if (charge_ != 0D) {
+      output.writeDouble(26, charge_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -1294,6 +1313,10 @@ private static final long serialVersionUID = 0L;
     if (!getTransactionIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(25, transactionId_);
     }
+    if (charge_ != 0D) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(26, charge_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -1360,6 +1383,9 @@ private static final long serialVersionUID = 0L;
         .equals(other.getSessionId())) return false;
     if (!getTransactionId()
         .equals(other.getTransactionId())) return false;
+    if (java.lang.Double.doubleToLongBits(getCharge())
+        != java.lang.Double.doubleToLongBits(
+            other.getCharge())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -1423,6 +1449,9 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getSessionId().hashCode();
     hash = (37 * hash) + TRANSACTIONID_FIELD_NUMBER;
     hash = (53 * hash) + getTransactionId().hashCode();
+    hash = (37 * hash) + CHARGE_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getCharge()));
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -1606,6 +1635,8 @@ private static final long serialVersionUID = 0L;
 
       transactionId_ = "";
 
+      charge_ = 0D;
+
       return this;
     }
 
@@ -1657,6 +1688,7 @@ private static final long serialVersionUID = 0L;
       result.status_ = status_;
       result.sessionId_ = sessionId_;
       result.transactionId_ = transactionId_;
+      result.charge_ = charge_;
       onBuilt();
       return result;
     }
@@ -1801,6 +1833,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getTransactionId().isEmpty()) {
         transactionId_ = other.transactionId_;
         onChanged();
+      }
+      if (other.getCharge() != 0D) {
+        setCharge(other.getCharge());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -3592,6 +3627,37 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       transactionId_ = value;
+      onChanged();
+      return this;
+    }
+
+    private double charge_ ;
+    /**
+     * <code>double charge = 26;</code>
+     * @return The charge.
+     */
+    @java.lang.Override
+    public double getCharge() {
+      return charge_;
+    }
+    /**
+     * <code>double charge = 26;</code>
+     * @param value The charge to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCharge(double value) {
+      
+      charge_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>double charge = 26;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearCharge() {
+      
+      charge_ = 0D;
       onChanged();
       return this;
     }
