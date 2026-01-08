@@ -39,7 +39,7 @@ public class DebitCreditService {
 
     private final ErrorLoggingException errorLoggingException;
 
-    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, double businessCharge, String businessAcct){
+    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, String businessAcct){
         double amount = 0.0;
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
@@ -56,7 +56,7 @@ public class DebitCreditService {
 //        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
 
         try {
-            Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).addNestedCharges(NestedCharge.newBuilder().setAmount(businessCharge).setAccountnumber(businessAcct).setIsFixed(true).setPercentage(0).build()).setDescription("Platform charge").setLedger("").build();
+            Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).addNestedCharges(NestedCharge.newBuilder().setAmount(0).setAccountnumber(businessAcct).setIsFixed(true).setPercentage(0).build()).setDescription("Platform charge").setLedger("").build();
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
                     .setIsccode(transaction_ledger_code)

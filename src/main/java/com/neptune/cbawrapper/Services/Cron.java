@@ -450,31 +450,34 @@ public class Cron {
                         System.out.println("========================================= 3");
                         //todo: debit platform charge from terminal
                         String chargeType = platformCharges.get().getChargeType();
-                        double amount;
-                        double amount2;
-
-                        if (chargeType.equalsIgnoreCase("percentage")) {
-                            amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
-                        } else {
-                            amount = platformCharges.get().getAmount();
+                        double amount = (0.5/100) * transactionDrCr1.getAmount();
+                        if(amount > 100){
+                            amount = 100;
                         }
+//                        double amount2;
+//
+//                        if (chargeType.equalsIgnoreCase("percentage")) {
+//                            amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
+//                        } else {
+//                            amount = platformCharges.get().getAmount();
+//                        }
+//
+//                        if (amount > platformCharges.get().getThreshold()) {
+//                            amount = platformCharges.get().getThreshold();
+//                        }
 
-                        if (amount > platformCharges.get().getThreshold()) {
-                            amount = platformCharges.get().getThreshold();
-                        }
+//                        String chargeType2 = businessPlatformCharges.get().getChargeType();
+//                        if (chargeType2.equalsIgnoreCase("percentage")) {
+//                            amount2 = (businessPlatformCharges.get().getAmount() / 100) * amount;
+//                        } else {
+//                            amount2 = businessPlatformCharges.get().getAmount();
+//                        }
 
-                        String chargeType2 = businessPlatformCharges.get().getChargeType();
-                        if (chargeType2.equalsIgnoreCase("percentage")) {
-                            amount2 = (businessPlatformCharges.get().getAmount() / 100) * amount;
-                        } else {
-                            amount2 = businessPlatformCharges.get().getAmount();
-                        }
+//                        if (amount2 > businessPlatformCharges.get().getThreshold()) {
+//                            amount2 = businessPlatformCharges.get().getThreshold();
+//                        }
 
-                        if (amount2 > businessPlatformCharges.get().getThreshold()) {
-                            amount2 = businessPlatformCharges.get().getThreshold();
-                        }
-
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, amount2, businessPlatformCharges.get().getBusinessWalletId());
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, businessPlatformCharges.get().getBusinessWalletId());
 
                         if (response != null) {
                             if (response.getCode().equals("200")) {

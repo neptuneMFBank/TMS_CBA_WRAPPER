@@ -181,7 +181,7 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
-        System.out.println("data = " + data);
+//        System.out.println("data = " + data);
         ResponseSchema responseData = new ResponseSchema<>();
         ObjectMapper mapper = new ObjectMapper();
 //        try {
@@ -194,14 +194,14 @@ public class TransactionController {
             throw new RuntimeException(e);
         }
 
-        System.out.println("request = " + request);
+//        System.out.println("request = " + request);
             request.setDateFormat("dd MMMM yyyy");
             request.setStatus("pending");
             request.setNarration("credit user");
             request.setLocale("en");
 
 
-            System.out.println("got here 112233");
+//            System.out.println("got here 112233");
 //        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
 
 //        System.out.println("decryptedData = " + decryptedData);
@@ -229,13 +229,13 @@ public class TransactionController {
 
             String hashedPassword = passwordEncoder.encode(request.getPin());
 
-            System.out.println("hashedPassword = " +hashedPassword);
-            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
+//            System.out.println("hashedPassword = " +hashedPassword);
+//            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
 
             boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
 
-            System.out.println("isAuthenticated = " + isAuthenticated);
-            System.out.println("abelkelly");
+//            System.out.println("isAuthenticated = " + isAuthenticated);
+//            System.out.println("abelkelly");
             if(!isAuthenticated){
                 responseData.setMessage("Unauthorized");
                 responseData.setStatus(401);
@@ -243,10 +243,10 @@ public class TransactionController {
                 responseData.setData(null);
                 return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
             }
-            System.out.println("kellyabel");
+//            System.out.println("kellyabel");
 
-            System.out.println("platformName = " + request.getTransactionPlatform());
-            System.out.println("platformId = " + request.getPaymentTypeId());
+//            System.out.println("platformName = " + request.getTransactionPlatform());
+//            System.out.println("platformId = " + request.getPaymentTypeId());
 
             Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(request.getTransactionPlatform());
 
@@ -295,7 +295,7 @@ public class TransactionController {
                 try {
 //                    String random = String.format("%05d", new Random().nextInt(100000));
                     request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 1000));
-                    System.out.println("request = " + request);
+                    System.out.println("request = " + request.getMakePayment());
                     MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
                     System.out.println("validateCustomer = " + validateCustomer);
 
@@ -379,6 +379,7 @@ public class TransactionController {
                     transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
                     transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                     transactionsModel.setAmount(request.getAmount());
+                    transactionsModel.setCharge(20);
                     easypayTransactionsRepository.save(transactionsModel);
 
                     EasyPayResponse response = easypay.transferOutward(transactionsModel);
