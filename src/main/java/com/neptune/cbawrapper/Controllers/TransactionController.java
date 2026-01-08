@@ -293,7 +293,7 @@ public class TransactionController {
 
             if(request.isBillsPayment()){
                 try {
-                    request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 1000));
+                    request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 100));
                     request.getMakePayment().setAmount(String.valueOf(Double.parseDouble(request.getMakePayment().getAmount())/100));
                     System.out.println("request = " + request.getMakePayment());
                     MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
