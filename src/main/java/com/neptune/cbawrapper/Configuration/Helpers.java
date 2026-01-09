@@ -5,11 +5,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.gson.*;
+import com.neptune.cba.transaction.bills.MakePaymentResponse;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.CustomersRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
 import com.neptune.cbawrapper.RequestRessponseSchema.TransactionDetails;
 import com.neptune.cbawrapper.RequestRessponseSchema.TransactionRequestSchema;
@@ -261,5 +263,17 @@ public class Helpers {
         // fallback (optional)
         return "234" + phone;
     }
+
+    public MakePaymentApiResponse toApiResponse(MakePaymentResponse proto) {
+        MakePaymentApiResponse dto = new MakePaymentApiResponse();
+        dto.setCode(proto.getCode());
+        dto.setMessage(proto.getMessage());
+        dto.setApprovedAmount(proto.getApprovedAmount());
+        dto.setTransactionRef(proto.getTransactionRef());
+        dto.setResponseCode(proto.getResponseCode());
+        dto.setResponseCodeGrouping(proto.getResponseCodeGrouping());
+        return dto;
+    }
+
 
 }

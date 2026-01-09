@@ -74,7 +74,7 @@ public class BillsPaymentController {
 
     @PostMapping("/bill/make-payment")
     public ResponseEntity<ResponseSchema<?>> makePayment(@RequestBody MakePayment request){
-         MakePaymentResponse validateCustomer = billsPayment.makePayment(request);
+         MakePaymentApiResponse validateCustomer = billsPayment.makePayment(request);
 
         BillsPaymentData billsPaymentData = new BillsPaymentData();
         billsPaymentData.setPaymentCode(request.getPaymentCode());

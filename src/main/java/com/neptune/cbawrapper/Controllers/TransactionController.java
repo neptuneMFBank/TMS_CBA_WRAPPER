@@ -15,6 +15,7 @@ import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import com.neptune.cbawrapper.Services.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -313,7 +314,7 @@ public class TransactionController {
                     request.getMakePayment().setAmount(String.valueOf(amount));
                     System.out.println("request = " + request.getMakePayment());
 
-                    MakePaymentResponse validateCustomer = billsService.makePayment(request.getMakePayment(), charge, billType);
+                    MakePaymentApiResponse validateCustomer = billsService.makePayment(request.getMakePayment(), charge, billType);
                     System.out.println("validateCustomer = " + validateCustomer);
 
                     BillsPaymentData billsPaymentData = new BillsPaymentData();

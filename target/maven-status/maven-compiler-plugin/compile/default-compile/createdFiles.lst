@@ -565,6 +565,7 @@ com/virtualAccountApplication/createAccount/proto/AccountCreationResponseOrBuild
 notification_service/Notifications$UserNotification.class
 com/neptune/cba/transaction/debit_credit/DebitCreditStatusResponseOrBuilder.class
 com/neptune/cba/transaction/easy_pay/EasyPayListResponse$Builder.class
+com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePaymentApiResponse.class
 com/neptune/cba/transaction/history/HistoryResponse.class
 auth/Auth$EmptyOrBuilder.class
 auth/AuthServiceGrpc$AuthServiceBaseDescriptorSupplier.class
@@ -638,7 +639,6 @@ com/neptune/cbawrapper/Controllers/BillsPaymentController.class
 auth/Auth$GlTypeOrBuilder.class
 com/neptune/cba/transaction/easy_pay/EasyPayServiceGrpc$EasyPayServiceMethodDescriptorSupplier.class
 com/neptune/cba/transaction/type/RemoveChargeResponse.class
-com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePaymentResponse.class
 customers/Customer$CreateSignatoryRequest$1.class
 com/neptune/cbawrapper/Configuration/AESServiceImp.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferResponse.class

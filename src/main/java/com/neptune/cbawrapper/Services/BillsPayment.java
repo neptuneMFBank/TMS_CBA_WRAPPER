@@ -2,7 +2,6 @@ package com.neptune.cbawrapper.Services;
 
 import com.neptune.cbawrapper.Configuration.CoreFeignClientConfig;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
-import com.neptune.cbawrapper.RequestRessponseSchema.SendNotifications;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +24,6 @@ public interface BillsPayment {
     Object validateCustomer(@RequestBody ValidateCustomerRequest request);
 
     @PostMapping("/bill/make-payment")
-    MakePaymentResponse makePayment(@RequestBody MakePayment request);
+    MakePaymentApiResponse makePayment(@RequestBody MakePayment request);
 
 }

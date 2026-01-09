@@ -4,22 +4,28 @@ import com.neptune.cba.transaction.bills.BillType;
 import com.neptune.cba.transaction.bills.BillsServiceGrpc;
 import com.neptune.cba.transaction.bills.MakePaymentRequest;
 import com.neptune.cba.transaction.bills.MakePaymentResponse;
+import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
+import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BillsService {
+    private final Helpers helpers;
+
     @Value("${grpc.easypay.request.url}")
     private String bills_payment_ip;
 
     @Value("${grpc.easypay.request.port}")
     private int bills_payment_port;
 
-    public MakePaymentResponse makePayment(MakePayment request, double charge, BillType billType){
+    public MakePaymentApiResponse makePayment(MakePayment request, double charge, BillType billType){
         System.out.println("request = " + request);
         System.out.println("charge = " + charge);
         System.out.println("billType = " + billType.name());
@@ -64,6 +70,6 @@ public class BillsService {
         } finally {
             channel.shutdownNow();
         }
-        return makePaymentResponse;
+        return helpers.toApiResponse(makePaymentResponse);
     }
 }

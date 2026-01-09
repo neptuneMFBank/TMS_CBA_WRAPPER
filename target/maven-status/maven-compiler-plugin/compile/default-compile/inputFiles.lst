@@ -90,7 +90,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/DataItems.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/DataServices.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePayment.java
-/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePaymentResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/MakePaymentApiResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ResponseCustomerData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ResponseData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/ValidateCustomerRequest.java
