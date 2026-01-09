@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.bills";
+
+service BillsService {
+  rpc make_payment(MakePaymentRequest) returns (MakePaymentResponse) {
+  }
+  rpc bills_tsq(BillsTsqRequest) returns (BillsTsqResponse) {
+  }
+  rpc all_bills(AllBillsRequest) returns (AllBillsResponse) {
+  }
+  rpc reverse_bills(BillReverseRequest) returns (BillReverseResponse){
+  } // exposeable // date may 20 2025
+}
+
+message BillReverseRequest {
+  string ref =1;
+  string eid =2;
+}
+message BillReverseResponse {
+  string response =1;
+  string code =2;
+}
+message MakePaymentRequest {
+  string  paymentCode =1;
+  string  customerId =2;
+  string  email =3;
+  string  mobile =4;
+  double  amount =5;
+  string  requestReference =6;
+  string  customerAccountNumber =7;
+  string billsResponse =8;
+  string status = 9;
+  BillType billType = 10;
+  double charge = 11;
+}
+enum BillType  {
+  AIRTIME_DATA =0;
+  BILLS =1;
+}
+
+message MakePaymentResponse {
+  string transactionRef = 1;
+  double approvedAmount = 2;
+  string responseCode = 3;
+  string responseDescription = 4;
+  string responseCodeGrouping = 5;
+  string message =6;
+  string code =7;
+}
+
+message BillsTsqRequest {
+  string  ref =1;
+}
+message  BillsTsqResponse{
+  string message = 1;
+  string code = 2;
+}
+
+message  AllBillsRequest{
+  string fromdate =1;
+  string todate =2;
+  string account =5;
+  int32 page =3;
+  int32 pageSize = 4;
+}
+
+message AllBillsResponse {
+  repeated MakePaymentRequest bills = 1;
+  int64 totalItems = 2;
+  int64 totalPages = 3;
+  int64 currentPages = 4;
+}

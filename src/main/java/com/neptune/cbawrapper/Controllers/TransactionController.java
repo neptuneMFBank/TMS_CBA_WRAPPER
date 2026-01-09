@@ -3,6 +3,8 @@ package com.neptune.cbawrapper.Controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neptune.cba.transaction.balance.BalanceResponse;
+import com.neptune.cba.transaction.bills.BillType;
+import com.neptune.cba.transaction.bills.MakePaymentResponse;
 import com.neptune.cba.transaction.easy_pay.EasyPayResponse;
 import com.neptune.cba.transaction.history.HistoryResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
@@ -13,7 +15,6 @@ import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
-import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentResponse;
 import com.neptune.cbawrapper.Services.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,7 @@ public class TransactionController {
     private final EasypayTransactionsRepository easypayTransactionsRepository;
     private final EchannelServices echannelServices;
     private final Notifications notifications;
+    private final BillsService billsService;
     private final Printable printable;
     private final TransactionService transactionService;
     private final PasswordEncoder passwordEncoder;
@@ -181,10 +183,9 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
-//        System.out.println("data = " + data);
         ResponseSchema responseData = new ResponseSchema<>();
         ObjectMapper mapper = new ObjectMapper();
-//        try {
+        try {
             boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, data);
 
         CorepayPosTransactionRequest request = null;
@@ -226,6 +227,8 @@ public class TransactionController {
                 responseData.setData(null);
                 return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
             }
+
+            BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
 
             String hashedPassword = passwordEncoder.encode(request.getPin());
 
@@ -293,10 +296,24 @@ public class TransactionController {
 
             if(request.isBillsPayment()){
                 try {
+                    double amount = Double.parseDouble(request.getMakePayment().getAmount())/100;
+                    if(balance.getEffectiveBalance() - amount < 0){
+                        ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
+                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                    double charge = 100;
+                    BillType billType = BillType.BILLS;
+                    if(request.getMakePayment().getBillType().equals("AIRTIME_DATA")) {
+                        String number = helpers.normalizePhoneNumber(request.getMakePayment().getCustomerId());
+                        request.getMakePayment().setCustomerId(number);
+                        charge = 0;
+                        billType = BillType.AIRTIME_DATA;
+                    }
                     request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 100));
-                    request.getMakePayment().setAmount(String.valueOf(Double.parseDouble(request.getMakePayment().getAmount())/100));
+                    request.getMakePayment().setAmount(String.valueOf(amount));
                     System.out.println("request = " + request.getMakePayment());
-                    MakePaymentResponse validateCustomer = billsPayment.makePayment(request.getMakePayment());
+
+                    MakePaymentResponse validateCustomer = billsService.makePayment(request.getMakePayment(), charge, billType);
                     System.out.println("validateCustomer = " + validateCustomer);
 
                     BillsPaymentData billsPaymentData = new BillsPaymentData();
@@ -321,6 +338,10 @@ public class TransactionController {
                 }
             } else if (request.isTransfer()) {
                 try {
+                    if(balance.getEffectiveBalance() - request.getAmount() < 0){
+                        ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
+                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
                     String session_Id = "POS2013" + (System.currentTimeMillis() / 1000);
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
@@ -464,15 +485,15 @@ public class TransactionController {
                 }
             }
 
-//        } catch (Exception e) {
-//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-//            log.error("error from debit credit1 =: {}", e.getMessage());
-//            responseData.setMessage(e.getMessage());
-//            responseData.setStatus(500);
-//            responseData.setTimeStamp(ZonedDateTime.now());
-//            responseData.setData(null);
-//            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
+        } catch (Exception e) {
+            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
+            log.error("error from debit credit1 =: {}", e.getMessage());
+            responseData.setMessage(e.getMessage());
+            responseData.setStatus(500);
+            responseData.setTimeStamp(ZonedDateTime.now());
+            responseData.setData(null);
+            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 //        return responseData;
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }

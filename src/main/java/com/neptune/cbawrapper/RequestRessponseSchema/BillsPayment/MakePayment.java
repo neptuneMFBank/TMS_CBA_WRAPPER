@@ -15,6 +15,7 @@ public class MakePayment {
     private String customerAccountNumber;
     private String billType;
     private String requestReference;
+    private double charge;
 
     public String getPaymentCode() {
         return paymentCode;

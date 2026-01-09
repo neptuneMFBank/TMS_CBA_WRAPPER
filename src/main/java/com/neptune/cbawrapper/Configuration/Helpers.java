@@ -243,4 +243,23 @@ public class Helpers {
 //        }
 //    }
 
+    public String normalizePhoneNumber(String phone) {
+        if (phone == null || phone.isBlank()) {
+            throw new IllegalArgumentException("Phone number cannot be null or empty");
+        }
+
+        phone = phone.trim();
+
+        if (phone.startsWith("234")) {
+            return phone;
+        }
+
+        if (phone.startsWith("0")) {
+            return "234" + phone.substring(1);
+        }
+
+        // fallback (optional)
+        return "234" + phone;
+    }
+
 }
