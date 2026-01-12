@@ -94,7 +94,7 @@ public final class History {
       "er\030\001 \001(\t\022\020\n\010bankname\030\002 \001(\t\022\021\n\tbkbalance\030" +
       "\003 \001(\001\022\014\n\004idno\030\004 \001(\005\022\021\n\tnarration\030\006 \001(\t\022\r" +
       "\n\005refno\030\007 \001(\t\022\n\n\002rn\030\010 \001(\005\022\022\n\ntranamount\030" +
-      "\t \001(\002\022\020\n\010trandate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001" +
+      "\t \001(\001\022\020\n\010trandate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001" +
       "(\t\"N\n\020callOverResponse\022:\n\020employee_histo" +
       "ry\030\001 \003(\0132 .com.neptune.cba.EmployeeHisto" +
       "ry\"V\n\017EmployeeHistory\022\014\n\004name\030\001 \001(\t\0225\n\007h" +

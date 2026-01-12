@@ -199,7 +199,7 @@ public class TransactionController {
 //        System.out.println("request = " + request);
             request.setDateFormat("dd MMMM yyyy");
             request.setStatus("pending");
-            request.setNarration("credit user");
+//            request.setNarration("credit user");
             request.setLocale("en");
 
 

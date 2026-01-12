@@ -65,7 +65,7 @@ message Transaction_history {
   string narration = 6;
   string refno =7;
   int32  rn =8;
-  float tranamount =9;
+  double tranamount =9;
   string trandate =10;
   string valuedate =11;
 

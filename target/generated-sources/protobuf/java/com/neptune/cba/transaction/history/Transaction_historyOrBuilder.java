@@ -74,10 +74,10 @@ public interface Transaction_historyOrBuilder extends
   int getRn();
 
   /**
-   * <code>float tranamount = 9;</code>
+   * <code>double tranamount = 9;</code>
    * @return The tranamount.
    */
-  float getTranamount();
+  double getTranamount();
 
   /**
    * <code>string trandate = 10;</code>

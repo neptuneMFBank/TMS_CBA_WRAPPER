@@ -8,7 +8,7 @@ public class TransactionHistory {
     private String narration;
     private String refno;
     private Integer  rn;
-    private Float tranamount;
+    private Double tranamount;
     private String trandate;
     private String valuedate;
 
@@ -68,11 +68,11 @@ public class TransactionHistory {
         this.rn = rn;
     }
 
-    public Float getTranamount() {
+    public Double getTranamount() {
         return tranamount;
     }
 
-    public void setTranamount(Float tranamount) {
+    public void setTranamount(Double tranamount) {
         this.tranamount = tranamount;
     }
 
@@ -92,7 +92,7 @@ public class TransactionHistory {
         this.valuedate = valuedate;
     }
 
-    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Float tranamount, String trandate, String valuedate) {
+    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate) {
         this.accountnumber = accountnumber;
         this.bankname = bankname;
         this.bkbalance = bkbalance;

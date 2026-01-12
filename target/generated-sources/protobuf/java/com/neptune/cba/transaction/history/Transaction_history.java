@@ -93,9 +93,9 @@ private static final long serialVersionUID = 0L;
             rn_ = input.readInt32();
             break;
           }
-          case 77: {
+          case 73: {
 
-            tranamount_ = input.readFloat();
+            tranamount_ = input.readDouble();
             break;
           }
           case 82: {
@@ -328,13 +328,13 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int TRANAMOUNT_FIELD_NUMBER = 9;
-  private float tranamount_;
+  private double tranamount_;
   /**
-   * <code>float tranamount = 9;</code>
+   * <code>double tranamount = 9;</code>
    * @return The tranamount.
    */
   @java.lang.Override
-  public float getTranamount() {
+  public double getTranamount() {
     return tranamount_;
   }
 
@@ -449,8 +449,8 @@ private static final long serialVersionUID = 0L;
     if (rn_ != 0) {
       output.writeInt32(8, rn_);
     }
-    if (tranamount_ != 0F) {
-      output.writeFloat(9, tranamount_);
+    if (tranamount_ != 0D) {
+      output.writeDouble(9, tranamount_);
     }
     if (!getTrandateBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 10, trandate_);
@@ -491,9 +491,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(8, rn_);
     }
-    if (tranamount_ != 0F) {
+    if (tranamount_ != 0D) {
       size += com.google.protobuf.CodedOutputStream
-        .computeFloatSize(9, tranamount_);
+        .computeDoubleSize(9, tranamount_);
     }
     if (!getTrandateBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, trandate_);
@@ -531,8 +531,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getRefno())) return false;
     if (getRn()
         != other.getRn()) return false;
-    if (java.lang.Float.floatToIntBits(getTranamount())
-        != java.lang.Float.floatToIntBits(
+    if (java.lang.Double.doubleToLongBits(getTranamount())
+        != java.lang.Double.doubleToLongBits(
             other.getTranamount())) return false;
     if (!getTrandate()
         .equals(other.getTrandate())) return false;
@@ -565,8 +565,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + RN_FIELD_NUMBER;
     hash = (53 * hash) + getRn();
     hash = (37 * hash) + TRANAMOUNT_FIELD_NUMBER;
-    hash = (53 * hash) + java.lang.Float.floatToIntBits(
-        getTranamount());
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getTranamount()));
     hash = (37 * hash) + TRANDATE_FIELD_NUMBER;
     hash = (53 * hash) + getTrandate().hashCode();
     hash = (37 * hash) + VALUEDATE_FIELD_NUMBER;
@@ -718,7 +718,7 @@ private static final long serialVersionUID = 0L;
 
       rn_ = 0;
 
-      tranamount_ = 0F;
+      tranamount_ = 0D;
 
       trandate_ = "";
 
@@ -833,7 +833,7 @@ private static final long serialVersionUID = 0L;
       if (other.getRn() != 0) {
         setRn(other.getRn());
       }
-      if (other.getTranamount() != 0F) {
+      if (other.getTranamount() != 0D) {
         setTranamount(other.getTranamount());
       }
       if (!other.getTrandate().isEmpty()) {
@@ -1270,33 +1270,33 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private float tranamount_ ;
+    private double tranamount_ ;
     /**
-     * <code>float tranamount = 9;</code>
+     * <code>double tranamount = 9;</code>
      * @return The tranamount.
      */
     @java.lang.Override
-    public float getTranamount() {
+    public double getTranamount() {
       return tranamount_;
     }
     /**
-     * <code>float tranamount = 9;</code>
+     * <code>double tranamount = 9;</code>
      * @param value The tranamount to set.
      * @return This builder for chaining.
      */
-    public Builder setTranamount(float value) {
+    public Builder setTranamount(double value) {
       
       tranamount_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>float tranamount = 9;</code>
+     * <code>double tranamount = 9;</code>
      * @return This builder for chaining.
      */
     public Builder clearTranamount() {
       
-      tranamount_ = 0F;
+      tranamount_ = 0D;
       onChanged();
       return this;
     }

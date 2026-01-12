@@ -10,7 +10,7 @@ public class TransactionHistoryBuilder {
     private String narration;
     private String refno;
     private Integer  rn;
-    private Float tranamount;
+    private Double tranamount;
     private String trandate;
     private String valuedate;
 
@@ -49,7 +49,7 @@ public class TransactionHistoryBuilder {
         return this;
     }
 
-    public TransactionHistoryBuilder setTranamount(Float tranamount) {
+    public TransactionHistoryBuilder setTranamount(Double tranamount) {
         this.tranamount = tranamount;
         return this;
     }
