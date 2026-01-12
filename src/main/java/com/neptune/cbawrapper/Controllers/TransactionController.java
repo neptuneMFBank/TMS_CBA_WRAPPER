@@ -343,7 +343,7 @@ public class TransactionController {
                         ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
                         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                    String session_Id = "POS2013" + (System.currentTimeMillis() / 1000);
+                    String session_Id = (request.getReference() != null ? request.getReference() : "") + "POS2013" + (System.currentTimeMillis() / 1000);
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
                     if(enquiryResponseModel.isEmpty()){
@@ -385,6 +385,7 @@ public class TransactionController {
                     } // after pos is activated -> send mail to set pin -> call the backend to save the pin
 
                     EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
+                    transactionsModel.setPaymentReference(session_Id);
                     transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
                     transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
                     transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
@@ -396,7 +397,6 @@ public class TransactionController {
                     transactionsModel.setOriginatorKYCLevel(1);
                     transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getSessionID());
                     transactionsModel.setOriginatorNarration(request.getNarration());
-                    transactionsModel.setPaymentReference(request.getReference() + session_Id);
                     transactionsModel.setTransactionLocation(request.getTransactionLocation());
                     transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
                     transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());

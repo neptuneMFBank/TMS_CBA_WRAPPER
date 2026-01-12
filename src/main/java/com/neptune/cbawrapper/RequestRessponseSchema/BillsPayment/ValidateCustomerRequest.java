@@ -1,5 +1,8 @@
 package com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment;
 
+import lombok.ToString;
+
+@ToString
 public class ValidateCustomerRequest {
     private String customerId;
     private String productId;

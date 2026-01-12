@@ -66,6 +66,7 @@ public class BillsPaymentController {
 
     @PostMapping("/bill/validate-customer")
     public ResponseEntity<ResponseSchema<?>> validateCustomer(@RequestBody ValidateCustomerRequest request){
+        System.out.println("request = " + request);
         Object validateCustomer = billsPayment.validateCustomer(request);
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
