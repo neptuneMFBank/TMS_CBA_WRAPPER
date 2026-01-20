@@ -2,7 +2,7 @@ name: build_deploy_aks
 on:
   push:
     branches:
-      - main
+      - prod
     paths-ignore:
       - 'Readme.md'
       - 'README.md'
@@ -37,13 +37,13 @@ jobs:
       - name: Checkout Helm charts repository
         uses: actions/checkout@v3
         with:
-          repository: NEPTUNE-MFB-CBA/helm-charts
+          repository: NEPTUNE-MFB-CBA/pos-helmchart
           token: ${{ secrets.PAT_TOKEN }}
           ref: prod
 
       - name: Update image tag in values.yaml
         run: |
-          sed -i 's|tag: .*|tag: "'"${{ github.sha }}"'"|' cba-wrapper/values.yaml
+          sed -i 's|tag: .*|tag: "'"${{ github.sha }}"'"|' cbawrapper/values.yaml
 
       - name: Commit and push changes
         env:
@@ -52,6 +52,6 @@ jobs:
         run: |
           git config --global user.name "$GIT_COMMITTER_NAME"
           git config --global user.email "$GIT_COMMITTER_EMAIL"
-          git add cba-wrapper/values.yaml
+          git add cbawrapper/values.yaml
           git commit -m "Update cba-wrapper image tag to ${{ github.sha }}" || echo "No changes to commit"
           git push origin prod || echo "No changes to push"
