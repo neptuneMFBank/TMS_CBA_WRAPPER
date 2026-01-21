@@ -22,6 +22,8 @@ private static final long serialVersionUID = 0L;
     refno_ = "";
     trandate_ = "";
     valuedate_ = "";
+    transactionType_ = "";
+    status_ = "";
   }
 
   @java.lang.Override
@@ -108,6 +110,18 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             valuedate_ = s;
+            break;
+          }
+          case 98: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            transactionType_ = s;
+            break;
+          }
+          case 106: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            status_ = s;
             break;
           }
           default: {
@@ -414,6 +428,82 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int TRANSACTIONTYPE_FIELD_NUMBER = 12;
+  private volatile java.lang.Object transactionType_;
+  /**
+   * <code>string transactionType = 12;</code>
+   * @return The transactionType.
+   */
+  @java.lang.Override
+  public java.lang.String getTransactionType() {
+    java.lang.Object ref = transactionType_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      transactionType_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string transactionType = 12;</code>
+   * @return The bytes for transactionType.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getTransactionTypeBytes() {
+    java.lang.Object ref = transactionType_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      transactionType_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int STATUS_FIELD_NUMBER = 13;
+  private volatile java.lang.Object status_;
+  /**
+   * <code>string status = 13;</code>
+   * @return The status.
+   */
+  @java.lang.Override
+  public java.lang.String getStatus() {
+    java.lang.Object ref = status_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      status_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string status = 13;</code>
+   * @return The bytes for status.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getStatusBytes() {
+    java.lang.Object ref = status_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      status_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -458,6 +548,12 @@ private static final long serialVersionUID = 0L;
     if (!getValuedateBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 11, valuedate_);
     }
+    if (!getTransactionTypeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 12, transactionType_);
+    }
+    if (!getStatusBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 13, status_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -501,6 +597,12 @@ private static final long serialVersionUID = 0L;
     if (!getValuedateBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, valuedate_);
     }
+    if (!getTransactionTypeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, transactionType_);
+    }
+    if (!getStatusBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, status_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -538,6 +640,10 @@ private static final long serialVersionUID = 0L;
         .equals(other.getTrandate())) return false;
     if (!getValuedate()
         .equals(other.getValuedate())) return false;
+    if (!getTransactionType()
+        .equals(other.getTransactionType())) return false;
+    if (!getStatus()
+        .equals(other.getStatus())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -571,6 +677,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getTrandate().hashCode();
     hash = (37 * hash) + VALUEDATE_FIELD_NUMBER;
     hash = (53 * hash) + getValuedate().hashCode();
+    hash = (37 * hash) + TRANSACTIONTYPE_FIELD_NUMBER;
+    hash = (53 * hash) + getTransactionType().hashCode();
+    hash = (37 * hash) + STATUS_FIELD_NUMBER;
+    hash = (53 * hash) + getStatus().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -724,6 +834,10 @@ private static final long serialVersionUID = 0L;
 
       valuedate_ = "";
 
+      transactionType_ = "";
+
+      status_ = "";
+
       return this;
     }
 
@@ -760,6 +874,8 @@ private static final long serialVersionUID = 0L;
       result.tranamount_ = tranamount_;
       result.trandate_ = trandate_;
       result.valuedate_ = valuedate_;
+      result.transactionType_ = transactionType_;
+      result.status_ = status_;
       onBuilt();
       return result;
     }
@@ -842,6 +958,14 @@ private static final long serialVersionUID = 0L;
       }
       if (!other.getValuedate().isEmpty()) {
         valuedate_ = other.valuedate_;
+        onChanged();
+      }
+      if (!other.getTransactionType().isEmpty()) {
+        transactionType_ = other.transactionType_;
+        onChanged();
+      }
+      if (!other.getStatus().isEmpty()) {
+        status_ = other.status_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -1449,6 +1573,158 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       valuedate_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object transactionType_ = "";
+    /**
+     * <code>string transactionType = 12;</code>
+     * @return The transactionType.
+     */
+    public java.lang.String getTransactionType() {
+      java.lang.Object ref = transactionType_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        transactionType_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string transactionType = 12;</code>
+     * @return The bytes for transactionType.
+     */
+    public com.google.protobuf.ByteString
+        getTransactionTypeBytes() {
+      java.lang.Object ref = transactionType_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        transactionType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string transactionType = 12;</code>
+     * @param value The transactionType to set.
+     * @return This builder for chaining.
+     */
+    public Builder setTransactionType(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      transactionType_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string transactionType = 12;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearTransactionType() {
+      
+      transactionType_ = getDefaultInstance().getTransactionType();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string transactionType = 12;</code>
+     * @param value The bytes for transactionType to set.
+     * @return This builder for chaining.
+     */
+    public Builder setTransactionTypeBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      transactionType_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object status_ = "";
+    /**
+     * <code>string status = 13;</code>
+     * @return The status.
+     */
+    public java.lang.String getStatus() {
+      java.lang.Object ref = status_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        status_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string status = 13;</code>
+     * @return The bytes for status.
+     */
+    public com.google.protobuf.ByteString
+        getStatusBytes() {
+      java.lang.Object ref = status_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        status_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string status = 13;</code>
+     * @param value The status to set.
+     * @return This builder for chaining.
+     */
+    public Builder setStatus(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      status_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string status = 13;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearStatus() {
+      
+      status_ = getDefaultInstance().getStatus();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string status = 13;</code>
+     * @param value The bytes for status to set.
+     * @return This builder for chaining.
+     */
+    public Builder setStatusBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      status_ = value;
       onChanged();
       return this;
     }

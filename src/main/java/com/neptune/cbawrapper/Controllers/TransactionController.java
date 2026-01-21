@@ -572,7 +572,9 @@ public class TransactionController {
                     .setIdno(response.getHistory(i).getIdno())
                     .setBkbalance(response.getHistory(i).getBkbalance())
                     .setBankname(response.getHistory(i).getBankname())
-                    .setAccountnumber(response.getHistory(i).getAccountnumber());
+                    .setAccountnumber(response.getHistory(i).getAccountnumber())
+                    .setStatus(response.getHistory(i).getStatus())
+                    .setTransactionType(response.getHistory(i).getTransactionType());
             transactionHistoryList.add(builder.build());
         }
         historyBuilder

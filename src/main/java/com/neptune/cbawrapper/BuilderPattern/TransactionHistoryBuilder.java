@@ -13,6 +13,8 @@ public class TransactionHistoryBuilder {
     private Double tranamount;
     private String trandate;
     private String valuedate;
+    private String transactionType;
+    private String status;
 
     public TransactionHistoryBuilder setAccountnumber(String accountnumber) {
         this.accountnumber = accountnumber;
@@ -64,7 +66,17 @@ public class TransactionHistoryBuilder {
         return this;
     }
 
+    public TransactionHistoryBuilder setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+        return this;
+    }
+
+    public TransactionHistoryBuilder setStatus(String status){
+        this.status = status;
+        return this;
+    }
+
     public TransactionHistory build(){
-        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate);
+        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status);
     }
 }
