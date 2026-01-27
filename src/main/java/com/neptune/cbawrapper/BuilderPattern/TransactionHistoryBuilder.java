@@ -15,6 +15,15 @@ public class TransactionHistoryBuilder {
     private String valuedate;
     private String transactionType;
     private String status;
+    private String session_id;
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
 
     public TransactionHistoryBuilder setAccountnumber(String accountnumber) {
         this.accountnumber = accountnumber;

@@ -574,7 +574,8 @@ public class TransactionController {
                     .setBankname(response.getHistory(i).getBankname())
                     .setAccountnumber(response.getHistory(i).getAccountnumber())
                     .setStatus(response.getHistory(i).getStatus())
-                    .setTransactionType(response.getHistory(i).getTransactionType());
+                    .setTransactionType(response.getHistory(i).getTransactionType())
+                    .setSession_id(response.getHistory(i).getSessionId());
             transactionHistoryList.add(builder.build());
         }
         historyBuilder

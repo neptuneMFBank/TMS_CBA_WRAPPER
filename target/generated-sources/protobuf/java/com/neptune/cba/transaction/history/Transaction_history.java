@@ -24,6 +24,7 @@ private static final long serialVersionUID = 0L;
     valuedate_ = "";
     transactionType_ = "";
     status_ = "";
+    sessionId_ = "";
   }
 
   @java.lang.Override
@@ -122,6 +123,12 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             status_ = s;
+            break;
+          }
+          case 114: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            sessionId_ = s;
             break;
           }
           default: {
@@ -504,6 +511,44 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int SESSION_ID_FIELD_NUMBER = 14;
+  private volatile java.lang.Object sessionId_;
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The sessionId.
+   */
+  @java.lang.Override
+  public java.lang.String getSessionId() {
+    java.lang.Object ref = sessionId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      sessionId_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The bytes for sessionId.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getSessionIdBytes() {
+    java.lang.Object ref = sessionId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      sessionId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -554,6 +599,9 @@ private static final long serialVersionUID = 0L;
     if (!getStatusBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 13, status_);
     }
+    if (!getSessionIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 14, sessionId_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -603,6 +651,9 @@ private static final long serialVersionUID = 0L;
     if (!getStatusBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, status_);
     }
+    if (!getSessionIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, sessionId_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -644,6 +695,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getTransactionType())) return false;
     if (!getStatus()
         .equals(other.getStatus())) return false;
+    if (!getSessionId()
+        .equals(other.getSessionId())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -681,6 +734,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getTransactionType().hashCode();
     hash = (37 * hash) + STATUS_FIELD_NUMBER;
     hash = (53 * hash) + getStatus().hashCode();
+    hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getSessionId().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -838,6 +893,8 @@ private static final long serialVersionUID = 0L;
 
       status_ = "";
 
+      sessionId_ = "";
+
       return this;
     }
 
@@ -876,6 +933,7 @@ private static final long serialVersionUID = 0L;
       result.valuedate_ = valuedate_;
       result.transactionType_ = transactionType_;
       result.status_ = status_;
+      result.sessionId_ = sessionId_;
       onBuilt();
       return result;
     }
@@ -966,6 +1024,10 @@ private static final long serialVersionUID = 0L;
       }
       if (!other.getStatus().isEmpty()) {
         status_ = other.status_;
+        onChanged();
+      }
+      if (!other.getSessionId().isEmpty()) {
+        sessionId_ = other.sessionId_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -1725,6 +1787,82 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       status_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object sessionId_ = "";
+    /**
+     * <code>string session_id = 14;</code>
+     * @return The sessionId.
+     */
+    public java.lang.String getSessionId() {
+      java.lang.Object ref = sessionId_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string session_id = 14;</code>
+     * @return The bytes for sessionId.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIdBytes() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string session_id = 14;</code>
+     * @param value The sessionId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSessionId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      sessionId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string session_id = 14;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearSessionId() {
+      
+      sessionId_ = getDefaultInstance().getSessionId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string session_id = 14;</code>
+     * @param value The bytes for sessionId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSessionIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      sessionId_ = value;
       onChanged();
       return this;
     }

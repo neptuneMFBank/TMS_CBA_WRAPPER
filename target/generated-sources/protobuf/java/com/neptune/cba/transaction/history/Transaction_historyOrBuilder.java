@@ -126,4 +126,16 @@ public interface Transaction_historyOrBuilder extends
    */
   com.google.protobuf.ByteString
       getStatusBytes();
+
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The sessionId.
+   */
+  java.lang.String getSessionId();
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The bytes for sessionId.
+   */
+  com.google.protobuf.ByteString
+      getSessionIdBytes();
 }

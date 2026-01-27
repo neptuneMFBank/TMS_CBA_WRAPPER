@@ -70,6 +70,7 @@ message Transaction_history {
   string valuedate =11;
   string transactionType = 12;
   string status = 13;
+  string session_id = 14;
 }
 
 message callOverResponse {
