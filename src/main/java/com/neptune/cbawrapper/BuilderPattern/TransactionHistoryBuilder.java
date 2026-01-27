@@ -13,6 +13,17 @@ public class TransactionHistoryBuilder {
     private Double tranamount;
     private String trandate;
     private String valuedate;
+    private String transactionType;
+    private String status;
+    private String session_id;
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
 
     public TransactionHistoryBuilder setAccountnumber(String accountnumber) {
         this.accountnumber = accountnumber;
@@ -64,7 +75,17 @@ public class TransactionHistoryBuilder {
         return this;
     }
 
+    public TransactionHistoryBuilder setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+        return this;
+    }
+
+    public TransactionHistoryBuilder setStatus(String status){
+        this.status = status;
+        return this;
+    }
+
     public TransactionHistory build(){
-        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate);
+        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status);
     }
 }
