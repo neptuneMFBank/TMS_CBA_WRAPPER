@@ -68,8 +68,11 @@ message Transaction_history {
   double tranamount =9;
   string trandate =10;
   string valuedate =11;
-
+  string transactionType = 12;
+  string status = 13;
+  string session_id = 14;
 }
+
 message callOverResponse {
   repeated EmployeeHistory employee_history =1;
 }

@@ -102,4 +102,40 @@ public interface Transaction_historyOrBuilder extends
    */
   com.google.protobuf.ByteString
       getValuedateBytes();
+
+  /**
+   * <code>string transactionType = 12;</code>
+   * @return The transactionType.
+   */
+  java.lang.String getTransactionType();
+  /**
+   * <code>string transactionType = 12;</code>
+   * @return The bytes for transactionType.
+   */
+  com.google.protobuf.ByteString
+      getTransactionTypeBytes();
+
+  /**
+   * <code>string status = 13;</code>
+   * @return The status.
+   */
+  java.lang.String getStatus();
+  /**
+   * <code>string status = 13;</code>
+   * @return The bytes for status.
+   */
+  com.google.protobuf.ByteString
+      getStatusBytes();
+
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The sessionId.
+   */
+  java.lang.String getSessionId();
+  /**
+   * <code>string session_id = 14;</code>
+   * @return The bytes for sessionId.
+   */
+  com.google.protobuf.ByteString
+      getSessionIdBytes();
 }

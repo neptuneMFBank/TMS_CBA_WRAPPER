@@ -11,6 +11,17 @@ public class TransactionHistory {
     private Double tranamount;
     private String trandate;
     private String valuedate;
+    private String transactionType;
+    private String status;
+    private String session_id;
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
 
     public String getAccountnumber() {
         return accountnumber;
@@ -92,16 +103,34 @@ public class TransactionHistory {
         this.valuedate = valuedate;
     }
 
-    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate) {
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate, String transactionType, String status) {
         this.accountnumber = accountnumber;
         this.bankname = bankname;
         this.bkbalance = bkbalance;
-        this.idno = idno;
         this.narration = narration;
+        this.idno = idno;
         this.refno = refno;
         this.rn = rn;
         this.tranamount = tranamount;
         this.trandate = trandate;
         this.valuedate = valuedate;
+        this.transactionType = transactionType;
+        this.status = status;
     }
 }

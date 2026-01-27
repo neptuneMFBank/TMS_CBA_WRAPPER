@@ -90,19 +90,21 @@ public final class History {
       "onse\0225\n\007history\030\001 \003(\0132$.com.neptune.cba." +
       "Transaction_history\022\022\n\ntotalItems\030\002 \001(\003\022" +
       "\022\n\ntotalPages\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(" +
-      "\003\"\306\001\n\023Transaction_history\022\025\n\raccountnumb" +
+      "\003\"\203\002\n\023Transaction_history\022\025\n\raccountnumb" +
       "er\030\001 \001(\t\022\020\n\010bankname\030\002 \001(\t\022\021\n\tbkbalance\030" +
       "\003 \001(\001\022\014\n\004idno\030\004 \001(\005\022\021\n\tnarration\030\006 \001(\t\022\r" +
       "\n\005refno\030\007 \001(\t\022\n\n\002rn\030\010 \001(\005\022\022\n\ntranamount\030" +
       "\t \001(\001\022\020\n\010trandate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001" +
-      "(\t\"N\n\020callOverResponse\022:\n\020employee_histo" +
-      "ry\030\001 \003(\0132 .com.neptune.cba.EmployeeHisto" +
-      "ry\"V\n\017EmployeeHistory\022\014\n\004name\030\001 \001(\t\0225\n\007h" +
-      "istory\030\002 \003(\0132$.com.neptune.cba.Transacti" +
-      "on_history2`\n\016HistoryService\022N\n\007history\022" +
-      "\037.com.neptune.cba.HistoryRequest\032 .com.n" +
-      "eptune.cba.HistoryResponse\"\000B\'\n#com.nept" +
-      "une.cba.transaction.historyP\001b\006proto3"
+      "(\t\022\027\n\017transactionType\030\014 \001(\t\022\016\n\006status\030\r " +
+      "\001(\t\022\022\n\nsession_id\030\016 \001(\t\"N\n\020callOverRespo" +
+      "nse\022:\n\020employee_history\030\001 \003(\0132 .com.nept" +
+      "une.cba.EmployeeHistory\"V\n\017EmployeeHisto" +
+      "ry\022\014\n\004name\030\001 \001(\t\0225\n\007history\030\002 \003(\0132$.com." +
+      "neptune.cba.Transaction_history2`\n\016Histo" +
+      "ryService\022N\n\007history\022\037.com.neptune.cba.H" +
+      "istoryRequest\032 .com.neptune.cba.HistoryR" +
+      "esponse\"\000B\'\n#com.neptune.cba.transaction" +
+      ".historyP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -155,7 +157,7 @@ public final class History {
     internal_static_com_neptune_cba_Transaction_history_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_Transaction_history_descriptor,
-        new java.lang.String[] { "Accountnumber", "Bankname", "Bkbalance", "Idno", "Narration", "Refno", "Rn", "Tranamount", "Trandate", "Valuedate", });
+        new java.lang.String[] { "Accountnumber", "Bankname", "Bkbalance", "Idno", "Narration", "Refno", "Rn", "Tranamount", "Trandate", "Valuedate", "TransactionType", "Status", "SessionId", });
     internal_static_com_neptune_cba_callOverResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_com_neptune_cba_callOverResponse_fieldAccessorTable = new
