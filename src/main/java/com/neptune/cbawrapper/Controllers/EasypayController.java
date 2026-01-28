@@ -169,7 +169,7 @@ public class EasypayController {
             }
             System.out.println("response1 = " + response);
 //
-            session_Id = "intra_"+response.getData().getSessionID();
+            session_Id = "inter_"+response.getData().getSessionID();
 //        remove channel_code, senderBankCode, platform from request body and add from env
             NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
             enquiryResponseModel.setResponseCode(response.getData().getResponseCode());
