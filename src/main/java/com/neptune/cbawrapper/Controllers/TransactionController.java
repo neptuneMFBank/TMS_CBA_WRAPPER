@@ -343,7 +343,7 @@ public class TransactionController {
                         ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
                         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                    String session_Id = (request.getReference() != null ? request.getReference() : ("POS2013" + (System.currentTimeMillis() / 1000)));
+                    String session_Id = "2103" + (System.currentTimeMillis() / 100);
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
                     if(enquiryResponseModel.isEmpty()){
