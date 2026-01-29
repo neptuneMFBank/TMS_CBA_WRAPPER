@@ -151,9 +151,10 @@ public class EasypayController {
             }
             System.out.println("11111111111222222222222");
             System.out.println("request = " + requestPayload);
+            String ref = String.valueOf((System.currentTimeMillis() / 1000));
             NameEnquiryRequest nameEnquiryRequest = new NameEnquiryRequest();
             nameEnquiryRequest.setPlatform("mobile");
-            nameEnquiryRequest.setRequestId(session_Id);
+            nameEnquiryRequest.setRequestId(ref);
             nameEnquiryRequest.setSenderBankCode("");
             nameEnquiryRequest.setAccountNumber(requestPayload.getAccountNumber());
             nameEnquiryRequest.setChannelCode("1");
@@ -178,6 +179,7 @@ public class EasypayController {
             enquiryResponseModel.setChannelCode(response.getData().getChannelCode());
             enquiryResponseModel.setDestinationInstitutionCode(response.getData().getDestinationInstitutionCode());
             enquiryResponseModel.setAccountName(response.getData().getAccountName());
+            enquiryResponseModel.setRef(ref);
             enquiryResponseModel.setAccountNumber(response.getData().getAccountNumber());
             enquiryResponseModel.setBankVerificationNumber(response.getData().getBankVerificationNumber());
             enquiryResponseModel.setKycLevel(response.getData().getKycLevel());

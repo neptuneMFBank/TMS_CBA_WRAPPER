@@ -395,7 +395,7 @@ public class TransactionController {
                     transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                     transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
                     transactionsModel.setOriginatorKYCLevel(1);
-                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getSessionID());
+                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
                     transactionsModel.setOriginatorNarration(request.getNarration());
                     transactionsModel.setTransactionLocation(request.getTransactionLocation());
                     transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
