@@ -17,12 +17,9 @@ public class TransactionHistoryBuilder {
     private String status;
     private String session_id;
 
-    public String getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(String session_id) {
+    public TransactionHistoryBuilder setSession_id(String session_id) {
         this.session_id = session_id;
+        return this;
     }
 
     public TransactionHistoryBuilder setAccountnumber(String accountnumber) {
@@ -86,6 +83,6 @@ public class TransactionHistoryBuilder {
     }
 
     public TransactionHistory build(){
-        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status);
+        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status, session_id);
     }
 }

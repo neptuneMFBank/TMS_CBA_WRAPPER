@@ -119,7 +119,7 @@ public class TransactionHistory {
         this.status = status;
     }
 
-    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate, String transactionType, String status) {
+    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate, String transactionType, String status, String session_id) {
         this.accountnumber = accountnumber;
         this.bankname = bankname;
         this.bkbalance = bkbalance;
@@ -132,5 +132,6 @@ public class TransactionHistory {
         this.valuedate = valuedate;
         this.transactionType = transactionType;
         this.status = status;
+        this.session_id = session_id;
     }
 }
