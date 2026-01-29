@@ -21,7 +21,16 @@ public class NameEnquiryResponseModel {
     private String accountName;
     private String bankVerificationNumber;
     private Integer kycLevel;
+    private String ref;
     private String expiryTime;
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
     public String getExpiryTime() {
         return expiryTime;
