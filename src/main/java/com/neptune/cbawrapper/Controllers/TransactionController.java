@@ -343,7 +343,7 @@ public class TransactionController {
                         ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
                         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                    String session_Id = (request.getReference() != null ? request.getReference() : "") + "POS2013" + (System.currentTimeMillis() / 1000);
+//                    String session_Id = "2103" + (System.currentTimeMillis() / 100);
                     Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
 
                     if(enquiryResponseModel.isEmpty()){
@@ -366,7 +366,7 @@ public class TransactionController {
                                 .toacctype("savings")
                                 .amount(request.getAmount())
                                 .tokenType("")
-                                .transactionreference(request.getReference())
+                                .transactionreference("intra_"+request.getNameEnquirySessionID())
                                 .narration(request.getNarration())
                                 .build();
                         System.out.println("intraTransfer = " + intraTransfer);
@@ -385,7 +385,7 @@ public class TransactionController {
                     } // after pos is activated -> send mail to set pin -> call the backend to save the pin
 
                     EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-                    transactionsModel.setPaymentReference(session_Id);
+                    transactionsModel.setPaymentReference("inter_"+request.getNameEnquirySessionID());
                     transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
                     transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
                     transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
@@ -395,7 +395,7 @@ public class TransactionController {
                     transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                     transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
                     transactionsModel.setOriginatorKYCLevel(1);
-                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getSessionID());
+                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
                     transactionsModel.setOriginatorNarration(request.getNarration());
                     transactionsModel.setTransactionLocation(request.getTransactionLocation());
                     transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());

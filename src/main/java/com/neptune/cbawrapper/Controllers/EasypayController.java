@@ -121,7 +121,7 @@ public class EasypayController {
     public ResponseEntity<ResponseSchema<?>> nameEnquiry(@RequestBody NameEnquiryRequestPayload requestPayload) {
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
         try {
-            String session_Id = "POS2013" + (System.currentTimeMillis() / 1000);
+            String session_Id = "2103" + (System.currentTimeMillis() / 1000);
             if (requestPayload.getDestinationInstitutionCode().equals("090329")) {
 //            save name enquiry data and use the result for /outward_transfer
                 String transaction_id = UUID.randomUUID().toString();
@@ -151,9 +151,10 @@ public class EasypayController {
             }
             System.out.println("11111111111222222222222");
             System.out.println("request = " + requestPayload);
+            String ref = String.valueOf((System.currentTimeMillis() / 1000));
             NameEnquiryRequest nameEnquiryRequest = new NameEnquiryRequest();
             nameEnquiryRequest.setPlatform("mobile");
-            nameEnquiryRequest.setRequestId(session_Id);
+            nameEnquiryRequest.setRequestId(ref);
             nameEnquiryRequest.setSenderBankCode("");
             nameEnquiryRequest.setAccountNumber(requestPayload.getAccountNumber());
             nameEnquiryRequest.setChannelCode("1");
@@ -169,6 +170,7 @@ public class EasypayController {
             }
             System.out.println("response1 = " + response);
 //
+            session_Id = response.getData().getSessionID();
 //        remove channel_code, senderBankCode, platform from request body and add from env
             NameEnquiryResponseModel enquiryResponseModel = new NameEnquiryResponseModel();
             enquiryResponseModel.setResponseCode(response.getData().getResponseCode());
@@ -177,6 +179,7 @@ public class EasypayController {
             enquiryResponseModel.setChannelCode(response.getData().getChannelCode());
             enquiryResponseModel.setDestinationInstitutionCode(response.getData().getDestinationInstitutionCode());
             enquiryResponseModel.setAccountName(response.getData().getAccountName());
+            enquiryResponseModel.setRef(ref);
             enquiryResponseModel.setAccountNumber(response.getData().getAccountNumber());
             enquiryResponseModel.setBankVerificationNumber(response.getData().getBankVerificationNumber());
             enquiryResponseModel.setKycLevel(response.getData().getKycLevel());
