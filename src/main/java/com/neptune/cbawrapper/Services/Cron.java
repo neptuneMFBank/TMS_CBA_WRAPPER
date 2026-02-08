@@ -440,13 +440,13 @@ public class Cron {
                     //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
                     //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
 
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
-                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-
-                    System.out.println("========================================= 1");
-                    if (businessPlatformCharges.isEmpty()) {
-                        return;
-                    }
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(transactionDrCr1.getTransaction_platform_id());
+//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+//
+//                    System.out.println("========================================= 1");
+//                    if (businessPlatformCharges.isEmpty()) {
+//                        return;
+//                    }
 
                     System.out.println("========================================= 2");
                     if (platformCharges.isPresent()) {
@@ -480,7 +480,7 @@ public class Cron {
 //                            amount2 = businessPlatformCharges.get().getThreshold();
 //                        }
 
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, businessPlatformCharges.get().getBusinessWalletId());
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
 
                         if (response != null) {
                             if (response.getCode().equals("200")) {
