@@ -61,6 +61,11 @@ public class Helpers {
         return customersRepository.findBySavingsId(details);
     }
 
+    public Optional<CustomersModel> getCustomerBySavingsId(int details) {
+        // Fetch customers matching savings IDs
+        return customersRepository.findCustomerBySavingsId(details);
+    }
+
     public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges){
         TransactionDetails transactionDetails = new TransactionDetails();
         transactionDetails.setTerminalId(request.getTerminalId());

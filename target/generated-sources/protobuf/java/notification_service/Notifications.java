@@ -6762,6 +6762,33 @@ public final class Notifications {
      */
     com.google.protobuf.ByteString
         getExtensiontypeBytes();
+
+    /**
+     * <code>bool isTransaction = 19;</code>
+     * @return The isTransaction.
+     */
+    boolean getIsTransaction();
+
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     * @return Whether the transaction field is set.
+     */
+    boolean hasTransaction();
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     * @return The transaction.
+     */
+    notification_service.Notifications.TransactionText getTransaction();
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     */
+    notification_service.Notifications.TransactionTextOrBuilder getTransactionOrBuilder();
+
+    /**
+     * <code>bool corporateMail = 21;</code>
+     * @return The corporateMail.
+     */
+    boolean getCorporateMail();
   }
   /**
    * Protobuf type {@code notification_service.NotificationRequest}
@@ -6928,6 +6955,29 @@ public final class Notifications {
               java.lang.String s = input.readStringRequireUtf8();
 
               extensiontype_ = s;
+              break;
+            }
+            case 152: {
+
+              isTransaction_ = input.readBool();
+              break;
+            }
+            case 162: {
+              notification_service.Notifications.TransactionText.Builder subBuilder = null;
+              if (transaction_ != null) {
+                subBuilder = transaction_.toBuilder();
+              }
+              transaction_ = input.readMessage(notification_service.Notifications.TransactionText.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(transaction_);
+                transaction_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 168: {
+
+              corporateMail_ = input.readBool();
               break;
             }
             default: {
@@ -7499,6 +7549,54 @@ public final class Notifications {
       }
     }
 
+    public static final int ISTRANSACTION_FIELD_NUMBER = 19;
+    private boolean isTransaction_;
+    /**
+     * <code>bool isTransaction = 19;</code>
+     * @return The isTransaction.
+     */
+    @java.lang.Override
+    public boolean getIsTransaction() {
+      return isTransaction_;
+    }
+
+    public static final int TRANSACTION_FIELD_NUMBER = 20;
+    private notification_service.Notifications.TransactionText transaction_;
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     * @return Whether the transaction field is set.
+     */
+    @java.lang.Override
+    public boolean hasTransaction() {
+      return transaction_ != null;
+    }
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     * @return The transaction.
+     */
+    @java.lang.Override
+    public notification_service.Notifications.TransactionText getTransaction() {
+      return transaction_ == null ? notification_service.Notifications.TransactionText.getDefaultInstance() : transaction_;
+    }
+    /**
+     * <code>.notification_service.TransactionText transaction = 20;</code>
+     */
+    @java.lang.Override
+    public notification_service.Notifications.TransactionTextOrBuilder getTransactionOrBuilder() {
+      return getTransaction();
+    }
+
+    public static final int CORPORATEMAIL_FIELD_NUMBER = 21;
+    private boolean corporateMail_;
+    /**
+     * <code>bool corporateMail = 21;</code>
+     * @return The corporateMail.
+     */
+    @java.lang.Override
+    public boolean getCorporateMail() {
+      return corporateMail_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -7566,6 +7664,15 @@ public final class Notifications {
       }
       if (!getExtensiontypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 18, extensiontype_);
+      }
+      if (isTransaction_ != false) {
+        output.writeBool(19, isTransaction_);
+      }
+      if (transaction_ != null) {
+        output.writeMessage(20, getTransaction());
+      }
+      if (corporateMail_ != false) {
+        output.writeBool(21, corporateMail_);
       }
       unknownFields.writeTo(output);
     }
@@ -7636,6 +7743,18 @@ public final class Notifications {
       if (!getExtensiontypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(18, extensiontype_);
       }
+      if (isTransaction_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(19, isTransaction_);
+      }
+      if (transaction_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, getTransaction());
+      }
+      if (corporateMail_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(21, corporateMail_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7690,6 +7809,15 @@ public final class Notifications {
           != other.getPushNotify()) return false;
       if (!getExtensiontype()
           .equals(other.getExtensiontype())) return false;
+      if (getIsTransaction()
+          != other.getIsTransaction()) return false;
+      if (hasTransaction() != other.hasTransaction()) return false;
+      if (hasTransaction()) {
+        if (!getTransaction()
+            .equals(other.getTransaction())) return false;
+      }
+      if (getCorporateMail()
+          != other.getCorporateMail()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7744,6 +7872,16 @@ public final class Notifications {
           getPushNotify());
       hash = (37 * hash) + EXTENSIONTYPE_FIELD_NUMBER;
       hash = (53 * hash) + getExtensiontype().hashCode();
+      hash = (37 * hash) + ISTRANSACTION_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsTransaction());
+      if (hasTransaction()) {
+        hash = (37 * hash) + TRANSACTION_FIELD_NUMBER;
+        hash = (53 * hash) + getTransaction().hashCode();
+      }
+      hash = (37 * hash) + CORPORATEMAIL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getCorporateMail());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7917,6 +8055,16 @@ public final class Notifications {
 
         extensiontype_ = "";
 
+        isTransaction_ = false;
+
+        if (transactionBuilder_ == null) {
+          transaction_ = null;
+        } else {
+          transaction_ = null;
+          transactionBuilder_ = null;
+        }
+        corporateMail_ = false;
+
         return this;
       }
 
@@ -7965,6 +8113,13 @@ public final class Notifications {
         result.sendwebhook_ = sendwebhook_;
         result.pushNotify_ = pushNotify_;
         result.extensiontype_ = extensiontype_;
+        result.isTransaction_ = isTransaction_;
+        if (transactionBuilder_ == null) {
+          result.transaction_ = transaction_;
+        } else {
+          result.transaction_ = transactionBuilder_.build();
+        }
+        result.corporateMail_ = corporateMail_;
         onBuilt();
         return result;
       }
@@ -8078,6 +8233,15 @@ public final class Notifications {
         if (!other.getExtensiontype().isEmpty()) {
           extensiontype_ = other.extensiontype_;
           onChanged();
+        }
+        if (other.getIsTransaction() != false) {
+          setIsTransaction(other.getIsTransaction());
+        }
+        if (other.hasTransaction()) {
+          mergeTransaction(other.getTransaction());
+        }
+        if (other.getCorporateMail() != false) {
+          setCorporateMail(other.getCorporateMail());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9293,6 +9457,187 @@ public final class Notifications {
         onChanged();
         return this;
       }
+
+      private boolean isTransaction_ ;
+      /**
+       * <code>bool isTransaction = 19;</code>
+       * @return The isTransaction.
+       */
+      @java.lang.Override
+      public boolean getIsTransaction() {
+        return isTransaction_;
+      }
+      /**
+       * <code>bool isTransaction = 19;</code>
+       * @param value The isTransaction to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsTransaction(boolean value) {
+        
+        isTransaction_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool isTransaction = 19;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsTransaction() {
+        
+        isTransaction_ = false;
+        onChanged();
+        return this;
+      }
+
+      private notification_service.Notifications.TransactionText transaction_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          notification_service.Notifications.TransactionText, notification_service.Notifications.TransactionText.Builder, notification_service.Notifications.TransactionTextOrBuilder> transactionBuilder_;
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       * @return Whether the transaction field is set.
+       */
+      public boolean hasTransaction() {
+        return transactionBuilder_ != null || transaction_ != null;
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       * @return The transaction.
+       */
+      public notification_service.Notifications.TransactionText getTransaction() {
+        if (transactionBuilder_ == null) {
+          return transaction_ == null ? notification_service.Notifications.TransactionText.getDefaultInstance() : transaction_;
+        } else {
+          return transactionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public Builder setTransaction(notification_service.Notifications.TransactionText value) {
+        if (transactionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          transaction_ = value;
+          onChanged();
+        } else {
+          transactionBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public Builder setTransaction(
+          notification_service.Notifications.TransactionText.Builder builderForValue) {
+        if (transactionBuilder_ == null) {
+          transaction_ = builderForValue.build();
+          onChanged();
+        } else {
+          transactionBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public Builder mergeTransaction(notification_service.Notifications.TransactionText value) {
+        if (transactionBuilder_ == null) {
+          if (transaction_ != null) {
+            transaction_ =
+              notification_service.Notifications.TransactionText.newBuilder(transaction_).mergeFrom(value).buildPartial();
+          } else {
+            transaction_ = value;
+          }
+          onChanged();
+        } else {
+          transactionBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public Builder clearTransaction() {
+        if (transactionBuilder_ == null) {
+          transaction_ = null;
+          onChanged();
+        } else {
+          transaction_ = null;
+          transactionBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public notification_service.Notifications.TransactionText.Builder getTransactionBuilder() {
+        
+        onChanged();
+        return getTransactionFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      public notification_service.Notifications.TransactionTextOrBuilder getTransactionOrBuilder() {
+        if (transactionBuilder_ != null) {
+          return transactionBuilder_.getMessageOrBuilder();
+        } else {
+          return transaction_ == null ?
+              notification_service.Notifications.TransactionText.getDefaultInstance() : transaction_;
+        }
+      }
+      /**
+       * <code>.notification_service.TransactionText transaction = 20;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          notification_service.Notifications.TransactionText, notification_service.Notifications.TransactionText.Builder, notification_service.Notifications.TransactionTextOrBuilder> 
+          getTransactionFieldBuilder() {
+        if (transactionBuilder_ == null) {
+          transactionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              notification_service.Notifications.TransactionText, notification_service.Notifications.TransactionText.Builder, notification_service.Notifications.TransactionTextOrBuilder>(
+                  getTransaction(),
+                  getParentForChildren(),
+                  isClean());
+          transaction_ = null;
+        }
+        return transactionBuilder_;
+      }
+
+      private boolean corporateMail_ ;
+      /**
+       * <code>bool corporateMail = 21;</code>
+       * @return The corporateMail.
+       */
+      @java.lang.Override
+      public boolean getCorporateMail() {
+        return corporateMail_;
+      }
+      /**
+       * <code>bool corporateMail = 21;</code>
+       * @param value The corporateMail to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCorporateMail(boolean value) {
+        
+        corporateMail_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool corporateMail = 21;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCorporateMail() {
+        
+        corporateMail_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -9341,6 +9686,1618 @@ public final class Notifications {
 
     @java.lang.Override
     public notification_service.Notifications.NotificationRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TransactionTextOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:notification_service.TransactionText)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string accountNumber = 1;</code>
+     * @return The accountNumber.
+     */
+    java.lang.String getAccountNumber();
+    /**
+     * <code>string accountNumber = 1;</code>
+     * @return The bytes for accountNumber.
+     */
+    com.google.protobuf.ByteString
+        getAccountNumberBytes();
+
+    /**
+     * <code>double amount = 2;</code>
+     * @return The amount.
+     */
+    double getAmount();
+
+    /**
+     * <code>string description = 3;</code>
+     * @return The description.
+     */
+    java.lang.String getDescription();
+    /**
+     * <code>string description = 3;</code>
+     * @return The bytes for description.
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
+
+    /**
+     * <code>string date = 4;</code>
+     * @return The date.
+     */
+    java.lang.String getDate();
+    /**
+     * <code>string date = 4;</code>
+     * @return The bytes for date.
+     */
+    com.google.protobuf.ByteString
+        getDateBytes();
+
+    /**
+     * <code>double balance = 5;</code>
+     * @return The balance.
+     */
+    double getBalance();
+
+    /**
+     * <code>string customerName = 6;</code>
+     * @return The customerName.
+     */
+    java.lang.String getCustomerName();
+    /**
+     * <code>string customerName = 6;</code>
+     * @return The bytes for customerName.
+     */
+    com.google.protobuf.ByteString
+        getCustomerNameBytes();
+
+    /**
+     * <code>string recipientName = 7;</code>
+     * @return The recipientName.
+     */
+    java.lang.String getRecipientName();
+    /**
+     * <code>string recipientName = 7;</code>
+     * @return The bytes for recipientName.
+     */
+    com.google.protobuf.ByteString
+        getRecipientNameBytes();
+
+    /**
+     * <code>string recipientBankName = 8;</code>
+     * @return The recipientBankName.
+     */
+    java.lang.String getRecipientBankName();
+    /**
+     * <code>string recipientBankName = 8;</code>
+     * @return The bytes for recipientBankName.
+     */
+    com.google.protobuf.ByteString
+        getRecipientBankNameBytes();
+
+    /**
+     * <code>string transRef = 9;</code>
+     * @return The transRef.
+     */
+    java.lang.String getTransRef();
+    /**
+     * <code>string transRef = 9;</code>
+     * @return The bytes for transRef.
+     */
+    com.google.protobuf.ByteString
+        getTransRefBytes();
+  }
+  /**
+   * Protobuf type {@code notification_service.TransactionText}
+   */
+  public static final class TransactionText extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:notification_service.TransactionText)
+      TransactionTextOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TransactionText.newBuilder() to construct.
+    private TransactionText(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TransactionText() {
+      accountNumber_ = "";
+      description_ = "";
+      date_ = "";
+      customerName_ = "";
+      recipientName_ = "";
+      recipientBankName_ = "";
+      transRef_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TransactionText();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TransactionText(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accountNumber_ = s;
+              break;
+            }
+            case 17: {
+
+              amount_ = input.readDouble();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              description_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              date_ = s;
+              break;
+            }
+            case 41: {
+
+              balance_ = input.readDouble();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              customerName_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              recipientName_ = s;
+              break;
+            }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              recipientBankName_ = s;
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              transRef_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return notification_service.Notifications.internal_static_notification_service_TransactionText_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return notification_service.Notifications.internal_static_notification_service_TransactionText_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              notification_service.Notifications.TransactionText.class, notification_service.Notifications.TransactionText.Builder.class);
+    }
+
+    public static final int ACCOUNTNUMBER_FIELD_NUMBER = 1;
+    private volatile java.lang.Object accountNumber_;
+    /**
+     * <code>string accountNumber = 1;</code>
+     * @return The accountNumber.
+     */
+    @java.lang.Override
+    public java.lang.String getAccountNumber() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accountNumber_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string accountNumber = 1;</code>
+     * @return The bytes for accountNumber.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAccountNumberBytes() {
+      java.lang.Object ref = accountNumber_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountNumber_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int AMOUNT_FIELD_NUMBER = 2;
+    private double amount_;
+    /**
+     * <code>double amount = 2;</code>
+     * @return The amount.
+     */
+    @java.lang.Override
+    public double getAmount() {
+      return amount_;
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 3;
+    private volatile java.lang.Object description_;
+    /**
+     * <code>string description = 3;</code>
+     * @return The description.
+     */
+    @java.lang.Override
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        description_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string description = 3;</code>
+     * @return The bytes for description.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object date_;
+    /**
+     * <code>string date = 4;</code>
+     * @return The date.
+     */
+    @java.lang.Override
+    public java.lang.String getDate() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        date_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string date = 4;</code>
+     * @return The bytes for date.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDateBytes() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        date_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int BALANCE_FIELD_NUMBER = 5;
+    private double balance_;
+    /**
+     * <code>double balance = 5;</code>
+     * @return The balance.
+     */
+    @java.lang.Override
+    public double getBalance() {
+      return balance_;
+    }
+
+    public static final int CUSTOMERNAME_FIELD_NUMBER = 6;
+    private volatile java.lang.Object customerName_;
+    /**
+     * <code>string customerName = 6;</code>
+     * @return The customerName.
+     */
+    @java.lang.Override
+    public java.lang.String getCustomerName() {
+      java.lang.Object ref = customerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        customerName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string customerName = 6;</code>
+     * @return The bytes for customerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCustomerNameBytes() {
+      java.lang.Object ref = customerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        customerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RECIPIENTNAME_FIELD_NUMBER = 7;
+    private volatile java.lang.Object recipientName_;
+    /**
+     * <code>string recipientName = 7;</code>
+     * @return The recipientName.
+     */
+    @java.lang.Override
+    public java.lang.String getRecipientName() {
+      java.lang.Object ref = recipientName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        recipientName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string recipientName = 7;</code>
+     * @return The bytes for recipientName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRecipientNameBytes() {
+      java.lang.Object ref = recipientName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        recipientName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RECIPIENTBANKNAME_FIELD_NUMBER = 8;
+    private volatile java.lang.Object recipientBankName_;
+    /**
+     * <code>string recipientBankName = 8;</code>
+     * @return The recipientBankName.
+     */
+    @java.lang.Override
+    public java.lang.String getRecipientBankName() {
+      java.lang.Object ref = recipientBankName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        recipientBankName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string recipientBankName = 8;</code>
+     * @return The bytes for recipientBankName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRecipientBankNameBytes() {
+      java.lang.Object ref = recipientBankName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        recipientBankName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TRANSREF_FIELD_NUMBER = 9;
+    private volatile java.lang.Object transRef_;
+    /**
+     * <code>string transRef = 9;</code>
+     * @return The transRef.
+     */
+    @java.lang.Override
+    public java.lang.String getTransRef() {
+      java.lang.Object ref = transRef_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        transRef_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string transRef = 9;</code>
+     * @return The bytes for transRef.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTransRefBytes() {
+      java.lang.Object ref = transRef_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        transRef_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getAccountNumberBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, accountNumber_);
+      }
+      if (amount_ != 0D) {
+        output.writeDouble(2, amount_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, description_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, date_);
+      }
+      if (balance_ != 0D) {
+        output.writeDouble(5, balance_);
+      }
+      if (!getCustomerNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, customerName_);
+      }
+      if (!getRecipientNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, recipientName_);
+      }
+      if (!getRecipientBankNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, recipientBankName_);
+      }
+      if (!getTransRefBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, transRef_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getAccountNumberBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, accountNumber_);
+      }
+      if (amount_ != 0D) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, amount_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, description_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, date_);
+      }
+      if (balance_ != 0D) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(5, balance_);
+      }
+      if (!getCustomerNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, customerName_);
+      }
+      if (!getRecipientNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, recipientName_);
+      }
+      if (!getRecipientBankNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, recipientBankName_);
+      }
+      if (!getTransRefBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, transRef_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof notification_service.Notifications.TransactionText)) {
+        return super.equals(obj);
+      }
+      notification_service.Notifications.TransactionText other = (notification_service.Notifications.TransactionText) obj;
+
+      if (!getAccountNumber()
+          .equals(other.getAccountNumber())) return false;
+      if (java.lang.Double.doubleToLongBits(getAmount())
+          != java.lang.Double.doubleToLongBits(
+              other.getAmount())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (!getDate()
+          .equals(other.getDate())) return false;
+      if (java.lang.Double.doubleToLongBits(getBalance())
+          != java.lang.Double.doubleToLongBits(
+              other.getBalance())) return false;
+      if (!getCustomerName()
+          .equals(other.getCustomerName())) return false;
+      if (!getRecipientName()
+          .equals(other.getRecipientName())) return false;
+      if (!getRecipientBankName()
+          .equals(other.getRecipientBankName())) return false;
+      if (!getTransRef()
+          .equals(other.getTransRef())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ACCOUNTNUMBER_FIELD_NUMBER;
+      hash = (53 * hash) + getAccountNumber().hashCode();
+      hash = (37 * hash) + AMOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAmount()));
+      hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getDescription().hashCode();
+      hash = (37 * hash) + DATE_FIELD_NUMBER;
+      hash = (53 * hash) + getDate().hashCode();
+      hash = (37 * hash) + BALANCE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getBalance()));
+      hash = (37 * hash) + CUSTOMERNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getCustomerName().hashCode();
+      hash = (37 * hash) + RECIPIENTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getRecipientName().hashCode();
+      hash = (37 * hash) + RECIPIENTBANKNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getRecipientBankName().hashCode();
+      hash = (37 * hash) + TRANSREF_FIELD_NUMBER;
+      hash = (53 * hash) + getTransRef().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static notification_service.Notifications.TransactionText parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static notification_service.Notifications.TransactionText parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static notification_service.Notifications.TransactionText parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static notification_service.Notifications.TransactionText parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(notification_service.Notifications.TransactionText prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code notification_service.TransactionText}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:notification_service.TransactionText)
+        notification_service.Notifications.TransactionTextOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return notification_service.Notifications.internal_static_notification_service_TransactionText_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return notification_service.Notifications.internal_static_notification_service_TransactionText_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                notification_service.Notifications.TransactionText.class, notification_service.Notifications.TransactionText.Builder.class);
+      }
+
+      // Construct using notification_service.Notifications.TransactionText.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        accountNumber_ = "";
+
+        amount_ = 0D;
+
+        description_ = "";
+
+        date_ = "";
+
+        balance_ = 0D;
+
+        customerName_ = "";
+
+        recipientName_ = "";
+
+        recipientBankName_ = "";
+
+        transRef_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return notification_service.Notifications.internal_static_notification_service_TransactionText_descriptor;
+      }
+
+      @java.lang.Override
+      public notification_service.Notifications.TransactionText getDefaultInstanceForType() {
+        return notification_service.Notifications.TransactionText.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public notification_service.Notifications.TransactionText build() {
+        notification_service.Notifications.TransactionText result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public notification_service.Notifications.TransactionText buildPartial() {
+        notification_service.Notifications.TransactionText result = new notification_service.Notifications.TransactionText(this);
+        result.accountNumber_ = accountNumber_;
+        result.amount_ = amount_;
+        result.description_ = description_;
+        result.date_ = date_;
+        result.balance_ = balance_;
+        result.customerName_ = customerName_;
+        result.recipientName_ = recipientName_;
+        result.recipientBankName_ = recipientBankName_;
+        result.transRef_ = transRef_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof notification_service.Notifications.TransactionText) {
+          return mergeFrom((notification_service.Notifications.TransactionText)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(notification_service.Notifications.TransactionText other) {
+        if (other == notification_service.Notifications.TransactionText.getDefaultInstance()) return this;
+        if (!other.getAccountNumber().isEmpty()) {
+          accountNumber_ = other.accountNumber_;
+          onChanged();
+        }
+        if (other.getAmount() != 0D) {
+          setAmount(other.getAmount());
+        }
+        if (!other.getDescription().isEmpty()) {
+          description_ = other.description_;
+          onChanged();
+        }
+        if (!other.getDate().isEmpty()) {
+          date_ = other.date_;
+          onChanged();
+        }
+        if (other.getBalance() != 0D) {
+          setBalance(other.getBalance());
+        }
+        if (!other.getCustomerName().isEmpty()) {
+          customerName_ = other.customerName_;
+          onChanged();
+        }
+        if (!other.getRecipientName().isEmpty()) {
+          recipientName_ = other.recipientName_;
+          onChanged();
+        }
+        if (!other.getRecipientBankName().isEmpty()) {
+          recipientBankName_ = other.recipientBankName_;
+          onChanged();
+        }
+        if (!other.getTransRef().isEmpty()) {
+          transRef_ = other.transRef_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        notification_service.Notifications.TransactionText parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (notification_service.Notifications.TransactionText) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object accountNumber_ = "";
+      /**
+       * <code>string accountNumber = 1;</code>
+       * @return The accountNumber.
+       */
+      public java.lang.String getAccountNumber() {
+        java.lang.Object ref = accountNumber_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          accountNumber_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string accountNumber = 1;</code>
+       * @return The bytes for accountNumber.
+       */
+      public com.google.protobuf.ByteString
+          getAccountNumberBytes() {
+        java.lang.Object ref = accountNumber_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accountNumber_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string accountNumber = 1;</code>
+       * @param value The accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumber(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string accountNumber = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccountNumber() {
+        
+        accountNumber_ = getDefaultInstance().getAccountNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string accountNumber = 1;</code>
+       * @param value The bytes for accountNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccountNumberBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        accountNumber_ = value;
+        onChanged();
+        return this;
+      }
+
+      private double amount_ ;
+      /**
+       * <code>double amount = 2;</code>
+       * @return The amount.
+       */
+      @java.lang.Override
+      public double getAmount() {
+        return amount_;
+      }
+      /**
+       * <code>double amount = 2;</code>
+       * @param value The amount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAmount(double value) {
+        
+        amount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double amount = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAmount() {
+        
+        amount_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object description_ = "";
+      /**
+       * <code>string description = 3;</code>
+       * @return The description.
+       */
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          description_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string description = 3;</code>
+       * @return The bytes for description.
+       */
+      public com.google.protobuf.ByteString
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          description_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string description = 3;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        description_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDescription() {
+        
+        description_ = getDefaultInstance().getDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 3;</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        description_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object date_ = "";
+      /**
+       * <code>string date = 4;</code>
+       * @return The date.
+       */
+      public java.lang.String getDate() {
+        java.lang.Object ref = date_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          date_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string date = 4;</code>
+       * @return The bytes for date.
+       */
+      public com.google.protobuf.ByteString
+          getDateBytes() {
+        java.lang.Object ref = date_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          date_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string date = 4;</code>
+       * @param value The date to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDate(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string date = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDate() {
+        
+        date_ = getDefaultInstance().getDate();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string date = 4;</code>
+       * @param value The bytes for date to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        date_ = value;
+        onChanged();
+        return this;
+      }
+
+      private double balance_ ;
+      /**
+       * <code>double balance = 5;</code>
+       * @return The balance.
+       */
+      @java.lang.Override
+      public double getBalance() {
+        return balance_;
+      }
+      /**
+       * <code>double balance = 5;</code>
+       * @param value The balance to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBalance(double value) {
+        
+        balance_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double balance = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBalance() {
+        
+        balance_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object customerName_ = "";
+      /**
+       * <code>string customerName = 6;</code>
+       * @return The customerName.
+       */
+      public java.lang.String getCustomerName() {
+        java.lang.Object ref = customerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          customerName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string customerName = 6;</code>
+       * @return The bytes for customerName.
+       */
+      public com.google.protobuf.ByteString
+          getCustomerNameBytes() {
+        java.lang.Object ref = customerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          customerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string customerName = 6;</code>
+       * @param value The customerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCustomerName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        customerName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string customerName = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCustomerName() {
+        
+        customerName_ = getDefaultInstance().getCustomerName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string customerName = 6;</code>
+       * @param value The bytes for customerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCustomerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        customerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object recipientName_ = "";
+      /**
+       * <code>string recipientName = 7;</code>
+       * @return The recipientName.
+       */
+      public java.lang.String getRecipientName() {
+        java.lang.Object ref = recipientName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          recipientName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string recipientName = 7;</code>
+       * @return The bytes for recipientName.
+       */
+      public com.google.protobuf.ByteString
+          getRecipientNameBytes() {
+        java.lang.Object ref = recipientName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          recipientName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string recipientName = 7;</code>
+       * @param value The recipientName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        recipientName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string recipientName = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientName() {
+        
+        recipientName_ = getDefaultInstance().getRecipientName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string recipientName = 7;</code>
+       * @param value The bytes for recipientName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        recipientName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object recipientBankName_ = "";
+      /**
+       * <code>string recipientBankName = 8;</code>
+       * @return The recipientBankName.
+       */
+      public java.lang.String getRecipientBankName() {
+        java.lang.Object ref = recipientBankName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          recipientBankName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string recipientBankName = 8;</code>
+       * @return The bytes for recipientBankName.
+       */
+      public com.google.protobuf.ByteString
+          getRecipientBankNameBytes() {
+        java.lang.Object ref = recipientBankName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          recipientBankName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string recipientBankName = 8;</code>
+       * @param value The recipientBankName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientBankName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        recipientBankName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string recipientBankName = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientBankName() {
+        
+        recipientBankName_ = getDefaultInstance().getRecipientBankName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string recipientBankName = 8;</code>
+       * @param value The bytes for recipientBankName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientBankNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        recipientBankName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object transRef_ = "";
+      /**
+       * <code>string transRef = 9;</code>
+       * @return The transRef.
+       */
+      public java.lang.String getTransRef() {
+        java.lang.Object ref = transRef_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          transRef_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string transRef = 9;</code>
+       * @return The bytes for transRef.
+       */
+      public com.google.protobuf.ByteString
+          getTransRefBytes() {
+        java.lang.Object ref = transRef_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          transRef_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string transRef = 9;</code>
+       * @param value The transRef to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTransRef(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        transRef_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string transRef = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTransRef() {
+        
+        transRef_ = getDefaultInstance().getTransRef();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string transRef = 9;</code>
+       * @param value The bytes for transRef to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTransRefBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        transRef_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:notification_service.TransactionText)
+    }
+
+    // @@protoc_insertion_point(class_scope:notification_service.TransactionText)
+    private static final notification_service.Notifications.TransactionText DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new notification_service.Notifications.TransactionText();
+    }
+
+    public static notification_service.Notifications.TransactionText getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TransactionText>
+        PARSER = new com.google.protobuf.AbstractParser<TransactionText>() {
+      @java.lang.Override
+      public TransactionText parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TransactionText(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TransactionText> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TransactionText> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public notification_service.Notifications.TransactionText getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -16126,6 +18083,11 @@ public final class Notifications {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_notification_service_NotificationRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_notification_service_TransactionText_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_notification_service_TransactionText_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_notification_service_WebHook_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16186,7 +18148,7 @@ public final class Notifications {
       "on\030\025 \001(\t\022\022\n\nisActivity\030\026 \001(\010\022\022\n\nisRemind" +
       "er\030\027 \001(\010\0220\n\014reminderDate\030\030 \001(\0132\032.google." +
       "protobuf.Timestamp\"-\n\032CustomNotification" +
-      "Response\022\017\n\007message\030\001 \001(\t\"\276\003\n\023Notificati" +
+      "Response\022\017\n\007message\030\001 \001(\t\"\250\004\n\023Notificati" +
       "onRequest\022\r\n\005title\030\001 \001(\t\022\017\n\007message\030\002 \001(" +
       "\t\022\014\n\004icon\030\003 \001(\t\022\031\n\021notification_type\030\004 \001" +
       "(\t\022\030\n\020message_priority\030\005 \001(\t\022\035\n\025receiver" +
@@ -16197,44 +18159,52 @@ public final class Notifications {
       "\014 \001(\t\022.\n\007webhook\030\r \001(\0132\035.notification_se" +
       "rvice.WebHook\022\020\n\010sendmail\030\016 \001(\010\022\020\n\010sendt" +
       "ext\030\017 \001(\010\022\023\n\013sendwebhook\030\020 \001(\010\022\023\n\013push_n" +
-      "otify\030\021 \001(\010\022\025\n\rextensiontype\030\022 \001(\t\"6\n\007We" +
-      "bHook\022\013\n\003url\030\001 \001(\t\022\r\n\005event\030\002 \001(\t\022\017\n\007pay" +
-      "load\030\003 \001(\t\"5\n\024NotificationResponse\022\014\n\004co" +
-      "de\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\"W\n\032GetAllNotif" +
-      "icationResponse\0229\n\rnotifications\030\001 \003(\0132\"" +
-      ".notification_service.Notification\"|\n\034Ge" +
-      "tNotificationByDateRequest\022.\n\nstart_date" +
-      "\030\001 \001(\0132\032.google.protobuf.Timestamp\022,\n\010en" +
-      "d_date\030\002 \001(\0132\032.google.protobuf.Timestamp" +
-      "\"\372\003\n\014Notification\022\n\n\002id\030\001 \001(\t\022\r\n\005title\030\002" +
-      " \001(\t\022\017\n\007message\030\003 \001(\t\022\014\n\004icon\030\004 \001(\t\022\031\n\021n" +
-      "otification_type\030\005 \001(\t\022\030\n\020message_priori" +
-      "ty\030\006 \001(\005\022\035\n\025receiver_phone_number\030\007 \001(\t\022" +
-      "\036\n\026receiver_phone_country\030\010 \001(\t\022\026\n\016recei" +
-      "ver_email\030\t \001(\t\022\032\n\022receiver_fcm_token\030\n " +
-      "\001(\t\022\032\n\022receiver_socket_id\030\013 \001(\t\022\033\n\023notif" +
-      "ication_status\030\014 \001(\t\022\022\n\nattachment\030\r \001(\010" +
-      "\022\014\n\004file\030\016 \001(\t\022\025\n\rextensiontype\030\017 \001(\t\022\020\n" +
-      "\010sendmail\030\020 \001(\010\022\020\n\010sendtext\030\021 \001(\010\022.\n\ncre" +
-      "ated_at\030\022 \001(\0132\032.google.protobuf.Timestam" +
-      "p\022.\n\nupdated_at\030\023 \001(\0132\032.google.protobuf." +
-      "Timestamp\022\022\n\npushnotify\030\024 \001(\010\"\007\n\005Empty2\324" +
-      "\004\n\023NotificationService\022a\n\006Notify\022).notif" +
-      "ication_service.NotificationRequest\032*.no" +
-      "tification_service.NotificationResponse\"" +
-      "\000\022e\n\022GetAllNotification\022\033.notification_s" +
-      "ervice.Empty\0320.notification_service.GetA" +
-      "llNotificationResponse\"\000\022w\n\024GetUserNotif" +
-      "ications\022-.notification_service.UserNoti" +
-      "ficationRequest\032..notification_service.U" +
-      "serNotificationResponse\"\000\022\177\n\025GetNotifica" +
-      "tionByDate\0222.notification_service.GetNot" +
-      "ificationByDateRequest\0320.notification_se" +
-      "rvice.GetAllNotificationResponse\"\000\022y\n\022Cu" +
-      "stomNotification\022/.notification_service." +
-      "CustomNotificationRequest\0320.notification" +
-      "_service.CustomNotificationResponse\"\000B\tZ" +
-      "\007./protob\006proto3"
+      "otify\030\021 \001(\010\022\025\n\rextensiontype\030\022 \001(\t\022\025\n\ris" +
+      "Transaction\030\023 \001(\010\022:\n\013transaction\030\024 \001(\0132%" +
+      ".notification_service.TransactionText\022\025\n" +
+      "\rcorporateMail\030\025 \001(\010\"\306\001\n\017TransactionText" +
+      "\022\025\n\raccountNumber\030\001 \001(\t\022\016\n\006amount\030\002 \001(\001\022" +
+      "\023\n\013description\030\003 \001(\t\022\014\n\004date\030\004 \001(\t\022\017\n\007ba" +
+      "lance\030\005 \001(\001\022\024\n\014customerName\030\006 \001(\t\022\025\n\rrec" +
+      "ipientName\030\007 \001(\t\022\031\n\021recipientBankName\030\010 " +
+      "\001(\t\022\020\n\010transRef\030\t \001(\t\"6\n\007WebHook\022\013\n\003url\030" +
+      "\001 \001(\t\022\r\n\005event\030\002 \001(\t\022\017\n\007payload\030\003 \001(\t\"5\n" +
+      "\024NotificationResponse\022\014\n\004code\030\001 \001(\t\022\017\n\007m" +
+      "essage\030\002 \001(\t\"W\n\032GetAllNotificationRespon" +
+      "se\0229\n\rnotifications\030\001 \003(\0132\".notification" +
+      "_service.Notification\"|\n\034GetNotification" +
+      "ByDateRequest\022.\n\nstart_date\030\001 \001(\0132\032.goog" +
+      "le.protobuf.Timestamp\022,\n\010end_date\030\002 \001(\0132" +
+      "\032.google.protobuf.Timestamp\"\372\003\n\014Notifica" +
+      "tion\022\n\n\002id\030\001 \001(\t\022\r\n\005title\030\002 \001(\t\022\017\n\007messa" +
+      "ge\030\003 \001(\t\022\014\n\004icon\030\004 \001(\t\022\031\n\021notification_t" +
+      "ype\030\005 \001(\t\022\030\n\020message_priority\030\006 \001(\005\022\035\n\025r" +
+      "eceiver_phone_number\030\007 \001(\t\022\036\n\026receiver_p" +
+      "hone_country\030\010 \001(\t\022\026\n\016receiver_email\030\t \001" +
+      "(\t\022\032\n\022receiver_fcm_token\030\n \001(\t\022\032\n\022receiv" +
+      "er_socket_id\030\013 \001(\t\022\033\n\023notification_statu" +
+      "s\030\014 \001(\t\022\022\n\nattachment\030\r \001(\010\022\014\n\004file\030\016 \001(" +
+      "\t\022\025\n\rextensiontype\030\017 \001(\t\022\020\n\010sendmail\030\020 \001" +
+      "(\010\022\020\n\010sendtext\030\021 \001(\010\022.\n\ncreated_at\030\022 \001(\013" +
+      "2\032.google.protobuf.Timestamp\022.\n\nupdated_" +
+      "at\030\023 \001(\0132\032.google.protobuf.Timestamp\022\022\n\n" +
+      "pushnotify\030\024 \001(\010\"\007\n\005Empty2\324\004\n\023Notificati" +
+      "onService\022a\n\006Notify\022).notification_servi" +
+      "ce.NotificationRequest\032*.notification_se" +
+      "rvice.NotificationResponse\"\000\022e\n\022GetAllNo" +
+      "tification\022\033.notification_service.Empty\032" +
+      "0.notification_service.GetAllNotificatio" +
+      "nResponse\"\000\022w\n\024GetUserNotifications\022-.no" +
+      "tification_service.UserNotificationReque" +
+      "st\032..notification_service.UserNotificati" +
+      "onResponse\"\000\022\177\n\025GetNotificationByDate\0222." +
+      "notification_service.GetNotificationByDa" +
+      "teRequest\0320.notification_service.GetAllN" +
+      "otificationResponse\"\000\022y\n\022CustomNotificat" +
+      "ion\022/.notification_service.CustomNotific" +
+      "ationRequest\0320.notification_service.Cust" +
+      "omNotificationResponse\"\000B\tZ\007./protob\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -16276,39 +18246,45 @@ public final class Notifications {
     internal_static_notification_service_NotificationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_NotificationRequest_descriptor,
-        new java.lang.String[] { "Title", "Message", "Icon", "NotificationType", "MessagePriority", "ReceiverPhoneNumber", "ReceiverPhoneCountry", "ReceiverEmail", "ReceiverFcmToken", "ReceiverSocketId", "Attachment", "File", "Webhook", "Sendmail", "Sendtext", "Sendwebhook", "PushNotify", "Extensiontype", });
-    internal_static_notification_service_WebHook_descriptor =
+        new java.lang.String[] { "Title", "Message", "Icon", "NotificationType", "MessagePriority", "ReceiverPhoneNumber", "ReceiverPhoneCountry", "ReceiverEmail", "ReceiverFcmToken", "ReceiverSocketId", "Attachment", "File", "Webhook", "Sendmail", "Sendtext", "Sendwebhook", "PushNotify", "Extensiontype", "IsTransaction", "Transaction", "CorporateMail", });
+    internal_static_notification_service_TransactionText_descriptor =
       getDescriptor().getMessageTypes().get(6);
+    internal_static_notification_service_TransactionText_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_notification_service_TransactionText_descriptor,
+        new java.lang.String[] { "AccountNumber", "Amount", "Description", "Date", "Balance", "CustomerName", "RecipientName", "RecipientBankName", "TransRef", });
+    internal_static_notification_service_WebHook_descriptor =
+      getDescriptor().getMessageTypes().get(7);
     internal_static_notification_service_WebHook_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_WebHook_descriptor,
         new java.lang.String[] { "Url", "Event", "Payload", });
     internal_static_notification_service_NotificationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_notification_service_NotificationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_NotificationResponse_descriptor,
         new java.lang.String[] { "Code", "Message", });
     internal_static_notification_service_GetAllNotificationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_notification_service_GetAllNotificationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_GetAllNotificationResponse_descriptor,
         new java.lang.String[] { "Notifications", });
     internal_static_notification_service_GetNotificationByDateRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_notification_service_GetNotificationByDateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_GetNotificationByDateRequest_descriptor,
         new java.lang.String[] { "StartDate", "EndDate", });
     internal_static_notification_service_Notification_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_notification_service_Notification_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_Notification_descriptor,
         new java.lang.String[] { "Id", "Title", "Message", "Icon", "NotificationType", "MessagePriority", "ReceiverPhoneNumber", "ReceiverPhoneCountry", "ReceiverEmail", "ReceiverFcmToken", "ReceiverSocketId", "NotificationStatus", "Attachment", "File", "Extensiontype", "Sendmail", "Sendtext", "CreatedAt", "UpdatedAt", "Pushnotify", });
     internal_static_notification_service_Empty_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_notification_service_Empty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_notification_service_Empty_descriptor,

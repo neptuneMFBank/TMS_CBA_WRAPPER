@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CustomersRepository extends MongoRepository<CustomersModel, String> {
@@ -22,4 +23,7 @@ public interface CustomersRepository extends MongoRepository<CustomersModel, Str
 
     @Query("{ 'savingsId': {$in: ?0} }")
     List<CustomersModel> findBySavingsId(List<Integer> savingsId);
+
+    @Query("{ 'savingsId': {$eq: ?0} }")
+    Optional<CustomersModel> findCustomerBySavingsId(int savingsId);
 }

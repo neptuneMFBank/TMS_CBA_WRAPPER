@@ -36,6 +36,9 @@ public class Cron {
     @Value("${spring.profiles.active}")
     private String env;
 
+    @Value("${client.url}")
+    private String client_url;
+
     @Autowired
     private CorePayRestController corePayRestController;
 
@@ -629,16 +632,23 @@ public class Cron {
     }
 
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
+        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
+
+        if(customersModel.isEmpty()){
+            return null;
+        }
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
-        virtualAccountModel.setToken_expiry(LocalDateTime.now().toString());
+        virtualAccountModel.setCodeExpired(false);
+        virtualAccountModel.setToken_expiry(LocalDateTime.now().plusMinutes(10).toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"https://tms-neptune.netlify.app/set-pin?code="+genericCode + "\" target=\"_blank\">Set Pin</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" +client_url+genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")
                 .message(message)
-                .receiver_email(virtualAccountModel.getEmail())
+                .receiver_email(customersModel.get().getEmail_address())
                 .sendmail(true)
                 .attachment(true)
                 .build();

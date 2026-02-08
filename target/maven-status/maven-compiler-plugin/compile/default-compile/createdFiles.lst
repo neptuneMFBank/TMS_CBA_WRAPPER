@@ -691,8 +691,10 @@ com/virtualAccountApplication/createAccount/proto/Get3ppAccountsResponse$Builder
 com/neptune/cba/transaction/easy_pay/getInstEmptyOrBuilder.class
 printable/PrintableOuterClass$CustomerDetails.class
 auth/Auth$Get3ppWebhookRequest.class
+com/neptune/cbawrapper/Models/PendingCustomers.class
 com/neptune/cba/transaction/easy_pay/Easypay.class
 customers/Customer$CreateDocumentData$1.class
+notification_service/Notifications$TransactionTextOrBuilder.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferRequestOrBuilder.class
 com/neptune/cba/transaction/type/TransactionType$1.class
 com/virtualAccountApplication/createAccount/proto/StaticAccountMessage$Builder.class
@@ -773,6 +775,7 @@ customers/Customer$CreateBulkCustomerResponse$Builder.class
 printable/PrintableOuterClass$LoanReportsRequest.class
 com/virtualAccountApplication/createAccount/proto/Get3ppAccountsRequest$2.class
 com/neptune/cba/transaction/balance/BalanceRequest$Builder.class
+notification_service/Notifications$TransactionText.class
 printable/PrintableOuterClass$LoanReportsRequest$Builder.class
 com/neptune/cba/transaction/easy_pay/NameEnquiryRpcRequest.class
 printable/PrintableOuterClass$StatementRequest.class
@@ -952,6 +955,7 @@ com/neptune/cba/transaction/type/DeleteTypeRequest.class
 com/neptune/cba/transaction/history/HistoryServiceGrpc$HistoryServiceImplBase.class
 auth/Auth$ChargeOrBuilder.class
 com/neptune/cbawrapper/Models/CategoryServicesModel$CategoryServicesModelBuilder.class
+notification_service/Notifications$TransactionText$Builder.class
 com/neptune/cbawrapper/Repository/AuthCredentialsRepository.class
 com/neptune/cba/transaction/bills/BillsServiceGrpc$BillsServiceFutureStub.class
 printable/PrintableOuterClass$PdfResponse$Builder.class
@@ -1023,6 +1027,7 @@ auth/Auth$ForgotPasswordOtpRequest$Builder.class
 com/neptune/cba/transaction/bills/BillsTsqRequestOrBuilder.class
 com/virtualAccountApplication/createAccount/proto/DynamicAccountCreationResponse.class
 auth/Auth$Country$1.class
+notification_service/Notifications$TransactionText$1.class
 com/virtualAccountApplication/createAccount/proto/AccountTypes.class
 customers/Customer$CreateDocumentData$Builder.class
 auth/Auth$GenerateApiKeyRequest$1.class
