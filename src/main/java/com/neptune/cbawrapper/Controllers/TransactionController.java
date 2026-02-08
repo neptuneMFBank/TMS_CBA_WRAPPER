@@ -183,6 +183,8 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
+        System.out.println("data = " + data);
+        System.out.println("authToken " + authToken);
         ResponseSchema responseData = new ResponseSchema<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -195,17 +197,17 @@ public class TransactionController {
             throw new RuntimeException(e);
         }
 
-//        System.out.println("request = " + request);
+        System.out.println("request = " + request);
             request.setDateFormat("dd MMMM yyyy");
             request.setStatus("pending");
 //            request.setNarration("credit user");
             request.setLocale("en");
 
 
-//            System.out.println("got here 112233");
-//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(authToken, CorepayPosTransactionRequest.class);
+            System.out.println("got here 112233");
+        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(data, CorepayPosTransactionRequest.class);
 
-//        System.out.println("decryptedData = " + decryptedData);
+        System.out.println("decryptedData = " + decryptedData);
 
 //        if (!checkIfTokenIsValid) {
 //            responseData.setData(null);
@@ -230,7 +232,7 @@ public class TransactionController {
 
             BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
 
-            String hashedPassword = passwordEncoder.encode(request.getPin());
+//            String hashedPassword = passwordEncoder.encode(request.getPin());
 
 //            System.out.println("hashedPassword = " +hashedPassword);
 //            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
@@ -435,6 +437,7 @@ public class TransactionController {
                 }
             } else {
                 UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
+                System.out.println("responseSchema = " + responseSchema);
 
                 if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                     System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
