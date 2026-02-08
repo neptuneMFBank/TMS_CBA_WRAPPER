@@ -59,6 +59,7 @@ public class Notifications {
                     .setSendtext(false)
                     .setSendwebhook(false)
                     .setPushNotify(true)
+                    .setCorporateMail(true)
                     .setExtensiontype("")
                     .build();
 
