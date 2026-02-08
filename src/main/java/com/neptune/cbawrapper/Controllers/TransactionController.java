@@ -187,7 +187,7 @@ public class TransactionController {
         System.out.println("authToken " + authToken);
         ResponseSchema responseData = new ResponseSchema<>();
         ObjectMapper mapper = new ObjectMapper();
-        try {
+//        try {
             boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, data);
 
         CorepayPosTransactionRequest request = null;
@@ -205,7 +205,7 @@ public class TransactionController {
 
 
             System.out.println("got here 112233");
-        CorepayPosTransactionRequest decryptedData = helpers.decryptObject(data, CorepayPosTransactionRequest.class);
+        CorepayPosTransactionRequest decryptedData = helpers.decryptObject("RwhmDwxsYVAQ4EhbBP7D+AF5xB39+j65KdEL6kTLhxsujaz7n82YxkXW7JBJml0iWJ7DCugHF5jtUu5IBol7zZFaGPWNyDx96EpKCwTPVblqHCFMi4ozslqAoBknfTY+dyhHgPGhIOdV8/xZplJpoc0AZrJLcHWKmn/dzHfTGaOsLvBRPciEllbM8rcWsbcaX7f0aYqR6quZnpW2nmcsz9b7U+xMxdsIHtZcbvLu3lUdCrF7uxHR9G27U81ImerLAY+X4Mr4Hn5KMSAialC2D25uw2l91/lXNbsgdVbxhjJBSc5K5uVSPV1A0DHbrnuXHbh3D+JGI1TJ0zUe5yIz8bJLKzYVEcO5rmByeSn9GzBI+jbli6qFyPHNzWYUhWoZApkIDwhOgNIzr9vvnwbko5VSM16EADfun0YqXjYNhes80rDYxRZxnkxiXyTTVzDRHbh3D+JGI1TJ0zUe5yIz8brro83vwhK2o96PSxVWn0GScjZTt62rzwm9IPXhGz6qeu3M/Ep6ppY6gth+GOPlj+vAAnmASdYxzNpbWc+GMtkWtOvAdD9k6phdkqyJznCYpxA6/Z7aOC9kHyAvnQJgMhhHWZaHRGxwCHy4JD/l4r8PyVxO5xxCS14Vba4+bqNJA8x09pa6xdAyjuQdTcc3oefveXWsBLh0C0QJt9InKPiTiJU/HZbhehzZT608uZOUq/9QEDL5pPz39qGKgdu/lzKNgs0XG8/c1ASEv2SvL954eDSlrIqvXOlHqNIO7tqsLRNSYqYgWAV5Dvylm1zhPuJQrtt/KY6Jh3sneuosKuQnlXH2l9ETkWmui2vmAOOQ9xrt0ZFMy8N604M2+uwK1A==", CorepayPosTransactionRequest.class);
 
         System.out.println("decryptedData = " + decryptedData);
 
@@ -237,16 +237,16 @@ public class TransactionController {
 //            System.out.println("hashedPassword = " +hashedPassword);
 //            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
 
-            boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
+            if(request.isBillsPayment() || request.isTransfer()) {
+                boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
 
-//            System.out.println("isAuthenticated = " + isAuthenticated);
-//            System.out.println("abelkelly");
-            if(!isAuthenticated){
-                responseData.setMessage("Unauthorized");
-                responseData.setStatus(401);
-                responseData.setTimeStamp(ZonedDateTime.now());
-                responseData.setData(null);
-                return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
+                if (!isAuthenticated) {
+                    responseData.setMessage("Unauthorized");
+                    responseData.setStatus(401);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
+                }
             }
 //            System.out.println("kellyabel");
 
@@ -461,7 +461,7 @@ public class TransactionController {
                     transactionDrCr.setTerminalId(request.getTerminalId());
                     transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
                     transactionDrCr.setDrcr("cr");
-                    transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getId());
+                    transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getBusinessName());
                     transactionDrCr.setAcctype("savings");
                     transactionDrCr.setAmount(transactionRequestSchema.getAmount());
                     transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
@@ -474,7 +474,7 @@ public class TransactionController {
                     transactionDrCr.setParent_id("");
                     transactionDrCr.setCbaMessage("");
                     transactionDrCr.setResourceId(responseSchema.getResourceId());
-                    transactionDrCr.setTransaction_platform_id(String.valueOf(request.getPaymentTypeId()));
+                    transactionDrCr.setTransaction_platform_id(request.getTransactionPlatform());
                     transactionDrCr.setCardScheme(request.getCardScheme());
                     transactionDrCr.setCreated_at(LocalDateTime.now().toString());
                     transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
@@ -488,15 +488,15 @@ public class TransactionController {
                 }
             }
 
-        } catch (Exception e) {
-            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-            log.error("error from debit credit1 =: {}", e.getMessage());
-            responseData.setMessage(e.getMessage());
-            responseData.setStatus(500);
-            responseData.setTimeStamp(ZonedDateTime.now());
-            responseData.setData(null);
-            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//        } catch (Exception e) {
+//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
+//            log.error("error from debit credit1 =: {}", e.getMessage());
+//            responseData.setMessage(e.getMessage());
+//            responseData.setStatus(500);
+//            responseData.setTimeStamp(ZonedDateTime.now());
+//            responseData.setData(null);
+//            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 //        return responseData;
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
