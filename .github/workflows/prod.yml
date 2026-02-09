@@ -2,7 +2,7 @@ name: build_deploy_aks
 on:
   push:
     branches:
-      - main
+      - prod
     paths-ignore:
       - 'Readme.md'
       - 'README.md'
