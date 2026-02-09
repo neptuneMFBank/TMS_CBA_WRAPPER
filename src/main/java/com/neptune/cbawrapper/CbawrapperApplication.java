@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class CbawrapperApplication {
 	public static void main(String[] args) {
+		System.out.println("Hello world 1");
 		SpringApplication.run(CbawrapperApplication.class, args);
 	}
 
