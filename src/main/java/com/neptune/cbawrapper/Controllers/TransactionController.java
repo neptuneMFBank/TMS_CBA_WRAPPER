@@ -340,7 +340,9 @@ public class TransactionController {
                 }
             } else if (request.isTransfer()) {
                 try {
-                    if(balance.getEffectiveBalance() - request.getAmount() < 0){
+                    double amount = request.getAmount() + 20;
+
+                    if(balance.getEffectiveBalance() - amount < 0){
                         ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
                         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
