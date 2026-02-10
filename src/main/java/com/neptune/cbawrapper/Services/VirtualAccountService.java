@@ -65,6 +65,7 @@ public class VirtualAccountService {
                 CreateAccountRequest accountRequest = CreateAccountRequest.newBuilder()
                         .setStaticAccount(staticAccount)
                         .setAccountType(AccountTypes.STATIC)
+                        .setIsPosAccount(true)
                         .setParentId(parentId)
                         .setSecondaryParentAccountNumber(businessWallet)
                         .build();
