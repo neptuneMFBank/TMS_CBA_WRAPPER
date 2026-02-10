@@ -442,16 +442,16 @@ public class TransactionController {
                 if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                     System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
 
-                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
-
-                    if (businessPlatformCharges == null || businessPlatformCharges.isEmpty()) {
-                        errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
-                        responseData.setMessage("business platform charge not found");
-                        responseData.setStatus(404);
-                        responseData.setTimeStamp(ZonedDateTime.now());
-                        responseData.setData(null);
-                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-                    }
+//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
+//
+//                    if (businessPlatformCharges == null || businessPlatformCharges.isEmpty()) {
+//                        errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
+//                        responseData.setMessage("business platform charge not found");
+//                        responseData.setStatus(404);
+//                        responseData.setTimeStamp(ZonedDateTime.now());
+//                        responseData.setData(null);
+//                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+//                    }
 
                     TransactionDrCr transactionDrCr = new TransactionDrCr();
                     transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
@@ -461,7 +461,7 @@ public class TransactionController {
                     transactionDrCr.setTerminalId(request.getTerminalId());
                     transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
                     transactionDrCr.setDrcr("cr");
-                    transactionDrCr.setTransaction_business_platform_id(businessPlatformCharges.get().getBusinessName());
+                    transactionDrCr.setTransaction_business_platform_id("");
                     transactionDrCr.setAcctype("savings");
                     transactionDrCr.setAmount(transactionRequestSchema.getAmount());
                     transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
