@@ -14,6 +14,68 @@ public final class CustomerServiceGrpc {
   public static final String SERVICE_NAME = "customers.CustomerService";
 
   // Static method descriptors that strictly reflect the proto.
+  private static volatile io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest,
+      customers.Customer.CreateCustomerProductResponse> getCreateCustomerProductMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateCustomerProduct",
+      requestType = customers.Customer.CreateCustomerProductRequest.class,
+      responseType = customers.Customer.CreateCustomerProductResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest,
+      customers.Customer.CreateCustomerProductResponse> getCreateCustomerProductMethod() {
+    io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest, customers.Customer.CreateCustomerProductResponse> getCreateCustomerProductMethod;
+    if ((getCreateCustomerProductMethod = CustomerServiceGrpc.getCreateCustomerProductMethod) == null) {
+      synchronized (CustomerServiceGrpc.class) {
+        if ((getCreateCustomerProductMethod = CustomerServiceGrpc.getCreateCustomerProductMethod) == null) {
+          CustomerServiceGrpc.getCreateCustomerProductMethod = getCreateCustomerProductMethod =
+              io.grpc.MethodDescriptor.<customers.Customer.CreateCustomerProductRequest, customers.Customer.CreateCustomerProductResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateCustomerProduct"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.CreateCustomerProductRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.CreateCustomerProductResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CustomerServiceMethodDescriptorSupplier("CreateCustomerProduct"))
+              .build();
+        }
+      }
+    }
+    return getCreateCustomerProductMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest,
+      customers.Customer.CreateCustomerProductResponse> getCreateCorporateCustomerProductMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateCorporateCustomerProduct",
+      requestType = customers.Customer.CreateCustomerProductRequest.class,
+      responseType = customers.Customer.CreateCustomerProductResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest,
+      customers.Customer.CreateCustomerProductResponse> getCreateCorporateCustomerProductMethod() {
+    io.grpc.MethodDescriptor<customers.Customer.CreateCustomerProductRequest, customers.Customer.CreateCustomerProductResponse> getCreateCorporateCustomerProductMethod;
+    if ((getCreateCorporateCustomerProductMethod = CustomerServiceGrpc.getCreateCorporateCustomerProductMethod) == null) {
+      synchronized (CustomerServiceGrpc.class) {
+        if ((getCreateCorporateCustomerProductMethod = CustomerServiceGrpc.getCreateCorporateCustomerProductMethod) == null) {
+          CustomerServiceGrpc.getCreateCorporateCustomerProductMethod = getCreateCorporateCustomerProductMethod =
+              io.grpc.MethodDescriptor.<customers.Customer.CreateCustomerProductRequest, customers.Customer.CreateCustomerProductResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateCorporateCustomerProduct"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.CreateCustomerProductRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.CreateCustomerProductResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CustomerServiceMethodDescriptorSupplier("CreateCorporateCustomerProduct"))
+              .build();
+        }
+      }
+    }
+    return getCreateCorporateCustomerProductMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<customers.Customer.CreateBulkCorpAccountRequest,
       customers.Customer.CreateBulkCorpCustomerResponse> getCreatBulkCorporateAccountMethod;
 
@@ -126,6 +188,20 @@ public final class CustomerServiceGrpc {
 
     /**
      */
+    public void createCustomerProduct(customers.Customer.CreateCustomerProductRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateCustomerProductMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void createCorporateCustomerProduct(customers.Customer.CreateCustomerProductRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateCorporateCustomerProductMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void creatBulkCorporateAccount(customers.Customer.CreateBulkCorpAccountRequest request,
         io.grpc.stub.StreamObserver<customers.Customer.CreateBulkCorpCustomerResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreatBulkCorporateAccountMethod(), responseObserver);
@@ -140,6 +216,20 @@ public final class CustomerServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+          .addMethod(
+            getCreateCustomerProductMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                customers.Customer.CreateCustomerProductRequest,
+                customers.Customer.CreateCustomerProductResponse>(
+                  this, METHODID_CREATE_CUSTOMER_PRODUCT)))
+          .addMethod(
+            getCreateCorporateCustomerProductMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                customers.Customer.CreateCustomerProductRequest,
+                customers.Customer.CreateCustomerProductResponse>(
+                  this, METHODID_CREATE_CORPORATE_CUSTOMER_PRODUCT)))
           .addMethod(
             getCreatBulkCorporateAccountMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -170,6 +260,22 @@ public final class CustomerServiceGrpc {
     protected CustomerServiceStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new CustomerServiceStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public void createCustomerProduct(customers.Customer.CreateCustomerProductRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getCreateCustomerProductMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void createCorporateCustomerProduct(customers.Customer.CreateCustomerProductRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getCreateCorporateCustomerProductMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -205,6 +311,20 @@ public final class CustomerServiceGrpc {
 
     /**
      */
+    public customers.Customer.CreateCustomerProductResponse createCustomerProduct(customers.Customer.CreateCustomerProductRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getCreateCustomerProductMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public customers.Customer.CreateCustomerProductResponse createCorporateCustomerProduct(customers.Customer.CreateCustomerProductRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getCreateCorporateCustomerProductMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public customers.Customer.CreateBulkCorpCustomerResponse creatBulkCorporateAccount(customers.Customer.CreateBulkCorpAccountRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCreatBulkCorporateAccountMethod(), getCallOptions(), request);
@@ -234,6 +354,22 @@ public final class CustomerServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<customers.Customer.CreateCustomerProductResponse> createCustomerProduct(
+        customers.Customer.CreateCustomerProductRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getCreateCustomerProductMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<customers.Customer.CreateCustomerProductResponse> createCorporateCustomerProduct(
+        customers.Customer.CreateCustomerProductRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getCreateCorporateCustomerProductMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<customers.Customer.CreateBulkCorpCustomerResponse> creatBulkCorporateAccount(
         customers.Customer.CreateBulkCorpAccountRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
@@ -249,8 +385,10 @@ public final class CustomerServiceGrpc {
     }
   }
 
-  private static final int METHODID_CREAT_BULK_CORPORATE_ACCOUNT = 0;
-  private static final int METHODID_NAME_ENQUIRY = 1;
+  private static final int METHODID_CREATE_CUSTOMER_PRODUCT = 0;
+  private static final int METHODID_CREATE_CORPORATE_CUSTOMER_PRODUCT = 1;
+  private static final int METHODID_CREAT_BULK_CORPORATE_ACCOUNT = 2;
+  private static final int METHODID_NAME_ENQUIRY = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -269,6 +407,14 @@ public final class CustomerServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_CREATE_CUSTOMER_PRODUCT:
+          serviceImpl.createCustomerProduct((customers.Customer.CreateCustomerProductRequest) request,
+              (io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse>) responseObserver);
+          break;
+        case METHODID_CREATE_CORPORATE_CUSTOMER_PRODUCT:
+          serviceImpl.createCorporateCustomerProduct((customers.Customer.CreateCustomerProductRequest) request,
+              (io.grpc.stub.StreamObserver<customers.Customer.CreateCustomerProductResponse>) responseObserver);
+          break;
         case METHODID_CREAT_BULK_CORPORATE_ACCOUNT:
           serviceImpl.creatBulkCorporateAccount((customers.Customer.CreateBulkCorpAccountRequest) request,
               (io.grpc.stub.StreamObserver<customers.Customer.CreateBulkCorpCustomerResponse>) responseObserver);
@@ -338,6 +484,8 @@ public final class CustomerServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new CustomerServiceFileDescriptorSupplier())
+              .addMethod(getCreateCustomerProductMethod())
+              .addMethod(getCreateCorporateCustomerProductMethod())
               .addMethod(getCreatBulkCorporateAccountMethod())
               .addMethod(getNameEnquiryMethod())
               .build();

@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface VirtualAccountRepository extends MongoRepository<VirtualAccountModel, String> {
 
     @Query("{ 'virtual_account_number': { $eq: null } }")
-    List<VirtualAccountModel> getCustomersWithoutAccountId();
+    Optional<VirtualAccountModel> getCustomersWithoutAccountId();
 
     @Query("{ 'virtual_account_number': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getCustomersWithAccountId(String accountId);
