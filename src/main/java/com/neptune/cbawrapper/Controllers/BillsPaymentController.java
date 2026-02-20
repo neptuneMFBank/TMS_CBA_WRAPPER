@@ -106,7 +106,7 @@ public class BillsPaymentController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
-    @GetMapping("/query-bill")
+    @GetMapping("/query-bill/{ref}")
     public ResponseEntity<ResponseSchema<?>> billsPaymentQuery(@PathVariable("ref") String ref){
 
         try {
