@@ -19,7 +19,7 @@ public class PushyAPI {
     public static ObjectMapper mapper = new ObjectMapper();
 
     // Insert your Secret API Key here
-    @Value("${pusy.secret}")
+    @Value("${pushy.secret}")
     public String SECRET_API_KEY;
 
     public void sendPush(PushyPushRequest req) throws Exception {

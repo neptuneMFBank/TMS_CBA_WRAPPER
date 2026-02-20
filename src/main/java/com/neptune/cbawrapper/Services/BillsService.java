@@ -1,9 +1,6 @@
 package com.neptune.cbawrapper.Services;
 
-import com.neptune.cba.transaction.bills.BillType;
-import com.neptune.cba.transaction.bills.BillsServiceGrpc;
-import com.neptune.cba.transaction.bills.MakePaymentRequest;
-import com.neptune.cba.transaction.bills.MakePaymentResponse;
+import com.neptune.cba.transaction.bills.*;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
@@ -71,5 +68,31 @@ public class BillsService {
             channel.shutdownNow();
         }
         return helpers.toApiResponse(makePaymentResponse);
+    }
+
+    public BillsTsqResponse queryBill(String ref) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().build();
+        BillsTsqResponse billsTsqResponse;
+        try {
+            BillsServiceGrpc.BillsServiceBlockingStub stub = BillsServiceGrpc.newBlockingStub(channel);
+
+            BillsTsqRequest request = BillsTsqRequest.newBuilder().setRef(ref).build();
+
+            billsTsqResponse = stub.billsTsq(request);
+        } catch (Exception e) {
+            Status status = Status.fromThrowable(e);
+            String fullMessage = e.getMessage(); // "INTERNAL: Duplicate transaction"
+
+            String userMessage = fullMessage;
+            if (fullMessage != null && fullMessage.contains(":")) {
+                userMessage = fullMessage.substring(fullMessage.indexOf(":") + 1).trim();
+            }
+            String code = status.getCode().name();
+
+            billsTsqResponse = BillsTsqResponse.newBuilder().setCode(code).setMessage(userMessage).build();
+        }finally {
+            channel.shutdownNow();
+        }
+        return billsTsqResponse;
     }
 }

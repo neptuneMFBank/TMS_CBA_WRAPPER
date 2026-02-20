@@ -340,63 +340,6 @@ public class Cron {
         return virtualAccountModel;
     }
 
-//    @Scheduled(cron = "0 */2 * * * *")
-//    public void updateVirtualAccount() {
-//        try {
-//            Optional<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
-//            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth(env);
-//
-//            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
-//
-//            if (virtualAccountModelList == null) {
-//                return;
-//            }
-//
-//            if (authCredentials.isEmpty()) {
-//                return;
-//            }
-//
-//            List<VirtualAccountModel> virtualAccountModel2 = new ArrayList<>();
-//            for (VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
-//                virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
-//                virtualAccountModel2.add(virtualAccountModel);
-//            }
-//
-//            if (virtualAccountModel2.isEmpty()) {
-//                return;
-//            }
-//            System.out.println("requwest = " + "ssssss");
-//
-//            //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
-//            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel2.get(i));
-//
-//            System.out.println("response = " + response);
-//            if (response != null) {
-//                List<CreateAccountResponse> data1 = response.getResponseList();
-//
-//                for (int i = 0; i < data1.size(); i++) {
-//
-//                    for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
-//                        if (virtualAccountModel3.getAccount_name().equals(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountName())) {
-//                            System.out.println("response = " + response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-//                            virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-//                            virtualAccountRepository.save(virtualAccountModel3);
-//
-//                            sendPasswordMail(virtualAccountModel3);
-//                        }
-//                    }
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
-//            errorLogsModel.setCreatedAt(Instant.now());
-//            errorLogsModel.setUpdatedAt(Instant.now());
-//            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_UPDATE");
-//            errorLogsRepository.save(errorLogsModel);
-//        }
-//    }
-
     @Scheduled(cron = "0 */2 * * * *")
     public void updateVirtualAccount() {
         try {
@@ -413,8 +356,9 @@ public class Cron {
 
             System.out.println("response = " + response);
             if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
-                virtualAccountModel.get().setVirtual_account_number(response.getAccountNumber());
-                virtualAccountRepository.save(virtualAccountModel.get());
+                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+                virtualAccountRepository.save(virtualAccountModel1);
 
                 sendPasswordMail(virtualAccountModel.get());
             }

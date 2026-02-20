@@ -1,5 +1,9 @@
 package com.neptune.cbawrapper.Controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neptune.cba.transaction.bills.BillsTsqResponse;
+import com.neptune.cbawrapper.Models.BillsAdditionalData;
 import com.neptune.cbawrapper.Models.BillsPaymentData;
 import com.neptune.cbawrapper.Models.CategoriesModel;
 import com.neptune.cbawrapper.Models.CategoryServicesModel;
@@ -9,6 +13,7 @@ import com.neptune.cbawrapper.Repository.CategoryServicesRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.ResponseSchema;
 import com.neptune.cbawrapper.Services.BillsPayment;
+import com.neptune.cbawrapper.Services.BillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +29,21 @@ public class BillsPaymentController {
     @Autowired
     private BillsPayment billsPayment;
 
+    @Autowired
+    private BillsService billsService;
+
+    private final ObjectMapper objectMapper;
+
+
     private final BillsPaymentDataRepository billsPaymentDataRepository;
     private final CategoriesRepository categoriesRepository;
     private final CategoryServicesRepository categoryServicesRepository;
 
-    public BillsPaymentController(BillsPaymentDataRepository billsPaymentDataRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository) {
+    public BillsPaymentController(BillsPaymentDataRepository billsPaymentDataRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, ObjectMapper objectMapper) {
         this.billsPaymentDataRepository = billsPaymentDataRepository;
         this.categoryServicesRepository = categoryServicesRepository;
         this.categoriesRepository =  categoriesRepository;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/bill/categories")
@@ -92,5 +104,21 @@ public class BillsPaymentController {
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @GetMapping("/query-bill")
+    public ResponseEntity<ResponseSchema<?>> billsPaymentQuery(@PathVariable("ref") String ref){
+
+        try {
+            BillsTsqResponse response = billsService.queryBill(ref);
+            BillsAdditionalData billsAdditionalData = objectMapper.readValue(response.getAdditionalInfo(), BillsAdditionalData.class);
+
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            System.out.println("error occurred = " + e.getMessage());
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), e, "", ZonedDateTime.now(), true);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
     }
 }
