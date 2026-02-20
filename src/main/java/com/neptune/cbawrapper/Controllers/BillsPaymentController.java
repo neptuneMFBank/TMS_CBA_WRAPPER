@@ -111,6 +111,8 @@ public class BillsPaymentController {
 
         try {
             BillsTsqResponse response = billsService.queryBill(ref);
+            System.out.println("response = " + response);
+            System.out.println("data = " + response.getAdditionalInfo());
             BillsAdditionalData billsAdditionalData = objectMapper.readValue(response.getAdditionalInfo(), BillsAdditionalData.class);
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
