@@ -78,26 +78,26 @@ public final class Bills {
       "ponseCode\030\003 \001(\t\022\033\n\023responseDescription\030\004" +
       " \001(\t\022\034\n\024responseCodeGrouping\030\005 \001(\t\022\017\n\007me" +
       "ssage\030\006 \001(\t\022\014\n\004code\030\007 \001(\t\"\036\n\017BillsTsqReq" +
-      "uest\022\013\n\003ref\030\001 \001(\t\"1\n\020BillsTsqResponse\022\017\n" +
-      "\007message\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\"d\n\017AllBills" +
-      "Request\022\020\n\010fromdate\030\001 \001(\t\022\016\n\006todate\030\002 \001(" +
-      "\t\022\017\n\007account\030\005 \001(\t\022\014\n\004page\030\003 \001(\005\022\020\n\010page" +
-      "Size\030\004 \001(\005\"\204\001\n\020AllBillsResponse\0222\n\005bills" +
-      "\030\001 \003(\0132#.com.neptune.cba.MakePaymentRequ" +
-      "est\022\022\n\ntotalItems\030\002 \001(\003\022\022\n\ntotalPages\030\003 " +
-      "\001(\003\022\024\n\014currentPages\030\004 \001(\003*\'\n\010BillType\022\020\n" +
-      "\014AIRTIME_DATA\020\000\022\t\n\005BILLS\020\0012\361\002\n\014BillsServ" +
-      "ice\022[\n\014make_payment\022#.com.neptune.cba.Ma" +
-      "kePaymentRequest\032$.com.neptune.cba.MakeP" +
-      "aymentResponse\"\000\022R\n\tbills_tsq\022 .com.nept" +
-      "une.cba.BillsTsqRequest\032!.com.neptune.cb" +
-      "a.BillsTsqResponse\"\000\022R\n\tall_bills\022 .com." +
-      "neptune.cba.AllBillsRequest\032!.com.neptun" +
-      "e.cba.AllBillsResponse\"\000\022\\\n\rreverse_bill" +
-      "s\022#.com.neptune.cba.BillReverseRequest\032$" +
-      ".com.neptune.cba.BillReverseResponse\"\000B%" +
-      "\n!com.neptune.cba.transaction.billsP\001b\006p" +
-      "roto3"
+      "uest\022\013\n\003ref\030\001 \001(\t\"I\n\020BillsTsqResponse\022\017\n" +
+      "\007message\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\022\026\n\016addition" +
+      "alInfo\030\003 \001(\t\"d\n\017AllBillsRequest\022\020\n\010fromd" +
+      "ate\030\001 \001(\t\022\016\n\006todate\030\002 \001(\t\022\017\n\007account\030\005 \001" +
+      "(\t\022\014\n\004page\030\003 \001(\005\022\020\n\010pageSize\030\004 \001(\005\"\204\001\n\020A" +
+      "llBillsResponse\0222\n\005bills\030\001 \003(\0132#.com.nep" +
+      "tune.cba.MakePaymentRequest\022\022\n\ntotalItem" +
+      "s\030\002 \001(\003\022\022\n\ntotalPages\030\003 \001(\003\022\024\n\014currentPa" +
+      "ges\030\004 \001(\003*\'\n\010BillType\022\020\n\014AIRTIME_DATA\020\000\022" +
+      "\t\n\005BILLS\020\0012\361\002\n\014BillsService\022[\n\014make_paym" +
+      "ent\022#.com.neptune.cba.MakePaymentRequest" +
+      "\032$.com.neptune.cba.MakePaymentResponse\"\000" +
+      "\022R\n\tbills_tsq\022 .com.neptune.cba.BillsTsq" +
+      "Request\032!.com.neptune.cba.BillsTsqRespon" +
+      "se\"\000\022R\n\tall_bills\022 .com.neptune.cba.AllB" +
+      "illsRequest\032!.com.neptune.cba.AllBillsRe" +
+      "sponse\"\000\022\\\n\rreverse_bills\022#.com.neptune." +
+      "cba.BillReverseRequest\032$.com.neptune.cba" +
+      ".BillReverseResponse\"\000B%\n!com.neptune.cb" +
+      "a.transaction.billsP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -138,7 +138,7 @@ public final class Bills {
     internal_static_com_neptune_cba_BillsTsqResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_BillsTsqResponse_descriptor,
-        new java.lang.String[] { "Message", "Code", });
+        new java.lang.String[] { "Message", "Code", "AdditionalInfo", });
     internal_static_com_neptune_cba_AllBillsRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_com_neptune_cba_AllBillsRequest_fieldAccessorTable = new

@@ -58,6 +58,7 @@ message BillsTsqRequest {
 message  BillsTsqResponse{
   string message = 1;
   string code = 2;
+  string additionalInfo =3;
 }
 
 message  AllBillsRequest{

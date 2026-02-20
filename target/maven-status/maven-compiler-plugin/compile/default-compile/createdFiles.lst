@@ -32,6 +32,7 @@ notification_service/Notifications$NotificationResponseOrBuilder.class
 auth/Auth$AuthenticateUserRequest$1.class
 com/neptune/cba/transaction/type/DeleteTypeResponse$1.class
 auth/Auth$Update3ppWebhookRequest.class
+com/neptune/cbawrapper/Models/BillsAdditionalData.class
 com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc$2.class
 auth/Auth$Create3ppWebhookRequest$Builder.class
 printable/PrintableOuterClass$StatementOfAccountResponse.class
@@ -581,6 +582,7 @@ auth/Auth$Get3ppUserDataRequest.class
 com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc$MethodHandlers.class
 com/neptune/cba/transaction/bills/BillsTsqResponse.class
 printable/PrintableOuterClass$Response.class
+com/neptune/cbawrapper/Models/BillsAdditionalData$BillsAdditionalDataBuilder.class
 com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc$3.class
 com/neptune/cba/transaction/type/UpdateTypeResponseOrBuilder.class
 customers/CustomerServiceGrpc.class

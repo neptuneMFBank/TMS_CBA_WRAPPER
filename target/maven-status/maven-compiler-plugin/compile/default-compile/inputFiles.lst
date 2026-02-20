@@ -27,6 +27,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/ValidationExceptionHandler.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/AuthCredentials.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/BillerInfo.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/BillsAdditionalData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/BillsPaymentData.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/BusinessPlatformCharges.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Models/CategoriesModel.java
