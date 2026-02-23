@@ -81,6 +81,8 @@ public class BillsPaymentController {
         System.out.println("request = " + request);
         Object validateCustomer = billsPayment.validateCustomer(request);
 
+        System.out.println("validateCustomer = " + validateCustomer);
+
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
