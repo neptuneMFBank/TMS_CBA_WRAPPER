@@ -259,6 +259,11 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayRequestOrBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayResponse.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/SpentTodayResponseOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/TransactionCategory.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/TransactionStatusRequest.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/TransactionStatusRequestOrBuilder.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/TransactionStatusResponse.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/TransactionStatusResponseOrBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/Transaction_history.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/Transaction_historyOrBuilder.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/target/generated-sources/protobuf/java/com/neptune/cba/transaction/history/callOverRequest.java

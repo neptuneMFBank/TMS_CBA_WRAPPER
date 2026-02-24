@@ -8,6 +8,26 @@ option java_package = "com.neptune.cba.transaction.history";
 service HistoryService {
   rpc history(HistoryRequest) returns (HistoryResponse) {
   }
+
+  rpc transactionStatus(TransactionStatusRequest) returns (TransactionStatusResponse){}
+}
+
+message  TransactionStatusResponse{
+  string message = 1;
+  string code = 2;
+  string additionalInfo =3;
+}
+
+message TransactionStatusRequest {
+  string  ref =1;
+  TransactionCategory transactionType = 2;
+}
+
+enum TransactionCategory {
+  BILL_PAYMENT = 0;
+  INTRA = 1;
+  EASY_PAY = 2;
+  DEBIT_CREDIT = 3;
 }
 
 message callOverRequest {
