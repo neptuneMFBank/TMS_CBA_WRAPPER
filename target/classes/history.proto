@@ -8,7 +8,6 @@ option java_package = "com.neptune.cba.transaction.history";
 service HistoryService {
   rpc history(HistoryRequest) returns (HistoryResponse) {
   }
-
   rpc transactionStatus(TransactionStatusRequest) returns (TransactionStatusResponse){}
 }
 
