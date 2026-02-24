@@ -15,6 +15,16 @@ public final class History {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_neptune_cba_TransactionStatusResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_neptune_cba_TransactionStatusResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_neptune_cba_TransactionStatusRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_neptune_cba_TransactionStatusRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_neptune_cba_callOverRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -73,99 +83,121 @@ public final class History {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rhistory.proto\022\017com.neptune.cba\"@\n\017call" +
-      "OverRequest\022\013\n\003eid\030\001 \001(\t\022\020\n\010fromdate\030\002 \001" +
-      "(\t\022\016\n\006todate\030\003 \001(\t\"S\n\026EmployeeHistoryReq" +
-      "uest\022\013\n\003eid\030\001 \001(\t\022\014\n\004date\030\002 \001(\t\022\014\n\004page\030" +
-      "\003 \001(\005\022\020\n\010pageSize\030\004 \001(\005\"u\n\016HistoryReques" +
-      "t\022\016\n\006acctNo\030\001 \001(\t\022\021\n\tnarration\030\004 \001(\t\022\020\n\010" +
-      "fromdate\030\002 \001(\t\022\016\n\006todate\030\003 \001(\t\022\014\n\004page\030\005" +
-      " \001(\005\022\020\n\010pageSize\030\006 \001(\005\"#\n\021SpentTodayRequ" +
-      "est\022\016\n\006acctNo\030\001 \001(\t\"l\n\022SpentTodayRespons" +
-      "e\022\022\n\ntotaldebit\030\001 \001(\001\022\023\n\013totalcredit\030\002 \001" +
-      "(\001\022\024\n\014responseCode\030\003 \001(\005\022\027\n\017responseMess" +
-      "age\030\004 \001(\t\"]\n\031reverseTransactionRequest\022\020" +
-      "\n\010fromdate\030\001 \001(\t\022\016\n\006todate\030\002 \001(\t\022\014\n\004page" +
-      "\030\003 \001(\005\022\020\n\010pageSize\030\004 \001(\005\"\206\001\n\017HistoryResp" +
-      "onse\0225\n\007history\030\001 \003(\0132$.com.neptune.cba." +
-      "Transaction_history\022\022\n\ntotalItems\030\002 \001(\003\022" +
-      "\022\n\ntotalPages\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(" +
-      "\003\"\203\002\n\023Transaction_history\022\025\n\raccountnumb" +
-      "er\030\001 \001(\t\022\020\n\010bankname\030\002 \001(\t\022\021\n\tbkbalance\030" +
-      "\003 \001(\001\022\014\n\004idno\030\004 \001(\005\022\021\n\tnarration\030\006 \001(\t\022\r" +
-      "\n\005refno\030\007 \001(\t\022\n\n\002rn\030\010 \001(\005\022\022\n\ntranamount\030" +
-      "\t \001(\001\022\020\n\010trandate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001" +
-      "(\t\022\027\n\017transactionType\030\014 \001(\t\022\016\n\006status\030\r " +
-      "\001(\t\022\022\n\nsession_id\030\016 \001(\t\"N\n\020callOverRespo" +
-      "nse\022:\n\020employee_history\030\001 \003(\0132 .com.nept" +
-      "une.cba.EmployeeHistory\"V\n\017EmployeeHisto" +
-      "ry\022\014\n\004name\030\001 \001(\t\0225\n\007history\030\002 \003(\0132$.com." +
-      "neptune.cba.Transaction_history2`\n\016Histo" +
-      "ryService\022N\n\007history\022\037.com.neptune.cba.H" +
-      "istoryRequest\032 .com.neptune.cba.HistoryR" +
-      "esponse\"\000B\'\n#com.neptune.cba.transaction" +
-      ".historyP\001b\006proto3"
+      "\n\rhistory.proto\022\017com.neptune.cba\"R\n\031Tran" +
+      "sactionStatusResponse\022\017\n\007message\030\001 \001(\t\022\014" +
+      "\n\004code\030\002 \001(\t\022\026\n\016additionalInfo\030\003 \001(\t\"f\n\030" +
+      "TransactionStatusRequest\022\013\n\003ref\030\001 \001(\t\022=\n" +
+      "\017transactionType\030\002 \001(\0162$.com.neptune.cba" +
+      ".TransactionCategory\"@\n\017callOverRequest\022" +
+      "\013\n\003eid\030\001 \001(\t\022\020\n\010fromdate\030\002 \001(\t\022\016\n\006todate" +
+      "\030\003 \001(\t\"S\n\026EmployeeHistoryRequest\022\013\n\003eid\030" +
+      "\001 \001(\t\022\014\n\004date\030\002 \001(\t\022\014\n\004page\030\003 \001(\005\022\020\n\010pag" +
+      "eSize\030\004 \001(\005\"u\n\016HistoryRequest\022\016\n\006acctNo\030" +
+      "\001 \001(\t\022\021\n\tnarration\030\004 \001(\t\022\020\n\010fromdate\030\002 \001" +
+      "(\t\022\016\n\006todate\030\003 \001(\t\022\014\n\004page\030\005 \001(\005\022\020\n\010page" +
+      "Size\030\006 \001(\005\"#\n\021SpentTodayRequest\022\016\n\006acctN" +
+      "o\030\001 \001(\t\"l\n\022SpentTodayResponse\022\022\n\ntotalde" +
+      "bit\030\001 \001(\001\022\023\n\013totalcredit\030\002 \001(\001\022\024\n\014respon" +
+      "seCode\030\003 \001(\005\022\027\n\017responseMessage\030\004 \001(\t\"]\n" +
+      "\031reverseTransactionRequest\022\020\n\010fromdate\030\001" +
+      " \001(\t\022\016\n\006todate\030\002 \001(\t\022\014\n\004page\030\003 \001(\005\022\020\n\010pa" +
+      "geSize\030\004 \001(\005\"\206\001\n\017HistoryResponse\0225\n\007hist" +
+      "ory\030\001 \003(\0132$.com.neptune.cba.Transaction_" +
+      "history\022\022\n\ntotalItems\030\002 \001(\003\022\022\n\ntotalPage" +
+      "s\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(\003\"\203\002\n\023Transa" +
+      "ction_history\022\025\n\raccountnumber\030\001 \001(\t\022\020\n\010" +
+      "bankname\030\002 \001(\t\022\021\n\tbkbalance\030\003 \001(\001\022\014\n\004idn" +
+      "o\030\004 \001(\005\022\021\n\tnarration\030\006 \001(\t\022\r\n\005refno\030\007 \001(" +
+      "\t\022\n\n\002rn\030\010 \001(\005\022\022\n\ntranamount\030\t \001(\001\022\020\n\010tra" +
+      "ndate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001(\t\022\027\n\017transa" +
+      "ctionType\030\014 \001(\t\022\016\n\006status\030\r \001(\t\022\022\n\nsessi" +
+      "on_id\030\016 \001(\t\"N\n\020callOverResponse\022:\n\020emplo" +
+      "yee_history\030\001 \003(\0132 .com.neptune.cba.Empl" +
+      "oyeeHistory\"V\n\017EmployeeHistory\022\014\n\004name\030\001" +
+      " \001(\t\0225\n\007history\030\002 \003(\0132$.com.neptune.cba." +
+      "Transaction_history*R\n\023TransactionCatego" +
+      "ry\022\020\n\014BILL_PAYMENT\020\000\022\t\n\005INTRA\020\001\022\014\n\010EASY_" +
+      "PAY\020\002\022\020\n\014DEBIT_CREDIT\020\0032\316\001\n\016HistoryServi" +
+      "ce\022N\n\007history\022\037.com.neptune.cba.HistoryR" +
+      "equest\032 .com.neptune.cba.HistoryResponse" +
+      "\"\000\022l\n\021transactionStatus\022).com.neptune.cb" +
+      "a.TransactionStatusRequest\032*.com.neptune" +
+      ".cba.TransactionStatusResponse\"\000B\'\n#com." +
+      "neptune.cba.transaction.historyP\001b\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_com_neptune_cba_callOverRequest_descriptor =
+    internal_static_com_neptune_cba_TransactionStatusResponse_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_com_neptune_cba_TransactionStatusResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_neptune_cba_TransactionStatusResponse_descriptor,
+        new java.lang.String[] { "Message", "Code", "AdditionalInfo", });
+    internal_static_com_neptune_cba_TransactionStatusRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_neptune_cba_TransactionStatusRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_neptune_cba_TransactionStatusRequest_descriptor,
+        new java.lang.String[] { "Ref", "TransactionType", });
+    internal_static_com_neptune_cba_callOverRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_com_neptune_cba_callOverRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_callOverRequest_descriptor,
         new java.lang.String[] { "Eid", "Fromdate", "Todate", });
     internal_static_com_neptune_cba_EmployeeHistoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_com_neptune_cba_EmployeeHistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_EmployeeHistoryRequest_descriptor,
         new java.lang.String[] { "Eid", "Date", "Page", "PageSize", });
     internal_static_com_neptune_cba_HistoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_com_neptune_cba_HistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_HistoryRequest_descriptor,
         new java.lang.String[] { "AcctNo", "Narration", "Fromdate", "Todate", "Page", "PageSize", });
     internal_static_com_neptune_cba_SpentTodayRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_com_neptune_cba_SpentTodayRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_SpentTodayRequest_descriptor,
         new java.lang.String[] { "AcctNo", });
     internal_static_com_neptune_cba_SpentTodayResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_com_neptune_cba_SpentTodayResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_SpentTodayResponse_descriptor,
         new java.lang.String[] { "Totaldebit", "Totalcredit", "ResponseCode", "ResponseMessage", });
     internal_static_com_neptune_cba_reverseTransactionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_com_neptune_cba_reverseTransactionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_reverseTransactionRequest_descriptor,
         new java.lang.String[] { "Fromdate", "Todate", "Page", "PageSize", });
     internal_static_com_neptune_cba_HistoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_com_neptune_cba_HistoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_HistoryResponse_descriptor,
         new java.lang.String[] { "History", "TotalItems", "TotalPages", "CurrentPages", });
     internal_static_com_neptune_cba_Transaction_history_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_com_neptune_cba_Transaction_history_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_Transaction_history_descriptor,
         new java.lang.String[] { "Accountnumber", "Bankname", "Bkbalance", "Idno", "Narration", "Refno", "Rn", "Tranamount", "Trandate", "Valuedate", "TransactionType", "Status", "SessionId", });
     internal_static_com_neptune_cba_callOverResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_com_neptune_cba_callOverResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_callOverResponse_descriptor,
         new java.lang.String[] { "EmployeeHistory", });
     internal_static_com_neptune_cba_EmployeeHistory_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_com_neptune_cba_EmployeeHistory_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_EmployeeHistory_descriptor,

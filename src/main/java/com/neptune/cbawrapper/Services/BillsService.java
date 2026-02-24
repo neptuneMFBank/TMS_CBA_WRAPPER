@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 @RequiredArgsConstructor
 public class BillsService {
@@ -71,10 +73,10 @@ public class BillsService {
     }
 
     public BillsTsqResponse queryBill(String ref) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().build();
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().maxInboundMessageSize(10 * 1024 * 1024).build();
         BillsTsqResponse billsTsqResponse;
         try {
-            BillsServiceGrpc.BillsServiceBlockingStub stub = BillsServiceGrpc.newBlockingStub(channel);
+            BillsServiceGrpc.BillsServiceBlockingStub stub = BillsServiceGrpc.newBlockingStub(channel).withDeadlineAfter(60, TimeUnit.SECONDS);
 
             BillsTsqRequest request = BillsTsqRequest.newBuilder().setRef(ref).build();
 
