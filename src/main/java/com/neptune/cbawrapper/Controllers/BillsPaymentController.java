@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/bills_payment")
@@ -120,9 +121,12 @@ public class BillsPaymentController {
         try {
             TransactionStatusResponse response = historyService.getTransactionDetails(TransactionCategory.BILL_PAYMENT, ref);
             System.out.println("response = " + response);
-            System.out.println("data = " + response.getAdditionalInfo());
             BillsAdditionalData billsAdditionalData = null;
-            if (!response.getAdditionalInfo().isEmpty()) {
+            if (Optional.ofNullable(response)
+                    .map(TransactionStatusResponse::getAdditionalInfo)
+                    .filter(info -> !info.isEmpty())
+                    .isPresent()) {
+                System.out.println("data = " + response.getAdditionalInfo());
                 billsAdditionalData = objectMapper.readValue(response.getAdditionalInfo(), BillsAdditionalData.class);
             }
 

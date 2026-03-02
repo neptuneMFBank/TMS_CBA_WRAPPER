@@ -7,6 +7,7 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.gson.*;
 import com.neptune.cba.transaction.bills.MakePaymentResponse;
+import com.neptune.cba.transaction.history.TransactionStatusResponse;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
@@ -277,8 +278,14 @@ public class Helpers {
         BillsAdditionalData billsAdditionalData = null;
         if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
             try {
-                System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
-                billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
+                if(Optional.of(makePaymentResponse)
+                        .map(MakePaymentResponse::getAdditionalInfo)
+                        .filter(info -> !info.isEmpty())
+                        .isPresent()) {
+                    System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
+                    System.out.println("here == 123");
+                    billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
+                }
 
                 MakePaymentApiResponse dto = new MakePaymentApiResponse();
                 dto.setCode(makePaymentResponse.getCode());
