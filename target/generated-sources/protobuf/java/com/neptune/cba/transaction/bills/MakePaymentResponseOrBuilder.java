@@ -84,4 +84,16 @@ public interface MakePaymentResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getCodeBytes();
+
+  /**
+   * <code>string additionalInfo = 8;</code>
+   * @return The additionalInfo.
+   */
+  java.lang.String getAdditionalInfo();
+  /**
+   * <code>string additionalInfo = 8;</code>
+   * @return The bytes for additionalInfo.
+   */
+  com.google.protobuf.ByteString
+      getAdditionalInfoBytes();
 }

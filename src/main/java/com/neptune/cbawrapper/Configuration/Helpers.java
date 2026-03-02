@@ -1,5 +1,6 @@
 package com.neptune.cbawrapper.Configuration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -43,17 +44,20 @@ public class Helpers {
     @Autowired
     private CustomersRepository customersRepository;
 
+    private final ObjectMapper objectMapper;
+
 
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final PlatformChargeRepository platformChargeRepository;
     private final TransactionCoreController transactionCoreController;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository) {
+    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository,  ObjectMapper objectMapper) {
         this.platformChargeRepository = platformChargeRepository;
         this.transactionCoreController = transactionCoreController;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
+        this.objectMapper = objectMapper;
     }
 
     public List<CustomersModel> getCustomersBySavingsId(List<Integer> details) {
@@ -269,15 +273,27 @@ public class Helpers {
         return "234" + phone;
     }
 
-    public MakePaymentApiResponse toApiResponse(MakePaymentResponse proto) {
-        MakePaymentApiResponse dto = new MakePaymentApiResponse();
-        dto.setCode(proto.getCode());
-        dto.setMessage(proto.getMessage());
-        dto.setApprovedAmount(proto.getApprovedAmount());
-        dto.setTransactionRef(proto.getTransactionRef());
-        dto.setResponseCode(proto.getResponseCode());
-        dto.setResponseCodeGrouping(proto.getResponseCodeGrouping());
-        return dto;
+    public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
+        BillsAdditionalData billsAdditionalData = null;
+        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
+            try {
+                System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
+                billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
+
+                MakePaymentApiResponse dto = new MakePaymentApiResponse();
+                dto.setCode(makePaymentResponse.getCode());
+                dto.setMessage(makePaymentResponse.getMessage());
+                dto.setApprovedAmount(makePaymentResponse.getApprovedAmount());
+                dto.setTransactionRef(makePaymentResponse.getTransactionRef());
+                dto.setResponseCode(makePaymentResponse.getResponseCode());
+                dto.setResponseCodeGrouping(makePaymentResponse.getResponseCodeGrouping());
+                dto.setBillsAdditionalData(billsAdditionalData);
+                return dto;
+            } catch (JsonProcessingException e) {
+                return null;
+            }
+        }
+        return null;
     }
 
 
