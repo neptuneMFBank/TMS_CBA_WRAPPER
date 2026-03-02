@@ -50,6 +50,7 @@ message MakePaymentResponse {
   string responseCodeGrouping = 5;
   string message =6;
   string code =7;
+  string additionalInfo =8;
 }
 
 message BillsTsqRequest {

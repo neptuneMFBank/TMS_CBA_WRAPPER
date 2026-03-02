@@ -23,6 +23,7 @@ public class BillsPaymentData implements Serializable {
     private String billType;
     private String requestReference;
     private Object response;
+    private Object billsAdditionalData;
 
     @CreatedDate
     private Instant createdAt;
@@ -116,6 +117,14 @@ public class BillsPaymentData implements Serializable {
 
     public void setResponse(Object response) {
         this.response = response;
+    }
+
+    public Object getBillsAdditionalData() {
+        return billsAdditionalData;
+    }
+
+    public void setBillsAdditionalData(Object billsAdditionalData) {
+        this.billsAdditionalData = billsAdditionalData;
     }
 
     public BillsPaymentData() {

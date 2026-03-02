@@ -328,6 +328,7 @@ public class TransactionController {
                     billsPaymentData.setBillType(request.getMakePayment().getBillType());
                     billsPaymentData.setResponse(validateCustomer);
                     billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
+                    billsPaymentData.setBillsAdditionalData(validateCustomer.getBillsAdditionalData());
 
                     billsPaymentDataRepository.save(billsPaymentData);
 

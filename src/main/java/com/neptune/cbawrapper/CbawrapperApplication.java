@@ -14,7 +14,7 @@ public class CbawrapperApplication {
 	public static void main(String[] args) {
 		String formattedDate = LocalDate.now().toString();
 		System.out.println(formattedDate);
-		System.out.println("1234567890");
+		System.out.println("1234567890 112");
 		SpringApplication.run(CbawrapperApplication.class, args);
 	}
 
