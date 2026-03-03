@@ -277,24 +277,28 @@ public class Helpers {
     public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
         BillsAdditionalData billsAdditionalData = null;
 //        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
-        //            if (Optional.of(makePaymentResponse)
-//                    .map(MakePaymentResponse::getAdditionalInfo)
-//                    .filter(info -> !info.isEmpty())
-//                    .isPresent()) {
-//                System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
-//                System.out.println("here == 123");
-//                billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
-//            }
+        try {
+            if (Optional.of(makePaymentResponse)
+                    .map(MakePaymentResponse::getAdditionalInfo)
+                    .filter(info -> !info.isEmpty())
+                    .isPresent()) {
+                System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
+                System.out.println("here == 123");
+                billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
+            }
 
-        MakePaymentApiResponse dto = new MakePaymentApiResponse();
-        dto.setCode(makePaymentResponse.getCode());
-        dto.setMessage(makePaymentResponse.getMessage());
-        dto.setApprovedAmount(makePaymentResponse.getApprovedAmount());
-        dto.setTransactionRef(makePaymentResponse.getTransactionRef());
-        dto.setResponseCode(makePaymentResponse.getResponseCode());
-        dto.setResponseCodeGrouping(makePaymentResponse.getResponseCodeGrouping());
-        dto.setBillsAdditionalData(billsAdditionalData);
-        return dto;
+            MakePaymentApiResponse dto = new MakePaymentApiResponse();
+            dto.setCode(makePaymentResponse.getCode());
+            dto.setMessage(makePaymentResponse.getMessage());
+            dto.setApprovedAmount(makePaymentResponse.getApprovedAmount());
+            dto.setTransactionRef(makePaymentResponse.getTransactionRef());
+            dto.setResponseCode(makePaymentResponse.getResponseCode());
+            dto.setResponseCodeGrouping(makePaymentResponse.getResponseCodeGrouping());
+            dto.setBillsAdditionalData(billsAdditionalData);
+            return dto;
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
 
