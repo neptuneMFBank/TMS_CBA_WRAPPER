@@ -36,6 +36,7 @@ message MakePaymentRequest {
   string status = 9;
   BillType billType = 10;
   double charge = 11;
+  bool isPos=12;
 }
 enum BillType  {
   AIRTIME_DATA =0;
