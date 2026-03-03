@@ -53,7 +53,7 @@ public class Helpers {
     private final TransactionCoreController transactionCoreController;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository,  ObjectMapper objectMapper) {
+    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository, ObjectMapper objectMapper) {
         this.platformChargeRepository = platformChargeRepository;
         this.transactionCoreController = transactionCoreController;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
@@ -71,7 +71,7 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges){
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges) {
         TransactionDetails transactionDetails = new TransactionDetails();
         transactionDetails.setTerminalId(request.getTerminalId());
         transactionDetails.setNarration("POS");
@@ -125,8 +125,8 @@ public class Helpers {
         }
     }
 
-    public TransactionDrCr saveTransaction(String parent_id, String posRef, String Transactiontype, String accountName, String account, String card_scheme, String platform_id, int resourceId, String response_code, String drcr, String narration, String terminalId, Double amount, String reference, String type, String cba_message, boolean isUpdated){
-        if(type.equals("create")) {
+    public TransactionDrCr saveTransaction(String parent_id, String posRef, String Transactiontype, String accountName, String account, String card_scheme, String platform_id, int resourceId, String response_code, String drcr, String narration, String terminalId, Double amount, String reference, String type, String cba_message, boolean isUpdated) {
+        if (type.equals("create")) {
             TransactionDrCr transactionDrCr = new TransactionDrCr();
             transactionDrCr.setAccountnumber(account);
             transactionDrCr.setIsccode("2");
@@ -153,10 +153,10 @@ public class Helpers {
             transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
             cbaTransactionRequests.save(transactionDrCr);
             return transactionDrCr;
-        }else {
+        } else {
             Optional<TransactionDrCr> transactionDrCr = cbaTransactionRequests.findByRef(reference);
 
-            if(transactionDrCr.isEmpty()){
+            if (transactionDrCr.isEmpty()) {
                 return null;
             }
 
@@ -167,11 +167,11 @@ public class Helpers {
         }
     }
 
-    public String generateId(String terminalId){
-        return "pos_" + terminalId + "_" +  System.currentTimeMillis();
+    public String generateId(String terminalId) {
+        return "pos_" + terminalId + "_" + System.currentTimeMillis();
     }
 
-    public String generateTransactId(String terminalId, String ref){
+    public String generateTransactId(String terminalId, String ref) {
         return "pos_" + terminalId + "_" + ref + "_" + System.currentTimeMillis();
     }
 
@@ -189,31 +189,31 @@ public class Helpers {
         }
     }
 
-    public boolean isAuthTokenValid(String authToken, CorepayPosTransactionRequest verifyUser){
+    public boolean isAuthTokenValid(String authToken, CorepayPosTransactionRequest verifyUser) {
         String encryptedData = this.encryptObject(verifyUser);
 
         System.out.println("encryptedData = " + encryptedData);
         return encryptedData.equals(authToken);
     }
 
-    public boolean isAuthTokenValid(String authToken, String verifyUser){
+    public boolean isAuthTokenValid(String authToken, String verifyUser) {
         String encryptedData = this.encryptObject(verifyUser);
 
         System.out.println("encryptedData = " + encryptedData);
         return encryptedData.equals(authToken);
     }
 
-    public Page<PlatformCharges> getPaginatedPlatformCharges(int page, int size){
+    public Page<PlatformCharges> getPaginatedPlatformCharges(int page, int size) {
         Pageable pageable = PageRequest.of(page, size); // page is 0-indexed
         return platformChargeRepository.findAll(pageable);
     }
 
-    public Page<BusinessPlatformCharges> getPaginatedBusinessPlatformCharges(int page, int size){
+    public Page<BusinessPlatformCharges> getPaginatedBusinessPlatformCharges(int page, int size) {
         Pageable pageable = PageRequest.of(page, size); // page is 0-indexed
         return businessPlatformChargesRepository.findAll(pageable);
     }
 
-    public String convertToJson(Object data){
+    public String convertToJson(Object data) {
         Gson gson = new GsonBuilder().registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter()).create();
         return gson.toJson(data);
     }
@@ -276,31 +276,25 @@ public class Helpers {
 
     public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
         BillsAdditionalData billsAdditionalData = null;
-        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
-            try {
-                if(Optional.of(makePaymentResponse)
-                        .map(MakePaymentResponse::getAdditionalInfo)
-                        .filter(info -> !info.isEmpty())
-                        .isPresent()) {
-                    System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
-                    System.out.println("here == 123");
-                    billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
-                }
+//        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
+        //            if (Optional.of(makePaymentResponse)
+//                    .map(MakePaymentResponse::getAdditionalInfo)
+//                    .filter(info -> !info.isEmpty())
+//                    .isPresent()) {
+//                System.out.println("makePaymentResponse.getAdditionalInfo() = " + makePaymentResponse.getAdditionalInfo());
+//                System.out.println("here == 123");
+//                billsAdditionalData = objectMapper.readValue(makePaymentResponse.getAdditionalInfo(), BillsAdditionalData.class);
+//            }
 
-                MakePaymentApiResponse dto = new MakePaymentApiResponse();
-                dto.setCode(makePaymentResponse.getCode());
-                dto.setMessage(makePaymentResponse.getMessage());
-                dto.setApprovedAmount(makePaymentResponse.getApprovedAmount());
-                dto.setTransactionRef(makePaymentResponse.getTransactionRef());
-                dto.setResponseCode(makePaymentResponse.getResponseCode());
-                dto.setResponseCodeGrouping(makePaymentResponse.getResponseCodeGrouping());
-                dto.setBillsAdditionalData(billsAdditionalData);
-                return dto;
-            } catch (JsonProcessingException e) {
-                return null;
-            }
-        }
-        return null;
+        MakePaymentApiResponse dto = new MakePaymentApiResponse();
+        dto.setCode(makePaymentResponse.getCode());
+        dto.setMessage(makePaymentResponse.getMessage());
+        dto.setApprovedAmount(makePaymentResponse.getApprovedAmount());
+        dto.setTransactionRef(makePaymentResponse.getTransactionRef());
+        dto.setResponseCode(makePaymentResponse.getResponseCode());
+        dto.setResponseCodeGrouping(makePaymentResponse.getResponseCodeGrouping());
+        dto.setBillsAdditionalData(billsAdditionalData);
+        return dto;
     }
 
 
