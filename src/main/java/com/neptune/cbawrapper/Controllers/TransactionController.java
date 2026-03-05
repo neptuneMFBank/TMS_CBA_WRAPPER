@@ -74,7 +74,7 @@ public class TransactionController {
     @PutMapping("/update-terminal-fcm-token")
     public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
-            Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountModelByAccount(request.getTerminalId());
+            Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
             if (getVirtualAccount.isPresent()) {
                 VirtualAccountModel virtualAccountModel = getVirtualAccount.get();
@@ -601,6 +601,11 @@ public class TransactionController {
         if(accountModel.isEmpty()){
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
+
+        if(customersModel.isEmpty()){
+            return null;
         }
 
         PrintableOuterClass.StatementOfAccountResponse res = printable.generateState(request, accountModel.get().getEmail(), accountModel.get().getAccount_name());
