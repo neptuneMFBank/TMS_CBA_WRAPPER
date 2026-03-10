@@ -113,4 +113,22 @@ public class WebHookRequest {
 
     public WebHookRequest() {
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"accountnumber\":\"" + accountnumber + "\"," +
+                "\"isccode\":\"" + isccode + "\"," +
+                "\"accountstatus\":\"" + accountstatus + "\"," +
+                "\"acctname\":\"" + acctname + "\"," +
+                "\"drcr\":\"" + drcr + "\"," +
+                "\"acctype\":\"" + acctype + "\"," +
+                "\"amount\":" + amount + "," +
+                "\"transactionreference\":\"" + transactionreference + "\"," +
+                "\"narration\":\"" + narration + "\"," +
+                "\"channel\":\"" + channel + "\"," +
+                "\"eid\":\"" + eid + "\"," +
+                "\"event\":\"" + event + "\"" +
+                "}";
+    }
 }
