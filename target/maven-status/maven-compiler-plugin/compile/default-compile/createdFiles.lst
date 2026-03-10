@@ -135,6 +135,7 @@ com/neptune/cba/transaction/bills/AllBillsResponse$1.class
 com/neptune/cba/transaction/bills/MakePaymentRequest.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc$TransactionTypeServiceBlockingStub.class
 customers/Customer$CreateSignatoryRequestOrBuilder.class
+com/neptune/cbawrapper/Configuration/AsyncConfig.class
 com/neptune/cbawrapper/Models/PlatformCharges.class
 auth/Auth$OtpResponseOrBuilder.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc$TransactionTypeServiceMethodDescriptorSupplier.class
@@ -879,6 +880,7 @@ auth/Auth$RegenerateApiKeyResponse$1.class
 auth/Auth$AuthenticateUserResponseOrBuilder.class
 com/neptune/cbawrapper/CbawrapperApplication.class
 com/neptune/cba/transaction/balance/BalanceServiceGrpc$BalanceServiceMethodDescriptorSupplier.class
+com/neptune/cbawrapper/Models/BillsTsqResponseData.class
 com/neptune/cba/transaction/bills/BillsServiceGrpc$1.class
 auth/Auth$AuthenticateApiKeyRequest.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryResponse$Builder.class
