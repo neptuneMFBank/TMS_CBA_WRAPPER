@@ -138,4 +138,28 @@ public interface Transaction_historyOrBuilder extends
    */
   com.google.protobuf.ByteString
       getSessionIdBytes();
+
+  /**
+   * <code>string accountname = 15;</code>
+   * @return The accountname.
+   */
+  java.lang.String getAccountname();
+  /**
+   * <code>string accountname = 15;</code>
+   * @return The bytes for accountname.
+   */
+  com.google.protobuf.ByteString
+      getAccountnameBytes();
+
+  /**
+   * <code>string pin = 16;</code>
+   * @return The pin.
+   */
+  java.lang.String getPin();
+  /**
+   * <code>string pin = 16;</code>
+   * @return The bytes for pin.
+   */
+  com.google.protobuf.ByteString
+      getPinBytes();
 }

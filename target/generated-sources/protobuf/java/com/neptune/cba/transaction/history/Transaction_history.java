@@ -25,6 +25,8 @@ private static final long serialVersionUID = 0L;
     transactionType_ = "";
     status_ = "";
     sessionId_ = "";
+    accountname_ = "";
+    pin_ = "";
   }
 
   @java.lang.Override
@@ -129,6 +131,18 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             sessionId_ = s;
+            break;
+          }
+          case 122: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            accountname_ = s;
+            break;
+          }
+          case 130: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            pin_ = s;
             break;
           }
           default: {
@@ -549,6 +563,82 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int ACCOUNTNAME_FIELD_NUMBER = 15;
+  private volatile java.lang.Object accountname_;
+  /**
+   * <code>string accountname = 15;</code>
+   * @return The accountname.
+   */
+  @java.lang.Override
+  public java.lang.String getAccountname() {
+    java.lang.Object ref = accountname_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      accountname_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string accountname = 15;</code>
+   * @return The bytes for accountname.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getAccountnameBytes() {
+    java.lang.Object ref = accountname_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      accountname_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int PIN_FIELD_NUMBER = 16;
+  private volatile java.lang.Object pin_;
+  /**
+   * <code>string pin = 16;</code>
+   * @return The pin.
+   */
+  @java.lang.Override
+  public java.lang.String getPin() {
+    java.lang.Object ref = pin_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      pin_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string pin = 16;</code>
+   * @return The bytes for pin.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getPinBytes() {
+    java.lang.Object ref = pin_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      pin_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -602,6 +692,12 @@ private static final long serialVersionUID = 0L;
     if (!getSessionIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 14, sessionId_);
     }
+    if (!getAccountnameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 15, accountname_);
+    }
+    if (!getPinBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 16, pin_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -654,6 +750,12 @@ private static final long serialVersionUID = 0L;
     if (!getSessionIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, sessionId_);
     }
+    if (!getAccountnameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, accountname_);
+    }
+    if (!getPinBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(16, pin_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -697,6 +799,10 @@ private static final long serialVersionUID = 0L;
         .equals(other.getStatus())) return false;
     if (!getSessionId()
         .equals(other.getSessionId())) return false;
+    if (!getAccountname()
+        .equals(other.getAccountname())) return false;
+    if (!getPin()
+        .equals(other.getPin())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -736,6 +842,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getStatus().hashCode();
     hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
     hash = (53 * hash) + getSessionId().hashCode();
+    hash = (37 * hash) + ACCOUNTNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getAccountname().hashCode();
+    hash = (37 * hash) + PIN_FIELD_NUMBER;
+    hash = (53 * hash) + getPin().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -895,6 +1005,10 @@ private static final long serialVersionUID = 0L;
 
       sessionId_ = "";
 
+      accountname_ = "";
+
+      pin_ = "";
+
       return this;
     }
 
@@ -934,6 +1048,8 @@ private static final long serialVersionUID = 0L;
       result.transactionType_ = transactionType_;
       result.status_ = status_;
       result.sessionId_ = sessionId_;
+      result.accountname_ = accountname_;
+      result.pin_ = pin_;
       onBuilt();
       return result;
     }
@@ -1028,6 +1144,14 @@ private static final long serialVersionUID = 0L;
       }
       if (!other.getSessionId().isEmpty()) {
         sessionId_ = other.sessionId_;
+        onChanged();
+      }
+      if (!other.getAccountname().isEmpty()) {
+        accountname_ = other.accountname_;
+        onChanged();
+      }
+      if (!other.getPin().isEmpty()) {
+        pin_ = other.pin_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -1863,6 +1987,158 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       sessionId_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object accountname_ = "";
+    /**
+     * <code>string accountname = 15;</code>
+     * @return The accountname.
+     */
+    public java.lang.String getAccountname() {
+      java.lang.Object ref = accountname_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accountname_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string accountname = 15;</code>
+     * @return The bytes for accountname.
+     */
+    public com.google.protobuf.ByteString
+        getAccountnameBytes() {
+      java.lang.Object ref = accountname_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string accountname = 15;</code>
+     * @param value The accountname to set.
+     * @return This builder for chaining.
+     */
+    public Builder setAccountname(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      accountname_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string accountname = 15;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearAccountname() {
+      
+      accountname_ = getDefaultInstance().getAccountname();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string accountname = 15;</code>
+     * @param value The bytes for accountname to set.
+     * @return This builder for chaining.
+     */
+    public Builder setAccountnameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      accountname_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object pin_ = "";
+    /**
+     * <code>string pin = 16;</code>
+     * @return The pin.
+     */
+    public java.lang.String getPin() {
+      java.lang.Object ref = pin_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        pin_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string pin = 16;</code>
+     * @return The bytes for pin.
+     */
+    public com.google.protobuf.ByteString
+        getPinBytes() {
+      java.lang.Object ref = pin_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pin_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string pin = 16;</code>
+     * @param value The pin to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPin(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      pin_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string pin = 16;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPin() {
+      
+      pin_ = getDefaultInstance().getPin();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string pin = 16;</code>
+     * @param value The bytes for pin to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPinBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      pin_ = value;
       onChanged();
       return this;
     }

@@ -104,27 +104,27 @@ public final class History {
       "geSize\030\004 \001(\005\"\206\001\n\017HistoryResponse\0225\n\007hist" +
       "ory\030\001 \003(\0132$.com.neptune.cba.Transaction_" +
       "history\022\022\n\ntotalItems\030\002 \001(\003\022\022\n\ntotalPage" +
-      "s\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(\003\"\203\002\n\023Transa" +
+      "s\030\003 \001(\003\022\024\n\014currentPages\030\004 \001(\003\"\245\002\n\023Transa" +
       "ction_history\022\025\n\raccountnumber\030\001 \001(\t\022\020\n\010" +
       "bankname\030\002 \001(\t\022\021\n\tbkbalance\030\003 \001(\001\022\014\n\004idn" +
       "o\030\004 \001(\005\022\021\n\tnarration\030\006 \001(\t\022\r\n\005refno\030\007 \001(" +
       "\t\022\n\n\002rn\030\010 \001(\005\022\022\n\ntranamount\030\t \001(\001\022\020\n\010tra" +
       "ndate\030\n \001(\t\022\021\n\tvaluedate\030\013 \001(\t\022\027\n\017transa" +
       "ctionType\030\014 \001(\t\022\016\n\006status\030\r \001(\t\022\022\n\nsessi" +
-      "on_id\030\016 \001(\t\"N\n\020callOverResponse\022:\n\020emplo" +
-      "yee_history\030\001 \003(\0132 .com.neptune.cba.Empl" +
-      "oyeeHistory\"V\n\017EmployeeHistory\022\014\n\004name\030\001" +
-      " \001(\t\0225\n\007history\030\002 \003(\0132$.com.neptune.cba." +
-      "Transaction_history*R\n\023TransactionCatego" +
-      "ry\022\020\n\014BILL_PAYMENT\020\000\022\t\n\005INTRA\020\001\022\014\n\010EASY_" +
-      "PAY\020\002\022\020\n\014DEBIT_CREDIT\020\0032\316\001\n\016HistoryServi" +
-      "ce\022N\n\007history\022\037.com.neptune.cba.HistoryR" +
-      "equest\032 .com.neptune.cba.HistoryResponse" +
-      "\"\000\022l\n\021transactionStatus\022).com.neptune.cb" +
-      "a.TransactionStatusRequest\032*.com.neptune" +
-      ".cba.TransactionStatusResponse\"\000B\'\n#com." +
-      "neptune.cba.transaction.historyP\001b\006proto" +
-      "3"
+      "on_id\030\016 \001(\t\022\023\n\013accountname\030\017 \001(\t\022\013\n\003pin\030" +
+      "\020 \001(\t\"N\n\020callOverResponse\022:\n\020employee_hi" +
+      "story\030\001 \003(\0132 .com.neptune.cba.EmployeeHi" +
+      "story\"V\n\017EmployeeHistory\022\014\n\004name\030\001 \001(\t\0225" +
+      "\n\007history\030\002 \003(\0132$.com.neptune.cba.Transa" +
+      "ction_history*R\n\023TransactionCategory\022\020\n\014" +
+      "BILL_PAYMENT\020\000\022\t\n\005INTRA\020\001\022\014\n\010EASY_PAY\020\002\022" +
+      "\020\n\014DEBIT_CREDIT\020\0032\316\001\n\016HistoryService\022N\n\007" +
+      "history\022\037.com.neptune.cba.HistoryRequest" +
+      "\032 .com.neptune.cba.HistoryResponse\"\000\022l\n\021" +
+      "transactionStatus\022).com.neptune.cba.Tran" +
+      "sactionStatusRequest\032*.com.neptune.cba.T" +
+      "ransactionStatusResponse\"\000B\'\n#com.neptun" +
+      "e.cba.transaction.historyP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -189,7 +189,7 @@ public final class History {
     internal_static_com_neptune_cba_Transaction_history_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_Transaction_history_descriptor,
-        new java.lang.String[] { "Accountnumber", "Bankname", "Bkbalance", "Idno", "Narration", "Refno", "Rn", "Tranamount", "Trandate", "Valuedate", "TransactionType", "Status", "SessionId", });
+        new java.lang.String[] { "Accountnumber", "Bankname", "Bkbalance", "Idno", "Narration", "Refno", "Rn", "Tranamount", "Trandate", "Valuedate", "TransactionType", "Status", "SessionId", "Accountname", "Pin", });
     internal_static_com_neptune_cba_callOverResponse_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_com_neptune_cba_callOverResponse_fieldAccessorTable = new

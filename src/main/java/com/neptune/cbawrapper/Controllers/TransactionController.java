@@ -86,6 +86,7 @@ public class TransactionController {
     @PutMapping("/update-terminal-fcm-token")
     public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
+            System.out.println("112 got here fcm token = " + request.getFcmToken());
             Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
             if (getVirtualAccount.isPresent()) {
@@ -99,6 +100,7 @@ public class TransactionController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "terminal with id not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
         } catch (Exception e) {
+            System.out.println("112334 got here fcm token = " + request.getFcmToken());
             errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", String.valueOf(e.getCause()), e.getMessage());
             ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -154,25 +156,7 @@ public class TransactionController {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(webHookRequest.getAccountnumber());
             if (virtualAccountModel.isPresent()) {
-//                SendNotifications notifications1 = new SendNotifications();
-//                notifications1.setMessage("Transaction received");
-//                notifications1.setTitle("Transactions Notifications");
-//                notifications1.setReceiverFcmToken(virtualAccountModel.get().getFcmToken());
-//                notifications.sendNotification(notifications1);
-                Map<String, Object> notification = new HashMap<>();
-
-                notification.put("badge", 1);
-                notification.put("sound", "ping.aiff");
-                notification.put("title", "Test Notification");
-                notification.put("body", "Hello World \u270c");
-
-                String[] to = new String[]{virtualAccountModel.get().getFcmToken()};
-                // Set payload (any object, it will be serialized to JSON)
-                Map<String, String> payload = new HashMap<>();
-                PushyPushRequest request = new PushyPushRequest(to, payload, notification);
-                // Add "message" parameter to payload
-                payload.put("message", webHookRequest.toString());
-                pushyAPI.sendPush(request);
+                pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), webHookRequest);
 
 
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);
@@ -1198,7 +1182,9 @@ public class TransactionController {
                     .setAccountnumber(response.getHistory(i).getAccountnumber())
                     .setStatus(response.getHistory(i).getStatus())
                     .setTransactionType(response.getHistory(i).getTransactionType())
-                    .setSession_id(response.getHistory(i).getSessionId());
+                    .setSession_id(response.getHistory(i).getSessionId())
+                    .setPin(response.getHistory(i).getPin())
+                    .setAccountname(response.getHistory(i).getAccountname());
             transactionHistoryList.add(builder.build());
         }
         historyBuilder
