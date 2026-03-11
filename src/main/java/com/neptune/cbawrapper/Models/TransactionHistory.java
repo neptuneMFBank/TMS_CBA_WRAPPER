@@ -14,6 +14,8 @@ public class TransactionHistory {
     private String transactionType;
     private String status;
     private String session_id;
+    private String accountname;
+    private String pin;
 
     public String getSession_id() {
         return session_id;
@@ -119,7 +121,23 @@ public class TransactionHistory {
         this.status = status;
     }
 
-    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate, String transactionType, String status, String session_id) {
+    public String getAccountname() {
+        return accountname;
+    }
+
+    public void setAccountname(String accountname) {
+        this.accountname = accountname;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public TransactionHistory(String accountnumber, String bankname, Double bkbalance, Integer idno, String narration, String refno, Integer rn, Double tranamount, String trandate, String valuedate, String transactionType, String status, String session_id, String accountname, String pin) {
         this.accountnumber = accountnumber;
         this.bankname = bankname;
         this.bkbalance = bkbalance;
@@ -133,5 +151,7 @@ public class TransactionHistory {
         this.transactionType = transactionType;
         this.status = status;
         this.session_id = session_id;
+        this.accountname = accountname;
+        this.pin = pin;
     }
 }

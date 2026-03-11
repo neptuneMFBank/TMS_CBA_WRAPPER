@@ -90,6 +90,8 @@ message Transaction_history {
   string transactionType = 12;
   string status = 13;
   string session_id = 14;
+  string accountname = 15;
+  string pin = 16;
 }
 
 message callOverResponse {
