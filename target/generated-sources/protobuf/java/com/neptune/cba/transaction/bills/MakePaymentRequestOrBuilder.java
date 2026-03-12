@@ -125,4 +125,10 @@ public interface MakePaymentRequestOrBuilder extends
    * @return The charge.
    */
   double getCharge();
+
+  /**
+   * <code>bool isPos = 12;</code>
+   * @return The isPos.
+   */
+  boolean getIsPos();
 }

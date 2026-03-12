@@ -1,9 +1,6 @@
 package com.neptune.cbawrapper.Services;
 
-import com.neptune.cba.transaction.bills.BillType;
-import com.neptune.cba.transaction.bills.BillsServiceGrpc;
-import com.neptune.cba.transaction.bills.MakePaymentRequest;
-import com.neptune.cba.transaction.bills.MakePaymentResponse;
+import com.neptune.cba.transaction.bills.*;
 import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
@@ -13,6 +10,8 @@ import io.grpc.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class BillsService {
         System.out.println("request = " + request);
         System.out.println("charge = " + charge);
         System.out.println("billType = " + billType.name());
+        System.out.println("amount = " + request.getAmount());
         ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().build();
         MakePaymentResponse makePaymentResponse;
 
@@ -42,6 +42,7 @@ public class BillsService {
                     .setEmail(request.getEmail())
                     .setStatus("00")
                     .setBillsResponse("00")
+                    .setIsPos(true)
                     .setRequestReference(request.getRequestReference())
                     .setCustomerAccountNumber(request.getCustomerAccountNumber())
                     .setCustomerId(request.getCustomerId())
@@ -71,5 +72,31 @@ public class BillsService {
             channel.shutdownNow();
         }
         return helpers.toApiResponse(makePaymentResponse);
+    }
+
+    public BillsTsqResponse queryBill(String ref) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().maxInboundMessageSize(10 * 1024 * 1024).build();
+        BillsTsqResponse billsTsqResponse;
+        try {
+            BillsServiceGrpc.BillsServiceBlockingStub stub = BillsServiceGrpc.newBlockingStub(channel).withDeadlineAfter(60, TimeUnit.SECONDS);
+
+            BillsTsqRequest request = BillsTsqRequest.newBuilder().setRef(ref).build();
+
+            billsTsqResponse = stub.billsTsq(request);
+        } catch (Exception e) {
+            Status status = Status.fromThrowable(e);
+            String fullMessage = e.getMessage(); // "INTERNAL: Duplicate transaction"
+
+            String userMessage = fullMessage;
+            if (fullMessage != null && fullMessage.contains(":")) {
+                userMessage = fullMessage.substring(fullMessage.indexOf(":") + 1).trim();
+            }
+            String code = status.getCode().name();
+
+            billsTsqResponse = BillsTsqResponse.newBuilder().setCode(code).setMessage(userMessage).build();
+        }finally {
+            channel.shutdownNow();
+        }
+        return billsTsqResponse;
     }
 }

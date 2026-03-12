@@ -1,8 +1,6 @@
 package com.neptune.cbawrapper.Services;
 
-import com.neptune.cba.transaction.history.HistoryRequest;
-import com.neptune.cba.transaction.history.HistoryResponse;
-import com.neptune.cba.transaction.history.HistoryServiceGrpc;
+import com.neptune.cba.transaction.history.*;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -57,5 +55,26 @@ public class HistoryService {
         System.out.println("============================= end =======================");
         return response;
 
+    }
+
+    public TransactionStatusResponse getTransactionDetails(TransactionCategory category, String ref){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
+        TransactionStatusResponse response = null;
+        try {
+            HistoryServiceGrpc.HistoryServiceBlockingStub stub = HistoryServiceGrpc.newBlockingStub(channel);
+            TransactionStatusRequest request = TransactionStatusRequest.newBuilder().setTransactionType(category).setRef(ref).build();
+            response = stub.transactionStatus(request);
+        }catch (StatusRuntimeException e){
+            System.out.println("error1 GET_TRANSACTION_STATUS_HANDLER = " + e.getMessage());
+            errorLoggingException.logError("GET_TRANSACTION_STATUS_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }catch (Exception e) {
+            System.out.println("error2 GET_TRANSACTION_HISTORY_HANDLER = " + e.getMessage());
+            errorLoggingException.logError("GET_TRANSACTION_STATUS_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }finally {
+            channel.shutdownNow();
+        }
+        System.out.println("response = " + response);
+        System.out.println("============================= end =======================");
+        return response;
     }
 }

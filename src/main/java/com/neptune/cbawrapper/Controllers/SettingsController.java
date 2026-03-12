@@ -47,6 +47,11 @@ public class SettingsController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
+        if(virtualAccountModel.get().isCodeExpired()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 400, "Code expired", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+        }
+
         if(virtualAccountModel.get().getGenericCode().equalsIgnoreCase(request.getGenericCode())){
             if(LocalDateTime.parse(virtualAccountModel.get().getToken_expiry()).isBefore(LocalDateTime.now())){
                 cron.sendPasswordMail(virtualAccountModel.get());
@@ -55,10 +60,10 @@ public class SettingsController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
 
-            VirtualAccountModel virtualAccountModel1 = new VirtualAccountModel();
             String hashedPassword = passwordEncoder.encode(request.getPin());
-            virtualAccountModel1.setPin(hashedPassword);
-            virtualAccountRepository.save(virtualAccountModel1);
+            virtualAccountModel.get().setPin(hashedPassword);
+            virtualAccountModel.get().setCodeExpired(true);
+            virtualAccountRepository.save(virtualAccountModel.get());
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Password set successfully", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);

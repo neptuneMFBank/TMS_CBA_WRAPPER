@@ -36,6 +36,7 @@ message MakePaymentRequest {
   string status = 9;
   BillType billType = 10;
   double charge = 11;
+  bool isPos=12;
 }
 enum BillType  {
   AIRTIME_DATA =0;
@@ -50,6 +51,7 @@ message MakePaymentResponse {
   string responseCodeGrouping = 5;
   string message =6;
   string code =7;
+  string additionalInfo =8;
 }
 
 message BillsTsqRequest {
@@ -58,6 +60,7 @@ message BillsTsqRequest {
 message  BillsTsqResponse{
   string message = 1;
   string code = 2;
+  string additionalInfo =3;
 }
 
 message  AllBillsRequest{

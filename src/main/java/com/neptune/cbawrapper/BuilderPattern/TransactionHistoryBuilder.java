@@ -16,6 +16,8 @@ public class TransactionHistoryBuilder {
     private String transactionType;
     private String status;
     private String session_id;
+    private String accountname;
+    private String pin;
 
     public TransactionHistoryBuilder setSession_id(String session_id) {
         this.session_id = session_id;
@@ -82,7 +84,17 @@ public class TransactionHistoryBuilder {
         return this;
     }
 
+    public TransactionHistoryBuilder setAccountname(String accountname) {
+        this.accountname = accountname;
+        return this;
+    }
+
+    public TransactionHistoryBuilder setPin(String pin) {
+        this.pin = pin;
+        return this;
+    }
+
     public TransactionHistory build(){
-        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status, session_id);
+        return new TransactionHistory(accountnumber, bankname, bkbalance, idno, narration, refno, rn, tranamount, trandate, valuedate, transactionType, status, session_id, accountname, pin);
     }
 }

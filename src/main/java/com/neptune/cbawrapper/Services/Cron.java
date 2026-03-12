@@ -36,6 +36,9 @@ public class Cron {
     @Value("${spring.profiles.active}")
     private String env;
 
+    @Value("${client.url}")
+    private String client_url;
+
     @Autowired
     private CorePayRestController corePayRestController;
 
@@ -340,49 +343,24 @@ public class Cron {
     @Scheduled(cron = "0 */2 * * * *")
     public void updateVirtualAccount() {
         try {
-            List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
-            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth(env);
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
 
-            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
+            System.out.println("virtualAccountModel = " + virtualAccountModel);
 
-            if (virtualAccountModelList == null) {
+            if (virtualAccountModel.isEmpty()) {
                 return;
             }
 
-            if (authCredentials.isEmpty()) {
-                return;
-            }
-
-            List<VirtualAccountModel> virtualAccountModel2 = new ArrayList<>();
-            for (VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
-                virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
-                virtualAccountModel2.add(virtualAccountModel);
-            }
-
-            if (virtualAccountModel2.isEmpty()) {
-                return;
-            }
-            System.out.println("requwest = " + "ssssss");
-
-            //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
-            CreateBulkAccResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
+            //TODO: create corporate account for POS
+            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(),  virtualAccountModel.get().getParent_account());
 
             System.out.println("response = " + response);
-            if (response != null) {
-                List<CreateAccountResponse> data1 = response.getResponseList();
+            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
+                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+                virtualAccountRepository.save(virtualAccountModel1);
 
-                for (int i = 0; i < data1.size(); i++) {
-
-                    for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
-                        if (virtualAccountModel3.getAccount_name().equals(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountName())) {
-                            System.out.println("response = " + response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-                            virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-                            virtualAccountRepository.save(virtualAccountModel3);
-
-                            sendPasswordMail(virtualAccountModel3);
-                        }
-                    }
-                }
+                sendPasswordMail(virtualAccountModel.get());
             }
 
         } catch (Exception e) {
@@ -393,6 +371,7 @@ public class Cron {
             errorLogsRepository.save(errorLogsModel);
         }
     }
+
 
     @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
@@ -437,13 +416,13 @@ public class Cron {
                     //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
                     //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
 
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
-                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-
-                    System.out.println("========================================= 1");
-                    if (businessPlatformCharges.isEmpty()) {
-                        return;
-                    }
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(transactionDrCr1.getTransaction_platform_id());
+//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+//
+//                    System.out.println("========================================= 1");
+//                    if (businessPlatformCharges.isEmpty()) {
+//                        return;
+//                    }
 
                     System.out.println("========================================= 2");
                     if (platformCharges.isPresent()) {
@@ -477,7 +456,7 @@ public class Cron {
 //                            amount2 = businessPlatformCharges.get().getThreshold();
 //                        }
 
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, businessPlatformCharges.get().getBusinessWalletId());
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
 
                         if (response != null) {
                             if (response.getCode().equals("200")) {
@@ -629,16 +608,23 @@ public class Cron {
     }
 
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
+        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
+
+        if(customersModel.isEmpty()){
+            return null;
+        }
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
-        virtualAccountModel.setToken_expiry(LocalDateTime.now().toString());
+        virtualAccountModel.setCodeExpired(false);
+        virtualAccountModel.setToken_expiry(LocalDateTime.now().plusMinutes(10).toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"https://tms-neptune.netlify.app/set-pin?code="+genericCode + "\" target=\"_blank\">Set Pin</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" +client_url+genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")
                 .message(message)
-                .receiver_email(virtualAccountModel.getEmail())
+                .receiver_email(customersModel.get().getEmail_address())
                 .sendmail(true)
                 .attachment(true)
                 .build();

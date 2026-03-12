@@ -18,6 +18,7 @@ private static final long serialVersionUID = 0L;
   private BillsTsqResponse() {
     message_ = "";
     code_ = "";
+    additionalInfo_ = "";
   }
 
   @java.lang.Override
@@ -60,6 +61,12 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             code_ = s;
+            break;
+          }
+          case 26: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            additionalInfo_ = s;
             break;
           }
           default: {
@@ -170,6 +177,44 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int ADDITIONALINFO_FIELD_NUMBER = 3;
+  private volatile java.lang.Object additionalInfo_;
+  /**
+   * <code>string additionalInfo = 3;</code>
+   * @return The additionalInfo.
+   */
+  @java.lang.Override
+  public java.lang.String getAdditionalInfo() {
+    java.lang.Object ref = additionalInfo_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      additionalInfo_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string additionalInfo = 3;</code>
+   * @return The bytes for additionalInfo.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getAdditionalInfoBytes() {
+    java.lang.Object ref = additionalInfo_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      additionalInfo_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -190,6 +235,9 @@ private static final long serialVersionUID = 0L;
     if (!getCodeBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, code_);
     }
+    if (!getAdditionalInfoBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, additionalInfo_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -204,6 +252,9 @@ private static final long serialVersionUID = 0L;
     }
     if (!getCodeBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, code_);
+    }
+    if (!getAdditionalInfoBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, additionalInfo_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -224,6 +275,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getMessage())) return false;
     if (!getCode()
         .equals(other.getCode())) return false;
+    if (!getAdditionalInfo()
+        .equals(other.getAdditionalInfo())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -239,6 +292,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getMessage().hashCode();
     hash = (37 * hash) + CODE_FIELD_NUMBER;
     hash = (53 * hash) + getCode().hashCode();
+    hash = (37 * hash) + ADDITIONALINFO_FIELD_NUMBER;
+    hash = (53 * hash) + getAdditionalInfo().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -376,6 +431,8 @@ private static final long serialVersionUID = 0L;
 
       code_ = "";
 
+      additionalInfo_ = "";
+
       return this;
     }
 
@@ -404,6 +461,7 @@ private static final long serialVersionUID = 0L;
       com.neptune.cba.transaction.bills.BillsTsqResponse result = new com.neptune.cba.transaction.bills.BillsTsqResponse(this);
       result.message_ = message_;
       result.code_ = code_;
+      result.additionalInfo_ = additionalInfo_;
       onBuilt();
       return result;
     }
@@ -458,6 +516,10 @@ private static final long serialVersionUID = 0L;
       }
       if (!other.getCode().isEmpty()) {
         code_ = other.code_;
+        onChanged();
+      }
+      if (!other.getAdditionalInfo().isEmpty()) {
+        additionalInfo_ = other.additionalInfo_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -637,6 +699,82 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       code_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object additionalInfo_ = "";
+    /**
+     * <code>string additionalInfo = 3;</code>
+     * @return The additionalInfo.
+     */
+    public java.lang.String getAdditionalInfo() {
+      java.lang.Object ref = additionalInfo_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        additionalInfo_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string additionalInfo = 3;</code>
+     * @return The bytes for additionalInfo.
+     */
+    public com.google.protobuf.ByteString
+        getAdditionalInfoBytes() {
+      java.lang.Object ref = additionalInfo_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        additionalInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string additionalInfo = 3;</code>
+     * @param value The additionalInfo to set.
+     * @return This builder for chaining.
+     */
+    public Builder setAdditionalInfo(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      additionalInfo_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string additionalInfo = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearAdditionalInfo() {
+      
+      additionalInfo_ = getDefaultInstance().getAdditionalInfo();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string additionalInfo = 3;</code>
+     * @param value The bytes for additionalInfo to set.
+     * @return This builder for chaining.
+     */
+    public Builder setAdditionalInfoBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      additionalInfo_ = value;
       onChanged();
       return this;
     }

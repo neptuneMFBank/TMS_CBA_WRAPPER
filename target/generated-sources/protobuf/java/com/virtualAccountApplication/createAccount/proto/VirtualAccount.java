@@ -121,87 +121,87 @@ public final class VirtualAccount {
       "\n\024virtualAccount.proto\032\037google/protobuf/" +
       "timestamp.proto\"?\n\030CreateBulkAccountRequ" +
       "est\022#\n\004data\030\001 \003(\0132\025.CreateAccountRequest" +
-      "\"\353\001\n\024CreateAccountRequest\0221\n\017dynamic_acc" +
+      "\"\201\002\n\024CreateAccountRequest\0221\n\017dynamic_acc" +
       "ount\030\001 \001(\0132\026.DynamicAccountMessageH\000\022/\n\016" +
       "static_account\030\002 \001(\0132\025.StaticAccountMess" +
       "ageH\000\022#\n\014account_type\030\006 \001(\0162\r.AccountTyp" +
       "es\022\021\n\tparent_id\030\007 \001(\t\022\'\n\037secondary_paren" +
-      "t_account_number\030\010 \001(\tB\016\n\014account_data\"p" +
-      "\n\025DynamicAccountMessage\022\032\n\022number_of_acc" +
-      "ounts\030\001 \001(\005\022\013\n\003bvn\030\002 \001(\t\022\013\n\003nin\030\003 \001(\t\022\024\n" +
-      "\014account_name\030\004 \001(\t\022\013\n\003tin\030\005 \001(\t\"\224\001\n\024Sta" +
-      "ticAccountMessage\022\024\n\014phone_number\030\001 \001(\t\022" +
-      "\024\n\014account_name\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\013\n\003" +
-      "bvn\030\004 \001(\t\022\013\n\003nin\030\005 \001(\t\022\013\n\003tin\030\006 \001(\t\022\032\n\022s" +
-      "ettlement_account\030\007 \001(\t\"t\n\025CreateBulkAcc" +
-      "Response\022(\n\010response\030\001 \003(\0132\026.CreateAccou" +
-      "ntResponse\0221\n\terrorData\030\002 \003(\0132\036.CreateBu" +
-      "lkCustomerErrResponse\"\366\001\n\025CreateAccountR" +
-      "esponse\022D\n static_account_creation_respo" +
-      "nse\030\001 \001(\0132\030.AccountCreationResponseH\000\022L\n" +
-      "!dynamic_account_creation_response\030\002 \001(\013" +
-      "2\037.DynamicAccountCreationResponseH\000\022-\n\tt" +
-      "imestamp\030\003 \001(\0132\032.google.protobuf.Timesta" +
-      "mpB\032\n\030AccountCreationResponses\"P\n\036Dynami" +
-      "cAccountCreationResponse\022.\n\014account_data" +
-      "\030\001 \003(\0132\030.AccountCreationResponse\"G\n\027Acco" +
-      "untCreationResponse\022\024\n\014account_name\030\001 \001(" +
-      "\t\022\026\n\016account_number\030\002 \001(\t\"_\n\035CreateBulkC" +
-      "ustomerErrResponse\022\013\n\003tin\030\001 \001(\t\022\013\n\003bvn\030\002" +
-      " \001(\t\022\024\n\014phone_number\030\003 \001(\t\022\016\n\006reason\030\004 \001" +
-      "(\t\"(\n\021GetAccountRequest\022\023\n\013unique_data\030\001" +
-      " \001(\t\"U\n\022GetAccountResponse\022$\n\013parent_dat" +
-      "a\030\001 \001(\0132\017.ThirdPartyUser\022\031\n\007account\030\002 \001(" +
-      "\0132\010.Account\"\331\002\n\007Account\022\n\n\002id\030\001 \001(\t\022\024\n\014a" +
-      "ccount_name\030\002 \001(\t\022\026\n\016account_number\030\003 \001(" +
-      "\t\022#\n\014account_type\030\004 \001(\0162\r.AccountTypes\022\024" +
-      "\n\014phone_number\030\005 \001(\t\022\r\n\005email\030\006 \001(\t\022\013\n\003b" +
-      "vn\030\007 \001(\t\022\013\n\003nin\030\010 \001(\t\022.\n\ncreated_at\030\t \001(" +
-      "\0132\032.google.protobuf.Timestamp\022.\n\nupdated" +
-      "_at\030\n \001(\0132\032.google.protobuf.Timestamp\022\'\n" +
-      "\037secondary_parent_account_number\030\013 \001(\t\022\013" +
-      "\n\003tin\030\014 \001(\t\022\032\n\022settlement_account\030\r \001(\t\"" +
-      "\324\002\n\016ThirdPartyUser\022\n\n\002id\030\001 \001(\t\022\022\n\nfirst_" +
-      "name\030\002 \001(\t\022\021\n\tlast_name\030\003 \001(\t\022\025\n\rbusines" +
-      "s_name\030\004 \001(\t\022\r\n\005email\030\005 \001(\t\022\024\n\014phone_num" +
-      "ber\030\006 \001(\t\022\025\n\ractive_status\030\007 \001(\t\022\035\n\025phon" +
-      "e_number_verified\030\010 \001(\010\022\026\n\016email_verifie" +
-      "d\030\t \001(\010\022\024\n\014bvn_verified\030\n \001(\010\022\016\n\006status\030" +
-      "\020 \001(\t\022\024\n\014channel_code\030\021 \001(\t\022!\n\031settlemen" +
-      "t_account_number\030\022 \001(\t\022\022\n\ncreated_at\030\023 \001" +
-      "(\t\022\022\n\nupdated_at\030\024 \001(\t\"1\n\023GetAccountsRes" +
-      "ponse\022\032\n\010accounts\030\001 \003(\0132\010.Account\"0\n\022Get" +
-      "AccountsRequest\022\014\n\004page\030\001 \001(\005\022\014\n\004size\030\002 " +
-      "\001(\005\"\226\001\n\025Get3ppAccountsRequest\022\026\n\016third_p" +
-      "arty_id\030\001 \001(\t\022\r\n\003all\030\002 \001(\010H\000\022*\n\021account_" +
-      "type_spec\030\003 \001(\0162\r.AccountTypesH\000\022\014\n\004page" +
-      "\030\004 \001(\005\022\014\n\004size\030\005 \001(\005B\016\n\014account_type\"\300\002\n" +
-      "\026Get3ppAccountsResponse\022\n\n\002id\030\001 \001(\t\022\022\n\nf" +
-      "irst_name\030\002 \001(\t\022\021\n\tlast_name\030\003 \001(\t\022\025\n\rbu" +
-      "siness_name\030\004 \001(\t\022\r\n\005email\030\005 \001(\t\022\024\n\014phon" +
-      "e_number\030\006 \001(\t\022\025\n\ractive_status\030\007 \001(\t\022\035\n" +
-      "\025phone_number_verified\030\010 \001(\010\022\026\n\016email_ve" +
-      "rified\030\t \001(\010\022\024\n\014bvn_verified\030\n \001(\010\022\024\n\014ch" +
-      "annel_code\030\013 \001(\t\022!\n\031settlement_account_n" +
-      "umber\030\014 \001(\t\022\032\n\010accounts\030\r \003(\0132\010.Account\"" +
-      ",\n\022NameEnquiryRequest\022\026\n\016account_number\030" +
-      "\001 \001(\t\"P\n\023NameEnquiryResponse\022\026\n\016account_" +
-      "number\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022\013\n\003bv" +
-      "n\030\003 \001(\t*\'\n\014AccountTypes\022\n\n\006STATIC\020\000\022\013\n\007D" +
-      "YNAMIC\020\001*\023\n\010AllTypes\022\007\n\003ALL\020\0002\236\001\n\024Create" +
-      "AccountService\022@\n\rCreateAccount\022\025.Create" +
-      "AccountRequest\032\026.CreateAccountResponse\"\000" +
-      "\022D\n\rCreateBulkAcc\022\031.CreateBulkAccountReq" +
-      "uest\032\026.CreateBulkAccResponse\"\0002\211\002\n\021GetAc" +
-      "countService\0227\n\nGetAccount\022\022.GetAccountR" +
-      "equest\032\023.GetAccountResponse\"\000\022:\n\013GetAcco" +
-      "unts\022\023.GetAccountsRequest\032\024.GetAccountsR" +
-      "esponse\"\000\022C\n\016Get3ppAccounts\022\026.Get3ppAcco" +
-      "untsRequest\032\027.Get3ppAccountsResponse\"\000\022:" +
-      "\n\013NameEnquiry\022\023.NameEnquiryRequest\032\024.Nam" +
-      "eEnquiryResponse\"\000B5\n1com.virtualAccount" +
-      "Application.createAccount.protoP\001b\006proto" +
-      "3"
+      "t_account_number\030\010 \001(\t\022\024\n\014isPosAccount\030\t" +
+      " \001(\010B\016\n\014account_data\"p\n\025DynamicAccountMe" +
+      "ssage\022\032\n\022number_of_accounts\030\001 \001(\005\022\013\n\003bvn" +
+      "\030\002 \001(\t\022\013\n\003nin\030\003 \001(\t\022\024\n\014account_name\030\004 \001(" +
+      "\t\022\013\n\003tin\030\005 \001(\t\"\224\001\n\024StaticAccountMessage\022" +
+      "\024\n\014phone_number\030\001 \001(\t\022\024\n\014account_name\030\002 " +
+      "\001(\t\022\r\n\005email\030\003 \001(\t\022\013\n\003bvn\030\004 \001(\t\022\013\n\003nin\030\005" +
+      " \001(\t\022\013\n\003tin\030\006 \001(\t\022\032\n\022settlement_account\030" +
+      "\007 \001(\t\"t\n\025CreateBulkAccResponse\022(\n\010respon" +
+      "se\030\001 \003(\0132\026.CreateAccountResponse\0221\n\terro" +
+      "rData\030\002 \003(\0132\036.CreateBulkCustomerErrRespo" +
+      "nse\"\366\001\n\025CreateAccountResponse\022D\n static_" +
+      "account_creation_response\030\001 \001(\0132\030.Accoun" +
+      "tCreationResponseH\000\022L\n!dynamic_account_c" +
+      "reation_response\030\002 \001(\0132\037.DynamicAccountC" +
+      "reationResponseH\000\022-\n\ttimestamp\030\003 \001(\0132\032.g" +
+      "oogle.protobuf.TimestampB\032\n\030AccountCreat" +
+      "ionResponses\"P\n\036DynamicAccountCreationRe" +
+      "sponse\022.\n\014account_data\030\001 \003(\0132\030.AccountCr" +
+      "eationResponse\"G\n\027AccountCreationRespons" +
+      "e\022\024\n\014account_name\030\001 \001(\t\022\026\n\016account_numbe" +
+      "r\030\002 \001(\t\"_\n\035CreateBulkCustomerErrResponse" +
+      "\022\013\n\003tin\030\001 \001(\t\022\013\n\003bvn\030\002 \001(\t\022\024\n\014phone_numb" +
+      "er\030\003 \001(\t\022\016\n\006reason\030\004 \001(\t\"(\n\021GetAccountRe" +
+      "quest\022\023\n\013unique_data\030\001 \001(\t\"U\n\022GetAccount" +
+      "Response\022$\n\013parent_data\030\001 \001(\0132\017.ThirdPar" +
+      "tyUser\022\031\n\007account\030\002 \001(\0132\010.Account\"\331\002\n\007Ac" +
+      "count\022\n\n\002id\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022" +
+      "\026\n\016account_number\030\003 \001(\t\022#\n\014account_type\030" +
+      "\004 \001(\0162\r.AccountTypes\022\024\n\014phone_number\030\005 \001" +
+      "(\t\022\r\n\005email\030\006 \001(\t\022\013\n\003bvn\030\007 \001(\t\022\013\n\003nin\030\010 " +
+      "\001(\t\022.\n\ncreated_at\030\t \001(\0132\032.google.protobu" +
+      "f.Timestamp\022.\n\nupdated_at\030\n \001(\0132\032.google" +
+      ".protobuf.Timestamp\022\'\n\037secondary_parent_" +
+      "account_number\030\013 \001(\t\022\013\n\003tin\030\014 \001(\t\022\032\n\022set" +
+      "tlement_account\030\r \001(\t\"\324\002\n\016ThirdPartyUser" +
+      "\022\n\n\002id\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\021\n\tlast" +
+      "_name\030\003 \001(\t\022\025\n\rbusiness_name\030\004 \001(\t\022\r\n\005em" +
+      "ail\030\005 \001(\t\022\024\n\014phone_number\030\006 \001(\t\022\025\n\ractiv" +
+      "e_status\030\007 \001(\t\022\035\n\025phone_number_verified\030" +
+      "\010 \001(\010\022\026\n\016email_verified\030\t \001(\010\022\024\n\014bvn_ver" +
+      "ified\030\n \001(\010\022\016\n\006status\030\020 \001(\t\022\024\n\014channel_c" +
+      "ode\030\021 \001(\t\022!\n\031settlement_account_number\030\022" +
+      " \001(\t\022\022\n\ncreated_at\030\023 \001(\t\022\022\n\nupdated_at\030\024" +
+      " \001(\t\"1\n\023GetAccountsResponse\022\032\n\010accounts\030" +
+      "\001 \003(\0132\010.Account\"0\n\022GetAccountsRequest\022\014\n" +
+      "\004page\030\001 \001(\005\022\014\n\004size\030\002 \001(\005\"\226\001\n\025Get3ppAcco" +
+      "untsRequest\022\026\n\016third_party_id\030\001 \001(\t\022\r\n\003a" +
+      "ll\030\002 \001(\010H\000\022*\n\021account_type_spec\030\003 \001(\0162\r." +
+      "AccountTypesH\000\022\014\n\004page\030\004 \001(\005\022\014\n\004size\030\005 \001" +
+      "(\005B\016\n\014account_type\"\300\002\n\026Get3ppAccountsRes" +
+      "ponse\022\n\n\002id\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\021\n" +
+      "\tlast_name\030\003 \001(\t\022\025\n\rbusiness_name\030\004 \001(\t\022" +
+      "\r\n\005email\030\005 \001(\t\022\024\n\014phone_number\030\006 \001(\t\022\025\n\r" +
+      "active_status\030\007 \001(\t\022\035\n\025phone_number_veri" +
+      "fied\030\010 \001(\010\022\026\n\016email_verified\030\t \001(\010\022\024\n\014bv" +
+      "n_verified\030\n \001(\010\022\024\n\014channel_code\030\013 \001(\t\022!" +
+      "\n\031settlement_account_number\030\014 \001(\t\022\032\n\010acc" +
+      "ounts\030\r \003(\0132\010.Account\",\n\022NameEnquiryRequ" +
+      "est\022\026\n\016account_number\030\001 \001(\t\"P\n\023NameEnqui" +
+      "ryResponse\022\026\n\016account_number\030\001 \001(\t\022\024\n\014ac" +
+      "count_name\030\002 \001(\t\022\013\n\003bvn\030\003 \001(\t*\'\n\014Account" +
+      "Types\022\n\n\006STATIC\020\000\022\013\n\007DYNAMIC\020\001*\023\n\010AllTyp" +
+      "es\022\007\n\003ALL\020\0002\236\001\n\024CreateAccountService\022@\n\r" +
+      "CreateAccount\022\025.CreateAccountRequest\032\026.C" +
+      "reateAccountResponse\"\000\022D\n\rCreateBulkAcc\022" +
+      "\031.CreateBulkAccountRequest\032\026.CreateBulkA" +
+      "ccResponse\"\0002\211\002\n\021GetAccountService\0227\n\nGe" +
+      "tAccount\022\022.GetAccountRequest\032\023.GetAccoun" +
+      "tResponse\"\000\022:\n\013GetAccounts\022\023.GetAccounts" +
+      "Request\032\024.GetAccountsResponse\"\000\022C\n\016Get3p" +
+      "pAccounts\022\026.Get3ppAccountsRequest\032\027.Get3" +
+      "ppAccountsResponse\"\000\022:\n\013NameEnquiry\022\023.Na" +
+      "meEnquiryRequest\032\024.NameEnquiryResponse\"\000" +
+      "B5\n1com.virtualAccountApplication.create" +
+      "Account.protoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -219,7 +219,7 @@ public final class VirtualAccount {
     internal_static_CreateAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateAccountRequest_descriptor,
-        new java.lang.String[] { "DynamicAccount", "StaticAccount", "AccountType", "ParentId", "SecondaryParentAccountNumber", "AccountData", });
+        new java.lang.String[] { "DynamicAccount", "StaticAccount", "AccountType", "ParentId", "SecondaryParentAccountNumber", "IsPosAccount", "AccountData", });
     internal_static_DynamicAccountMessage_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_DynamicAccountMessage_fieldAccessorTable = new
