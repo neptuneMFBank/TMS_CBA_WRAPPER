@@ -2,7 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class WebHookRequest {
     private String event;
-    private DebitCreditData data;
+    private DebitCreditData payload;
 
     public String getEvent() {
         return event;
@@ -12,12 +12,12 @@ public class WebHookRequest {
         this.event = event;
     }
 
-    public DebitCreditData getData() {
-        return data;
+    public DebitCreditData getPayload() {
+        return payload;
     }
 
-    public void setData(DebitCreditData data) {
-        this.data = data;
+    public void setPayload(DebitCreditData payload) {
+        this.payload = payload;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class WebHookRequest {
         } catch (Exception e) {
             return "WebHookRequest{" +
                     "event='" + event + '\'' +
-                    ", data=" + data +
+                    ", payload=" + payload +
                     '}';
         }
     }

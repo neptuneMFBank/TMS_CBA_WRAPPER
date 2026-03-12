@@ -47,7 +47,7 @@ public class PushyAPI {
         // Set payload (any object, it will be serialized to JSON)
         Map<String, String> payload = new HashMap<>();
 
-        String message = "Successfully received " + request.getData().getAmount() + " from " + request.getData().getSourceAccountName();
+        String message = "Successfully received " + request.getPayload().getAmount() + " from " + request.getPayload().getSourceAccountName();
 
         // Add "message" parameter to payload
         payload.put("message", message);

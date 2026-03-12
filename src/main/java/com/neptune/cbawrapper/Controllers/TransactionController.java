@@ -114,27 +114,27 @@ public class TransactionController {
     public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webHookRequest) {
         try {
             System.out.println("webHookRequest = " + webHookRequest.toString());
-            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(webHookRequest.getData().getReference());
+            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(webHookRequest.getPayload().getReference());
 
             Transactions transactions;
             if (checkIfTransactionWithRefExists.isEmpty()) {
                 System.out.println("hhhhhhhhhhhhhh");
                 transactions = new Transactions();
-                transactions.setBeneficiaryAccountNumber(webHookRequest.getData().getBeneficiaryAccountNumber());
-                transactions.setSourceAccountNumber(webHookRequest.getData().getSourceAccountNumber());
-                transactions.setSourceAccountName(webHookRequest.getData().getSourceAccountName());
-                transactions.setSourceBank(webHookRequest.getData().getSourceBank());
-                transactions.setReference(webHookRequest.getData().getReference());
-                transactions.setSessionId(webHookRequest.getData().getSessionId());
-                transactions.setNarration(webHookRequest.getData().getNarration());
-                transactions.setDateTime(webHookRequest.getData().getDateTime());
-                transactions.setAmount(webHookRequest.getData().getAmount());
-                transactions.setTransactionType(webHookRequest.getData().getTransactionType());
+                transactions.setBeneficiaryAccountNumber(webHookRequest.getPayload().getBeneficiaryAccountNumber());
+                transactions.setSourceAccountNumber(webHookRequest.getPayload().getSourceAccountNumber());
+                transactions.setSourceAccountName(webHookRequest.getPayload().getSourceAccountName());
+                transactions.setSourceBank(webHookRequest.getPayload().getSourceBank());
+                transactions.setReference(webHookRequest.getPayload().getReference());
+                transactions.setSessionId(webHookRequest.getPayload().getSessionId());
+                transactions.setNarration(webHookRequest.getPayload().getNarration());
+                transactions.setDateTime(webHookRequest.getPayload().getDateTime());
+                transactions.setAmount(webHookRequest.getPayload().getAmount());
+                transactions.setTransactionType(webHookRequest.getPayload().getTransactionType());
                 transactions.setEvent(webHookRequest.getEvent());
             } else {
                 System.out.println("0000000000000000000");
                 transactions = checkIfTransactionWithRefExists.get();
-                transactions.setAmount(webHookRequest.getData().getAmount());
+                transactions.setAmount(webHookRequest.getPayload().getAmount());
                 transactions.setEvent(webHookRequest.getEvent());
             }
             transactionsRepository.save(transactions);
@@ -158,7 +158,7 @@ public class TransactionController {
                 status_code = 500;
             }
 
-            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(webHookRequest.getData().getSourceAccountNumber());
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(webHookRequest.getPayload().getSourceAccountNumber());
             if (virtualAccountModel.isPresent()) {
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), webHookRequest);
 
