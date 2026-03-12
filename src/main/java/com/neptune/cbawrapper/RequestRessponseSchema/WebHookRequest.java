@@ -19,4 +19,18 @@ public class WebHookRequest {
     public void setData(DebitCreditData data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper()
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(this);
+        } catch (Exception e) {
+            return "WebHookRequest{" +
+                    "event='" + event + '\'' +
+                    ", data=" + data +
+                    '}';
+        }
+    }
 }
