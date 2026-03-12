@@ -1,9 +1,11 @@
 package com.neptune.cbawrapper.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data
@@ -14,26 +16,48 @@ public class Transactions {
     // send all transactions to Ikenna, whether failed or successful.
     @Id
     private String id;
-    private String accountnumber;
-    private String isccode;
-    private String accountstatus;
-    private String acctname;
-    private String drcr;
-    private String acctype;
-    private Double amount;
-    private String transactionreference;
-    private String narration;
-    private String channel;
-    private String eid;
+    private String beneficiaryAccountNumber;
+
+
     private String event;
 
+    @JsonProperty("source_account_number")
+    private String sourceAccountNumber;
 
-    public String getId() {
-        return id;
+    @JsonProperty("source_account_name")
+    private String sourceAccountName;
+
+    @JsonProperty("source_bank")
+    private String sourceBank;
+
+    private String reference;
+
+    @JsonProperty("session_id")
+    private String sessionId;
+
+    private String narration;
+
+    @JsonProperty("date_time")
+    private String dateTime;
+
+    private BigDecimal amount;
+
+    private String transactionType;
+
+    public String getBeneficiaryAccountNumber() {
+        return beneficiaryAccountNumber;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setBeneficiaryAccountNumber(String beneficiaryAccountNumber) {
+        this.beneficiaryAccountNumber = beneficiaryAccountNumber;
+    }
+
+    public String getSourceAccountNumber() {
+        return sourceAccountNumber;
+    }
+
+    public void setSourceAccountNumber(String sourceAccountNumber) {
+        this.sourceAccountNumber = sourceAccountNumber;
     }
 
     public String getEvent() {
@@ -44,68 +68,36 @@ public class Transactions {
         this.event = event;
     }
 
-    public String getAccountnumber() {
-        return accountnumber;
+    public String getSourceAccountName() {
+        return sourceAccountName;
     }
 
-    public void setAccountnumber(String accountnumber) {
-        this.accountnumber = accountnumber;
+    public void setSourceAccountName(String sourceAccountName) {
+        this.sourceAccountName = sourceAccountName;
     }
 
-    public String getIsccode() {
-        return isccode;
+    public String getSourceBank() {
+        return sourceBank;
     }
 
-    public void setIsccode(String isccode) {
-        this.isccode = isccode;
+    public void setSourceBank(String sourceBank) {
+        this.sourceBank = sourceBank;
     }
 
-    public String getAccountstatus() {
-        return accountstatus;
+    public String getReference() {
+        return reference;
     }
 
-    public void setAccountstatus(String accountstatus) {
-        this.accountstatus = accountstatus;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
-    public String getAcctname() {
-        return acctname;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setAcctname(String acctname) {
-        this.acctname = acctname;
-    }
-
-    public String getDrcr() {
-        return drcr;
-    }
-
-    public void setDrcr(String drcr) {
-        this.drcr = drcr;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public String getAcctype() {
-        return acctype;
-    }
-
-    public void setAcctype(String acctype) {
-        this.acctype = acctype;
-    }
-
-    public String getTransactionreference() {
-        return transactionreference;
-    }
-
-    public void setTransactionreference(String transactionreference) {
-        this.transactionreference = transactionreference;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getNarration() {
@@ -116,20 +108,36 @@ public class Transactions {
         this.narration = narration;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public String getEid() {
-        return eid;
+    public String getId() {
+        return id;
     }
 
-    public void setEid(String eid) {
-        this.eid = eid;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Transactions() {

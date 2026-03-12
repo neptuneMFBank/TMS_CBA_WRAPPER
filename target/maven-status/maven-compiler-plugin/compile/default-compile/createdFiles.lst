@@ -1010,6 +1010,7 @@ auth/Auth$VerifyPhoneNumberOtpRequest$Builder.class
 auth/Auth$GenerateApiKeyResponse$Builder.class
 com/neptune/cba/transaction/balance/BalanceResponse$1.class
 auth/Auth$Department$Builder.class
+com/neptune/cbawrapper/RequestRessponseSchema/DebitCreditData.class
 com/neptune/cba/transaction/debit_credit/Debitcredit.class
 auth/Auth$SubMenuOrBuilder.class
 com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/Categories.class
