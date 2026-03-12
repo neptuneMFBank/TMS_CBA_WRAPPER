@@ -33,6 +33,8 @@ public class PushyAPI {
         // Prepare list of target device tokens
         List<String> deviceTokens = new ArrayList<>();
 
+        System.out.println("token = " + token);
+
         // Add your device tokens here
         deviceTokens.add(token);
 
@@ -45,27 +47,30 @@ public class PushyAPI {
         // Set payload (any object, it will be serialized to JSON)
         Map<String, String> payload = new HashMap<>();
 
-        String message = "Received " + request.getAmount() + " from " + request.getAcctname();
+        String message = "Successfully received " + request.getData().getAmount() + " from " + request.getData().getSourceAccountName();
 
         // Add "message" parameter to payload
         payload.put("message", message);
 
         // iOS notification fields
         Map<String, Object> notification = new HashMap<>();
+        String json = mapper.writeValueAsString(request);
 
         notification.put("badge", 1);
         notification.put("sound", "ping.aiff");
         notification.put("title", "Test Notification");
-        notification.put("body", request.toString());
+        notification.put("body", json);
 
         // Prepare the push request
         PushyPushRequest push = new PushyPushRequest(payload, to, notification);
 
+        System.out.println("push = " + push.toString());
         try {
             // Try sending the push notification
             sendPushNotification(push);
         }
         catch (Exception exc) {
+            System.out.println("ERROR = " + exc.getMessage());
             // Error, print to console
             System.out.println(exc.toString());
         }

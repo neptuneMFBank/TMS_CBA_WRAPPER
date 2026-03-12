@@ -12,4 +12,13 @@ public class PushyPushRequest {
         this.data = data;
         this.notification = notification;
     }
+
+    @Override
+    public String toString() {
+        return "PushyPushRequest{" +
+                "to=" + to +
+                ", data=" + data +
+                ", notification=" + notification +
+                '}';
+    }
 }
