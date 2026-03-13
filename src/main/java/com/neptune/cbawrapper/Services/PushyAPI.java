@@ -1,6 +1,7 @@
 package com.neptune.cbawrapper.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neptune.cbawrapper.RequestRessponseSchema.DebitCreditData;
 import com.neptune.cbawrapper.RequestRessponseSchema.PushyPushRequest;
 import com.neptune.cbawrapper.RequestRessponseSchema.WebHookRequest;
 import org.apache.http.HttpResponse;
@@ -29,7 +30,7 @@ public class PushyAPI {
     @Value("${pushy.url}")
     public String SECRET_API_URL;
 
-    public void sendPush(String token, WebHookRequest request) throws Exception {
+    public void sendPush(String token, DebitCreditData request) throws Exception {
         // Prepare list of target device tokens
         List<String> deviceTokens = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class PushyAPI {
         // Set payload (any object, it will be serialized to JSON)
         Map<String, String> payload = new HashMap<>();
 
-        String message = "Successfully received " + request.getPayload().getAmount() + " from " + request.getPayload().getSourceAccountName();
+        String message = "Successfully received " + request.getAmount() + " from " + request.getSourceAccountName();
 
         // Add "message" parameter to payload
         payload.put("message", message);
