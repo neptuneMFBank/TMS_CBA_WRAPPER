@@ -111,30 +111,33 @@ public class TransactionController {
     //TODO: CBA transaction notification webhook
     @CrossOrigin(origins = "*")
     @PostMapping("/pos-credit-webhook")
-    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webHookRequest) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebhookData webhookData) {
         try {
+            System.out.println("webhookData = " + webhookData.toString());
+            WebHookRequest webHookRequest = objectMapper.readValue(webhookData.getPayload(), WebHookRequest.class);
             System.out.println("webHookRequest = " + webHookRequest.toString());
-            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(webHookRequest.getData().getReference());
+            DebitCreditData payload = webHookRequest.getData();
+            Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
             if (checkIfTransactionWithRefExists.isEmpty()) {
                 System.out.println("hhhhhhhhhhhhhh");
                 transactions = new Transactions();
-                transactions.setBeneficiaryAccountNumber(webHookRequest.getData().getBeneficiaryAccountNumber());
-                transactions.setSourceAccountNumber(webHookRequest.getData().getSourceAccountNumber());
-                transactions.setSourceAccountName(webHookRequest.getData().getSourceAccountName());
-                transactions.setSourceBank(webHookRequest.getData().getSourceBank());
-                transactions.setReference(webHookRequest.getData().getReference());
-                transactions.setSessionId(webHookRequest.getData().getSessionId());
-                transactions.setNarration(webHookRequest.getData().getNarration());
-                transactions.setDateTime(webHookRequest.getData().getDateTime());
-                transactions.setAmount(webHookRequest.getData().getAmount());
-                transactions.setTransactionType(webHookRequest.getData().getTransactionType());
+                transactions.setBeneficiaryAccountNumber(payload.getBeneficiaryAccountNumber());
+                transactions.setSourceAccountNumber(payload.getSourceAccountNumber());
+                transactions.setSourceAccountName(payload.getSourceAccountName());
+                transactions.setSourceBank(payload.getSourceBank());
+                transactions.setReference(payload.getReference());
+                transactions.setSessionId(payload.getSessionId());
+                transactions.setNarration(payload.getNarration());
+                transactions.setDateTime(payload.getDateTime());
+                transactions.setAmount(payload.getAmount());
+                transactions.setTransactionType(payload.getTransactionType());
                 transactions.setEvent(webHookRequest.getEvent());
             } else {
                 System.out.println("0000000000000000000");
                 transactions = checkIfTransactionWithRefExists.get();
-                transactions.setAmount(webHookRequest.getData().getAmount());
+                transactions.setAmount(payload.getAmount());
                 transactions.setEvent(webHookRequest.getEvent());
             }
             transactionsRepository.save(transactions);
@@ -158,9 +161,9 @@ public class TransactionController {
                 status_code = 500;
             }
 
-            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(webHookRequest.getData().getSourceAccountNumber());
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getSourceAccountNumber());
             if (virtualAccountModel.isPresent()) {
-                pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), webHookRequest);
+                pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
 
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);

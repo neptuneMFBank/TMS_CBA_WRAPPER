@@ -29,7 +29,7 @@ public class WebHookRequest {
         } catch (Exception e) {
             return "WebHookRequest{" +
                     "event='" + event + '\'' +
-                    ", data=" + data +
+                    ", data=" + data.toString() +
                     '}';
         }
     }

@@ -1015,6 +1015,7 @@ com/neptune/cba/transaction/debit_credit/Debitcredit.class
 auth/Auth$SubMenuOrBuilder.class
 com/neptune/cbawrapper/RequestRessponseSchema/BillsPayment/Categories.class
 com/neptune/cbawrapper/Exception/AbstractPlatformDomainRuleException.class
+com/neptune/cbawrapper/RequestRessponseSchema/WebhookData.class
 com/neptune/cba/transaction/type/RemoveChargeRequest$1.class
 customers/CustomerServiceGrpc$CustomerServiceBaseDescriptorSupplier.class
 auth/Auth$ProductOrBuilder.class
