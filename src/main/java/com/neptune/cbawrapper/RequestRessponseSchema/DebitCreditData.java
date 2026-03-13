@@ -109,4 +109,20 @@ public class DebitCreditData {
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
+
+    @Override
+    public String toString() {
+        return "DebitCreditData{" +
+                "beneficiaryAccountNumber='" + beneficiaryAccountNumber + '\'' +
+                ", sourceAccountNumber='" + sourceAccountNumber + '\'' +
+                ", sourceAccountName='" + sourceAccountName + '\'' +
+                ", sourceBank='" + sourceBank + '\'' +
+                ", reference='" + reference + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", narration='" + narration + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                ", amount=" + amount +
+                ", transactionType='" + transactionType + '\'' +
+                '}';
+    }
 }
