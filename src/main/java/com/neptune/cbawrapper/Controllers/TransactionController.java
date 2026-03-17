@@ -113,10 +113,10 @@ public class TransactionController {
     @PostMapping("/pos-credit-webhook")
     public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody Object object) {
         try {
-            System.out.println("webhookData = " + object.toString());
-            WebHookRequest webhookData = objectMapper.convertValue(object, WebHookRequest.class);
-            System.out.println("webHookRequest = " + webhookData.toString());
-            DebitCreditData payload = webhookData.getPayload();
+            System.out.println("request object = " + object.toString());
+            WebhookData webhookData = objectMapper.convertValue(object, WebhookData.class);
+            System.out.println("webhookData = " + webhookData.toString());
+            DebitCreditData payload = webhookData.getPayload().getData();
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;

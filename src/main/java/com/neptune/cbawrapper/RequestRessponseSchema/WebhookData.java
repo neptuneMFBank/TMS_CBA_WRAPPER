@@ -1,17 +1,8 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class WebhookData {
-    private String url;
     private String event;
-    private String payload;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    private WebHookRequest payload;
 
     public String getEvent() {
         return event;
@@ -21,13 +12,19 @@ public class WebhookData {
         this.event = event;
     }
 
-    public String getPayload() {
+    public WebHookRequest getPayload() {
         return payload;
     }
 
-    public void setPayload(String payload) {
+    public void setPayload(WebHookRequest payload) {
         this.payload = payload;
     }
 
-
+    @Override
+    public String toString() {
+        return "WebhookData{" +
+                "event='" + event + '\'' +
+                ", payload=" + payload.toString() +
+                '}';
+    }
 }
