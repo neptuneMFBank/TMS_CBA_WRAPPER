@@ -29,12 +29,5 @@ public class WebhookData {
         this.payload = payload;
     }
 
-    @Override
-    public String toString() {
-        return "WebhookData{" +
-                "url='" + url + '\'' +
-                ", event='" + event + '\'' +
-                ", payload='" + payload + '\'' +
-                '}';
-    }
+
 }
