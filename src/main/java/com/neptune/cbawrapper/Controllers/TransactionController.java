@@ -111,12 +111,12 @@ public class TransactionController {
     //TODO: CBA transaction notification webhook
     @CrossOrigin(origins = "*")
     @PostMapping("/pos-credit-webhook")
-    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebhookData webhookData) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webhookData) {
         try {
             System.out.println("webhookData = " + webhookData.toString());
-            WebHookRequest webHookRequest = objectMapper.readValue(webhookData.getPayload(), WebHookRequest.class);
-            System.out.println("webHookRequest = " + webHookRequest.toString());
-            DebitCreditData payload = webHookRequest.getData();
+//            WebHookRequest webHookRequest = objectMapper.readValue(webhookData.getPayload(), WebHookRequest.class);
+//            System.out.println("webHookRequest = " + webHookRequest.toString());
+            DebitCreditData payload = webhookData.getData();
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
@@ -133,27 +133,27 @@ public class TransactionController {
                 transactions.setDateTime(payload.getDateTime());
                 transactions.setAmount(payload.getAmount());
                 transactions.setTransactionType(payload.getTransactionType());
-                transactions.setEvent(webHookRequest.getEvent());
+                transactions.setEvent(webhookData.getEvent());
             } else {
                 System.out.println("0000000000000000000");
                 transactions = checkIfTransactionWithRefExists.get();
                 transactions.setAmount(payload.getAmount());
-                transactions.setEvent(webHookRequest.getEvent());
+                transactions.setEvent(webhookData.getEvent());
             }
             transactionsRepository.save(transactions);
             String event;
             int status_code;
 
-            if(webHookRequest.getEvent().equalsIgnoreCase("POS_CREDIT_ALERT")){
+            if(webhookData.getEvent().equalsIgnoreCase("POS_CREDIT_ALERT")){
                 event = "Transaction successful";
                 status_code = 200;
-            }else if (webHookRequest.getEvent().equalsIgnoreCase("transaction.init")) {
+            }else if (webhookData.getEvent().equalsIgnoreCase("transaction.init")) {
                 event = "Transaction initialized";
                 status_code = 200;
-            } else if ((webHookRequest.getEvent().equalsIgnoreCase("transaction.successful"))) {
+            } else if ((webhookData.getEvent().equalsIgnoreCase("transaction.successful"))) {
                 event = "Transaction successful";
                 status_code = 200;
-            } else if (webHookRequest.getEvent().equalsIgnoreCase("transaction.failed")) {
+            } else if (webhookData.getEvent().equalsIgnoreCase("transaction.failed")) {
                 event = "Transaction failed";
                 status_code = 500;
             } else {
