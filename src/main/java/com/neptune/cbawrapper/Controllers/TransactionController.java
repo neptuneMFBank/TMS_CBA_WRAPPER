@@ -111,12 +111,12 @@ public class TransactionController {
     //TODO: CBA transaction notification webhook
     @CrossOrigin(origins = "*")
     @PostMapping("/pos-credit-webhook")
-    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody WebHookRequest webhookData) {
+    public ResponseEntity<ResponseSchema<?>> getCreditUpdate(@RequestBody Object object) {
         try {
-            System.out.println("webhookData = " + webhookData.toString());
-//            WebHookRequest webHookRequest = objectMapper.readValue(webhookData.getPayload(), WebHookRequest.class);
-//            System.out.println("webHookRequest = " + webHookRequest.toString());
-            DebitCreditData payload = webhookData.getData();
+            System.out.println("webhookData = " + object.toString());
+            WebHookRequest webhookData = objectMapper.convertValue(object, WebHookRequest.class);
+            System.out.println("webHookRequest = " + webhookData.toString());
+            DebitCreditData payload = webhookData.getPayload();
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
