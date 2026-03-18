@@ -161,7 +161,7 @@ public class TransactionController {
                 status_code = 500;
             }
 
-            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getSourceAccountNumber());
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getBeneficiaryAccountNumber());
             if (virtualAccountModel.isPresent()) {
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
