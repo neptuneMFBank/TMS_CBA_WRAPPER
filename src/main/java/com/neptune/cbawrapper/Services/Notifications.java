@@ -48,7 +48,6 @@ public class Notifications {
                     .setFile(notif.getFile())
                     .setReceiverSocketId("")
                     .setAttachment(notif.isAttachment())
-                    .setFile("")
                     .setWebhook(notification_service.Notifications.WebHook.newBuilder()
                             .setEvent("Transaction notification")
                             .setUrl("")

@@ -15,23 +15,38 @@ import org.springframework.transaction.annotation.Transactional;
 import printable.PrintableGrpc;
 import printable.PrintableOuterClass;
 
+import java.util.concurrent.TimeUnit;
+
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class Printable {
+
     private final ErrorLoggingException errorLoggingException;
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
+
     @Value("${grpc.printable.url}")
     private String printable_server_ip;
 
     @Value("${grpc.printable.port}")
     private int printable_server_port;
 
-    public PrintableOuterClass.StatementOfAccountResponse generateState(GenerateStatementRequest generateStatementRequest, String email, String name){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(printable_server_ip, printable_server_port).usePlaintext().build();
+    public PrintableOuterClass.StatementOfAccountResponse generateState(
+            GenerateStatementRequest generateStatementRequest,
+            String email,
+            String name) {
+
+        System.out.println("email = " + email);
+
+        log.info("=== STARTING GRPC CALL === Thread: {}", Thread.currentThread().getName());
+
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(printable_server_ip, printable_server_port)
+                .usePlaintext()
+                .build();
 
         PrintableOuterClass.StatementOfAccountResponse response = null;
+
         try {
             PrintableOuterClass.StatementRequest request = PrintableOuterClass.StatementRequest.newBuilder()
                     .setAcctNo(generateStatementRequest.getAcctNo())
@@ -42,15 +57,41 @@ public class Printable {
                     .setAddress("N/A")
                     .setAccountType("Savings")
                     .build();
-            PrintableGrpc.PrintableBlockingStub stub = PrintableGrpc.newBlockingStub(channel);
+
+            // IMPORTANT: Add deadline to gRPC stub
+            PrintableGrpc.PrintableBlockingStub stub = PrintableGrpc.newBlockingStub(channel)
+                    .withDeadlineAfter(60, TimeUnit.SECONDS);
+
+            log.info("=== CALLING GRPC SERVICE ===");
+            long startTime = System.currentTimeMillis();
+
             response = stub.statementOfAccount(request);
-        }catch (StatusRuntimeException e) {
-            errorLoggingException.logError("PRINTABLE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+
+            long duration = System.currentTimeMillis() - startTime;
+            log.info("=== GRPC CALL COMPLETED === Duration: {}ms", duration);
+
+        } catch (StatusRuntimeException e) {
+            log.error("=== GRPC ERROR === Status: {}, Message: {}", e.getStatus(), e.getMessage());
+            errorLoggingException.logError("PRINTABLE_STATUS_RUNTIME_EXCEPTION_HANDLER",
+                    String.valueOf(e.getCause()), e.getMessage());
+
         } catch (Exception e) {
-            errorLoggingException.logError("PRINTABLE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+            log.error("=== GENERAL ERROR ===", e);
+            errorLoggingException.logError("PRINTABLE_EXCEPTION_HANDLER",
+                    String.valueOf(e.getCause()), e.getMessage());
+
         } finally {
-            channel.shutdownNow();
+            try {
+                if (!channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)) {
+                    channel.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                channel.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
+
+        log.info("=== RETURNING RESPONSE === IsNull: {}", response == null);
         return response;
     }
 }

@@ -19,6 +19,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Controllers/EasypayController.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Controllers/OnboardingController.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Controllers/SettingsController.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Controllers/StatementController.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Controllers/TransactionController.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/AbstractPlatformDomainRuleException.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Exception/AbstractPlatformException.java
@@ -156,6 +157,7 @@
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Notifications.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/PlatformChargesService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/Printable.java
+/Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/PrintableAsyncService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/PushyAPI.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/SequenceGeneratorService.java
 /Users/pc/Desktop/Work/IdeaProjects/cbawrapper/src/main/java/com/neptune/cbawrapper/Services/TmsCoreWalletAccount.java
