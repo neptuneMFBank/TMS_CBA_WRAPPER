@@ -1210,39 +1210,142 @@ public class TransactionController {
     @CrossOrigin(origins = "*")
     @Validated
     @PostMapping("/generate-statement")
-    public ResponseEntity<ResponseSchema<?>> generateStatement(@Valid @RequestBody GenerateStatementRequest request) {
-        Optional<VirtualAccountModel> accountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNo());
+    public ResponseEntity<ResponseSchema<?>> generateStatement(
+            @Valid @RequestBody GenerateStatementRequest request) {
+
+        // Validate account
+        Optional<VirtualAccountModel> accountModel =
+                virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNo());
+
         if (accountModel.isEmpty()) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account not found", null, "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    404, "Account not found", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
-        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
+
+        // Validate customer
+        Optional<CustomersModel> customersModel =
+                helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
 
         if (customersModel.isEmpty()) {
-            return null;
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    404, "Customer not found", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        PrintableOuterClass.StatementOfAccountResponse res = printable.generateState(request, accountModel.get().getEmail(), accountModel.get().getAccount_name());
+        try {
+            // Call async method and wait for result with 60 second timeout
+            CompletableFuture<PrintableOuterClass.StatementOfAccountResponse> futureResponse =
+                    generateStateAsync(
+                            request,
+                            accountModel.get().getEmail(),
+                            accountModel.get().getAccount_name()
+                    );
 
-        System.out.println("res = " + res);
+            // Wait for up to 60 seconds for the response
+            PrintableOuterClass.StatementOfAccountResponse res =
+                    futureResponse.get(60, TimeUnit.SECONDS);
 
-        if (res != null) {
-            SendNotifications notifications1 = SendNotifications.builder()
-                    .title("Statement Of Account")
-                    .file(res.getPdf())
-                    .receiver_email(accountModel.get().getEmail())
-                    .sendmail(true)
-                    .attachment(true)
-                    .build();
-            notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notifications1);
-            System.out.println("NotificationResponse = " + response);
+            log.info("Statement generated: {}", res != null);
 
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Statement of account sent to your email", null, "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            if (res != null && res.getPdf() != null && !res.getPdf().isEmpty()) {
+                // Send notification
+                SendNotifications notifications1 = SendNotifications.builder()
+                        .title("Statement Of Account")
+                        .file(res.getPdf())
+                        .receiver_email(accountModel.get().getEmail())
+                        .sendmail(true)
+                        .attachment(true)
+                        .build();
+
+                notification_service.Notifications.NotificationResponse notificationResponse =
+                        notifications.sendNotification(notifications1);
+
+                log.info("Notification sent: {}", notificationResponse);
+
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                        200,
+                        "Statement of account sent to your email",
+                        null,
+                        "",
+                        ZonedDateTime.now(),
+                        true
+                );
+                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+            }
+
+            // Statement generation failed
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    400,
+                    "Failed to generate statement. Please try again later",
+                    null,
+                    "",
+                    ZonedDateTime.now(),
+                    false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+
+        } catch (TimeoutException e) {
+            log.error("Statement generation timeout after 60 seconds", e);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    408,
+                    "Statement generation is taking longer than expected. Please try again later",
+                    null,
+                    "",
+                    ZonedDateTime.now(),
+                    false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.REQUEST_TIMEOUT);
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Statement generation interrupted", e);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    500,
+                    "Statement generation was interrupted. Please try again",
+                    null,
+                    "",
+                    ZonedDateTime.now(),
+                    false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        } catch (ExecutionException e) {
+            log.error("Error during statement generation", e.getCause());
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    500,
+                    "Error occurred while generating statement. Please try again later",
+                    null,
+                    "",
+                    ZonedDateTime.now(),
+                    false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Error occured, kindly try again later", null, "", ZonedDateTime.now(), false);
-        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    @Async("statementExecutor")
+    public CompletableFuture<PrintableOuterClass.StatementOfAccountResponse> generateStateAsync(
+            GenerateStatementRequest request,
+            String email,
+            String name) {
+
+        log.info("=== ASYNC METHOD STARTED === Thread: {}", Thread.currentThread().getName());
+
+        try {
+            // This will wait up to 60 seconds due to gRPC deadline
+            PrintableOuterClass.StatementOfAccountResponse response =
+                    printable.generateState(request, email, name);
+
+            log.info("=== ASYNC METHOD COMPLETED === Response: {}", response != null);
+            return CompletableFuture.completedFuture(response);
+
+        } catch (Exception e) {
+            log.error("=== ASYNC METHOD FAILED ===", e);
+            return CompletableFuture.completedFuture(null);
+        }
     }
 
     @Async("billsPaymentExecutor")

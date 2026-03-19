@@ -24,6 +24,7 @@ com/virtualAccountApplication/createAccount/proto/CreateAccountRequest$AccountDa
 auth/Auth$GenerateApiKeyResponse$1.class
 com/neptune/cba/transaction/history/SpentTodayRequest$Builder.class
 auth/Auth$Ledger$1.class
+com/neptune/cbawrapper/Services/PrintableAsyncService.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccResponse.class
 com/neptune/cba/transaction/bills/BillsServiceGrpc$MethodHandlers.class
 com/neptune/cba/transaction/debit_credit/DebitCreditApprovalResponse.class
@@ -374,6 +375,7 @@ com/neptune/cbawrapper/Services/CustomerService.class
 com/neptune/cbawrapper/RequestRessponseSchema/EncryptedResponse.class
 com/neptune/cbawrapper/RequestRessponseSchema/UpdateTransactionRequestSchema.class
 com/neptune/cba/transaction/history/EmployeeHistoryRequest$1.class
+com/neptune/cbawrapper/Controllers/StatementController.class
 auth/Auth$VerifyPhoneNumberOtpRequest$1.class
 auth/Auth$Privilege.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferServiceGrpc$IntraTransferServiceFileDescriptorSupplier.class
