@@ -51,11 +51,13 @@ public class PushyAPI {
         String message = "Successfully received " + request.getAmount() + " Naira from " + request.getSourceAccountName();
 
         // Add "message" parameter to payload
-        payload.put("message", message);
 
         // iOS notification fields
         Map<String, Object> notification = new HashMap<>();
         String json = mapper.writeValueAsString(request);
+
+        payload.put("message", message);
+        payload.put("body", json);
 
         notification.put("badge", 1);
         notification.put("sound", "ping.aiff");
