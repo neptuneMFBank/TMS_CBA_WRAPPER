@@ -86,16 +86,19 @@ public class TransactionController {
     @PutMapping("/update-terminal-fcm-token")
     public ResponseEntity<ResponseSchema<?>> updateTerminalFcmToken(@RequestBody FcmRequest request) {
         try {
-            System.out.println("112 got here fcm token = " + request.getFcmToken());
+            System.out.println("fcm token = " + request.getFcmToken());
+            System.out.println("terminal ID = " + request.getTerminalId());
             Optional<VirtualAccountModel> getVirtualAccount = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
             if (getVirtualAccount.isPresent()) {
+                System.out.println("got here =========== " + request.getFcmToken());
                 VirtualAccountModel virtualAccountModel = getVirtualAccount.get();
                 virtualAccountModel.setFcmToken(request.getFcmToken());
                 virtualAccountRepository.save(virtualAccountModel);
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "fcm token added successfully", null, "", ZonedDateTime.now(), false);
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
+            System.out.println("Got here instead");
             errorLoggingException.logError("UPDATE_TERMINAL_FCM_TOKEN", "terminal with id not found", "terminal with id not found");
             ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "terminal with id not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
