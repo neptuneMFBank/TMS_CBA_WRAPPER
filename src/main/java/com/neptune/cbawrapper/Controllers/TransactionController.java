@@ -980,10 +980,12 @@ public class TransactionController {
 
                 if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
+                    logAllTransactions(request, platformCharges, "Bills");
                     processPaymentAndQuery(
                             makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
                     );
                 }else {
+                    logAllTransactions(request, platformCharges, "Bills");
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(
                             200,
                             "Payment processed successfully",
@@ -994,7 +996,6 @@ public class TransactionController {
                     );
                     return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
                 }
-                logAllTransactions(request, platformCharges, "Bills");
             } catch (Exception e) {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
                 deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
