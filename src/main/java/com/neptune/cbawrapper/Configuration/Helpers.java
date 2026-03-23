@@ -13,11 +13,8 @@ import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.CustomersRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
-import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.TransactionDetails;
-import com.neptune.cbawrapper.RequestRessponseSchema.TransactionRequestSchema;
-import com.neptune.cbawrapper.RequestRessponseSchema.UpdateTransactionResponseSchema;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,6 +98,8 @@ public class Helpers {
             transactionDetails.setSerialNo(request.getSerialNo());
             transactionDetails.setLocale(request.getLocale());
             transactionDetails.setCardScheme(request.getCardScheme());
+
+            return transactionCoreController.createTransaction(transactionDetails);
         }else if(type.equalsIgnoreCase("Transfers")){
 
             transactionDetails.setTerminalId(request.getTerminalId());
@@ -119,6 +118,15 @@ public class Helpers {
             transactionDetails.setReversal(request.getReversal());
             transactionDetails.setPtad(request.getPtad());
 
+            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
+
+            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+            requestSchema.setNote("COMPLETED");
+            requestSchema.setStatus(300);
+            System.out.println("requestSchema = " + requestSchema);
+            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
+
+            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
         } else if (type.equalsIgnoreCase("Bills")) {
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration(request.getMakePayment().getBillType());
@@ -134,9 +142,18 @@ public class Helpers {
             transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
 //            transactionDetails.setReversal(request.getReversal());
 //            transactionDetails.setPtad(request.getPtad());
+            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
+
+            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+            requestSchema.setNote("COMPLETED");
+            requestSchema.setStatus(300);
+            System.out.println("requestSchema = " + requestSchema);
+            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
+
+            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
         }
 
-        return transactionCoreController.createTransaction(transactionDetails);
+        return null;
     }
 
 
