@@ -70,9 +70,10 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type) {
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload) {
         TransactionDetails transactionDetails = new TransactionDetails();
         if(type.equalsIgnoreCase("Withdrawals")) {
+            System.out.println("1");
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration("POS");
             transactionDetails.setStatus("PENDING");
@@ -101,10 +102,11 @@ public class Helpers {
 
             return transactionCoreController.createTransaction(transactionDetails);
         }else if(type.equalsIgnoreCase("Transfers")){
+            System.out.println("2");
 
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration("POS");
-            transactionDetails.setStatus("PENDING");
+            transactionDetails.setStatus("COMPLETED");
             transactionDetails.setDateFormat("dd MMMM yyyy");
             transactionDetails.setTransactionType(request.getTransactionType());
             transactionDetails.setTransactionReference(request.getTransactionReference());
@@ -128,6 +130,7 @@ public class Helpers {
 
             System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
         } else if (type.equalsIgnoreCase("Bills")) {
+            System.out.println("3");
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration(request.getMakePayment().getBillType());
             transactionDetails.setStatus("COMPLETED");
@@ -151,6 +154,29 @@ public class Helpers {
             Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
 
             System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
+        }else {
+            System.out.println("4");
+            transactionDetails.setNarration("POS");
+            transactionDetails.setStatus("PENDING");
+            transactionDetails.setDateFormat("dd MMMM yyyy");
+            transactionDetails.setTransactionType(payload.getTransactionType());
+            transactionDetails.setTransactionReference(payload.getReference());
+            transactionDetails.setAmount(Double.parseDouble(payload.getAmount().toString()));
+            transactionDetails.setNarration(payload.getNarration());
+            transactionDetails.setTransactionDate(payload.getDateTime());
+            transactionDetails.setReversal(false);
+
+            System.out.println("111111111111222222222 here");
+            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
+
+            System.out.println("33333333333333 4444444444444");
+            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+            requestSchema.setNote("COMPLETED");
+            requestSchema.setStatus(300);
+            System.out.println("requestSchema = " + requestSchema);
+            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
+
+            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema.toString());
         }
 
         return null;
@@ -330,6 +356,7 @@ public class Helpers {
 
     public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
         BillsAdditionalData billsAdditionalData = null;
+        System.out.println("MakePaymentResponse = " + makePaymentResponse);
 //        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
         try {
             if (Optional.of(makePaymentResponse)

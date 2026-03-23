@@ -169,7 +169,7 @@ public class TransactionController {
             if (virtualAccountModel.isPresent()) {
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
-
+//                logAllTransactions(null, null, "Webhook", payload);
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);
                 if (status_code == 200) {
                     return new ResponseEntity<>(responseSchema, HttpStatus.OK);
@@ -177,6 +177,7 @@ public class TransactionController {
                     return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
+//            logAllTransactions(null, null, "Webhook", payload);
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account number not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
 
@@ -980,13 +981,13 @@ public class TransactionController {
                                 return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
                             });
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
-                    logAllTransactions(request, platformCharges, "Bills");
+//                    logAllTransactions(request, platformCharges, "Bills", null);
                     processPaymentAndQuery(
                             makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
                     );
                 }else {
                     System.out.println("request.getMakePayment().getBillType() 2 = " + request.getMakePayment().getBillType());
-                    logAllTransactions(request, platformCharges, "Bills");
+//                    logAllTransactions(request, platformCharges, "Bills", null);
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(
                             200,
                             "Payment processed successfully",
@@ -1039,7 +1040,7 @@ public class TransactionController {
                         return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED));
                     }
 
-                    logAllTransactions(request, platformCharges, "Transfers");
+//                    logAllTransactions(request, platformCharges, "Transfers", null);
                     responseData.setMessage(response.getResponsemessage());
                     responseData.setStatus(Integer.parseInt(response.getResponsecode()));
                     responseData.setTimeStamp(ZonedDateTime.now());
@@ -1076,7 +1077,7 @@ public class TransactionController {
                     return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
                 }
 
-                logAllTransactions(request, platformCharges, "Transfers");
+//                logAllTransactions(request, platformCharges, "Transfers", null);
                 System.out.println("response 112 = " + response.getCode());
                 transactionsModel.setMessage(response.getMessage());
                 transactionsModel.setCode(response.getCode());
@@ -1094,7 +1095,7 @@ public class TransactionController {
             }
 
         } else {
-            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawals");
+            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawals", null);
             System.out.println("responseSchema = " + responseSchema);
             if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
@@ -1427,8 +1428,11 @@ public class TransactionController {
     }
 
     @Async("billsPaymentExecutor")
-    public void logAllTransactions(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type){
-        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type);
+    public void logAllTransactions(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload){
+        System.out.println("Here  = " + request);
+        System.out.println("payload = " + payload);
+        System.out.println("type = " + type);
+        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type, payload);
         System.out.println("responseSchema = " + responseSchema);
     }
 

@@ -25,10 +25,12 @@ public class BillsService {
     private int bills_payment_port;
 
     public MakePaymentApiResponse makePayment(MakePayment request, double charge, BillType billType){
-        System.out.println("request = " + request);
+        System.out.println("=================================================== start");
+        System.out.println("request = " + request.getRequestReference());
         System.out.println("charge = " + charge);
         System.out.println("billType = " + billType.name());
         System.out.println("amount = " + request.getAmount());
+        System.out.println("=================================================== end");
         ManagedChannel channel = ManagedChannelBuilder.forAddress(bills_payment_ip, bills_payment_port).usePlaintext().build();
         MakePaymentResponse makePaymentResponse;
 
