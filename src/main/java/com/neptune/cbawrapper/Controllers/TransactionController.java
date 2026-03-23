@@ -934,19 +934,11 @@ public class TransactionController {
 
         if (request.isBillsPayment()) {
             System.out.println("started here in " + time());
-            DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
-                    new DeferredResult<>(60_000L, () -> {
-                        ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
-                                504, "Payment query timed out", null, "", ZonedDateTime.now(), true
-                        );
-                        return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
-                    });
             try {
                 double amount = Double.parseDouble(request.getMakePayment().getAmount()) / 100;
                 if (balance.getEffectiveBalance() - amount < 0) {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
-                    deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
-                    return deferredResult;
+                    return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
                 }
                 double charge = 100;
                 BillType billType = BillType.BILLS;
@@ -979,6 +971,13 @@ public class TransactionController {
                 log.info("makePayment completed for reference: {}", request.getMakePayment().getRequestReference());
 
                 if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
+                    DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
+                            new DeferredResult<>(60_000L, () -> {
+                                ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
+                                        504, "Payment query timed out", null, "", ZonedDateTime.now(), true
+                                );
+                                return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
+                            });
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
                     logAllTransactions(request, platformCharges, "Bills");
                     processPaymentAndQuery(
@@ -998,9 +997,8 @@ public class TransactionController {
                 }
             } catch (Exception e) {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
-                deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
+                return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
             }
-            return deferredResult;
 
         } else if (request.isTransfer()) {
             try {
