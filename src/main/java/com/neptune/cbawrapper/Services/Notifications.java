@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Services;
 
-import auth.AuthServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.RequestRessponseSchema.SendNotifications;
 import io.grpc.ManagedChannel;
