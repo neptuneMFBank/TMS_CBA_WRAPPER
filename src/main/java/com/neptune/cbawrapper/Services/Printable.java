@@ -37,12 +37,17 @@ public class Printable {
             String name) {
 
         System.out.println("email = " + email);
+        System.out.println("generateStatementRequest.getAcctNo() = " + generateStatementRequest.getAcctNo());
+        System.out.println("generateStatementRequest.getFromdate() = " + generateStatementRequest.getFromdate());
+        System.out.println("generateStatementRequest.getTodate() = " + generateStatementRequest.getTodate());
+        System.out.println("name = " + name);
 
         log.info("=== STARTING GRPC CALL === Thread: {}", Thread.currentThread().getName());
 
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress(printable_server_ip, printable_server_port)
                 .usePlaintext()
+                .maxInboundMessageSize(10 * 1024 * 1024)
                 .build();
 
         PrintableOuterClass.StatementOfAccountResponse response = null;
