@@ -978,11 +978,22 @@ public class TransactionController {
                         billsService.makePayment(request.getMakePayment(), charge, billType);
                 log.info("makePayment completed for reference: {}", request.getMakePayment().getRequestReference());
 
-                System.out.println("makePaymentResponse = " + makePaymentResponse);
-                processPaymentAndQuery(
-                        makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
-                );
-
+                if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
+                    System.out.println("makePaymentResponse = " + makePaymentResponse);
+                    processPaymentAndQuery(
+                            makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
+                    );
+                }else {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                            200,
+                            "Payment processed successfully",
+                            makePaymentResponse,
+                            "",
+                            ZonedDateTime.now(),
+                            true
+                    );
+                    return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
+                }
                 logAllTransactions(request, platformCharges, "Bills");
             } catch (Exception e) {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
