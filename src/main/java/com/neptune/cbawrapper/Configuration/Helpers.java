@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -71,33 +73,68 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges) {
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type) {
         TransactionDetails transactionDetails = new TransactionDetails();
-        transactionDetails.setTerminalId(request.getTerminalId());
-        transactionDetails.setNarration("POS");
-        transactionDetails.setStatus("PENDING");
-        transactionDetails.setDateFormat("dd MMMM yyyy");
-        transactionDetails.setTransactionType(request.getTransactionType());
-        transactionDetails.setTransactionDate(request.getTransactionDate());
-        transactionDetails.setAmount(request.getAmount());
-        transactionDetails.setTransactionReference(request.getTransactionReference());
-        transactionDetails.setReference(request.getReference());
-        transactionDetails.setPtad(request.getPtad());
-        transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-        transactionDetails.setResponseCode(request.getResponseCode());
-        transactionDetails.setPan(request.getPan());
-        transactionDetails.setCardExpiry(request.getCardExpiry());
-        transactionDetails.setTransactionFee(request.getTransactionFee());
-        transactionDetails.setProcessingFee(request.getProcessingFee());
-        transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-        transactionDetails.setAuthCode(request.getAuthCode());
-        transactionDetails.setMerchantCode(request.getMerchantCode());
-        transactionDetails.setReversal(request.getReversal());
-        transactionDetails.setMerchantName(request.getMerchantName());
-        transactionDetails.setStan(request.getStan());
-        transactionDetails.setSerialNo(request.getSerialNo());
-        transactionDetails.setLocale(request.getLocale());
-        transactionDetails.setCardScheme(request.getCardScheme());
+        if(type.equalsIgnoreCase("Withdrawals")) {
+            transactionDetails.setTerminalId(request.getTerminalId());
+            transactionDetails.setNarration("POS");
+            transactionDetails.setStatus("PENDING");
+            transactionDetails.setDateFormat("dd MMMM yyyy");
+            transactionDetails.setTransactionType(request.getTransactionType());
+            transactionDetails.setTransactionDate(request.getTransactionDate());
+            transactionDetails.setAmount(request.getAmount());
+            transactionDetails.setTransactionReference(request.getTransactionReference());
+            transactionDetails.setReference(request.getReference());
+            transactionDetails.setPtad(request.getPtad());
+            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+            transactionDetails.setResponseCode(request.getResponseCode());
+            transactionDetails.setPan(request.getPan());
+            transactionDetails.setCardExpiry(request.getCardExpiry());
+            transactionDetails.setTransactionFee(request.getTransactionFee());
+            transactionDetails.setProcessingFee(request.getProcessingFee());
+            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+            transactionDetails.setAuthCode(request.getAuthCode());
+            transactionDetails.setMerchantCode(request.getMerchantCode());
+            transactionDetails.setReversal(request.getReversal());
+            transactionDetails.setMerchantName(request.getMerchantName());
+            transactionDetails.setStan(request.getStan());
+            transactionDetails.setSerialNo(request.getSerialNo());
+            transactionDetails.setLocale(request.getLocale());
+            transactionDetails.setCardScheme(request.getCardScheme());
+        }else if(type.equalsIgnoreCase("Transfers")){
+
+            transactionDetails.setTerminalId(request.getTerminalId());
+            transactionDetails.setNarration("POS");
+            transactionDetails.setStatus("PENDING");
+            transactionDetails.setDateFormat("dd MMMM yyyy");
+            transactionDetails.setTransactionType(request.getTransactionType());
+            transactionDetails.setTransactionReference(request.getTransactionReference());
+            transactionDetails.setAmount(request.getAmount());
+            transactionDetails.setMerchantCode(request.getMerchantCode());
+            transactionDetails.setTransactionDate(request.getTransactionDate());
+            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+            transactionDetails.setMerchantName(request.getMerchantName());
+            transactionDetails.setSerialNo(request.getSerialNo());
+            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+            transactionDetails.setReversal(request.getReversal());
+            transactionDetails.setPtad(request.getPtad());
+
+        } else if (type.equalsIgnoreCase("Bills")) {
+            transactionDetails.setTerminalId(request.getTerminalId());
+            transactionDetails.setNarration(request.getMakePayment().getBillType());
+            transactionDetails.setStatus("COMPLETED");
+            transactionDetails.setDateFormat("dd MMMM yyyy");
+            transactionDetails.setTransactionType(request.getMakePayment().getBillType());
+            transactionDetails.setTransactionReference(request.getMakePayment().getRequestReference());
+            transactionDetails.setAmount(request.getAmount());
+            transactionDetails.setTransactionDate(request.getTransactionDate());
+//            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+            transactionDetails.setMerchantName(request.getMerchantName());
+            transactionDetails.setSerialNo(request.getSerialNo());
+            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+//            transactionDetails.setReversal(request.getReversal());
+//            transactionDetails.setPtad(request.getPtad());
+        }
 
         return transactionCoreController.createTransaction(transactionDetails);
     }
