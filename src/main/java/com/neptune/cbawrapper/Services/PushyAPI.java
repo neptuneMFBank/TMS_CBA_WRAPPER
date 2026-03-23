@@ -31,6 +31,7 @@ public class PushyAPI {
     public String SECRET_API_URL;
 
     public void sendPush(String token, DebitCreditData request) throws Exception {
+        System.out.println("notification request = " + request);
         // Prepare list of target device tokens
         List<String> deviceTokens = new ArrayList<>();
 

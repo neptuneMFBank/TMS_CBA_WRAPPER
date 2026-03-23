@@ -120,6 +120,7 @@ public class TransactionController {
             WebhookData webhookData = objectMapper.convertValue(object, WebhookData.class);
             System.out.println("webhookData = " + webhookData.toString());
             DebitCreditData payload = webhookData.getPayload().getData();
+            payload.setTransactionType("BANK TRANSFER");
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
@@ -941,7 +942,7 @@ public class TransactionController {
                         return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
                     });
             try {
-                double amount = Double.parseDouble(request.getMakePayment().getAmount());
+                double amount = Double.parseDouble(request.getMakePayment().getAmount()) / 100;
                 if (balance.getEffectiveBalance() - amount < 0) {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
                     deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
@@ -981,6 +982,8 @@ public class TransactionController {
                 processPaymentAndQuery(
                         makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
                 );
+
+                logAllTransactions(request, platformCharges, "Bills");
             } catch (Exception e) {
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
                 deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
@@ -1023,6 +1026,8 @@ public class TransactionController {
                         ResponseSchema<?> responseSchema = new ResponseSchema<>(401, response.getResponsemessage(), "", "", ZonedDateTime.now(), false);
                         return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED));
                     }
+
+                    logAllTransactions(request, platformCharges, "Transfers");
                     responseData.setMessage(response.getResponsemessage());
                     responseData.setStatus(Integer.parseInt(response.getResponsecode()));
                     responseData.setTimeStamp(ZonedDateTime.now());
@@ -1058,6 +1063,8 @@ public class TransactionController {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "insufficient funds", easypayResponseData, "", ZonedDateTime.now(), false);
                     return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
                 }
+
+                logAllTransactions(request, platformCharges, "Transfers");
                 System.out.println("response 112 = " + response.getCode());
                 transactionsModel.setMessage(response.getMessage());
                 transactionsModel.setCode(response.getCode());
@@ -1075,7 +1082,7 @@ public class TransactionController {
             }
 
         } else {
-            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);
+            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawals");
             System.out.println("responseSchema = " + responseSchema);
             if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
@@ -1405,6 +1412,12 @@ public class TransactionController {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
             deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
         }
+    }
+
+    @Async("billsPaymentExecutor")
+    public void logAllTransactions(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type){
+        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type);
+        System.out.println("responseSchema = " + responseSchema);
     }
 
     private DeferredResult<ResponseEntity<ResponseSchema<?>>> immediateResult(ResponseEntity<ResponseSchema<?>> response) {
