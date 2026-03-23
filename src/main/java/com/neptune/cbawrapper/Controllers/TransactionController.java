@@ -971,6 +971,7 @@ public class TransactionController {
                 log.info("makePayment completed for reference: {}", request.getMakePayment().getRequestReference());
 
                 if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
+                    System.out.println("request.getMakePayment().getBillType()  1 = " + request.getMakePayment().getBillType());
                     DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
                             new DeferredResult<>(60_000L, () -> {
                                 ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
@@ -984,6 +985,7 @@ public class TransactionController {
                             makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
                     );
                 }else {
+                    System.out.println("request.getMakePayment().getBillType() 2 = " + request.getMakePayment().getBillType());
                     logAllTransactions(request, platformCharges, "Bills");
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(
                             200,
