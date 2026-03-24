@@ -44,7 +44,7 @@ public class BillsService {
                     .setEmail(request.getEmail())
                     .setStatus("00")
                     .setBillsResponse("00")
-                    .setIsPos(true)
+//                    .setIsPos(true)
                     .setRequestReference(request.getRequestReference())
                     .setCustomerAccountNumber(request.getCustomerAccountNumber())
                     .setCustomerId(request.getCustomerId())

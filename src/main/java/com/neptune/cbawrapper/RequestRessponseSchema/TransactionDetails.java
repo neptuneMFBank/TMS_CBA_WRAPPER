@@ -238,4 +238,34 @@ public class TransactionDetails implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return "TransactionDetails{" +
+                "terminalId='" + terminalId + '\'' +
+                ", narration='" + narration + '\'' +
+                ", status='" + status + '\'' +
+                ", dateFormat='" + dateFormat + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", transactionPlatformId=" + transactionPlatformId +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", amount=" + amount +
+                ", transactionReference='" + transactionReference + '\'' +
+                ", reference='" + reference + '\'' +
+                ", ptad='" + ptad + '\'' +
+                ", responseCode='" + responseCode + '\'' +
+                ", pan='" + pan + '\'' +
+                ", cardExpiry='" + cardExpiry + '\'' +
+                ", transactionFee=" + transactionFee +
+                ", processingFee=" + processingFee +
+                ", retrievalReferencenumber='" + retrievalReferencenumber + '\'' +
+                ", authCode='" + authCode + '\'' +
+                ", merchantCode='" + merchantCode + '\'' +
+                ", reversal=" + reversal +
+                ", merchantName='" + merchantName + '\'' +
+                ", stan='" + stan + '\'' +
+                ", serialNo='" + serialNo + '\'' +
+                ", locale='" + locale + '\'' +
+                ", cardScheme='" + cardScheme + '\'' +
+                '}';
+    }
 }
