@@ -104,6 +104,8 @@ public class Helpers {
         }else if(type.equalsIgnoreCase("Transfers")){
             System.out.println("2");
 
+            transactionDetails.setAuthCode("AUTH456789");
+            transactionDetails.setLocale("en");
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration("POS");
             transactionDetails.setStatus("COMPLETED");
@@ -120,6 +122,8 @@ public class Helpers {
             transactionDetails.setReversal(request.getReversal());
             transactionDetails.setPtad(request.getPtad());
 
+            System.out.println("transactionDetails = " + transactionDetails.toString());
+
             UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
 
             UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
@@ -131,6 +135,8 @@ public class Helpers {
             System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
         } else if (type.equalsIgnoreCase("Bills")) {
             System.out.println("3");
+            transactionDetails.setAuthCode("AUTH456789");
+            transactionDetails.setLocale("en");
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration(request.getMakePayment().getBillType());
             transactionDetails.setStatus("COMPLETED");
@@ -156,6 +162,8 @@ public class Helpers {
             System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
         }else {
             System.out.println("4");
+            transactionDetails.setAuthCode("AUTH456789");
+            transactionDetails.setLocale("en");
             transactionDetails.setNarration("POS");
             transactionDetails.setStatus("PENDING");
             transactionDetails.setDateFormat("dd MMMM yyyy");
