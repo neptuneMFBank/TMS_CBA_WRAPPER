@@ -1040,7 +1040,7 @@ public class TransactionController {
                         return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED));
                     }
 
-                    logAllTransactions(request, platformCharges, "Transfers", null);
+//                    logAllTransactions(request, platformCharges, "Transfers", null);
                     responseData.setMessage(response.getResponsemessage());
                     responseData.setStatus(Integer.parseInt(response.getResponsecode()));
                     responseData.setTimeStamp(ZonedDateTime.now());
@@ -1077,7 +1077,7 @@ public class TransactionController {
                     return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
                 }
 
-                logAllTransactions(request, platformCharges, "Transfers", null);
+//                logAllTransactions(request, platformCharges, "Transfers", null);
                 System.out.println("response 112 = " + response.getCode());
                 transactionsModel.setMessage(response.getMessage());
                 transactionsModel.setCode(response.getCode());
