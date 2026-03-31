@@ -70,9 +70,11 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload) {
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges) {
+        System.out.println("hello world ");
+        System.out.println("request = " + request);
+        try {
         TransactionDetails transactionDetails = new TransactionDetails();
-        if(type.equalsIgnoreCase("Withdrawals")) {
             System.out.println("1");
             transactionDetails.setTerminalId(request.getTerminalId());
             transactionDetails.setNarration("POS");
@@ -101,104 +103,7 @@ public class Helpers {
             transactionDetails.setCardScheme(request.getCardScheme());
 
             return transactionCoreController.createTransaction(transactionDetails);
-        }else if(type.equalsIgnoreCase("Transfers")){
-            System.out.println("2");
 
-            transactionDetails.setAuthCode("AUTH456789");
-            transactionDetails.setLocale("en");
-            transactionDetails.setTerminalId(request.getTerminalId());
-            transactionDetails.setNarration("POS");
-            transactionDetails.setStatus("COMPLETED");
-            transactionDetails.setDateFormat("dd MMMM yyyy");
-            transactionDetails.setTransactionType(request.getTransactionType());
-            transactionDetails.setTransactionReference(request.getTransactionReference());
-            transactionDetails.setAmount(request.getAmount());
-            transactionDetails.setMerchantCode(request.getMerchantCode());
-            transactionDetails.setTransactionDate(request.getTransactionDate());
-            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-            transactionDetails.setMerchantName(request.getMerchantName());
-            transactionDetails.setSerialNo(request.getSerialNo());
-            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-            transactionDetails.setReversal(request.getReversal());
-            transactionDetails.setPtad(request.getPtad());
-
-            System.out.println("transactionDetails = " + transactionDetails.toString());
-
-            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
-
-            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-            requestSchema.setNote("COMPLETED");
-            requestSchema.setStatus(300);
-            System.out.println("requestSchema = " + requestSchema);
-            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
-
-            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-        } else if (type.equalsIgnoreCase("Bills")) {
-            System.out.println("3");
-            transactionDetails.setAuthCode("AUTH456789");
-            transactionDetails.setLocale("en");
-            transactionDetails.setTerminalId(request.getTerminalId());
-            transactionDetails.setNarration(request.getMakePayment().getBillType());
-            transactionDetails.setStatus("COMPLETED");
-            transactionDetails.setDateFormat("dd MMMM yyyy");
-            transactionDetails.setTransactionType(request.getMakePayment().getBillType());
-            transactionDetails.setTransactionReference(request.getMakePayment().getRequestReference());
-            transactionDetails.setAmount(request.getAmount());
-            transactionDetails.setTransactionDate(request.getTransactionDate());
-//            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-            transactionDetails.setMerchantName(request.getMerchantName());
-            transactionDetails.setSerialNo(request.getSerialNo());
-            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-//            transactionDetails.setReversal(request.getReversal());
-//            transactionDetails.setPtad(request.getPtad());
-            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
-
-            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-            requestSchema.setNote("COMPLETED");
-            requestSchema.setStatus(300);
-            System.out.println("requestSchema = " + requestSchema);
-            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
-
-            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-        }else {
-            System.out.println("4");
-            transactionDetails.setAuthCode("AUTH456789");
-            transactionDetails.setLocale("en");
-            transactionDetails.setNarration("POS");
-            transactionDetails.setStatus("PENDING");
-            transactionDetails.setDateFormat("dd MMMM yyyy");
-            transactionDetails.setTransactionType(payload.getTransactionType());
-            transactionDetails.setTransactionReference(payload.getReference());
-            transactionDetails.setAmount(Double.parseDouble(payload.getAmount().toString()));
-            transactionDetails.setNarration(payload.getNarration());
-            transactionDetails.setTransactionDate(payload.getDateTime());
-            transactionDetails.setReversal(false);
-
-            System.out.println("111111111111222222222 here");
-            UpdateTransactionResponseSchema responseSchema = transactionCoreController.createTransaction(transactionDetails);
-
-            System.out.println("33333333333333 4444444444444");
-            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-            requestSchema.setNote("COMPLETED");
-            requestSchema.setStatus(300);
-            System.out.println("requestSchema = " + requestSchema);
-            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(responseSchema.getResourceId(), requestSchema);
-
-            System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema.toString());
-        }
-
-        return null;
-    }
-
-
-    public <T> String encryptObject(T object) {
-        try {
-            // Step 1: Serialize the object to JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(object);
-
-            // Step 2: Encrypt the JSON string
-            return AesUtil.encrypt(jsonString, secretKey);
         } catch (Exception e) {
             throw new RuntimeException("Error encrypting object", e);
         }
@@ -278,7 +183,7 @@ public class Helpers {
     }
 
     public boolean isAuthTokenValid(String authToken, CorepayPosTransactionRequest verifyUser) {
-        String encryptedData = this.encryptObject(verifyUser);
+        String encryptedData = this.encryptObject(verifyUser.toString());
 
         System.out.println("encryptedData = " + encryptedData);
         return encryptedData.equals(authToken);
