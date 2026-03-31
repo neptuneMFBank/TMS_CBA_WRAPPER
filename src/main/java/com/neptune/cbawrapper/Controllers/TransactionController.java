@@ -1095,7 +1095,8 @@ public class TransactionController {
             }
 
         } else {
-            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawals", null);
+            System.out.println("12345678900");
+            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);
             System.out.println("responseSchema = " + responseSchema);
             if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
@@ -1432,7 +1433,7 @@ public class TransactionController {
         System.out.println("Here  = " + request);
         System.out.println("payload = " + payload);
         System.out.println("type = " + type);
-        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type, payload);
+        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);
         System.out.println("responseSchema = " + responseSchema);
     }
 
