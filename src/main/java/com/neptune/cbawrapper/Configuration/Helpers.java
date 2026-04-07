@@ -70,40 +70,121 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges) {
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload) {
         System.out.println("hello world ");
         System.out.println("request = " + request);
         try {
-        TransactionDetails transactionDetails = new TransactionDetails();
-            System.out.println("1");
-            transactionDetails.setTerminalId(request.getTerminalId());
-            transactionDetails.setNarration("POS");
-            transactionDetails.setStatus("PENDING");
-            transactionDetails.setDateFormat("dd MMMM yyyy");
-            transactionDetails.setTransactionType(request.getTransactionType());
-            transactionDetails.setTransactionDate(request.getTransactionDate());
-            transactionDetails.setAmount(request.getAmount());
-            transactionDetails.setTransactionReference(request.getTransactionReference());
-            transactionDetails.setReference(request.getReference());
-            transactionDetails.setPtad(request.getPtad());
-            transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-            transactionDetails.setResponseCode(request.getResponseCode());
-            transactionDetails.setPan(request.getPan());
-            transactionDetails.setCardExpiry(request.getCardExpiry());
-            transactionDetails.setTransactionFee(request.getTransactionFee());
-            transactionDetails.setProcessingFee(request.getProcessingFee());
-            transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-            transactionDetails.setAuthCode(request.getAuthCode());
-            transactionDetails.setMerchantCode(request.getMerchantCode());
-            transactionDetails.setReversal(request.getReversal());
-            transactionDetails.setMerchantName(request.getMerchantName());
-            transactionDetails.setStan(request.getStan());
-            transactionDetails.setSerialNo(request.getSerialNo());
-            transactionDetails.setLocale(request.getLocale());
-            transactionDetails.setCardScheme(request.getCardScheme());
+            TransactionDetails transactionDetails = new TransactionDetails();
+            if (type.equalsIgnoreCase("Withdrawal")) {
+                System.out.println("1");
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("POS");
+                transactionDetails.setStatus("PENDING");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getTransactionReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode(request.getResponseCode());
+                transactionDetails.setPan(request.getPan());
+                transactionDetails.setCardExpiry(request.getCardExpiry());
+                transactionDetails.setTransactionFee(request.getTransactionFee());
+                transactionDetails.setProcessingFee(request.getProcessingFee());
+                transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+                transactionDetails.setAuthCode(request.getAuthCode());
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(request.getReversal());
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan(request.getStan());
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale(request.getLocale());
+                transactionDetails.setCardScheme(request.getCardScheme());
+
+            } else if (type.equalsIgnoreCase("Transfers")) {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("POS");
+                transactionDetails.setStatus("PENDING");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getTransactionReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("");
+                transactionDetails.setCardExpiry("");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+                transactionDetails.setAuthCode("00");
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan("");
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("Mastercard");
+
+            } else if (type.equalsIgnoreCase("Bills")) {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("POS");
+                transactionDetails.setStatus("PENDING");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getMakePayment().getRequestReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("00");
+                transactionDetails.setCardExpiry("00");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber("");
+                transactionDetails.setAuthCode("");
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan(request.getSerialNo());
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("Mastercard");
+            } else {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("POS");
+                transactionDetails.setStatus("PENDING");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(payload.getTransactionType());
+                transactionDetails.setTransactionDate(payload.getDateTime());
+                transactionDetails.setAmount(Double.parseDouble(String.valueOf(payload.getAmount())));
+                transactionDetails.setTransactionReference(request.getReference());
+                transactionDetails.setReference(request.getReference());
+                transactionDetails.setPtad("Neptune");
+                transactionDetails.setTransactionPlatformId(4);
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("00");
+                transactionDetails.setCardExpiry("nil");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber(payload.getReference());
+                transactionDetails.setAuthCode("AUTH456789");
+                transactionDetails.setMerchantCode("90234");
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName("NEPTUNE LIMITED NG");
+                transactionDetails.setStan("00");
+                transactionDetails.setSerialNo("00");
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("");
+            }
 
             return transactionCoreController.createTransaction(transactionDetails);
-
         } catch (Exception e) {
             throw new RuntimeException("Error encrypting object", e);
         }
