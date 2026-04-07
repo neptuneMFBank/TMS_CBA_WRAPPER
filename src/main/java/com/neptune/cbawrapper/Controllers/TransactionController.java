@@ -11,6 +11,7 @@ import com.neptune.cba.transaction.easy_pay.EasyPayResponse;
 import com.neptune.cba.transaction.history.HistoryResponse;
 import com.neptune.cba.transaction.history.TransactionCategory;
 import com.neptune.cba.transaction.history.TransactionStatusResponse;
+import com.neptune.cba.transaction.history.transDetailsResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cbawrapper.BuilderPattern.HistoryBuilder;
 import com.neptune.cbawrapper.BuilderPattern.TransactionHistoryBuilder;
@@ -707,6 +708,15 @@ public class TransactionController {
             );
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-transaction-details")
+    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
+        transDetailsResponse response = historyService.getTransactionDetails(ref);
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Transaction details retrieved successfully", response, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
 

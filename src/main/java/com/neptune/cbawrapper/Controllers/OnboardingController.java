@@ -323,6 +323,9 @@ public class OnboardingController {
         customer.setCompany_name(request.getCompany_name());
         customer.setCompany_address(request.getCompany_address());
         customer.setOfficeId(request.getOfficeId());
+        customer.setSms_notification(true);
+        customer.setEmail_notification(true);
+        customer.setEmail_address(request.getEmailAddress());
         customer.setClientId(response.getClientId());
         customer.setAccount_num(request.getAccount_number());
         customer.setContact_phone_number(request.getContact_phone_number());

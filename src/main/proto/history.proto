@@ -9,6 +9,39 @@ service HistoryService {
   rpc history(HistoryRequest) returns (HistoryResponse) {
   }
   rpc transactionStatus(TransactionStatusRequest) returns (TransactionStatusResponse){}
+  rpc transDetails(transDetailsRequest) returns (transDetailsResponse){
+  }
+
+}
+
+message transDetailsResponse {
+  // Existing fields
+  string second_leg = 1;
+  string employee_id = 2;
+  string approval_id = 3; // added June 23
+
+  // Transaction details
+  string bank_name = 4;
+  double amount = 5;
+  string type = 6;               // CREDIT / DEBIT
+  string paid_on = 7;            // formatted date string
+  string narration = 8;
+  string from_name = 9;
+  string to_name = 10;
+  string to_bank = 11;
+  string to_account = 12;
+  string status = 13;            // successful / failed / pending
+  string reference = 14;
+}
+
+message transDetailsRequest {
+  string transdate = 1;
+  string valuedate = 2;
+  double amount = 3;
+  string narration = 4;
+  string account  = 5;
+  string ref =6; // new june 17
+  bool details =7;
 }
 
 message  TransactionStatusResponse{

@@ -77,4 +77,24 @@ public class HistoryService {
         System.out.println("============================= end =======================");
         return response;
     }
+
+    public transDetailsResponse getTransactionDetails(String ref){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
+        transDetailsResponse response = null;
+
+        try {
+            HistoryServiceGrpc.HistoryServiceBlockingStub stub = HistoryServiceGrpc.newBlockingStub(channel);
+            transDetailsRequest request = transDetailsRequest.newBuilder().setDetails(true).setRef(ref).build();
+            response = stub.transDetails(request);
+        }catch (StatusRuntimeException e){
+            System.out.println("error1 GET_TRANSACTION_DETAILS_HANDLER = " + e.getMessage());
+            errorLoggingException.logError("GET_TRANSACTION_DETAILS_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }catch (Exception e) {
+            System.out.println("error2 GET_TRANSACTION_DETAILS_HANDLER = " + e.getMessage());
+            errorLoggingException.logError("GET_TRANSACTION_DETAILS_HANDLER", String.valueOf(e.getCause()), e.getMessage());
+        }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
 }
