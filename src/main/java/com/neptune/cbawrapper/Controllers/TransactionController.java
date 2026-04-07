@@ -717,7 +717,10 @@ public class TransactionController {
 
         try {
 
+            System.out.println("ref = " + ref);
             transDetailsResponse response = historyService.getTransactionDetails(ref);
+
+            System.out.println("response = " + response);
             if (response == null) {
                 errorLoggingException.logError("GET_TRANSACTION_BY_REF", "Transaction with reference does not exist", "Transaction with reference does not exist");
                 ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "Transaction not found", response, "", ZonedDateTime.now(), false);
