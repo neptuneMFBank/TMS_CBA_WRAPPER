@@ -5,7 +5,6 @@ import com.neptune.cbawrapper.Models.PendingRequestResponse;
 import com.neptune.cbawrapper.RequestRessponseSchema.CreateCustomerRequest;
 import com.neptune.cbawrapper.RequestRessponseSchema.CreateCustomerResponse;
 import com.neptune.cbawrapper.RequestRessponseSchema.CustomerData;
-import com.neptune.cbawrapper.RequestRessponseSchema.Dispute;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -115,6 +115,7 @@ com/neptune/cba/transaction/easy_pay/Institution.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryRequestOrBuilder.class
 customers/Customer$CreateCorporateAccountRequest.class
 com/neptune/cba/transaction/debit_credit/DebitCreditServiceGrpc$DebitCreditServiceFileDescriptorSupplier.class
+com/neptune/cbawrapper/Models/DisputeReasons.class
 com/neptune/cba/transaction/balance/BalanceResponse.class
 printable/PrintableOuterClass$StatementOfAccountResponse$Builder.class
 com/virtualAccountApplication/createAccount/proto/CreateAccountServiceGrpc$1.class
@@ -227,6 +228,7 @@ notification_service/Notifications$NotificationResponse$Builder.class
 notification_service/Notifications$UserNotificationRequest$Builder.class
 printable/PrintableGrpc$2.class
 com/neptune/cba/transaction/type/TransactionType.class
+com/neptune/cbawrapper/RequestRessponseSchema/DisputeReasonRequest.class
 notification_service/Notifications$GetNotificationByDateRequestOrBuilder.class
 com/neptune/cba/transaction/easy_pay/EasyPayStatusResponse$1.class
 printable/PrintableOuterClass$Response$1.class
@@ -259,6 +261,7 @@ com/neptune/cba/transaction/type/DeleteTypeRequestOrBuilder.class
 com/neptune/cba/transaction/history/SpentTodayResponse.class
 com/neptune/cbawrapper/Configuration/FeignHeaders.class
 auth/Auth$Privilege$1.class
+com/neptune/cba/transaction/history/transDetailsRequest.class
 com/neptune/cba/transaction/type/AddChildRequestOrBuilder.class
 com/neptune/cbawrapper/Repository/NameEnquiryResponseRepository.class
 customers/Customer$CreateCorporateAccountRequest$Builder.class
@@ -286,6 +289,8 @@ printable/PrintableGrpc$3.class
 com/neptune/cbawrapper/Services/VirtualAccountService.class
 notification_service/NotificationServiceGrpc$2.class
 customers/Customer$LimitData.class
+com/neptune/cba/transaction/history/transDetailsResponse$1.class
+com/neptune/cba/transaction/history/transDetailsResponseOrBuilder.class
 notification_service/Notifications$NotificationRequest.class
 customers/CustomerServiceGrpc$CustomerServiceFileDescriptorSupplier.class
 com/neptune/cbawrapper/RequestRessponseSchema/MenuList.class
@@ -392,6 +397,7 @@ com/neptune/cbawrapper/RequestRessponseSchema/UpdateTransactionRequestSchema.cla
 com/neptune/cba/transaction/history/EmployeeHistoryRequest$1.class
 com/neptune/cbawrapper/Controllers/StatementController.class
 auth/Auth$VerifyPhoneNumberOtpRequest$1.class
+com/neptune/cbawrapper/Repository/DisputeRepository.class
 auth/Auth$Privilege.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferServiceGrpc$IntraTransferServiceFileDescriptorSupplier.class
 customers/Customer$CorporateUserAddressOrBuilder.class
@@ -484,6 +490,7 @@ com/neptune/cba/transaction/bills/MakePaymentRequest$Builder.class
 customers/Customer$GetCustomerByAccountRequest.class
 com/neptune/cbawrapper/Repository/CbaTransactionRequestsRepository.class
 com/neptune/cbawrapper/Exception/PlatformDomainRuleException.class
+com/neptune/cba/transaction/history/transDetailsRequest$1.class
 auth/AuthServiceGrpc$AuthServiceMethodDescriptorSupplier.class
 com/neptune/cba/transaction/easy_pay/EasyPayListResponseOrBuilder.class
 customers/Customer$CreateBulkCustomerErrResponse$Builder.class
@@ -506,6 +513,7 @@ notification_service/Notifications$NotificationRequest$Builder.class
 com/neptune/cba/transaction/easy_pay/NameEnquiryResponseOrBuilder.class
 auth/Auth$SubMenu.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequest$1.class
+com/neptune/cba/transaction/history/transDetailsResponse.class
 customers/Customer$DirectorData.class
 auth/Auth$Supervision.class
 com/neptune/cba/transaction/history/HistoryServiceGrpc$2.class
@@ -583,6 +591,7 @@ com/neptune/cba/transaction/easy_pay/EasyPayRequest$1.class
 com/neptune/cba/transaction/debit_credit/NestedCharge$1.class
 com/neptune/cba/transaction/type/RemoveChargeResponse$1.class
 customers/Customer$DirectorDataOrBuilder.class
+com/neptune/cba/transaction/history/transDetailsRequestOrBuilder.class
 customers/Customer$CreateBulkCorpCustomerResponse.class
 auth/Auth$Department.class
 printable/PrintableGrpc$PrintableFutureStub.class
@@ -972,6 +981,7 @@ com/neptune/cbawrapper/Models/CreateDocumentData.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc$TransactionTypeServiceStub.class
 customers/CustomerServiceGrpc$CustomerServiceFutureStub.class
 printable/PrintableGrpc.class
+com/neptune/cba/transaction/history/transDetailsResponse$Builder.class
 com/neptune/cba/transaction/history/Transaction_history.class
 com/neptune/cbawrapper/Controllers/ChargesController.class
 com/neptune/cbawrapper/RequestRessponseSchema/StatementResponse$AccountSummary.class
@@ -994,6 +1004,7 @@ com/neptune/cba/transaction/easy_pay/NameEnquiryResponse.class
 auth/Auth$ForgotPasswordOtpRequest$1.class
 printable/PrintableOuterClass$Ledger$1.class
 printable/PrintableOuterClass$StatementRequestOrBuilder.class
+com/neptune/cba/transaction/history/transDetailsRequest$Builder.class
 com/virtualAccountApplication/createAccount/proto/AllTypes.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryRequest$1.class
 com/neptune/cba/transaction/history/HistoryRequest.class
