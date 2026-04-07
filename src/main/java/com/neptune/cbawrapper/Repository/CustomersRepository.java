@@ -26,4 +26,7 @@ public interface CustomersRepository extends MongoRepository<CustomersModel, Str
 
     @Query("{ 'savingsId': {$eq: ?0} }")
     Optional<CustomersModel> findCustomerBySavingsId(int savingsId);
+
+    @Query("{ 'account_num': {$eq: ?0} }")
+    Optional<CustomersModel> checkForCustomerByAcct(String account_num);
 }

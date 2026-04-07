@@ -16,4 +16,13 @@ public class TerminalProfile {
     private String walletId;
     private String terminalName;
     private String status;
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

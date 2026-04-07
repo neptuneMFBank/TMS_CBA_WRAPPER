@@ -13,4 +13,7 @@ public interface PosTransactionRepository extends MongoRepository<TransactionReq
 
     @Query("{ 'transactionPlatform': { $eq: ?0 } }")
     Optional<TransactionRequestSchema> getPlatformChargesByPlatformId(Integer transactionPlatform);
+
+    @Query("{ 'reference': { $eq: ?0 } }")
+    Optional<TransactionRequestSchema> getTransactionByRef(String reference);
 }

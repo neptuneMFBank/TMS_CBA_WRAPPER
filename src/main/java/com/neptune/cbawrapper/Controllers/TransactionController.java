@@ -73,6 +73,7 @@ public class TransactionController {
     private final EchannelServices echannelServices;
     private final Notifications notifications;
     private final BillsService billsService;
+    private final TmsCoreWalletAccount tmsCoreWalletAccount;
     private final Printable printable;
     private final TransactionService transactionService;
     private final PasswordEncoder passwordEncoder;
@@ -169,7 +170,7 @@ public class TransactionController {
             if (virtualAccountModel.isPresent()) {
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
-//                logAllTransactions(null, null, "Webhook", payload);
+                logAllTransactions(null, null, "Webhook", payload);
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(status_code, event, null, "", ZonedDateTime.now(), false);
                 if (status_code == 200) {
                     return new ResponseEntity<>(responseSchema, HttpStatus.OK);
@@ -177,7 +178,7 @@ public class TransactionController {
                     return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-//            logAllTransactions(null, null, "Webhook", payload);
+            logAllTransactions(null, null, "Webhook", payload);
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Account number not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
 
@@ -189,662 +190,6 @@ public class TransactionController {
             return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @PostMapping("/transaction")
-//    public ResponseEntity<ResponseSchema<?>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
-//        System.out.println("data = " + data);
-//        System.out.println("authToken " + authToken);
-//        ResponseSchema responseData = new ResponseSchema<>();
-//        ObjectMapper mapper = new ObjectMapper();
-////        try {
-//            boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, data);
-//
-//        CorepayPosTransactionRequest request = null;
-//        try {
-//            request = mapper.readValue(data, CorepayPosTransactionRequest.class);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        System.out.println("request = " + request);
-//            request.setDateFormat("dd MMMM yyyy");
-//            request.setStatus("pending");
-////            request.setNarration("credit user");
-//            request.setLocale("en");
-//
-//
-//            System.out.println("got here 112233");
-//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject("RwhmDwxsYVAQ4EhbBP7D+AF5xB39+j65KdEL6kTLhxsujaz7n82YxkXW7JBJml0iWJ7DCugHF5jtUu5IBol7zZFaGPWNyDx96EpKCwTPVbmbnCUjA9IyrMH0Aw+EnNmkdyhHgPGhIOdV8/xZplJpoc0AZrJLcHWKmn/dzHfTGaOsLvBRPciEllbM8rcWsbcaX7f0aYqR6quZnpW2nmcsz9b7U+xMxdsIHtZcbvLu3lXPCQGG1NZzXAIpXYvTKsUuAY+X4Mr4Hn5KMSAialC2D25uw2l91/lXNbsgdVbxhjJBSc5K5uVSPV1A0DHbrnuXHbh3D+JGI1TJ0zUe5yIz8bJLKzYVEcO5rmByeSn9GzBI+jbli6qFyPHNzWYUhWoZApkIDwhOgNIzr9vvnwbko5VSM16EADfun0YqXjYNhes80rDYxRZxnkxiXyTTVzDRHbh3D+JGI1TJ0zUe5yIz8brro83vwhK2o96PSxVWn0GScjZTt62rzwm9IPXhGz6qodqzuTmZWa6u+TOAzvAjj7ahbAiABp6gGkl8Z3qANbwWtOvAdD9k6phdkqyJznCYpxA6/Z7aOC9kHyAvnQJgMgxwrUGMWBKxKvc2c9ysr6IPyVxO5xxCS14Vba4+bqNJA8x09pa6xdAyjuQdTcc3oefveXWsBLh0C0QJt9InKPiTiJU/HZbhehzZT608uZOUq/9QEDL5pPz39qGKgdu/lzKNgs0XG8/c1ASEv2SvL954eDSlrIqvXOlHqNIO7tqsLRNSYqYgWAV5Dvylm1zhPuJQrtt/KY6Jh3sneuosKuRx3PxnXC2zzdiWZSjJ+a/e4TxVOu9GBulMvR7MM6uQbA==", CorepayPosTransactionRequest.class);
-//
-//        System.out.println("decryptedData = " + decryptedData);
-//
-////        if (!checkIfTokenIsValid) {
-////            responseData.setData(null);
-////            responseData.setMessage("Invalid auth token");
-//////            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-////            responseData.setTimeStamp(ZonedDateTime.now());
-////            responseData.setEnc(false);
-////            responseData.setStatus(401);
-////            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
-////        }
-//
-//            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
-//
-//            if (virtualAccountModel.isEmpty()) {
-//                errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "account with Terminal id not found", "account with Terminal id not found");
-//                responseData.setMessage("account with Terminal id not found");
-//                responseData.setStatus(404);
-//                responseData.setTimeStamp(ZonedDateTime.now());
-//                responseData.setData(null);
-//                return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//            }
-//
-//            BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
-//
-////            String hashedPassword = passwordEncoder.encode(request.getPin());
-//
-////            System.out.println("hashedPassword = " +hashedPassword);
-////            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
-//
-//            if(request.isBillsPayment() || request.isTransfer()) {
-//                boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
-//
-//                if (!isAuthenticated) {
-//                    responseData.setMessage("Unauthorized");
-//                    responseData.setStatus(401);
-//                    responseData.setTimeStamp(ZonedDateTime.now());
-//                    responseData.setData(null);
-//                    return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
-//                }
-//            }
-////            System.out.println("kellyabel");
-//
-////            System.out.println("platformName = " + request.getTransactionPlatform());
-////            System.out.println("platformId = " + request.getPaymentTypeId());
-//
-//            Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(request.getTransactionPlatform());
-//
-//            if(platformCharges.isEmpty()){
-//                errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "transactionPlatform not found", "transactionPlatform not found");
-//                responseData.setMessage("transactionPlatform not found");
-//                responseData.setStatus(404);
-//                responseData.setTimeStamp(ZonedDateTime.now());
-//                responseData.setData(null);
-//                return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//            }
-//
-//            TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
-//            transactionRequestSchema.setPan(request.getPan());
-//            transactionRequestSchema.setResponseCode(request.getResponseCode());
-//            transactionRequestSchema.setPtad(request.getPtad());
-//            transactionRequestSchema.setReference(request.getReference());
-//            transactionRequestSchema.setTransactionReference(request.getTransactionReference());
-//            transactionRequestSchema.setAmount(request.getAmount());
-//            transactionRequestSchema.setTransactionDate(request.getTransactionDate());
-//            transactionRequestSchema.setTransactionType(request.getTransactionType());
-//            transactionRequestSchema.setDateFormat("dd MMMM yyyy");
-//            transactionRequestSchema.setStatus("pending");
-//            transactionRequestSchema.setNarration("credit user");
-//            transactionRequestSchema.setTerminalId(request.getTerminalId());
-////            transactionRequestSchema.setTransactionPlatformId(platformCharges.get().getId());
-//            transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
-//            transactionRequestSchema.setMerchantId(request.getMerchantId());
-//            transactionRequestSchema.setLocale("en");
-//            transactionRequestSchema.setSerialNo(request.getSerialNo());
-//            transactionRequestSchema.setStan(request.getStan());
-//            transactionRequestSchema.setMerchantName(request.getMerchantName());
-//            transactionRequestSchema.setReversal(request.getReversal());
-//            transactionRequestSchema.setMerchantCode(request.getMerchantCode());
-//            transactionRequestSchema.setAuthCode(request.getAuthCode());
-//            transactionRequestSchema.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-//            transactionRequestSchema.setProcessingFee(request.getProcessingFee());
-//            transactionRequestSchema.setTransactionFee(request.getTransactionFee());
-//            transactionRequestSchema.setCardExpiry(request.getCardExpiry());
-//            transactionRequestSchema.setCardScheme(request.getCardScheme());
-//            transactionRequestSchema.setCreated_at(ZonedDateTime.now().toString());
-//            transactionRequestSchema.setUpdated_at(ZonedDateTime.now().toString());
-//            posTransactionRepository.save(transactionRequestSchema);
-//
-//            if(request.isBillsPayment()){
-//                try {
-//                    double amount = Double.parseDouble(request.getMakePayment().getAmount())/100;
-//                    if(balance.getEffectiveBalance() - amount < 0){
-//                        ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
-//                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                    }
-//                    double charge = 100;
-//                    BillType billType = BillType.BILLS;
-//                    if(request.getMakePayment().getBillType().equals("AIRTIME_DATA")) {
-//                        String number = helpers.normalizePhoneNumber(request.getMakePayment().getCustomerId());
-//                        request.getMakePayment().setCustomerId(number);
-//                        charge = 0;
-//                        billType = BillType.AIRTIME_DATA;
-//                    }
-//                    request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 100));
-//                    request.getMakePayment().setAmount(String.valueOf(amount));
-//                    System.out.println("request = " + request.getMakePayment());
-//
-//                    MakePaymentApiResponse validateCustomer = billsService.makePayment(request.getMakePayment(), charge, billType);
-//                    System.out.println("validateCustomer = " + validateCustomer);
-//
-//                    BillsPaymentData billsPaymentData = new BillsPaymentData();
-//                    billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
-//                    billsPaymentData.setCustomerId(request.getMakePayment().getCustomerId());
-//                    billsPaymentData.setEmail(request.getMakePayment().getEmail());
-//                    billsPaymentData.setMobile(request.getMakePayment().getMobile());
-//                    billsPaymentData.setAmount(request.getMakePayment().getAmount());
-//                    billsPaymentData.setCustomerAccountNumber(request.getMakePayment().getCustomerAccountNumber());
-//                    billsPaymentData.setBillType(request.getMakePayment().getBillType());
-//                    billsPaymentData.setResponse(validateCustomer);
-//                    billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
-//                    billsPaymentData.setBillsAdditionalData(validateCustomer.getBillsAdditionalData());
-//
-//                    billsPaymentDataRepository.save(billsPaymentData);
-//
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "successful", validateCustomer, "", ZonedDateTime.now(), true);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-//                } catch (Exception e) {
-////                    throw new RuntimeException(e);
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, e.getMessage(), e, "", ZonedDateTime.now(), true);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//            } else if (request.isTransfer()) {
-//                try {
-//                    double amount = request.getAmount() + 20;
-//
-//                    if(balance.getEffectiveBalance() - amount < 0){
-//                        ResponseSchema<?> responseSchema = new ResponseSchema<>( 500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
-//                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                    }
-////                    String session_Id = "2103" + (System.currentTimeMillis() / 100);
-//                    Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
-//
-//                    if(enquiryResponseModel.isEmpty()){
-//                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//                    }
-//
-//                    if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("090329")){
-//                        System.out.println("ggggggg");
-//                        //TODO: Treat as neptune transfer
-//                        IntraTransfer intraTransfer = IntraTransfer.builder()
-//                                .customerId(virtualAccountModel.get().getParent_id())
-//                                .mobilekey("")
-//                                .fromaccount(virtualAccountModel.get().getVirtual_account_number())
-//                                .fromacctname(virtualAccountModel.get().getAccount_name())
-//                                .fromaccountstatus("active")
-//                                .fromaccountemail(virtualAccountModel.get().getEmail())
-//                                .fromacctype("")
-//                                .toaccount(enquiryResponseModel.get().getAccountNumber())
-//                                .toacctname(enquiryResponseModel.get().getAccountName())
-//                                .toacctype("savings")
-//                                .amount(request.getAmount())
-//                                .tokenType("")
-//                                .transactionreference("intra_"+request.getNameEnquirySessionID())
-//                                .narration(request.getNarration())
-//                                .build();
-//                        System.out.println("intraTransfer = " + intraTransfer);
-//                        IntraTransferResponseData response = transactionService.intraTransfer(intraTransfer);
-//
-//                        System.out.println("response 22 = " + response);
-//                        if(response.getResponsecode().equals("401")){
-//                            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, response.getResponsemessage(), "", "", ZonedDateTime.now(), false);
-//                            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
-//                        }
-//                        responseData.setMessage(response.getResponsemessage());
-//                        responseData.setStatus(Integer.parseInt(response.getResponsecode()));
-//                        responseData.setTimeStamp(ZonedDateTime.now());
-//                        responseData.setData(response);
-//                        return new ResponseEntity<>(responseData, HttpStatus.OK);
-//                    } // after pos is activated -> send mail to set pin -> call the backend to save the pin
-//
-//                    EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-//                    transactionsModel.setPaymentReference("inter_"+request.getNameEnquirySessionID());
-//                    transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
-//                    transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
-//                    transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
-//                    transactionsModel.setBeneficiaryKYCLevel(String.valueOf(enquiryResponseModel.get().getKycLevel()));
-//                    transactionsModel.setOriginatorAccountName(virtualAccountModel.get().getAccount_name());
-//                    transactionsModel.setDestinationInstitutionCode(enquiryResponseModel.get().getDestinationInstitutionCode());
-//                    transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
-//                    transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
-//                    transactionsModel.setOriginatorKYCLevel(1);
-//                    transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
-//                    transactionsModel.setOriginatorNarration(request.getNarration());
-//                    transactionsModel.setTransactionLocation(request.getTransactionLocation());
-//                    transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
-//                    transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
-//                    transactionsModel.setAmount(request.getAmount());
-//                    transactionsModel.setCharge(20);
-//                    easypayTransactionsRepository.save(transactionsModel);
-//
-//                    EasyPayResponse response = easypay.transferOutward(transactionsModel);
-//
-//                    System.out.println("response = " + response);
-//                    if(response == null){
-//                        errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
-//
-//                        EasypayResponseData easypayResponseData = new EasypayResponseData();
-//                        easypayResponseData.setCode("500");
-//                        easypayResponseData.setMessage("insufficient funds");
-//                        ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "insufficient funds", easypayResponseData, "", ZonedDateTime.now(), false);
-//                        return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                    }
-//                    System.out.println("response 112 = " + response.getCode());
-//
-//                    transactionsModel.setMessage(response.getMessage());
-//                    transactionsModel.setCode(response.getCode());
-//                    easypayTransactionsRepository.save(transactionsModel);
-//
-//                    System.out.println("response = " + response);
-//
-//                    EasypayResponseData easypayResponseData = new EasypayResponseData();
-//                    easypayResponseData.setCode(response.getCode());
-//                    easypayResponseData.setMessage(response.getMessage());
-//
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-//                } catch (Exception e) {
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), e, "", ZonedDateTime.now(), false);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//            } else {
-//                UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
-//                System.out.println("responseSchema = " + responseSchema);
-//
-//                if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
-//                    System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
-//
-////                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
-////
-////                    if (businessPlatformCharges == null || businessPlatformCharges.isEmpty()) {
-////                        errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
-////                        responseData.setMessage("business platform charge not found");
-////                        responseData.setStatus(404);
-////                        responseData.setTimeStamp(ZonedDateTime.now());
-////                        responseData.setData(null);
-////                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-////                    }
-//
-//                    TransactionDrCr transactionDrCr = new TransactionDrCr();
-//                    transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
-//                    transactionDrCr.setIsccode("2");
-//                    transactionDrCr.setAccountstatus("active");
-//                    transactionDrCr.setUpdatedToCba(false);
-//                    transactionDrCr.setTerminalId(request.getTerminalId());
-//                    transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
-//                    transactionDrCr.setDrcr("cr");
-//                    transactionDrCr.setTransaction_business_platform_id("");
-//                    transactionDrCr.setAcctype("savings");
-//                    transactionDrCr.setAmount(transactionRequestSchema.getAmount());
-//                    transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
-//                    transactionDrCr.setNarration(transactionRequestSchema.getNarration());
-//                    transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
-//                    transactionDrCr.setChannel("1");
-//                    transactionDrCr.setResponseCode(request.getResponseCode());
-//                    transactionDrCr.setEid("");
-//                    transactionDrCr.setType("transaction");
-//                    transactionDrCr.setParent_id("");
-//                    transactionDrCr.setCbaMessage("");
-//                    transactionDrCr.setResourceId(responseSchema.getResourceId());
-//                    transactionDrCr.setTransaction_platform_id(request.getTransactionPlatform());
-//                    transactionDrCr.setCardScheme(request.getCardScheme());
-//                    transactionDrCr.setCreated_at(LocalDateTime.now().toString());
-//                    transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
-//                    cbaTransactionRequests.save(transactionDrCr);
-//
-//                    responseData.setMessage("success");
-//                    responseData.setStatus(200);
-//                    responseData.setTimeStamp(ZonedDateTime.now());
-//                    responseData.setData(transactionDrCr);
-//                    return new ResponseEntity<>(responseData, HttpStatus.OK);
-//                }
-//            }
-//
-
-    /// /        } catch (Exception e) {
-    /// /            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-    /// /            log.error("error from debit credit1 =: {}", e.getMessage());
-    /// /            responseData.setMessage(e.getMessage());
-    /// /            responseData.setStatus(500);
-    /// /            responseData.setTimeStamp(ZonedDateTime.now());
-    /// /            responseData.setData(null);
-    /// /            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
-    /// /        }
-    /// /        return responseData;
-//        return new ResponseEntity<>(responseData, HttpStatus.OK);
-//    }
-//    @PostMapping("/transactions")
-//    public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcctsss(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
-//        System.out.println("data = " + data);
-//        System.out.println("authToken " + authToken);
-//        ResponseSchema responseData = new ResponseSchema<>();
-//        ObjectMapper mapper = new ObjectMapper();
-////        try {
-//        boolean checkIfTokenIsValid = helpers.isAuthTokenValid(authToken, data);
-//
-//        CorepayPosTransactionRequest request = null;
-//        try {
-//            request = mapper.readValue(data, CorepayPosTransactionRequest.class);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        System.out.println("request = " + request);
-//        request.setDateFormat("dd MMMM yyyy");
-//        request.setStatus("pending");
-////            request.setNarration("credit user");
-//        request.setLocale("en");
-//
-//
-//        System.out.println("got here 112233");
-//        CorepayPosTransactionRequest decryptedData = helpers.decryptObject("RwhmDwxsYVAQ4EhbBP7D+AF5xB39+j65KdEL6kTLhxsujaz7n82YxkXW7JBJml0iWJ7DCugHF5jtUu5IBol7zZFaGPWNyDx96EpKCwTPVbmbnCUjA9IyrMH0Aw+EnNmkdyhHgPGhIOdV8/xZplJpoc0AZrJLcHWKmn/dzHfTGaOsLvBRPciEllbM8rcWsbcaX7f0aYqR6quZnpW2nmcsz9b7U+xMxdsIHtZcbvLu3lXPCQGG1NZzXAIpXYvTKsUuAY+X4Mr4Hn5KMSAialC2D25uw2l91/lXNbsgdVbxhjJBSc5K5uVSPV1A0DHbrnuXHbh3D+JGI1TJ0zUe5yIz8bJLKzYVEcO5rmByeSn9GzBI+jbli6qFyPHNzWYUhWoZApkIDwhOgNIzr9vvnwbko5VSM16EADfun0YqXjYNhes80rDYxRZxnkxiXyTTVzDRHbh3D+JGI1TJ0zUe5yIz8brro83vwhK2o96PSxVWn0GScjZTt62rzwm9IPXhGz6qodqzuTmZWa6u+TOAzvAjj7ahbAiABp6gGkl8Z3qANbwWtOvAdD9k6phdkqyJznCYpxA6/Z7aOC9kHyAvnQJgMgxwrUGMWBKxKvc2c9ysr6IPyVxO5xxCS14Vba4+bqNJA8x09pa6xdAyjuQdTcc3oefveXWsBLh0C0QJt9InKPiTiJU/HZbhehzZT608uZOUq/9QEDL5pPz39qGKgdu/lzKNgs0XG8/c1ASEv2SvL954eDSlrIqvXOlHqNIO7tqsLRNSYqYgWAV5Dvylm1zhPuJQrtt/KY6Jh3sneuosKuRx3PxnXC2zzdiWZSjJ+a/e4TxVOu9GBulMvR7MM6uQbA==", CorepayPosTransactionRequest.class);
-//
-//        System.out.println("decryptedData = " + decryptedData);
-//
-////        if (!checkIfTokenIsValid) {
-////            responseData.setData(null);
-////            responseData.setMessage("Invalid auth token");
-//////            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-////            responseData.setTimeStamp(ZonedDateTime.now());
-////            responseData.setEnc(false);
-////            responseData.setStatus(401);
-////            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
-////        }
-//
-//        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
-//
-//        if (virtualAccountModel.isEmpty()) {
-//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "account with Terminal id not found", "account with Terminal id not found");
-//            responseData.setMessage("account with Terminal id not found");
-//            responseData.setStatus(404);
-//            responseData.setTimeStamp(ZonedDateTime.now());
-//            responseData.setData(null);
-//            return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//        }
-//
-//        BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
-//
-////            String hashedPassword = passwordEncoder.encode(request.getPin());
-//
-////            System.out.println("hashedPassword = " +hashedPassword);
-////            System.out.println("virtualAccountModel.get().getPin() = " + virtualAccountModel.get().getPin());
-//
-//        if (request.isBillsPayment() || request.isTransfer()) {
-//            boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
-//
-//            if (!isAuthenticated) {
-//                responseData.setMessage("Unauthorized");
-//                responseData.setStatus(401);
-//                responseData.setTimeStamp(ZonedDateTime.now());
-//                responseData.setData(null);
-//                return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
-//            }
-//        }
-////            System.out.println("kellyabel");
-//
-////            System.out.println("platformName = " + request.getTransactionPlatform());
-////            System.out.println("platformId = " + request.getPaymentTypeId());
-//
-//        Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(request.getTransactionPlatform());
-//
-//        if (platformCharges.isEmpty()) {
-//            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "transactionPlatform not found", "transactionPlatform not found");
-//            responseData.setMessage("transactionPlatform not found");
-//            responseData.setStatus(404);
-//            responseData.setTimeStamp(ZonedDateTime.now());
-//            responseData.setData(null);
-//            return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//        }
-//
-//        TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
-//        transactionRequestSchema.setPan(request.getPan());
-//        transactionRequestSchema.setResponseCode(request.getResponseCode());
-//        transactionRequestSchema.setPtad(request.getPtad());
-//        transactionRequestSchema.setReference(request.getReference());
-//        transactionRequestSchema.setTransactionReference(request.getTransactionReference());
-//        transactionRequestSchema.setAmount(request.getAmount());
-//        transactionRequestSchema.setTransactionDate(request.getTransactionDate());
-//        transactionRequestSchema.setTransactionType(request.getTransactionType());
-//        transactionRequestSchema.setDateFormat("dd MMMM yyyy");
-//        transactionRequestSchema.setStatus("pending");
-//        transactionRequestSchema.setNarration("credit user");
-//        transactionRequestSchema.setTerminalId(request.getTerminalId());
-////            transactionRequestSchema.setTransactionPlatformId(platformCharges.get().getId());
-//        transactionRequestSchema.setPaymentTypeId(request.getPaymentTypeId());
-//        transactionRequestSchema.setMerchantId(request.getMerchantId());
-//        transactionRequestSchema.setLocale("en");
-//        transactionRequestSchema.setSerialNo(request.getSerialNo());
-//        transactionRequestSchema.setStan(request.getStan());
-//        transactionRequestSchema.setMerchantName(request.getMerchantName());
-//        transactionRequestSchema.setReversal(request.getReversal());
-//        transactionRequestSchema.setMerchantCode(request.getMerchantCode());
-//        transactionRequestSchema.setAuthCode(request.getAuthCode());
-//        transactionRequestSchema.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-//        transactionRequestSchema.setProcessingFee(request.getProcessingFee());
-//        transactionRequestSchema.setTransactionFee(request.getTransactionFee());
-//        transactionRequestSchema.setCardExpiry(request.getCardExpiry());
-//        transactionRequestSchema.setCardScheme(request.getCardScheme());
-//        transactionRequestSchema.setCreated_at(ZonedDateTime.now().toString());
-//        transactionRequestSchema.setUpdated_at(ZonedDateTime.now().toString());
-//        posTransactionRepository.save(transactionRequestSchema);
-//
-//        if (request.isBillsPayment()) {
-//            // DeferredResult holds the HTTP connection open with a 90s timeout
-//            DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
-//                    new DeferredResult<>(90_000L, () -> {
-//                        ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
-//                                504, "Payment query timed out", null, "", ZonedDateTime.now(), true
-//                        );
-//                        return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
-//                    });
-//
-//            try {
-//                double amount = Double.parseDouble(request.getMakePayment().getAmount()) / 100;
-//                if (balance.getEffectiveBalance() - amount < 0) {
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
-//                    deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
-//                    return deferredResult;
-//                }
-//
-//                double charge = 100;
-//                BillType billType = BillType.BILLS;
-//                if (request.getMakePayment().getBillType().equals("AIRTIME_DATA")) {
-//                    String number = helpers.normalizePhoneNumber(request.getMakePayment().getCustomerId());
-//                    request.getMakePayment().setCustomerId(number);
-//                    charge = 0;
-//                    billType = BillType.AIRTIME_DATA;
-//                }
-//
-//                request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 100));
-//                request.getMakePayment().setAmount(String.valueOf(amount));
-//
-//                // Persist initial record
-//                BillsPaymentData billsPaymentData = new BillsPaymentData();
-//                billsPaymentData.setPaymentCode(request.getMakePayment().getPaymentCode());
-//                billsPaymentData.setCustomerId(request.getMakePayment().getCustomerId());
-//                billsPaymentData.setEmail(request.getMakePayment().getEmail());
-//                billsPaymentData.setMobile(request.getMakePayment().getMobile());
-//                billsPaymentData.setAmount(request.getMakePayment().getAmount());
-//                billsPaymentData.setCustomerAccountNumber(request.getMakePayment().getCustomerAccountNumber());
-//                billsPaymentData.setBillType(request.getMakePayment().getBillType());
-//                billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
-//                billsPaymentDataRepository.save(billsPaymentData);
-//
-//                // Hand off to async service — request thread is immediately freed
-//                processPaymentAndQuery(
-//                        request.getMakePayment(), billsPaymentData, charge, billType, deferredResult
-//                );
-//
-//            } catch (Exception e) {
-//                ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
-//                deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
-//            }
-//
-//            return deferredResult; // returns immediately, HTTP connection stays open
-//        } else if (request.isTransfer()) {
-//            try {
-//                double amount = request.getAmount() + 20;
-//
-//                if (balance.getEffectiveBalance() - amount < 0) {
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "Insufficient balance", null, "", ZonedDateTime.now(), true);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-////                    String session_Id = "2103" + (System.currentTimeMillis() / 100);
-//                Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
-//
-//                if (enquiryResponseModel.isEmpty()) {
-//                    return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-//                }
-//
-//                if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("090329")) {
-//                    System.out.println("ggggggg");
-//                    //TODO: Treat as neptune transfer
-//                    IntraTransfer intraTransfer = IntraTransfer.builder()
-//                            .customerId(virtualAccountModel.get().getParent_id())
-//                            .mobilekey("")
-//                            .fromaccount(virtualAccountModel.get().getVirtual_account_number())
-//                            .fromacctname(virtualAccountModel.get().getAccount_name())
-//                            .fromaccountstatus("active")
-//                            .fromaccountemail(virtualAccountModel.get().getEmail())
-//                            .fromacctype("")
-//                            .toaccount(enquiryResponseModel.get().getAccountNumber())
-//                            .toacctname(enquiryResponseModel.get().getAccountName())
-//                            .toacctype("savings")
-//                            .amount(request.getAmount())
-//                            .tokenType("")
-//                            .transactionreference("intra_" + request.getNameEnquirySessionID())
-//                            .narration(request.getNarration())
-//                            .build();
-//                    System.out.println("intraTransfer = " + intraTransfer);
-//                    IntraTransferResponseData response = transactionService.intraTransfer(intraTransfer);
-//
-//                    System.out.println("response 22 = " + response);
-//                    if (response.getResponsecode().equals("401")) {
-//                        ResponseSchema<?> responseSchema = new ResponseSchema<>(401, response.getResponsemessage(), "", "", ZonedDateTime.now(), false);
-//                        return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
-//                    }
-//                    responseData.setMessage(response.getResponsemessage());
-//                    responseData.setStatus(Integer.parseInt(response.getResponsecode()));
-//                    responseData.setTimeStamp(ZonedDateTime.now());
-//                    responseData.setData(response);
-//                    return new ResponseEntity<>(responseData, HttpStatus.OK);
-//                } // after pos is activated -> send mail to set pin -> call the backend to save the pin
-//
-//                EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-//                transactionsModel.setPaymentReference("inter_" + request.getNameEnquirySessionID());
-//                transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
-//                transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
-//                transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
-//                transactionsModel.setBeneficiaryKYCLevel(String.valueOf(enquiryResponseModel.get().getKycLevel()));
-//                transactionsModel.setOriginatorAccountName(virtualAccountModel.get().getAccount_name());
-//                transactionsModel.setDestinationInstitutionCode(enquiryResponseModel.get().getDestinationInstitutionCode());
-//                transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
-//                transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
-//                transactionsModel.setOriginatorKYCLevel(1);
-//                transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
-//                transactionsModel.setOriginatorNarration(request.getNarration());
-//                transactionsModel.setTransactionLocation(request.getTransactionLocation());
-//                transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
-//                transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
-//                transactionsModel.setAmount(request.getAmount());
-//                transactionsModel.setCharge(20);
-//                easypayTransactionsRepository.save(transactionsModel);
-//
-//                EasyPayResponse response = easypay.transferOutward(transactionsModel);
-//
-//                System.out.println("response = " + response);
-//                if (response == null) {
-//                    errorLoggingException.logError("EASY_PAY_RESPONSE_NULL", "Response from outward transfer returned null", "Response from outward transfer returned null");
-//
-//                    EasypayResponseData easypayResponseData = new EasypayResponseData();
-//                    easypayResponseData.setCode("500");
-//                    easypayResponseData.setMessage("insufficient funds");
-//                    ResponseSchema<?> responseSchema = new ResponseSchema<>(500, "insufficient funds", easypayResponseData, "", ZonedDateTime.now(), false);
-//                    return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//                System.out.println("response 112 = " + response.getCode());
-//
-//                transactionsModel.setMessage(response.getMessage());
-//                transactionsModel.setCode(response.getCode());
-//                easypayTransactionsRepository.save(transactionsModel);
-//
-//                System.out.println("response = " + response);
-//
-//                EasypayResponseData easypayResponseData = new EasypayResponseData();
-//                easypayResponseData.setCode(response.getCode());
-//                easypayResponseData.setMessage(response.getMessage());
-//
-//                ResponseSchema<?> responseSchema = new ResponseSchema<>(200, response.getMessage(), easypayResponseData, "", ZonedDateTime.now(), false);
-//                return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-//            } catch (Exception e) {
-//                ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), e, "", ZonedDateTime.now(), false);
-//                return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//        } else {
-//            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);//.createTransaction(transactionDetails);
-//            System.out.println("responseSchema = " + responseSchema);
-//
-//            if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
-//                System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
-//
-////                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByAcct(virtualAccountModel.get().getParent_account());
-////
-////                    if (businessPlatformCharges == null || businessPlatformCharges.isEmpty()) {
-////                        errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "business platform charge not found", "business Platform not found");
-////                        responseData.setMessage("business platform charge not found");
-////                        responseData.setStatus(404);
-////                        responseData.setTimeStamp(ZonedDateTime.now());
-////                        responseData.setData(null);
-////                        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
-////                    }
-//
-//                TransactionDrCr transactionDrCr = new TransactionDrCr();
-//                transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
-//                transactionDrCr.setIsccode("2");
-//                transactionDrCr.setAccountstatus("active");
-//                transactionDrCr.setUpdatedToCba(false);
-//                transactionDrCr.setTerminalId(request.getTerminalId());
-//                transactionDrCr.setAcctname(virtualAccountModel.get().getAccount_name());
-//                transactionDrCr.setDrcr("cr");
-//                transactionDrCr.setTransaction_business_platform_id("");
-//                transactionDrCr.setAcctype("savings");
-//                transactionDrCr.setAmount(transactionRequestSchema.getAmount());
-//                transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
-//                transactionDrCr.setNarration(transactionRequestSchema.getNarration());
-//                transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
-//                transactionDrCr.setChannel("1");
-//                transactionDrCr.setResponseCode(request.getResponseCode());
-//                transactionDrCr.setEid("");
-//                transactionDrCr.setType("transaction");
-//                transactionDrCr.setParent_id("");
-//                transactionDrCr.setCbaMessage("");
-//                transactionDrCr.setResourceId(responseSchema.getResourceId());
-//                transactionDrCr.setTransaction_platform_id(request.getTransactionPlatform());
-//                transactionDrCr.setCardScheme(request.getCardScheme());
-//                transactionDrCr.setCreated_at(LocalDateTime.now().toString());
-//                transactionDrCr.setUpdated_at(LocalDateTime.now().toString());
-//                cbaTransactionRequests.save(transactionDrCr);
-//
-//                responseData.setMessage("success");
-//                responseData.setStatus(200);
-//                responseData.setTimeStamp(ZonedDateTime.now());
-//                responseData.setData(transactionDrCr);
-//                return new ResponseEntity<>(responseData, HttpStatus.OK);
-//            }
-//        }
-//
-////        } catch (Exception e) {
-////            errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", String.valueOf(e.getCause()), e.getMessage());
-////            log.error("error from debit credit1 =: {}", e.getMessage());
-////            responseData.setMessage(e.getMessage());
-////            responseData.setStatus(500);
-////            responseData.setTimeStamp(ZonedDateTime.now());
-////            responseData.setData(null);
-////            return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
-////        }
-////        return responseData;
-//        return new ResponseEntity<>(responseData, HttpStatus.OK);
-//    }
 
     @PostMapping("/transaction")
     public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
@@ -902,11 +247,28 @@ public class TransactionController {
             return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
         }
 
+        String ref;
+        if(request.isBillsPayment()){
+            ref = "2103" + (System.currentTimeMillis() / 100);
+        }else if(request.isTransfer()){
+            Optional<NameEnquiryResponseModel> enquiryResponseModel = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
+            if (enquiryResponseModel.isEmpty()) {
+                return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
+            }
+            if (enquiryResponseModel.get().getDestinationInstitutionCode().equalsIgnoreCase("090329")) {
+                ref = "intra_" + request.getNameEnquirySessionID();
+            }else {
+                ref = "inter_" + request.getNameEnquirySessionID();
+            }
+        } else {
+            ref = helpers.generateTransactId(request.getTerminalId(), request.getTransactionReference());
+        }
+
         TransactionRequestSchema transactionRequestSchema = new TransactionRequestSchema();
         transactionRequestSchema.setPan(request.getPan());
         transactionRequestSchema.setResponseCode(request.getResponseCode());
         transactionRequestSchema.setPtad(request.getPtad());
-        transactionRequestSchema.setReference(request.getReference());
+        transactionRequestSchema.setReference(ref);
         transactionRequestSchema.setTransactionReference(request.getTransactionReference());
         transactionRequestSchema.setAmount(request.getAmount());
         transactionRequestSchema.setTransactionDate(request.getTransactionDate());
@@ -949,7 +311,7 @@ public class TransactionController {
                     charge = 0;
                     billType = BillType.AIRTIME_DATA;
                 }
-                request.getMakePayment().setRequestReference("2103" + (System.currentTimeMillis() / 100));
+                request.getMakePayment().setRequestReference(ref);
                 request.getMakePayment().setAmount(String.valueOf(amount));
                 System.out.println("request = " + request.getMakePayment());
 
@@ -981,13 +343,13 @@ public class TransactionController {
                                 return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
                             });
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
-//                    logAllTransactions(request, platformCharges, "Bills", null);
+                    logAllTransactions(request, platformCharges, "Bills", null);
                     processPaymentAndQuery(
                             makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
                     );
                 }else {
                     System.out.println("request.getMakePayment().getBillType() 2 = " + request.getMakePayment().getBillType());
-//                    logAllTransactions(request, platformCharges, "Bills", null);
+                    logAllTransactions(request, platformCharges, "Bills", null);
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(
                             200,
                             "Payment processed successfully",
@@ -1029,7 +391,7 @@ public class TransactionController {
                             .toacctype("savings")
                             .amount(request.getAmount())
                             .tokenType("")
-                            .transactionreference("intra_" + request.getNameEnquirySessionID())
+                            .transactionreference(ref)
                             .narration(request.getNarration())
                             .build();
                     System.out.println("intraTransfer = " + intraTransfer);
@@ -1040,7 +402,7 @@ public class TransactionController {
                         return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED));
                     }
 
-//                    logAllTransactions(request, platformCharges, "Transfers", null);
+                    logAllTransactions(request, platformCharges, "Transfers", null);
                     responseData.setMessage(response.getResponsemessage());
                     responseData.setStatus(Integer.parseInt(response.getResponsecode()));
                     responseData.setTimeStamp(ZonedDateTime.now());
@@ -1048,7 +410,7 @@ public class TransactionController {
                     return immediateResult(new ResponseEntity<>(responseData, HttpStatus.OK));
                 }
                 EasypayTransactionsModel transactionsModel = new EasypayTransactionsModel();
-                transactionsModel.setPaymentReference("inter_" + request.getNameEnquirySessionID());
+                transactionsModel.setPaymentReference(ref);
                 transactionsModel.setBeneficiaryAccountName(enquiryResponseModel.get().getAccountName());
                 transactionsModel.setBeneficiaryAccountNumber(enquiryResponseModel.get().getAccountNumber());
                 transactionsModel.setBeneficiaryBankVerificationNumber(enquiryResponseModel.get().getBankVerificationNumber());
@@ -1077,7 +439,7 @@ public class TransactionController {
                     return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
                 }
 
-//                logAllTransactions(request, platformCharges, "Transfers", null);
+                logAllTransactions(request, platformCharges, "Transfers", null);
                 System.out.println("response 112 = " + response.getCode());
                 transactionsModel.setMessage(response.getMessage());
                 transactionsModel.setCode(response.getCode());
@@ -1096,7 +458,7 @@ public class TransactionController {
 
         } else {
             System.out.println("12345678900");
-            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);
+            UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawal", null);
             System.out.println("responseSchema = " + responseSchema);
             if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
@@ -1111,7 +473,7 @@ public class TransactionController {
                 transactionDrCr.setTransaction_business_platform_id("");
                 transactionDrCr.setAcctype("savings");
                 transactionDrCr.setAmount(transactionRequestSchema.getAmount());
-                transactionDrCr.setTransactionreference(helpers.generateTransactId(request.getTerminalId(), transactionRequestSchema.getTransactionReference()));
+                transactionDrCr.setTransactionreference(ref);
                 transactionDrCr.setNarration(transactionRequestSchema.getNarration());
                 transactionDrCr.setPosRef(transactionRequestSchema.getTransactionReference());
                 transactionDrCr.setChannel("1");
@@ -1347,6 +709,67 @@ public class TransactionController {
         }
     }
 
+
+    @CrossOrigin(origins = "*")
+    @Validated
+    @PostMapping("/log-dispute")
+    public ResponseEntity<ResponseSchema<?>> logTransactionDispute(
+            @Valid @RequestBody Dispute request
+    ){
+
+        MenuDetails menuDetails = tmsCoreWalletAccount.getTerminalMenus(request.getTerminalSerialNo());
+
+        if (menuDetails == null) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    404, "terminal ID not found", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        System.out.println("1234567890");
+        Optional<TransactionRequestSchema> checkTransaction = posTransactionRepository.getTransactionByRef(request.getRefNo());
+
+        System.out.println("checkTransaction = " + checkTransaction);
+        if (checkTransaction.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    404, "Transaction with reference not found", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        if(checkTransaction.get().getLoggedDispute()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    404, "Dispute already logged for this transaction", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        DisputeRequest disputeRequest = new DisputeRequest();
+        disputeRequest.setTransactionId(checkTransaction.get().getResourceId().toString());
+        disputeRequest.setTerminalId(menuDetails.getTerminalProfile().getId());
+        disputeRequest.setDisputeReason(request.getDisputeReason());
+        disputeRequest.setOtherReason(request.getOtherReason());
+        disputeRequest.setNote(request.getNote());
+
+        System.out.println("disputeRequest = " + disputeRequest.toString());
+
+        UpdateTransactionResponseSchema response = transactionCoreController.logDispute(disputeRequest);
+
+        System.out.println("response = " + response);
+        checkTransaction.get().setLoggedDispute(true);
+        posTransactionRepository.save(checkTransaction.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                200,
+                "Dispute logged successfully",
+                null,
+                "",
+                ZonedDateTime.now(),
+                true
+        );
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
     @Async("statementExecutor")
     public CompletableFuture<PrintableOuterClass.StatementOfAccountResponse> generateStateAsync(
             GenerateStatementRequest request,
@@ -1433,7 +856,7 @@ public class TransactionController {
         System.out.println("Here  = " + request);
         System.out.println("payload = " + payload);
         System.out.println("type = " + type);
-        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges);
+        UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type, payload);
         System.out.println("responseSchema = " + responseSchema);
     }
 

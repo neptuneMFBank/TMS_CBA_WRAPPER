@@ -28,6 +28,9 @@ public class CustomersModel {
     private String bvn;
     private String tin;
     private String address;
+    private Integer officeId;
+    private Integer clientId;
+    private Integer resourceId;
 
     private List<CreateDirectorRequest> director_data;
     private String principal_officer_middle_name;
@@ -756,6 +759,30 @@ public class CustomersModel {
 
     public Boolean getIs_updated() {
         return is_updated;
+    }
+
+    public Integer getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(Integer officeId) {
+        this.officeId = officeId;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 
     public void setIs_updated(Boolean is_updated) {

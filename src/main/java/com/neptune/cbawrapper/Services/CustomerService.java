@@ -293,4 +293,19 @@ public class CustomerService {
         }
         return response;
     }
+
+    public Customer.GetCorporateByAccountResponse getCustomerAcctNum(String accountNum) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.GetCorporateByAccountResponse response = null;
+        try {
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            Customer.GetCustomerByAccountRequest request = Customer.GetCustomerByAccountRequest.newBuilder().setAccountNumber(accountNum).setSignedKey("").build();
+            response = stub.getCorporateCustomerByAccount(request);
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+        } finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
 }
