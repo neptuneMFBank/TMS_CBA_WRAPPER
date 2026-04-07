@@ -2,6 +2,7 @@ package com.neptune.cbawrapper.Controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.util.JsonFormat;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.bills.BillType;
 import com.neptune.cba.transaction.bills.BillsTsqResponse;
@@ -713,12 +714,31 @@ public class TransactionController {
     @CrossOrigin(origins = "*")
     @GetMapping("/get-transaction-details")
     public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
-        transDetailsResponse response = historyService.getTransactionDetails(ref);
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Transaction details retrieved successfully", response, "", ZonedDateTime.now(), false);
-        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        try {
+
+            transDetailsResponse response = historyService.getTransactionDetails(ref);
+            if (response == null) {
+                errorLoggingException.logError("GET_TRANSACTION_BY_REF", "Transaction with reference does not exist", "Transaction with reference does not exist");
+                ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "Transaction not found", response, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
+            }
+            String jsonString = JsonFormat.printer().print(response);
+
+            // You can return the JSON string directly or parse it
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> transactionDetails = mapper.readValue(jsonString, Map.class);
+
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Transaction details retrieved successfully", transactionDetails, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }catch (Exception e) {
+            log.error("Error converting Protobuf to JSON", e);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                    500, "Error processing customer data", null, "", ZonedDateTime.now(), false
+            );
+            return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
 
     @CrossOrigin(origins = "*")
     @Validated
@@ -726,7 +746,6 @@ public class TransactionController {
     public ResponseEntity<ResponseSchema<?>> logTransactionDispute(
             @Valid @RequestBody Dispute request
     ){
-
         MenuDetails menuDetails = tmsCoreWalletAccount.getTerminalMenus(request.getTerminalSerialNo());
 
         if (menuDetails == null) {
