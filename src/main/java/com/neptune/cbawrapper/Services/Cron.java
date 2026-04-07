@@ -133,7 +133,6 @@ public class Cron {
                     errorLogsRepository.save(errorLogsModel);
                 }
             }
-
         } catch (Exception e) {
             log.warn("savingsEntityRecord: ", e);
             ErrorLogsModel errorLogsModel = new ErrorLogsModel(tin, e.getMessage());
