@@ -349,18 +349,18 @@ public class Cron {
                 Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
                 System.out.println("444444444444444");
                 System.out.println("env = " + env);
-                if (authCredentials.isPresent()) {
-                    if (customersModel.isPresent()) {
-                        Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
-                        System.out.println("55555555555555");
-                        if (virtualAccountModel.isEmpty()) {
-                            System.out.println("66666666666666");
-                            VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), authCredentials, data);
-                            System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
-                            virtualAccountRepository.save(virtualAccountModel1);
-                        }
+//                if (authCredentials.isPresent()) {
+                if (customersModel.isPresent()) {
+                    Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
+                    System.out.println("55555555555555");
+                    if (virtualAccountModel.isEmpty()) {
+                        System.out.println("66666666666666");
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data);
+                        System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
+                        virtualAccountRepository.save(virtualAccountModel1);
                     }
                 }
+//                }
             }
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
@@ -371,7 +371,7 @@ public class Cron {
         }
     }
 
-    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, Optional<AuthCredentials> authCredentials, PendingTerminalData data) {
+    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data) {
         VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
         virtualAccountModel.setSavingsId(customersModel.getSavingsAccountId());
         virtualAccountModel.setPhone_number(customersModel.getContact_phone_number());
@@ -406,7 +406,7 @@ public class Cron {
             //TODO: check if POS has already been created for this business with an account number else use the business account number
             Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
 
-            if(virtualAccount.isEmpty()){
+            if (virtualAccount.isEmpty()) {
                 VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
                 virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
                 virtualAccountRepository.save(virtualAccountModel1);
@@ -416,7 +416,7 @@ public class Cron {
             }
 
             //TODO: create corporate account for POS
-            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(),  virtualAccountModel.get().getParent_account());
+            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(), virtualAccountModel.get().getParent_account());
 
             System.out.println("response = " + response);
             if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
@@ -468,7 +468,7 @@ public class Cron {
 
         System.out.println("transactionDrCr = " + transactionDrCr);
 
-        if(transactionDrCr.isEmpty()){
+        if (transactionDrCr.isEmpty()) {
             return;
         }
 
@@ -493,8 +493,8 @@ public class Cron {
                         System.out.println("========================================= 3");
                         //todo: debit platform charge from terminal
                         String chargeType = platformCharges.get().getChargeType();
-                        double amount = (0.5/100) * transactionDrCr1.getAmount();
-                        if(amount > 100){
+                        double amount = (0.5 / 100) * transactionDrCr1.getAmount();
+                        if (amount > 100) {
                             amount = 100;
                         }
 //                        double amount2;
@@ -522,6 +522,7 @@ public class Cron {
 
                         DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
 
+                        System.out.println("response = " + response);
                         if (response != null) {
                             if (response.getCode().equals("200")) {
                                 String id = transactionDrCr1.getId();
@@ -549,6 +550,12 @@ public class Cron {
                                 System.out.println("NOT_SENT_TO_CBA");
                                 System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
                             }
+                        }else {
+                            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+                            requestSchema.setNote(response.getMessage());
+                            requestSchema.setStatus(Integer.parseInt(response.getCode()));
+                            System.out.println("kkkkkkkkkkkkk");
+                            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
                         }
                     }
                 }
@@ -598,12 +605,12 @@ public class Cron {
     }
 
     @Scheduled(cron = "0 0 0 ? * FRI")
-    public void getCategories(){
+    public void getCategories() {
         Categories getBillsCat = billsPayment.getBillsCategories();
-        if(!getBillsCat.getData().isEmpty()){
+        if (!getBillsCat.getData().isEmpty()) {
             for (DataItems i : getBillsCat.getData()) {
                 Optional<CategoriesModel> categoriesModel = categoriesRepository.findCategory(i.getId(), i.getName());
-                if(categoriesModel.isEmpty()) {
+                if (categoriesModel.isEmpty()) {
                     System.out.println("Kalu");
                     boolean isActive = i.getName().equalsIgnoreCase("Utility Bills") || i.getName().equalsIgnoreCase("Cable TV Bills") || i.getName().equalsIgnoreCase("State Payments") || i.getName().equalsIgnoreCase("Mobile/Recharge");
                     CategoriesModel categories = new CategoriesModel();
@@ -614,7 +621,7 @@ public class Cron {
                     categories.setLogo("");
                     categories.setPaymentTypeId(3);
                     categories.setValidateNum(true);
-                    if(i.getName().equalsIgnoreCase("Mobile Recharge") || i.getName().equalsIgnoreCase("Airtime and Data") || i.getName().equalsIgnoreCase("Internet Services")){
+                    if (i.getName().equalsIgnoreCase("Mobile Recharge") || i.getName().equalsIgnoreCase("Airtime and Data") || i.getName().equalsIgnoreCase("Internet Services")) {
                         categories.setPaymentTypeId(2);
                         categories.setValidateNum(false);
                     }
@@ -624,16 +631,16 @@ public class Cron {
 
             List<CategoriesModel> dataItems = categoriesRepository.findCategory(true);
 
-            for (CategoriesModel model : dataItems){
+            for (CategoriesModel model : dataItems) {
                 System.out.println("Philomena");
-                if(model.getActive()) {
+                if (model.getActive()) {
                     System.out.println("Here");
                     CategoryServices getCatServices = billsPayment.getCategoryServices(model.getInterswitchId());
 
                     if (!getCatServices.getData().isEmpty()) {
                         for (DataServices i : getCatServices.getData()) {
                             List<CategoryServicesModel> categoryServicesChecker = categoryServicesRepository.findCategoryService(i.getServiceId(), i.getCategoryName());
-                            if(categoryServicesChecker.isEmpty()) {
+                            if (categoryServicesChecker.isEmpty()) {
                                 System.out.println("Danny");
                                 CategoryServicesModel categoryServicesModel = new CategoryServicesModel();
                                 categoryServicesModel.setServiceName(i.getServiceName());
@@ -671,11 +678,11 @@ public class Cron {
         }
     }
 
-    public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
+    public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel) {
         System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
         Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
 
-        if(customersModel.isEmpty()){
+        if (customersModel.isEmpty()) {
             return null;
         }
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
@@ -683,7 +690,7 @@ public class Cron {
         virtualAccountModel.setCodeExpired(false);
         virtualAccountModel.setToken_expiry(LocalDateTime.now().plusMinutes(10).toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" +client_url+genericCode + "\" target=\"_blank\">Set Pin</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" + client_url + genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")
