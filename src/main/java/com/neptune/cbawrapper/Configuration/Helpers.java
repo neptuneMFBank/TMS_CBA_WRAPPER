@@ -13,17 +13,16 @@ import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
 import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import com.neptune.cbawrapper.Repository.CustomersRepository;
 import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
+import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
-import com.neptune.cbawrapper.RequestRessponseSchema.CorepayPosTransactionRequest;
-import com.neptune.cbawrapper.RequestRessponseSchema.TransactionDetails;
-import com.neptune.cbawrapper.RequestRessponseSchema.TransactionRequestSchema;
-import com.neptune.cbawrapper.RequestRessponseSchema.UpdateTransactionResponseSchema;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -71,46 +70,121 @@ public class Helpers {
         return customersRepository.findCustomerBySavingsId(details);
     }
 
-    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges) {
-        TransactionDetails transactionDetails = new TransactionDetails();
-        transactionDetails.setTerminalId(request.getTerminalId());
-        transactionDetails.setNarration("POS");
-        transactionDetails.setStatus("PENDING");
-        transactionDetails.setDateFormat("dd MMMM yyyy");
-        transactionDetails.setTransactionType(request.getTransactionType());
-        transactionDetails.setTransactionDate(request.getTransactionDate());
-        transactionDetails.setAmount(request.getAmount());
-        transactionDetails.setTransactionReference(request.getTransactionReference());
-        transactionDetails.setReference(request.getReference());
-        transactionDetails.setPtad(request.getPtad());
-        transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-        transactionDetails.setResponseCode(request.getResponseCode());
-        transactionDetails.setPan(request.getPan());
-        transactionDetails.setCardExpiry(request.getCardExpiry());
-        transactionDetails.setTransactionFee(request.getTransactionFee());
-        transactionDetails.setProcessingFee(request.getProcessingFee());
-        transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
-        transactionDetails.setAuthCode(request.getAuthCode());
-        transactionDetails.setMerchantCode(request.getMerchantCode());
-        transactionDetails.setReversal(request.getReversal());
-        transactionDetails.setMerchantName(request.getMerchantName());
-        transactionDetails.setStan(request.getStan());
-        transactionDetails.setSerialNo(request.getSerialNo());
-        transactionDetails.setLocale(request.getLocale());
-        transactionDetails.setCardScheme(request.getCardScheme());
-
-        return transactionCoreController.createTransaction(transactionDetails);
-    }
-
-
-    public <T> String encryptObject(T object) {
+    public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload) {
+        System.out.println("hello world ");
+        System.out.println("request = " + request);
         try {
-            // Step 1: Serialize the object to JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(object);
+            TransactionDetails transactionDetails = new TransactionDetails();
+            if (type.equalsIgnoreCase("Withdrawal")) {
+                System.out.println("1");
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("POS Withdrawal");
+                transactionDetails.setStatus("PENDING");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getTransactionReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode(request.getResponseCode());
+                transactionDetails.setPan(request.getPan());
+                transactionDetails.setCardExpiry(request.getCardExpiry());
+                transactionDetails.setTransactionFee(request.getTransactionFee());
+                transactionDetails.setProcessingFee(request.getProcessingFee());
+                transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+                transactionDetails.setAuthCode(request.getAuthCode());
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(request.getReversal());
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan(request.getStan());
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale(request.getLocale());
+                transactionDetails.setCardScheme(request.getCardScheme());
 
-            // Step 2: Encrypt the JSON string
-            return AesUtil.encrypt(jsonString, secretKey);
+            } else if (type.equalsIgnoreCase("Transfers")) {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("Transfers");
+                transactionDetails.setStatus("COMPLETED");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getTransactionReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("");
+                transactionDetails.setCardExpiry("");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber(request.getRetrievalReferenceNumber());
+                transactionDetails.setAuthCode("00");
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan("");
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("Mastercard");
+
+            } else if (type.equalsIgnoreCase("Bills")) {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("Bills payment");
+                transactionDetails.setStatus("COMPLETED");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(request.getTransactionType());
+                transactionDetails.setTransactionDate(request.getTransactionDate());
+                transactionDetails.setAmount(request.getAmount());
+                transactionDetails.setTransactionReference(request.getTransactionReference());
+                transactionDetails.setReference(request.getMakePayment().getRequestReference());
+                transactionDetails.setPtad(request.getPtad());
+                transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("00");
+                transactionDetails.setCardExpiry("00");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber("");
+                transactionDetails.setAuthCode("");
+                transactionDetails.setMerchantCode(request.getMerchantCode());
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName(request.getMerchantName());
+                transactionDetails.setStan(request.getSerialNo());
+                transactionDetails.setSerialNo(request.getSerialNo());
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("Mastercard");
+            } else {
+                transactionDetails.setTerminalId(request.getTerminalId());
+                transactionDetails.setNarration("Inward Transfer Webhook");
+                transactionDetails.setStatus("COMPLETED");
+                transactionDetails.setDateFormat("dd MMMM yyyy");
+                transactionDetails.setTransactionType(payload.getTransactionType());
+                transactionDetails.setTransactionDate(payload.getDateTime());
+                transactionDetails.setAmount(Double.parseDouble(String.valueOf(payload.getAmount())));
+                transactionDetails.setTransactionReference(request.getReference());
+                transactionDetails.setReference(request.getReference());
+                transactionDetails.setPtad("Neptune");
+                transactionDetails.setTransactionPlatformId(4);
+                transactionDetails.setResponseCode("00");
+                transactionDetails.setPan("00");
+                transactionDetails.setCardExpiry("nil");
+                transactionDetails.setTransactionFee(0);
+                transactionDetails.setProcessingFee(0);
+                transactionDetails.setRetrievalReferencenumber(payload.getReference());
+                transactionDetails.setAuthCode("AUTH456789");
+                transactionDetails.setMerchantCode("90234");
+                transactionDetails.setReversal(false);
+                transactionDetails.setMerchantName("NEPTUNE LIMITED NG");
+                transactionDetails.setStan("00");
+                transactionDetails.setSerialNo("00");
+                transactionDetails.setLocale("en");
+                transactionDetails.setCardScheme("");
+            }
+
+            return transactionCoreController.createTransaction(transactionDetails);
         } catch (Exception e) {
             throw new RuntimeException("Error encrypting object", e);
         }
@@ -190,7 +264,7 @@ public class Helpers {
     }
 
     public boolean isAuthTokenValid(String authToken, CorepayPosTransactionRequest verifyUser) {
-        String encryptedData = this.encryptObject(verifyUser);
+        String encryptedData = this.encryptObject(verifyUser.toString());
 
         System.out.println("encryptedData = " + encryptedData);
         return encryptedData.equals(authToken);
@@ -276,6 +350,7 @@ public class Helpers {
 
     public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
         BillsAdditionalData billsAdditionalData = null;
+        System.out.println("MakePaymentResponse = " + makePaymentResponse);
 //        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
         try {
             if (Optional.of(makePaymentResponse)

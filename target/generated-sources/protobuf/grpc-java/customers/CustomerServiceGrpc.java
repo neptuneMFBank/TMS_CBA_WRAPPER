@@ -138,6 +138,68 @@ public final class CustomerServiceGrpc {
     return getNameEnquiryMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<customers.Customer.GetCustomerByAccountRequest,
+      customers.Customer.GetCorporateByAccountResponse> getGetCorporateCustomerByAccountMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetCorporateCustomerByAccount",
+      requestType = customers.Customer.GetCustomerByAccountRequest.class,
+      responseType = customers.Customer.GetCorporateByAccountResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<customers.Customer.GetCustomerByAccountRequest,
+      customers.Customer.GetCorporateByAccountResponse> getGetCorporateCustomerByAccountMethod() {
+    io.grpc.MethodDescriptor<customers.Customer.GetCustomerByAccountRequest, customers.Customer.GetCorporateByAccountResponse> getGetCorporateCustomerByAccountMethod;
+    if ((getGetCorporateCustomerByAccountMethod = CustomerServiceGrpc.getGetCorporateCustomerByAccountMethod) == null) {
+      synchronized (CustomerServiceGrpc.class) {
+        if ((getGetCorporateCustomerByAccountMethod = CustomerServiceGrpc.getGetCorporateCustomerByAccountMethod) == null) {
+          CustomerServiceGrpc.getGetCorporateCustomerByAccountMethod = getGetCorporateCustomerByAccountMethod =
+              io.grpc.MethodDescriptor.<customers.Customer.GetCustomerByAccountRequest, customers.Customer.GetCorporateByAccountResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetCorporateCustomerByAccount"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.GetCustomerByAccountRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.GetCorporateByAccountResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CustomerServiceMethodDescriptorSupplier("GetCorporateCustomerByAccount"))
+              .build();
+        }
+      }
+    }
+    return getGetCorporateCustomerByAccountMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<customers.Customer.GetCustomerByPhoneRequest,
+      customers.Customer.GetCorporateCustomerResponse> getGetCorporateCustomerByPhoneMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetCorporateCustomerByPhone",
+      requestType = customers.Customer.GetCustomerByPhoneRequest.class,
+      responseType = customers.Customer.GetCorporateCustomerResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<customers.Customer.GetCustomerByPhoneRequest,
+      customers.Customer.GetCorporateCustomerResponse> getGetCorporateCustomerByPhoneMethod() {
+    io.grpc.MethodDescriptor<customers.Customer.GetCustomerByPhoneRequest, customers.Customer.GetCorporateCustomerResponse> getGetCorporateCustomerByPhoneMethod;
+    if ((getGetCorporateCustomerByPhoneMethod = CustomerServiceGrpc.getGetCorporateCustomerByPhoneMethod) == null) {
+      synchronized (CustomerServiceGrpc.class) {
+        if ((getGetCorporateCustomerByPhoneMethod = CustomerServiceGrpc.getGetCorporateCustomerByPhoneMethod) == null) {
+          CustomerServiceGrpc.getGetCorporateCustomerByPhoneMethod = getGetCorporateCustomerByPhoneMethod =
+              io.grpc.MethodDescriptor.<customers.Customer.GetCustomerByPhoneRequest, customers.Customer.GetCorporateCustomerResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetCorporateCustomerByPhone"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.GetCustomerByPhoneRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  customers.Customer.GetCorporateCustomerResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CustomerServiceMethodDescriptorSupplier("GetCorporateCustomerByPhone"))
+              .build();
+        }
+      }
+    }
+    return getGetCorporateCustomerByPhoneMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -214,6 +276,20 @@ public final class CustomerServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNameEnquiryMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getCorporateCustomerByAccount(customers.Customer.GetCustomerByAccountRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.GetCorporateByAccountResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetCorporateCustomerByAccountMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getCorporateCustomerByPhone(customers.Customer.GetCustomerByPhoneRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.GetCorporateCustomerResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetCorporateCustomerByPhoneMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -244,6 +320,20 @@ public final class CustomerServiceGrpc {
                 customers.Customer.NameEnquiryRequest,
                 customers.Customer.NameEnquiryResponse>(
                   this, METHODID_NAME_ENQUIRY)))
+          .addMethod(
+            getGetCorporateCustomerByAccountMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                customers.Customer.GetCustomerByAccountRequest,
+                customers.Customer.GetCorporateByAccountResponse>(
+                  this, METHODID_GET_CORPORATE_CUSTOMER_BY_ACCOUNT)))
+          .addMethod(
+            getGetCorporateCustomerByPhoneMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                customers.Customer.GetCustomerByPhoneRequest,
+                customers.Customer.GetCorporateCustomerResponse>(
+                  this, METHODID_GET_CORPORATE_CUSTOMER_BY_PHONE)))
           .build();
     }
   }
@@ -293,6 +383,22 @@ public final class CustomerServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNameEnquiryMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getCorporateCustomerByAccount(customers.Customer.GetCustomerByAccountRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.GetCorporateByAccountResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetCorporateCustomerByAccountMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getCorporateCustomerByPhone(customers.Customer.GetCustomerByPhoneRequest request,
+        io.grpc.stub.StreamObserver<customers.Customer.GetCorporateCustomerResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetCorporateCustomerByPhoneMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -335,6 +441,20 @@ public final class CustomerServiceGrpc {
     public customers.Customer.NameEnquiryResponse nameEnquiry(customers.Customer.NameEnquiryRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNameEnquiryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public customers.Customer.GetCorporateByAccountResponse getCorporateCustomerByAccount(customers.Customer.GetCustomerByAccountRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetCorporateCustomerByAccountMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public customers.Customer.GetCorporateCustomerResponse getCorporateCustomerByPhone(customers.Customer.GetCustomerByPhoneRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetCorporateCustomerByPhoneMethod(), getCallOptions(), request);
     }
   }
 
@@ -383,12 +503,30 @@ public final class CustomerServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNameEnquiryMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<customers.Customer.GetCorporateByAccountResponse> getCorporateCustomerByAccount(
+        customers.Customer.GetCustomerByAccountRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetCorporateCustomerByAccountMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<customers.Customer.GetCorporateCustomerResponse> getCorporateCustomerByPhone(
+        customers.Customer.GetCustomerByPhoneRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetCorporateCustomerByPhoneMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_CUSTOMER_PRODUCT = 0;
   private static final int METHODID_CREATE_CORPORATE_CUSTOMER_PRODUCT = 1;
   private static final int METHODID_CREAT_BULK_CORPORATE_ACCOUNT = 2;
   private static final int METHODID_NAME_ENQUIRY = 3;
+  private static final int METHODID_GET_CORPORATE_CUSTOMER_BY_ACCOUNT = 4;
+  private static final int METHODID_GET_CORPORATE_CUSTOMER_BY_PHONE = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -422,6 +560,14 @@ public final class CustomerServiceGrpc {
         case METHODID_NAME_ENQUIRY:
           serviceImpl.nameEnquiry((customers.Customer.NameEnquiryRequest) request,
               (io.grpc.stub.StreamObserver<customers.Customer.NameEnquiryResponse>) responseObserver);
+          break;
+        case METHODID_GET_CORPORATE_CUSTOMER_BY_ACCOUNT:
+          serviceImpl.getCorporateCustomerByAccount((customers.Customer.GetCustomerByAccountRequest) request,
+              (io.grpc.stub.StreamObserver<customers.Customer.GetCorporateByAccountResponse>) responseObserver);
+          break;
+        case METHODID_GET_CORPORATE_CUSTOMER_BY_PHONE:
+          serviceImpl.getCorporateCustomerByPhone((customers.Customer.GetCustomerByPhoneRequest) request,
+              (io.grpc.stub.StreamObserver<customers.Customer.GetCorporateCustomerResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -488,6 +634,8 @@ public final class CustomerServiceGrpc {
               .addMethod(getCreateCorporateCustomerProductMethod())
               .addMethod(getCreatBulkCorporateAccountMethod())
               .addMethod(getNameEnquiryMethod())
+              .addMethod(getGetCorporateCustomerByAccountMethod())
+              .addMethod(getGetCorporateCustomerByPhoneMethod())
               .build();
         }
       }

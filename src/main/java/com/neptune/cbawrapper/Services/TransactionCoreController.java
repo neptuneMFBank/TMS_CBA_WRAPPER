@@ -14,4 +14,7 @@ public interface TransactionCoreController {
 
     @PutMapping("/business/transactions/{id}")
     Object updateTransaction(@PathVariable("id") int id, @RequestBody UpdateTransactionRequestSchema request);
+
+    @PostMapping("/business/disputes")
+    UpdateTransactionResponseSchema logDispute(@RequestBody DisputeRequest disputeRequest);
 }

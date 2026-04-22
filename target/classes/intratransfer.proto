@@ -38,6 +38,8 @@ message IntraTransferRequest {
   string narration = 14;
   string channel = 15;
   string eid = 16;
+  string created_at = 17; // new field
+  bool is_pos = 18;
 }
 
 message IntraTransferResponse {

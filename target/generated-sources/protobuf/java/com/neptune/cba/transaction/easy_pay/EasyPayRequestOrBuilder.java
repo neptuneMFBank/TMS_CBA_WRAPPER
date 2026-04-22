@@ -294,4 +294,10 @@ public interface EasyPayRequestOrBuilder extends
    * @return The charge.
    */
   double getCharge();
+
+  /**
+   * <code>bool is_pos = 27;</code>
+   * @return The isPos.
+   */
+  boolean getIsPos();
 }

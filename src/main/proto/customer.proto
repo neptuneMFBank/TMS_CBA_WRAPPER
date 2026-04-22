@@ -9,6 +9,354 @@ service CustomerService {
   rpc CreateCorporateCustomerProduct(CreateCustomerProductRequest) returns (CreateCustomerProductResponse){}
   rpc CreatBulkCorporateAccount(CreateBulkCorpAccountRequest) returns (CreateBulkCorpCustomerResponse){}
   rpc NameEnquiry(NameEnquiryRequest) returns (NameEnquiryResponse) {}
+  rpc GetCorporateCustomerByAccount(GetCustomerByAccountRequest) returns (GetCorporateByAccountResponse) {}
+  rpc GetCorporateCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCorporateCustomerResponse) {}
+}
+
+message GetCustomerByAccountRequest {
+  string account_number = 1;
+  string signed_key = 2;
+}
+
+message GetCorporateCustomerResponse {
+  CorporateCustomer customer = 1;
+}
+
+message GetCustomerByPhoneRequest {
+  string phone_number = 1;
+}
+
+message CorporateCustomer {
+
+  string id = 1;
+
+  string company_name = 2;
+
+  string company_registration_no = 3;
+
+  string date_of_registration = 4;
+
+  string country_of_registration = 5;
+
+  string last_name = 6;
+
+  string first_name = 7;
+
+  string middle_name = 8;
+
+  string rim_number = 9;
+
+  string no_of_signatory = 10;
+
+  string nationality = 11;
+
+  string business_category = 12;
+
+  string ownership_structure = 13;
+
+  bool sms_notification = 14;
+
+  bool email_notification = 15;
+
+  bool block_view = 16;
+
+  string branch = 17;
+
+  bool access_revoked = 18;
+
+  CorporateCustomerContactInfo contact_info = 19;
+
+  CorporateCustomerKyc kyc = 20;
+
+  repeated AccountProducts products = 21;
+
+  repeated Signatory signatories = 22;
+
+  repeated Reference references = 23;
+
+  repeated DirectorData directors_info = 24;
+
+  string created_at = 25;
+
+  string updated_at = 26;
+
+  string email = 27;
+
+  bool active = 28;
+
+  string rsm = 29;
+
+  string creation_channel_code = 30;
+
+  string sector_code = 31;
+  bool use_alt_acc_num = 32;
+  bool is_trade_name_account = 33;
+}
+
+message GetCorporateByAccountResponse {
+  string id = 1;
+  string company_name = 2;
+  string company_registration_no = 3;
+  string date_of_registration = 4;
+  string country_of_registration = 5;
+  string last_name = 6;
+  string first_name = 7;
+  string middle_name = 8;
+  string rim_number = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  repeated AccountProducts products = 12;
+  CorporateCustomerKyc kyc = 13;
+  CorporateCustomerContactInfo contact_info = 14;
+  bool use_alt_acc_num = 15;
+  repeated DirectorData directors_info = 16;
+  repeated Signatory signatories = 19;
+  repeated Reference references = 20;
+  // string effective_balance = 12;
+  // string ledger_balance = 13;
+  string office_phone_number = 17;
+  string email = 18;
+}
+
+message Signatory {
+  string last_name = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string sex = 4;
+  string date_of_birth = 5;
+  string title = 6;
+  string contact_phone_number = 7;
+  string alternate_phone = 8;
+  string email_address = 9;
+  string bvn = 10;
+  string address = 11;
+  string signature = 12;
+  string passport_photograph = 14;
+  string nin = 15;
+  repeated Document documents_and_identity = 16;
+  string nationality = 17;
+  string father_name = 18;
+  string mother_name = 19;
+  bool bvn_verified = 20;
+  bool nin_verified = 21;
+  string id = 22;
+  bool passport_photograph_verified = 23;
+  bool is_principal = 24;
+}
+
+message DirectorData {
+  string last_name = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string sex = 4;
+  string date_of_birth = 5;
+  string title = 6;
+  string contact_phone = 7;
+  string alternate_phone = 8;
+  string email = 9;
+  string bvn = 10;
+  string address = 11;
+  string signature = 12;
+  string passport_photograph = 14;
+  string nin = 15;
+  repeated Document documents_and_identity = 16;
+  string id = 17;
+  bool is_principal = 18;
+  bool bvn_verified = 19;
+  bool nin_verified = 20;
+}
+
+message CorporateCustomerContactInfo {
+  string id = 1;
+
+  string principal_officer_lastname = 2;
+
+  string principal_officer_first_name = 3;
+
+  string principal_officer_middle_name = 4;
+
+  string sex = 17;
+
+  string date_of_birth = 5;
+
+  string title = 6;
+
+  string contact_phone_number = 7;
+
+  string alternate_phone = 8;
+
+  string office_phone_number = 9;
+
+  string email_address = 10;
+
+  string introducer = 11;
+
+  string rsm = 12;
+
+  string restriction = 13;
+
+  string updated_at = 14;
+
+  string created_at = 15;
+}
+
+message Document {
+  string id = 1;
+  string document_name = 2;
+  string expiration_date = 3;
+  string document_url = 4; // updated document url
+  string document_number = 5;
+  string country_of_issuance = 6;
+  string date_of_issuance = 7;
+  string place_of_issuance = 8;
+  VerificationStatus verification_status = 9; // 09/07/2025
+  Kyc kyc_data = 10;
+  string created_at = 11;
+}
+
+enum VerificationStatus {
+  NULL = 0; // 09/07/2025
+  PENDING = 1; // 09/07/2025
+  APPROVED = 2; // 09/07/2025
+  REJECTED = 3; // 09/07/2025
+}
+
+message Kyc {
+  string id = 1;
+  repeated Document documentsAndIdentity = 2;
+  Address individual_customer_address = 3;
+  string signature = 4;
+  string bvn = 5;
+  string passport_photograph = 6;
+  string kyc_level = 7;
+  string tin = 8;
+  bool bvn_verified = 9;
+  string nin = 10;
+  bool nin_verified = 11;
+  bool tin_verified = 12;
+  bool passport_photograph_verified = 13; // new update Feb 29
+  CorporateUserAddress corporate_customer_address = 14; // new update Feb 29
+  string tier = 15; // new update Feb 29
+  string driving_license = 16;
+  bool driving_license_verified = 17;
+  string international_passport_number = 18;
+  string international_passport_number_verified = 19;
+  string voters_card_number = 20;
+}
+
+message Address {
+  string id = 1;
+  string residential_address = 2;
+  string residency = 3;
+  string state_of_origin = 4;
+  string lga_of_origin = 5;
+  string city = 6;
+  string postal_code = 7;
+  string state = 8;
+  string country = 9;
+  // @Column({ enum: ['APPROVED', 'PENDING', 'REJECTED'], default: 'PENDING' })
+  VerificationStatus verification_status = 10;
+  Kyc kyc_data = 11;
+}
+
+message CorporateUserAddress {
+  string id = 1;
+
+  string company_address = 2;
+
+  string state = 3;
+
+  string city = 4;
+
+  string country = 5;
+
+  string primary_company_address = 6;
+
+  string primary_company_state = 7;
+
+  string primary_company_city = 8;
+
+  string primary_company_country = 9;
+
+  string address = 10;
+
+  string verification_status = 11;
+
+  string created_at = 12;
+
+  string updated_at = 13;
+
+  string primary_company_lga = 14;
+}
+
+message CorporateCustomerKyc {
+  string id = 1;
+  repeated Document documentsAndIdentity = 2;
+  CorporateUserAddress corporate_customer_address = 3;
+  string signature = 4;
+  string bvn = 5;
+  string tin = 6;
+  string passport_photograph = 7;
+  string kyc_level = 8;
+  string tier = 9;
+  bool tin_verified = 10;
+  string driving_license = 11;
+  string international_passport_number = 12;
+  string voters_card_number = 13;
+}
+
+message AccountProducts {
+  string product_id = 1;
+  string account_number = 2;
+  bool access_revoked = 3;
+  bool active = 4;
+  string effective_balance = 5;
+  string ledger_balance = 6;
+  string product_name = 7;
+  string product_type = 8;
+  string lien = 9;
+  string old_account_no = 10;
+  string od_limit = 11;
+  string last_debit_date =12;
+  // double last_credit_amount = 13;
+  string last_credit_amount = 13;
+  string last_credit_date =14;
+  // double hold_bal =15;
+  string hold_bal =15;
+  // double last_debit_amount =16;
+  string last_debit_amount =16;
+  string current_rate = 17;
+  string margin = 18;
+  string id = 19;
+  bool default_product = 20;
+  double accured_interest = 21;
+  double accured_interest_overdrawn = 22;
+  LimitData limit = 23;
+  string customer_last_name = 24;
+  string customer_middle_name = 25;
+  string customer_first_name = 26;
+  string customer_phone_number = 27;
+  string customer_email = 28;
+  string account_name = 29; // 10/4/2025
+  string overdraft_limit = 30; // 09/07/2025
+  double per_diem = 31; // july 8
+  double interest_last_year =32;  // oct 6
+  double interest_paid_ytd =33; // oct 6
+  double rate =34; // oct 6
+}
+
+message LimitData {
+  string mobile_intra = 1;
+
+  string web_intra = 2;
+
+  string ussd = 3;
+
+  string mobile_inter = 4;
+
+  string web_inter = 5;
+
+  string atm = 6;
 }
 
 message CreateBulkCorpAccountRequest {
@@ -44,7 +392,6 @@ message NameEnquiryResponse {
   string bvn = 5;
   string product_type = 6;
 }
-
 
 message CreateBulkCorpCustomerResponse {
   repeated CreateBulkCustomerResponse response = 1;
