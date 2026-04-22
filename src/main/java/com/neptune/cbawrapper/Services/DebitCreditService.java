@@ -52,10 +52,13 @@ public class DebitCreditService {
         System.out.println("transactionDrCr.getTransactionreference() = " + transactionDrCr.getTransactionreference());
         System.out.println("transactionDrCr.getNarration() = " + transactionDrCr.getNarration());
         System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
+        System.out.println("platformCharge = " + platformCharge);
+        System.out.println("charge_ledger_code = " + charge_ledger_code);
 //        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
 
         try {
-            Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).addNestedCharges(NestedCharge.newBuilder().setAmount(0).setAccountnumber(businessAcct).setIsFixed(true).setPercentage(0).build()).setDescription("Platform charge").setLedger("").build();
+            Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).setDescription("Platform charge").build();
+            System.out.println("charge = " + charge.toString());
             DebitCreditRequest request = DebitCreditRequest.newBuilder()
                     .setAccountnumber(transactionDrCr.getAccountnumber())
                     .setIsccode(transaction_ledger_code)
