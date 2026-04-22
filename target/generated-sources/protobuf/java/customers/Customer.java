@@ -890,6 +890,7007 @@ public final class Customer {
 
   }
 
+  public interface GetCorporateCustomerResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.GetCorporateCustomerResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     * @return Whether the customer field is set.
+     */
+    boolean hasCustomer();
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     * @return The customer.
+     */
+    customers.Customer.CorporateCustomer getCustomer();
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     */
+    customers.Customer.CorporateCustomerOrBuilder getCustomerOrBuilder();
+  }
+  /**
+   * Protobuf type {@code customers.GetCorporateCustomerResponse}
+   */
+  public static final class GetCorporateCustomerResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.GetCorporateCustomerResponse)
+      GetCorporateCustomerResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetCorporateCustomerResponse.newBuilder() to construct.
+    private GetCorporateCustomerResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetCorporateCustomerResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetCorporateCustomerResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetCorporateCustomerResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              customers.Customer.CorporateCustomer.Builder subBuilder = null;
+              if (customer_ != null) {
+                subBuilder = customer_.toBuilder();
+              }
+              customer_ = input.readMessage(customers.Customer.CorporateCustomer.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(customer_);
+                customer_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_GetCorporateCustomerResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_GetCorporateCustomerResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.GetCorporateCustomerResponse.class, customers.Customer.GetCorporateCustomerResponse.Builder.class);
+    }
+
+    public static final int CUSTOMER_FIELD_NUMBER = 1;
+    private customers.Customer.CorporateCustomer customer_;
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     * @return Whether the customer field is set.
+     */
+    @java.lang.Override
+    public boolean hasCustomer() {
+      return customer_ != null;
+    }
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     * @return The customer.
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomer getCustomer() {
+      return customer_ == null ? customers.Customer.CorporateCustomer.getDefaultInstance() : customer_;
+    }
+    /**
+     * <code>.customers.CorporateCustomer customer = 1;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomerOrBuilder getCustomerOrBuilder() {
+      return getCustomer();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (customer_ != null) {
+        output.writeMessage(1, getCustomer());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (customer_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getCustomer());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.GetCorporateCustomerResponse)) {
+        return super.equals(obj);
+      }
+      customers.Customer.GetCorporateCustomerResponse other = (customers.Customer.GetCorporateCustomerResponse) obj;
+
+      if (hasCustomer() != other.hasCustomer()) return false;
+      if (hasCustomer()) {
+        if (!getCustomer()
+            .equals(other.getCustomer())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasCustomer()) {
+        hash = (37 * hash) + CUSTOMER_FIELD_NUMBER;
+        hash = (53 * hash) + getCustomer().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.GetCorporateCustomerResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.GetCorporateCustomerResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.GetCorporateCustomerResponse)
+        customers.Customer.GetCorporateCustomerResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.GetCorporateCustomerResponse.class, customers.Customer.GetCorporateCustomerResponse.Builder.class);
+      }
+
+      // Construct using customers.Customer.GetCorporateCustomerResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (customerBuilder_ == null) {
+          customer_ = null;
+        } else {
+          customer_ = null;
+          customerBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerResponse getDefaultInstanceForType() {
+        return customers.Customer.GetCorporateCustomerResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerResponse build() {
+        customers.Customer.GetCorporateCustomerResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerResponse buildPartial() {
+        customers.Customer.GetCorporateCustomerResponse result = new customers.Customer.GetCorporateCustomerResponse(this);
+        if (customerBuilder_ == null) {
+          result.customer_ = customer_;
+        } else {
+          result.customer_ = customerBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.GetCorporateCustomerResponse) {
+          return mergeFrom((customers.Customer.GetCorporateCustomerResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.GetCorporateCustomerResponse other) {
+        if (other == customers.Customer.GetCorporateCustomerResponse.getDefaultInstance()) return this;
+        if (other.hasCustomer()) {
+          mergeCustomer(other.getCustomer());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.GetCorporateCustomerResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.GetCorporateCustomerResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private customers.Customer.CorporateCustomer customer_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomer, customers.Customer.CorporateCustomer.Builder, customers.Customer.CorporateCustomerOrBuilder> customerBuilder_;
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       * @return Whether the customer field is set.
+       */
+      public boolean hasCustomer() {
+        return customerBuilder_ != null || customer_ != null;
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       * @return The customer.
+       */
+      public customers.Customer.CorporateCustomer getCustomer() {
+        if (customerBuilder_ == null) {
+          return customer_ == null ? customers.Customer.CorporateCustomer.getDefaultInstance() : customer_;
+        } else {
+          return customerBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public Builder setCustomer(customers.Customer.CorporateCustomer value) {
+        if (customerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          customer_ = value;
+          onChanged();
+        } else {
+          customerBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public Builder setCustomer(
+          customers.Customer.CorporateCustomer.Builder builderForValue) {
+        if (customerBuilder_ == null) {
+          customer_ = builderForValue.build();
+          onChanged();
+        } else {
+          customerBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public Builder mergeCustomer(customers.Customer.CorporateCustomer value) {
+        if (customerBuilder_ == null) {
+          if (customer_ != null) {
+            customer_ =
+              customers.Customer.CorporateCustomer.newBuilder(customer_).mergeFrom(value).buildPartial();
+          } else {
+            customer_ = value;
+          }
+          onChanged();
+        } else {
+          customerBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public Builder clearCustomer() {
+        if (customerBuilder_ == null) {
+          customer_ = null;
+          onChanged();
+        } else {
+          customer_ = null;
+          customerBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public customers.Customer.CorporateCustomer.Builder getCustomerBuilder() {
+        
+        onChanged();
+        return getCustomerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      public customers.Customer.CorporateCustomerOrBuilder getCustomerOrBuilder() {
+        if (customerBuilder_ != null) {
+          return customerBuilder_.getMessageOrBuilder();
+        } else {
+          return customer_ == null ?
+              customers.Customer.CorporateCustomer.getDefaultInstance() : customer_;
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomer customer = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomer, customers.Customer.CorporateCustomer.Builder, customers.Customer.CorporateCustomerOrBuilder> 
+          getCustomerFieldBuilder() {
+        if (customerBuilder_ == null) {
+          customerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              customers.Customer.CorporateCustomer, customers.Customer.CorporateCustomer.Builder, customers.Customer.CorporateCustomerOrBuilder>(
+                  getCustomer(),
+                  getParentForChildren(),
+                  isClean());
+          customer_ = null;
+        }
+        return customerBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.GetCorporateCustomerResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.GetCorporateCustomerResponse)
+    private static final customers.Customer.GetCorporateCustomerResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.GetCorporateCustomerResponse();
+    }
+
+    public static customers.Customer.GetCorporateCustomerResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetCorporateCustomerResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetCorporateCustomerResponse>() {
+      @java.lang.Override
+      public GetCorporateCustomerResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetCorporateCustomerResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetCorporateCustomerResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetCorporateCustomerResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.GetCorporateCustomerResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetCustomerByPhoneRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.GetCustomerByPhoneRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string phone_number = 1;</code>
+     * @return The phoneNumber.
+     */
+    java.lang.String getPhoneNumber();
+    /**
+     * <code>string phone_number = 1;</code>
+     * @return The bytes for phoneNumber.
+     */
+    com.google.protobuf.ByteString
+        getPhoneNumberBytes();
+  }
+  /**
+   * Protobuf type {@code customers.GetCustomerByPhoneRequest}
+   */
+  public static final class GetCustomerByPhoneRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.GetCustomerByPhoneRequest)
+      GetCustomerByPhoneRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetCustomerByPhoneRequest.newBuilder() to construct.
+    private GetCustomerByPhoneRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetCustomerByPhoneRequest() {
+      phoneNumber_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetCustomerByPhoneRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetCustomerByPhoneRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              phoneNumber_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_GetCustomerByPhoneRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_GetCustomerByPhoneRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.GetCustomerByPhoneRequest.class, customers.Customer.GetCustomerByPhoneRequest.Builder.class);
+    }
+
+    public static final int PHONE_NUMBER_FIELD_NUMBER = 1;
+    private volatile java.lang.Object phoneNumber_;
+    /**
+     * <code>string phone_number = 1;</code>
+     * @return The phoneNumber.
+     */
+    @java.lang.Override
+    public java.lang.String getPhoneNumber() {
+      java.lang.Object ref = phoneNumber_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        phoneNumber_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string phone_number = 1;</code>
+     * @return The bytes for phoneNumber.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPhoneNumberBytes() {
+      java.lang.Object ref = phoneNumber_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        phoneNumber_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getPhoneNumberBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, phoneNumber_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getPhoneNumberBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, phoneNumber_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.GetCustomerByPhoneRequest)) {
+        return super.equals(obj);
+      }
+      customers.Customer.GetCustomerByPhoneRequest other = (customers.Customer.GetCustomerByPhoneRequest) obj;
+
+      if (!getPhoneNumber()
+          .equals(other.getPhoneNumber())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PHONE_NUMBER_FIELD_NUMBER;
+      hash = (53 * hash) + getPhoneNumber().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCustomerByPhoneRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.GetCustomerByPhoneRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.GetCustomerByPhoneRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.GetCustomerByPhoneRequest)
+        customers.Customer.GetCustomerByPhoneRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_GetCustomerByPhoneRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_GetCustomerByPhoneRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.GetCustomerByPhoneRequest.class, customers.Customer.GetCustomerByPhoneRequest.Builder.class);
+      }
+
+      // Construct using customers.Customer.GetCustomerByPhoneRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        phoneNumber_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_GetCustomerByPhoneRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCustomerByPhoneRequest getDefaultInstanceForType() {
+        return customers.Customer.GetCustomerByPhoneRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCustomerByPhoneRequest build() {
+        customers.Customer.GetCustomerByPhoneRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCustomerByPhoneRequest buildPartial() {
+        customers.Customer.GetCustomerByPhoneRequest result = new customers.Customer.GetCustomerByPhoneRequest(this);
+        result.phoneNumber_ = phoneNumber_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.GetCustomerByPhoneRequest) {
+          return mergeFrom((customers.Customer.GetCustomerByPhoneRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.GetCustomerByPhoneRequest other) {
+        if (other == customers.Customer.GetCustomerByPhoneRequest.getDefaultInstance()) return this;
+        if (!other.getPhoneNumber().isEmpty()) {
+          phoneNumber_ = other.phoneNumber_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.GetCustomerByPhoneRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.GetCustomerByPhoneRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object phoneNumber_ = "";
+      /**
+       * <code>string phone_number = 1;</code>
+       * @return The phoneNumber.
+       */
+      public java.lang.String getPhoneNumber() {
+        java.lang.Object ref = phoneNumber_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          phoneNumber_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string phone_number = 1;</code>
+       * @return The bytes for phoneNumber.
+       */
+      public com.google.protobuf.ByteString
+          getPhoneNumberBytes() {
+        java.lang.Object ref = phoneNumber_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          phoneNumber_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string phone_number = 1;</code>
+       * @param value The phoneNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPhoneNumber(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        phoneNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string phone_number = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPhoneNumber() {
+        
+        phoneNumber_ = getDefaultInstance().getPhoneNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string phone_number = 1;</code>
+       * @param value The bytes for phoneNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPhoneNumberBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        phoneNumber_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.GetCustomerByPhoneRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.GetCustomerByPhoneRequest)
+    private static final customers.Customer.GetCustomerByPhoneRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.GetCustomerByPhoneRequest();
+    }
+
+    public static customers.Customer.GetCustomerByPhoneRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetCustomerByPhoneRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetCustomerByPhoneRequest>() {
+      @java.lang.Override
+      public GetCustomerByPhoneRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetCustomerByPhoneRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetCustomerByPhoneRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetCustomerByPhoneRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.GetCustomerByPhoneRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CorporateCustomerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.CorporateCustomer)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string id = 1;</code>
+     * @return The id.
+     */
+    java.lang.String getId();
+    /**
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>string company_name = 2;</code>
+     * @return The companyName.
+     */
+    java.lang.String getCompanyName();
+    /**
+     * <code>string company_name = 2;</code>
+     * @return The bytes for companyName.
+     */
+    com.google.protobuf.ByteString
+        getCompanyNameBytes();
+
+    /**
+     * <code>string company_registration_no = 3;</code>
+     * @return The companyRegistrationNo.
+     */
+    java.lang.String getCompanyRegistrationNo();
+    /**
+     * <code>string company_registration_no = 3;</code>
+     * @return The bytes for companyRegistrationNo.
+     */
+    com.google.protobuf.ByteString
+        getCompanyRegistrationNoBytes();
+
+    /**
+     * <code>string date_of_registration = 4;</code>
+     * @return The dateOfRegistration.
+     */
+    java.lang.String getDateOfRegistration();
+    /**
+     * <code>string date_of_registration = 4;</code>
+     * @return The bytes for dateOfRegistration.
+     */
+    com.google.protobuf.ByteString
+        getDateOfRegistrationBytes();
+
+    /**
+     * <code>string country_of_registration = 5;</code>
+     * @return The countryOfRegistration.
+     */
+    java.lang.String getCountryOfRegistration();
+    /**
+     * <code>string country_of_registration = 5;</code>
+     * @return The bytes for countryOfRegistration.
+     */
+    com.google.protobuf.ByteString
+        getCountryOfRegistrationBytes();
+
+    /**
+     * <code>string last_name = 6;</code>
+     * @return The lastName.
+     */
+    java.lang.String getLastName();
+    /**
+     * <code>string last_name = 6;</code>
+     * @return The bytes for lastName.
+     */
+    com.google.protobuf.ByteString
+        getLastNameBytes();
+
+    /**
+     * <code>string first_name = 7;</code>
+     * @return The firstName.
+     */
+    java.lang.String getFirstName();
+    /**
+     * <code>string first_name = 7;</code>
+     * @return The bytes for firstName.
+     */
+    com.google.protobuf.ByteString
+        getFirstNameBytes();
+
+    /**
+     * <code>string middle_name = 8;</code>
+     * @return The middleName.
+     */
+    java.lang.String getMiddleName();
+    /**
+     * <code>string middle_name = 8;</code>
+     * @return The bytes for middleName.
+     */
+    com.google.protobuf.ByteString
+        getMiddleNameBytes();
+
+    /**
+     * <code>string rim_number = 9;</code>
+     * @return The rimNumber.
+     */
+    java.lang.String getRimNumber();
+    /**
+     * <code>string rim_number = 9;</code>
+     * @return The bytes for rimNumber.
+     */
+    com.google.protobuf.ByteString
+        getRimNumberBytes();
+
+    /**
+     * <code>string no_of_signatory = 10;</code>
+     * @return The noOfSignatory.
+     */
+    java.lang.String getNoOfSignatory();
+    /**
+     * <code>string no_of_signatory = 10;</code>
+     * @return The bytes for noOfSignatory.
+     */
+    com.google.protobuf.ByteString
+        getNoOfSignatoryBytes();
+
+    /**
+     * <code>string nationality = 11;</code>
+     * @return The nationality.
+     */
+    java.lang.String getNationality();
+    /**
+     * <code>string nationality = 11;</code>
+     * @return The bytes for nationality.
+     */
+    com.google.protobuf.ByteString
+        getNationalityBytes();
+
+    /**
+     * <code>string business_category = 12;</code>
+     * @return The businessCategory.
+     */
+    java.lang.String getBusinessCategory();
+    /**
+     * <code>string business_category = 12;</code>
+     * @return The bytes for businessCategory.
+     */
+    com.google.protobuf.ByteString
+        getBusinessCategoryBytes();
+
+    /**
+     * <code>string ownership_structure = 13;</code>
+     * @return The ownershipStructure.
+     */
+    java.lang.String getOwnershipStructure();
+    /**
+     * <code>string ownership_structure = 13;</code>
+     * @return The bytes for ownershipStructure.
+     */
+    com.google.protobuf.ByteString
+        getOwnershipStructureBytes();
+
+    /**
+     * <code>bool sms_notification = 14;</code>
+     * @return The smsNotification.
+     */
+    boolean getSmsNotification();
+
+    /**
+     * <code>bool email_notification = 15;</code>
+     * @return The emailNotification.
+     */
+    boolean getEmailNotification();
+
+    /**
+     * <code>bool block_view = 16;</code>
+     * @return The blockView.
+     */
+    boolean getBlockView();
+
+    /**
+     * <code>string branch = 17;</code>
+     * @return The branch.
+     */
+    java.lang.String getBranch();
+    /**
+     * <code>string branch = 17;</code>
+     * @return The bytes for branch.
+     */
+    com.google.protobuf.ByteString
+        getBranchBytes();
+
+    /**
+     * <code>bool access_revoked = 18;</code>
+     * @return The accessRevoked.
+     */
+    boolean getAccessRevoked();
+
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     * @return Whether the contactInfo field is set.
+     */
+    boolean hasContactInfo();
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     * @return The contactInfo.
+     */
+    customers.Customer.CorporateCustomerContactInfo getContactInfo();
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     */
+    customers.Customer.CorporateCustomerContactInfoOrBuilder getContactInfoOrBuilder();
+
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     * @return Whether the kyc field is set.
+     */
+    boolean hasKyc();
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     * @return The kyc.
+     */
+    customers.Customer.CorporateCustomerKyc getKyc();
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     */
+    customers.Customer.CorporateCustomerKycOrBuilder getKycOrBuilder();
+
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    java.util.List<customers.Customer.AccountProducts> 
+        getProductsList();
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    customers.Customer.AccountProducts getProducts(int index);
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    int getProductsCount();
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    java.util.List<? extends customers.Customer.AccountProductsOrBuilder> 
+        getProductsOrBuilderList();
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    customers.Customer.AccountProductsOrBuilder getProductsOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    java.util.List<customers.Customer.Signatory> 
+        getSignatoriesList();
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    customers.Customer.Signatory getSignatories(int index);
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    int getSignatoriesCount();
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    java.util.List<? extends customers.Customer.SignatoryOrBuilder> 
+        getSignatoriesOrBuilderList();
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    customers.Customer.SignatoryOrBuilder getSignatoriesOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    java.util.List<customers.Customer.Reference> 
+        getReferencesList();
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    customers.Customer.Reference getReferences(int index);
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    int getReferencesCount();
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    java.util.List<? extends customers.Customer.ReferenceOrBuilder> 
+        getReferencesOrBuilderList();
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    customers.Customer.ReferenceOrBuilder getReferencesOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    java.util.List<customers.Customer.DirectorData> 
+        getDirectorsInfoList();
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    customers.Customer.DirectorData getDirectorsInfo(int index);
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    int getDirectorsInfoCount();
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    java.util.List<? extends customers.Customer.DirectorDataOrBuilder> 
+        getDirectorsInfoOrBuilderList();
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    customers.Customer.DirectorDataOrBuilder getDirectorsInfoOrBuilder(
+        int index);
+
+    /**
+     * <code>string created_at = 25;</code>
+     * @return The createdAt.
+     */
+    java.lang.String getCreatedAt();
+    /**
+     * <code>string created_at = 25;</code>
+     * @return The bytes for createdAt.
+     */
+    com.google.protobuf.ByteString
+        getCreatedAtBytes();
+
+    /**
+     * <code>string updated_at = 26;</code>
+     * @return The updatedAt.
+     */
+    java.lang.String getUpdatedAt();
+    /**
+     * <code>string updated_at = 26;</code>
+     * @return The bytes for updatedAt.
+     */
+    com.google.protobuf.ByteString
+        getUpdatedAtBytes();
+
+    /**
+     * <code>string email = 27;</code>
+     * @return The email.
+     */
+    java.lang.String getEmail();
+    /**
+     * <code>string email = 27;</code>
+     * @return The bytes for email.
+     */
+    com.google.protobuf.ByteString
+        getEmailBytes();
+
+    /**
+     * <code>bool active = 28;</code>
+     * @return The active.
+     */
+    boolean getActive();
+
+    /**
+     * <code>string rsm = 29;</code>
+     * @return The rsm.
+     */
+    java.lang.String getRsm();
+    /**
+     * <code>string rsm = 29;</code>
+     * @return The bytes for rsm.
+     */
+    com.google.protobuf.ByteString
+        getRsmBytes();
+
+    /**
+     * <code>string creation_channel_code = 30;</code>
+     * @return The creationChannelCode.
+     */
+    java.lang.String getCreationChannelCode();
+    /**
+     * <code>string creation_channel_code = 30;</code>
+     * @return The bytes for creationChannelCode.
+     */
+    com.google.protobuf.ByteString
+        getCreationChannelCodeBytes();
+
+    /**
+     * <code>string sector_code = 31;</code>
+     * @return The sectorCode.
+     */
+    java.lang.String getSectorCode();
+    /**
+     * <code>string sector_code = 31;</code>
+     * @return The bytes for sectorCode.
+     */
+    com.google.protobuf.ByteString
+        getSectorCodeBytes();
+
+    /**
+     * <code>bool use_alt_acc_num = 32;</code>
+     * @return The useAltAccNum.
+     */
+    boolean getUseAltAccNum();
+
+    /**
+     * <code>bool is_trade_name_account = 33;</code>
+     * @return The isTradeNameAccount.
+     */
+    boolean getIsTradeNameAccount();
+  }
+  /**
+   * Protobuf type {@code customers.CorporateCustomer}
+   */
+  public static final class CorporateCustomer extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.CorporateCustomer)
+      CorporateCustomerOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CorporateCustomer.newBuilder() to construct.
+    private CorporateCustomer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CorporateCustomer() {
+      id_ = "";
+      companyName_ = "";
+      companyRegistrationNo_ = "";
+      dateOfRegistration_ = "";
+      countryOfRegistration_ = "";
+      lastName_ = "";
+      firstName_ = "";
+      middleName_ = "";
+      rimNumber_ = "";
+      noOfSignatory_ = "";
+      nationality_ = "";
+      businessCategory_ = "";
+      ownershipStructure_ = "";
+      branch_ = "";
+      products_ = java.util.Collections.emptyList();
+      signatories_ = java.util.Collections.emptyList();
+      references_ = java.util.Collections.emptyList();
+      directorsInfo_ = java.util.Collections.emptyList();
+      createdAt_ = "";
+      updatedAt_ = "";
+      email_ = "";
+      rsm_ = "";
+      creationChannelCode_ = "";
+      sectorCode_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CorporateCustomer();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CorporateCustomer(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              id_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              companyName_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              companyRegistrationNo_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              dateOfRegistration_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              countryOfRegistration_ = s;
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              lastName_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              firstName_ = s;
+              break;
+            }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              middleName_ = s;
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              rimNumber_ = s;
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              noOfSignatory_ = s;
+              break;
+            }
+            case 90: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nationality_ = s;
+              break;
+            }
+            case 98: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              businessCategory_ = s;
+              break;
+            }
+            case 106: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              ownershipStructure_ = s;
+              break;
+            }
+            case 112: {
+
+              smsNotification_ = input.readBool();
+              break;
+            }
+            case 120: {
+
+              emailNotification_ = input.readBool();
+              break;
+            }
+            case 128: {
+
+              blockView_ = input.readBool();
+              break;
+            }
+            case 138: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              branch_ = s;
+              break;
+            }
+            case 144: {
+
+              accessRevoked_ = input.readBool();
+              break;
+            }
+            case 154: {
+              customers.Customer.CorporateCustomerContactInfo.Builder subBuilder = null;
+              if (contactInfo_ != null) {
+                subBuilder = contactInfo_.toBuilder();
+              }
+              contactInfo_ = input.readMessage(customers.Customer.CorporateCustomerContactInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(contactInfo_);
+                contactInfo_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 162: {
+              customers.Customer.CorporateCustomerKyc.Builder subBuilder = null;
+              if (kyc_ != null) {
+                subBuilder = kyc_.toBuilder();
+              }
+              kyc_ = input.readMessage(customers.Customer.CorporateCustomerKyc.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(kyc_);
+                kyc_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 170: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                products_ = new java.util.ArrayList<customers.Customer.AccountProducts>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              products_.add(
+                  input.readMessage(customers.Customer.AccountProducts.parser(), extensionRegistry));
+              break;
+            }
+            case 178: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                signatories_ = new java.util.ArrayList<customers.Customer.Signatory>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              signatories_.add(
+                  input.readMessage(customers.Customer.Signatory.parser(), extensionRegistry));
+              break;
+            }
+            case 186: {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                references_ = new java.util.ArrayList<customers.Customer.Reference>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              references_.add(
+                  input.readMessage(customers.Customer.Reference.parser(), extensionRegistry));
+              break;
+            }
+            case 194: {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                directorsInfo_ = new java.util.ArrayList<customers.Customer.DirectorData>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              directorsInfo_.add(
+                  input.readMessage(customers.Customer.DirectorData.parser(), extensionRegistry));
+              break;
+            }
+            case 202: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              createdAt_ = s;
+              break;
+            }
+            case 210: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              updatedAt_ = s;
+              break;
+            }
+            case 218: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              email_ = s;
+              break;
+            }
+            case 224: {
+
+              active_ = input.readBool();
+              break;
+            }
+            case 234: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              rsm_ = s;
+              break;
+            }
+            case 242: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              creationChannelCode_ = s;
+              break;
+            }
+            case 250: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sectorCode_ = s;
+              break;
+            }
+            case 256: {
+
+              useAltAccNum_ = input.readBool();
+              break;
+            }
+            case 264: {
+
+              isTradeNameAccount_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          products_ = java.util.Collections.unmodifiableList(products_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          signatories_ = java.util.Collections.unmodifiableList(signatories_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          references_ = java.util.Collections.unmodifiableList(references_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          directorsInfo_ = java.util.Collections.unmodifiableList(directorsInfo_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_CorporateCustomer_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_CorporateCustomer_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.CorporateCustomer.class, customers.Customer.CorporateCustomer.Builder.class);
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>string id = 1;</code>
+     * @return The id.
+     */
+    @java.lang.Override
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object companyName_;
+    /**
+     * <code>string company_name = 2;</code>
+     * @return The companyName.
+     */
+    @java.lang.Override
+    public java.lang.String getCompanyName() {
+      java.lang.Object ref = companyName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        companyName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string company_name = 2;</code>
+     * @return The bytes for companyName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCompanyNameBytes() {
+      java.lang.Object ref = companyName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        companyName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_REGISTRATION_NO_FIELD_NUMBER = 3;
+    private volatile java.lang.Object companyRegistrationNo_;
+    /**
+     * <code>string company_registration_no = 3;</code>
+     * @return The companyRegistrationNo.
+     */
+    @java.lang.Override
+    public java.lang.String getCompanyRegistrationNo() {
+      java.lang.Object ref = companyRegistrationNo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        companyRegistrationNo_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string company_registration_no = 3;</code>
+     * @return The bytes for companyRegistrationNo.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCompanyRegistrationNoBytes() {
+      java.lang.Object ref = companyRegistrationNo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        companyRegistrationNo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATE_OF_REGISTRATION_FIELD_NUMBER = 4;
+    private volatile java.lang.Object dateOfRegistration_;
+    /**
+     * <code>string date_of_registration = 4;</code>
+     * @return The dateOfRegistration.
+     */
+    @java.lang.Override
+    public java.lang.String getDateOfRegistration() {
+      java.lang.Object ref = dateOfRegistration_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dateOfRegistration_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string date_of_registration = 4;</code>
+     * @return The bytes for dateOfRegistration.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDateOfRegistrationBytes() {
+      java.lang.Object ref = dateOfRegistration_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dateOfRegistration_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COUNTRY_OF_REGISTRATION_FIELD_NUMBER = 5;
+    private volatile java.lang.Object countryOfRegistration_;
+    /**
+     * <code>string country_of_registration = 5;</code>
+     * @return The countryOfRegistration.
+     */
+    @java.lang.Override
+    public java.lang.String getCountryOfRegistration() {
+      java.lang.Object ref = countryOfRegistration_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        countryOfRegistration_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string country_of_registration = 5;</code>
+     * @return The bytes for countryOfRegistration.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCountryOfRegistrationBytes() {
+      java.lang.Object ref = countryOfRegistration_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        countryOfRegistration_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LAST_NAME_FIELD_NUMBER = 6;
+    private volatile java.lang.Object lastName_;
+    /**
+     * <code>string last_name = 6;</code>
+     * @return The lastName.
+     */
+    @java.lang.Override
+    public java.lang.String getLastName() {
+      java.lang.Object ref = lastName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        lastName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string last_name = 6;</code>
+     * @return The bytes for lastName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLastNameBytes() {
+      java.lang.Object ref = lastName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        lastName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FIRST_NAME_FIELD_NUMBER = 7;
+    private volatile java.lang.Object firstName_;
+    /**
+     * <code>string first_name = 7;</code>
+     * @return The firstName.
+     */
+    @java.lang.Override
+    public java.lang.String getFirstName() {
+      java.lang.Object ref = firstName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        firstName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string first_name = 7;</code>
+     * @return The bytes for firstName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFirstNameBytes() {
+      java.lang.Object ref = firstName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        firstName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MIDDLE_NAME_FIELD_NUMBER = 8;
+    private volatile java.lang.Object middleName_;
+    /**
+     * <code>string middle_name = 8;</code>
+     * @return The middleName.
+     */
+    @java.lang.Override
+    public java.lang.String getMiddleName() {
+      java.lang.Object ref = middleName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        middleName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string middle_name = 8;</code>
+     * @return The bytes for middleName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMiddleNameBytes() {
+      java.lang.Object ref = middleName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        middleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RIM_NUMBER_FIELD_NUMBER = 9;
+    private volatile java.lang.Object rimNumber_;
+    /**
+     * <code>string rim_number = 9;</code>
+     * @return The rimNumber.
+     */
+    @java.lang.Override
+    public java.lang.String getRimNumber() {
+      java.lang.Object ref = rimNumber_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        rimNumber_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string rim_number = 9;</code>
+     * @return The bytes for rimNumber.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRimNumberBytes() {
+      java.lang.Object ref = rimNumber_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rimNumber_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NO_OF_SIGNATORY_FIELD_NUMBER = 10;
+    private volatile java.lang.Object noOfSignatory_;
+    /**
+     * <code>string no_of_signatory = 10;</code>
+     * @return The noOfSignatory.
+     */
+    @java.lang.Override
+    public java.lang.String getNoOfSignatory() {
+      java.lang.Object ref = noOfSignatory_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        noOfSignatory_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string no_of_signatory = 10;</code>
+     * @return The bytes for noOfSignatory.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNoOfSignatoryBytes() {
+      java.lang.Object ref = noOfSignatory_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        noOfSignatory_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NATIONALITY_FIELD_NUMBER = 11;
+    private volatile java.lang.Object nationality_;
+    /**
+     * <code>string nationality = 11;</code>
+     * @return The nationality.
+     */
+    @java.lang.Override
+    public java.lang.String getNationality() {
+      java.lang.Object ref = nationality_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nationality_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string nationality = 11;</code>
+     * @return The bytes for nationality.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNationalityBytes() {
+      java.lang.Object ref = nationality_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nationality_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int BUSINESS_CATEGORY_FIELD_NUMBER = 12;
+    private volatile java.lang.Object businessCategory_;
+    /**
+     * <code>string business_category = 12;</code>
+     * @return The businessCategory.
+     */
+    @java.lang.Override
+    public java.lang.String getBusinessCategory() {
+      java.lang.Object ref = businessCategory_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        businessCategory_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string business_category = 12;</code>
+     * @return The bytes for businessCategory.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getBusinessCategoryBytes() {
+      java.lang.Object ref = businessCategory_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        businessCategory_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OWNERSHIP_STRUCTURE_FIELD_NUMBER = 13;
+    private volatile java.lang.Object ownershipStructure_;
+    /**
+     * <code>string ownership_structure = 13;</code>
+     * @return The ownershipStructure.
+     */
+    @java.lang.Override
+    public java.lang.String getOwnershipStructure() {
+      java.lang.Object ref = ownershipStructure_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        ownershipStructure_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string ownership_structure = 13;</code>
+     * @return The bytes for ownershipStructure.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getOwnershipStructureBytes() {
+      java.lang.Object ref = ownershipStructure_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ownershipStructure_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SMS_NOTIFICATION_FIELD_NUMBER = 14;
+    private boolean smsNotification_;
+    /**
+     * <code>bool sms_notification = 14;</code>
+     * @return The smsNotification.
+     */
+    @java.lang.Override
+    public boolean getSmsNotification() {
+      return smsNotification_;
+    }
+
+    public static final int EMAIL_NOTIFICATION_FIELD_NUMBER = 15;
+    private boolean emailNotification_;
+    /**
+     * <code>bool email_notification = 15;</code>
+     * @return The emailNotification.
+     */
+    @java.lang.Override
+    public boolean getEmailNotification() {
+      return emailNotification_;
+    }
+
+    public static final int BLOCK_VIEW_FIELD_NUMBER = 16;
+    private boolean blockView_;
+    /**
+     * <code>bool block_view = 16;</code>
+     * @return The blockView.
+     */
+    @java.lang.Override
+    public boolean getBlockView() {
+      return blockView_;
+    }
+
+    public static final int BRANCH_FIELD_NUMBER = 17;
+    private volatile java.lang.Object branch_;
+    /**
+     * <code>string branch = 17;</code>
+     * @return The branch.
+     */
+    @java.lang.Override
+    public java.lang.String getBranch() {
+      java.lang.Object ref = branch_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        branch_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string branch = 17;</code>
+     * @return The bytes for branch.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getBranchBytes() {
+      java.lang.Object ref = branch_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        branch_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACCESS_REVOKED_FIELD_NUMBER = 18;
+    private boolean accessRevoked_;
+    /**
+     * <code>bool access_revoked = 18;</code>
+     * @return The accessRevoked.
+     */
+    @java.lang.Override
+    public boolean getAccessRevoked() {
+      return accessRevoked_;
+    }
+
+    public static final int CONTACT_INFO_FIELD_NUMBER = 19;
+    private customers.Customer.CorporateCustomerContactInfo contactInfo_;
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     * @return Whether the contactInfo field is set.
+     */
+    @java.lang.Override
+    public boolean hasContactInfo() {
+      return contactInfo_ != null;
+    }
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     * @return The contactInfo.
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomerContactInfo getContactInfo() {
+      return contactInfo_ == null ? customers.Customer.CorporateCustomerContactInfo.getDefaultInstance() : contactInfo_;
+    }
+    /**
+     * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomerContactInfoOrBuilder getContactInfoOrBuilder() {
+      return getContactInfo();
+    }
+
+    public static final int KYC_FIELD_NUMBER = 20;
+    private customers.Customer.CorporateCustomerKyc kyc_;
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     * @return Whether the kyc field is set.
+     */
+    @java.lang.Override
+    public boolean hasKyc() {
+      return kyc_ != null;
+    }
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     * @return The kyc.
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomerKyc getKyc() {
+      return kyc_ == null ? customers.Customer.CorporateCustomerKyc.getDefaultInstance() : kyc_;
+    }
+    /**
+     * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.CorporateCustomerKycOrBuilder getKycOrBuilder() {
+      return getKyc();
+    }
+
+    public static final int PRODUCTS_FIELD_NUMBER = 21;
+    private java.util.List<customers.Customer.AccountProducts> products_;
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    @java.lang.Override
+    public java.util.List<customers.Customer.AccountProducts> getProductsList() {
+      return products_;
+    }
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends customers.Customer.AccountProductsOrBuilder> 
+        getProductsOrBuilderList() {
+      return products_;
+    }
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    @java.lang.Override
+    public int getProductsCount() {
+      return products_.size();
+    }
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.AccountProducts getProducts(int index) {
+      return products_.get(index);
+    }
+    /**
+     * <code>repeated .customers.AccountProducts products = 21;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.AccountProductsOrBuilder getProductsOrBuilder(
+        int index) {
+      return products_.get(index);
+    }
+
+    public static final int SIGNATORIES_FIELD_NUMBER = 22;
+    private java.util.List<customers.Customer.Signatory> signatories_;
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    @java.lang.Override
+    public java.util.List<customers.Customer.Signatory> getSignatoriesList() {
+      return signatories_;
+    }
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends customers.Customer.SignatoryOrBuilder> 
+        getSignatoriesOrBuilderList() {
+      return signatories_;
+    }
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    @java.lang.Override
+    public int getSignatoriesCount() {
+      return signatories_.size();
+    }
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.Signatory getSignatories(int index) {
+      return signatories_.get(index);
+    }
+    /**
+     * <code>repeated .customers.Signatory signatories = 22;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.SignatoryOrBuilder getSignatoriesOrBuilder(
+        int index) {
+      return signatories_.get(index);
+    }
+
+    public static final int REFERENCES_FIELD_NUMBER = 23;
+    private java.util.List<customers.Customer.Reference> references_;
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    @java.lang.Override
+    public java.util.List<customers.Customer.Reference> getReferencesList() {
+      return references_;
+    }
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends customers.Customer.ReferenceOrBuilder> 
+        getReferencesOrBuilderList() {
+      return references_;
+    }
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    @java.lang.Override
+    public int getReferencesCount() {
+      return references_.size();
+    }
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.Reference getReferences(int index) {
+      return references_.get(index);
+    }
+    /**
+     * <code>repeated .customers.Reference references = 23;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.ReferenceOrBuilder getReferencesOrBuilder(
+        int index) {
+      return references_.get(index);
+    }
+
+    public static final int DIRECTORS_INFO_FIELD_NUMBER = 24;
+    private java.util.List<customers.Customer.DirectorData> directorsInfo_;
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    @java.lang.Override
+    public java.util.List<customers.Customer.DirectorData> getDirectorsInfoList() {
+      return directorsInfo_;
+    }
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends customers.Customer.DirectorDataOrBuilder> 
+        getDirectorsInfoOrBuilderList() {
+      return directorsInfo_;
+    }
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    @java.lang.Override
+    public int getDirectorsInfoCount() {
+      return directorsInfo_.size();
+    }
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.DirectorData getDirectorsInfo(int index) {
+      return directorsInfo_.get(index);
+    }
+    /**
+     * <code>repeated .customers.DirectorData directors_info = 24;</code>
+     */
+    @java.lang.Override
+    public customers.Customer.DirectorDataOrBuilder getDirectorsInfoOrBuilder(
+        int index) {
+      return directorsInfo_.get(index);
+    }
+
+    public static final int CREATED_AT_FIELD_NUMBER = 25;
+    private volatile java.lang.Object createdAt_;
+    /**
+     * <code>string created_at = 25;</code>
+     * @return The createdAt.
+     */
+    @java.lang.Override
+    public java.lang.String getCreatedAt() {
+      java.lang.Object ref = createdAt_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        createdAt_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string created_at = 25;</code>
+     * @return The bytes for createdAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCreatedAtBytes() {
+      java.lang.Object ref = createdAt_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        createdAt_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int UPDATED_AT_FIELD_NUMBER = 26;
+    private volatile java.lang.Object updatedAt_;
+    /**
+     * <code>string updated_at = 26;</code>
+     * @return The updatedAt.
+     */
+    @java.lang.Override
+    public java.lang.String getUpdatedAt() {
+      java.lang.Object ref = updatedAt_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        updatedAt_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string updated_at = 26;</code>
+     * @return The bytes for updatedAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUpdatedAtBytes() {
+      java.lang.Object ref = updatedAt_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        updatedAt_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int EMAIL_FIELD_NUMBER = 27;
+    private volatile java.lang.Object email_;
+    /**
+     * <code>string email = 27;</code>
+     * @return The email.
+     */
+    @java.lang.Override
+    public java.lang.String getEmail() {
+      java.lang.Object ref = email_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        email_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string email = 27;</code>
+     * @return The bytes for email.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getEmailBytes() {
+      java.lang.Object ref = email_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        email_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACTIVE_FIELD_NUMBER = 28;
+    private boolean active_;
+    /**
+     * <code>bool active = 28;</code>
+     * @return The active.
+     */
+    @java.lang.Override
+    public boolean getActive() {
+      return active_;
+    }
+
+    public static final int RSM_FIELD_NUMBER = 29;
+    private volatile java.lang.Object rsm_;
+    /**
+     * <code>string rsm = 29;</code>
+     * @return The rsm.
+     */
+    @java.lang.Override
+    public java.lang.String getRsm() {
+      java.lang.Object ref = rsm_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        rsm_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string rsm = 29;</code>
+     * @return The bytes for rsm.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRsmBytes() {
+      java.lang.Object ref = rsm_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rsm_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CREATION_CHANNEL_CODE_FIELD_NUMBER = 30;
+    private volatile java.lang.Object creationChannelCode_;
+    /**
+     * <code>string creation_channel_code = 30;</code>
+     * @return The creationChannelCode.
+     */
+    @java.lang.Override
+    public java.lang.String getCreationChannelCode() {
+      java.lang.Object ref = creationChannelCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        creationChannelCode_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string creation_channel_code = 30;</code>
+     * @return The bytes for creationChannelCode.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCreationChannelCodeBytes() {
+      java.lang.Object ref = creationChannelCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        creationChannelCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SECTOR_CODE_FIELD_NUMBER = 31;
+    private volatile java.lang.Object sectorCode_;
+    /**
+     * <code>string sector_code = 31;</code>
+     * @return The sectorCode.
+     */
+    @java.lang.Override
+    public java.lang.String getSectorCode() {
+      java.lang.Object ref = sectorCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sectorCode_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sector_code = 31;</code>
+     * @return The bytes for sectorCode.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSectorCodeBytes() {
+      java.lang.Object ref = sectorCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sectorCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int USE_ALT_ACC_NUM_FIELD_NUMBER = 32;
+    private boolean useAltAccNum_;
+    /**
+     * <code>bool use_alt_acc_num = 32;</code>
+     * @return The useAltAccNum.
+     */
+    @java.lang.Override
+    public boolean getUseAltAccNum() {
+      return useAltAccNum_;
+    }
+
+    public static final int IS_TRADE_NAME_ACCOUNT_FIELD_NUMBER = 33;
+    private boolean isTradeNameAccount_;
+    /**
+     * <code>bool is_trade_name_account = 33;</code>
+     * @return The isTradeNameAccount.
+     */
+    @java.lang.Override
+    public boolean getIsTradeNameAccount() {
+      return isTradeNameAccount_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+      }
+      if (!getCompanyNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, companyName_);
+      }
+      if (!getCompanyRegistrationNoBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, companyRegistrationNo_);
+      }
+      if (!getDateOfRegistrationBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, dateOfRegistration_);
+      }
+      if (!getCountryOfRegistrationBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, countryOfRegistration_);
+      }
+      if (!getLastNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, lastName_);
+      }
+      if (!getFirstNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, firstName_);
+      }
+      if (!getMiddleNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, middleName_);
+      }
+      if (!getRimNumberBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, rimNumber_);
+      }
+      if (!getNoOfSignatoryBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, noOfSignatory_);
+      }
+      if (!getNationalityBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, nationality_);
+      }
+      if (!getBusinessCategoryBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 12, businessCategory_);
+      }
+      if (!getOwnershipStructureBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 13, ownershipStructure_);
+      }
+      if (smsNotification_ != false) {
+        output.writeBool(14, smsNotification_);
+      }
+      if (emailNotification_ != false) {
+        output.writeBool(15, emailNotification_);
+      }
+      if (blockView_ != false) {
+        output.writeBool(16, blockView_);
+      }
+      if (!getBranchBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 17, branch_);
+      }
+      if (accessRevoked_ != false) {
+        output.writeBool(18, accessRevoked_);
+      }
+      if (contactInfo_ != null) {
+        output.writeMessage(19, getContactInfo());
+      }
+      if (kyc_ != null) {
+        output.writeMessage(20, getKyc());
+      }
+      for (int i = 0; i < products_.size(); i++) {
+        output.writeMessage(21, products_.get(i));
+      }
+      for (int i = 0; i < signatories_.size(); i++) {
+        output.writeMessage(22, signatories_.get(i));
+      }
+      for (int i = 0; i < references_.size(); i++) {
+        output.writeMessage(23, references_.get(i));
+      }
+      for (int i = 0; i < directorsInfo_.size(); i++) {
+        output.writeMessage(24, directorsInfo_.get(i));
+      }
+      if (!getCreatedAtBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 25, createdAt_);
+      }
+      if (!getUpdatedAtBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 26, updatedAt_);
+      }
+      if (!getEmailBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 27, email_);
+      }
+      if (active_ != false) {
+        output.writeBool(28, active_);
+      }
+      if (!getRsmBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 29, rsm_);
+      }
+      if (!getCreationChannelCodeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 30, creationChannelCode_);
+      }
+      if (!getSectorCodeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 31, sectorCode_);
+      }
+      if (useAltAccNum_ != false) {
+        output.writeBool(32, useAltAccNum_);
+      }
+      if (isTradeNameAccount_ != false) {
+        output.writeBool(33, isTradeNameAccount_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+      }
+      if (!getCompanyNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, companyName_);
+      }
+      if (!getCompanyRegistrationNoBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, companyRegistrationNo_);
+      }
+      if (!getDateOfRegistrationBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, dateOfRegistration_);
+      }
+      if (!getCountryOfRegistrationBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, countryOfRegistration_);
+      }
+      if (!getLastNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, lastName_);
+      }
+      if (!getFirstNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, firstName_);
+      }
+      if (!getMiddleNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, middleName_);
+      }
+      if (!getRimNumberBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, rimNumber_);
+      }
+      if (!getNoOfSignatoryBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, noOfSignatory_);
+      }
+      if (!getNationalityBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, nationality_);
+      }
+      if (!getBusinessCategoryBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, businessCategory_);
+      }
+      if (!getOwnershipStructureBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, ownershipStructure_);
+      }
+      if (smsNotification_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(14, smsNotification_);
+      }
+      if (emailNotification_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, emailNotification_);
+      }
+      if (blockView_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(16, blockView_);
+      }
+      if (!getBranchBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(17, branch_);
+      }
+      if (accessRevoked_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(18, accessRevoked_);
+      }
+      if (contactInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, getContactInfo());
+      }
+      if (kyc_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, getKyc());
+      }
+      for (int i = 0; i < products_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, products_.get(i));
+      }
+      for (int i = 0; i < signatories_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, signatories_.get(i));
+      }
+      for (int i = 0; i < references_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(23, references_.get(i));
+      }
+      for (int i = 0; i < directorsInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(24, directorsInfo_.get(i));
+      }
+      if (!getCreatedAtBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(25, createdAt_);
+      }
+      if (!getUpdatedAtBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(26, updatedAt_);
+      }
+      if (!getEmailBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(27, email_);
+      }
+      if (active_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(28, active_);
+      }
+      if (!getRsmBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(29, rsm_);
+      }
+      if (!getCreationChannelCodeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(30, creationChannelCode_);
+      }
+      if (!getSectorCodeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(31, sectorCode_);
+      }
+      if (useAltAccNum_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(32, useAltAccNum_);
+      }
+      if (isTradeNameAccount_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(33, isTradeNameAccount_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.CorporateCustomer)) {
+        return super.equals(obj);
+      }
+      customers.Customer.CorporateCustomer other = (customers.Customer.CorporateCustomer) obj;
+
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getCompanyName()
+          .equals(other.getCompanyName())) return false;
+      if (!getCompanyRegistrationNo()
+          .equals(other.getCompanyRegistrationNo())) return false;
+      if (!getDateOfRegistration()
+          .equals(other.getDateOfRegistration())) return false;
+      if (!getCountryOfRegistration()
+          .equals(other.getCountryOfRegistration())) return false;
+      if (!getLastName()
+          .equals(other.getLastName())) return false;
+      if (!getFirstName()
+          .equals(other.getFirstName())) return false;
+      if (!getMiddleName()
+          .equals(other.getMiddleName())) return false;
+      if (!getRimNumber()
+          .equals(other.getRimNumber())) return false;
+      if (!getNoOfSignatory()
+          .equals(other.getNoOfSignatory())) return false;
+      if (!getNationality()
+          .equals(other.getNationality())) return false;
+      if (!getBusinessCategory()
+          .equals(other.getBusinessCategory())) return false;
+      if (!getOwnershipStructure()
+          .equals(other.getOwnershipStructure())) return false;
+      if (getSmsNotification()
+          != other.getSmsNotification()) return false;
+      if (getEmailNotification()
+          != other.getEmailNotification()) return false;
+      if (getBlockView()
+          != other.getBlockView()) return false;
+      if (!getBranch()
+          .equals(other.getBranch())) return false;
+      if (getAccessRevoked()
+          != other.getAccessRevoked()) return false;
+      if (hasContactInfo() != other.hasContactInfo()) return false;
+      if (hasContactInfo()) {
+        if (!getContactInfo()
+            .equals(other.getContactInfo())) return false;
+      }
+      if (hasKyc() != other.hasKyc()) return false;
+      if (hasKyc()) {
+        if (!getKyc()
+            .equals(other.getKyc())) return false;
+      }
+      if (!getProductsList()
+          .equals(other.getProductsList())) return false;
+      if (!getSignatoriesList()
+          .equals(other.getSignatoriesList())) return false;
+      if (!getReferencesList()
+          .equals(other.getReferencesList())) return false;
+      if (!getDirectorsInfoList()
+          .equals(other.getDirectorsInfoList())) return false;
+      if (!getCreatedAt()
+          .equals(other.getCreatedAt())) return false;
+      if (!getUpdatedAt()
+          .equals(other.getUpdatedAt())) return false;
+      if (!getEmail()
+          .equals(other.getEmail())) return false;
+      if (getActive()
+          != other.getActive()) return false;
+      if (!getRsm()
+          .equals(other.getRsm())) return false;
+      if (!getCreationChannelCode()
+          .equals(other.getCreationChannelCode())) return false;
+      if (!getSectorCode()
+          .equals(other.getSectorCode())) return false;
+      if (getUseAltAccNum()
+          != other.getUseAltAccNum()) return false;
+      if (getIsTradeNameAccount()
+          != other.getIsTradeNameAccount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + COMPANY_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getCompanyName().hashCode();
+      hash = (37 * hash) + COMPANY_REGISTRATION_NO_FIELD_NUMBER;
+      hash = (53 * hash) + getCompanyRegistrationNo().hashCode();
+      hash = (37 * hash) + DATE_OF_REGISTRATION_FIELD_NUMBER;
+      hash = (53 * hash) + getDateOfRegistration().hashCode();
+      hash = (37 * hash) + COUNTRY_OF_REGISTRATION_FIELD_NUMBER;
+      hash = (53 * hash) + getCountryOfRegistration().hashCode();
+      hash = (37 * hash) + LAST_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getLastName().hashCode();
+      hash = (37 * hash) + FIRST_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getFirstName().hashCode();
+      hash = (37 * hash) + MIDDLE_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getMiddleName().hashCode();
+      hash = (37 * hash) + RIM_NUMBER_FIELD_NUMBER;
+      hash = (53 * hash) + getRimNumber().hashCode();
+      hash = (37 * hash) + NO_OF_SIGNATORY_FIELD_NUMBER;
+      hash = (53 * hash) + getNoOfSignatory().hashCode();
+      hash = (37 * hash) + NATIONALITY_FIELD_NUMBER;
+      hash = (53 * hash) + getNationality().hashCode();
+      hash = (37 * hash) + BUSINESS_CATEGORY_FIELD_NUMBER;
+      hash = (53 * hash) + getBusinessCategory().hashCode();
+      hash = (37 * hash) + OWNERSHIP_STRUCTURE_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnershipStructure().hashCode();
+      hash = (37 * hash) + SMS_NOTIFICATION_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSmsNotification());
+      hash = (37 * hash) + EMAIL_NOTIFICATION_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEmailNotification());
+      hash = (37 * hash) + BLOCK_VIEW_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getBlockView());
+      hash = (37 * hash) + BRANCH_FIELD_NUMBER;
+      hash = (53 * hash) + getBranch().hashCode();
+      hash = (37 * hash) + ACCESS_REVOKED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAccessRevoked());
+      if (hasContactInfo()) {
+        hash = (37 * hash) + CONTACT_INFO_FIELD_NUMBER;
+        hash = (53 * hash) + getContactInfo().hashCode();
+      }
+      if (hasKyc()) {
+        hash = (37 * hash) + KYC_FIELD_NUMBER;
+        hash = (53 * hash) + getKyc().hashCode();
+      }
+      if (getProductsCount() > 0) {
+        hash = (37 * hash) + PRODUCTS_FIELD_NUMBER;
+        hash = (53 * hash) + getProductsList().hashCode();
+      }
+      if (getSignatoriesCount() > 0) {
+        hash = (37 * hash) + SIGNATORIES_FIELD_NUMBER;
+        hash = (53 * hash) + getSignatoriesList().hashCode();
+      }
+      if (getReferencesCount() > 0) {
+        hash = (37 * hash) + REFERENCES_FIELD_NUMBER;
+        hash = (53 * hash) + getReferencesList().hashCode();
+      }
+      if (getDirectorsInfoCount() > 0) {
+        hash = (37 * hash) + DIRECTORS_INFO_FIELD_NUMBER;
+        hash = (53 * hash) + getDirectorsInfoList().hashCode();
+      }
+      hash = (37 * hash) + CREATED_AT_FIELD_NUMBER;
+      hash = (53 * hash) + getCreatedAt().hashCode();
+      hash = (37 * hash) + UPDATED_AT_FIELD_NUMBER;
+      hash = (53 * hash) + getUpdatedAt().hashCode();
+      hash = (37 * hash) + EMAIL_FIELD_NUMBER;
+      hash = (53 * hash) + getEmail().hashCode();
+      hash = (37 * hash) + ACTIVE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getActive());
+      hash = (37 * hash) + RSM_FIELD_NUMBER;
+      hash = (53 * hash) + getRsm().hashCode();
+      hash = (37 * hash) + CREATION_CHANNEL_CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getCreationChannelCode().hashCode();
+      hash = (37 * hash) + SECTOR_CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getSectorCode().hashCode();
+      hash = (37 * hash) + USE_ALT_ACC_NUM_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getUseAltAccNum());
+      hash = (37 * hash) + IS_TRADE_NAME_ACCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsTradeNameAccount());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.CorporateCustomer parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.CorporateCustomer parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.CorporateCustomer parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.CorporateCustomer parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.CorporateCustomer prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.CorporateCustomer}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.CorporateCustomer)
+        customers.Customer.CorporateCustomerOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_CorporateCustomer_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_CorporateCustomer_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.CorporateCustomer.class, customers.Customer.CorporateCustomer.Builder.class);
+      }
+
+      // Construct using customers.Customer.CorporateCustomer.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getProductsFieldBuilder();
+          getSignatoriesFieldBuilder();
+          getReferencesFieldBuilder();
+          getDirectorsInfoFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        id_ = "";
+
+        companyName_ = "";
+
+        companyRegistrationNo_ = "";
+
+        dateOfRegistration_ = "";
+
+        countryOfRegistration_ = "";
+
+        lastName_ = "";
+
+        firstName_ = "";
+
+        middleName_ = "";
+
+        rimNumber_ = "";
+
+        noOfSignatory_ = "";
+
+        nationality_ = "";
+
+        businessCategory_ = "";
+
+        ownershipStructure_ = "";
+
+        smsNotification_ = false;
+
+        emailNotification_ = false;
+
+        blockView_ = false;
+
+        branch_ = "";
+
+        accessRevoked_ = false;
+
+        if (contactInfoBuilder_ == null) {
+          contactInfo_ = null;
+        } else {
+          contactInfo_ = null;
+          contactInfoBuilder_ = null;
+        }
+        if (kycBuilder_ == null) {
+          kyc_ = null;
+        } else {
+          kyc_ = null;
+          kycBuilder_ = null;
+        }
+        if (productsBuilder_ == null) {
+          products_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          productsBuilder_.clear();
+        }
+        if (signatoriesBuilder_ == null) {
+          signatories_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          signatoriesBuilder_.clear();
+        }
+        if (referencesBuilder_ == null) {
+          references_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          referencesBuilder_.clear();
+        }
+        if (directorsInfoBuilder_ == null) {
+          directorsInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          directorsInfoBuilder_.clear();
+        }
+        createdAt_ = "";
+
+        updatedAt_ = "";
+
+        email_ = "";
+
+        active_ = false;
+
+        rsm_ = "";
+
+        creationChannelCode_ = "";
+
+        sectorCode_ = "";
+
+        useAltAccNum_ = false;
+
+        isTradeNameAccount_ = false;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_CorporateCustomer_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.CorporateCustomer getDefaultInstanceForType() {
+        return customers.Customer.CorporateCustomer.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.CorporateCustomer build() {
+        customers.Customer.CorporateCustomer result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.CorporateCustomer buildPartial() {
+        customers.Customer.CorporateCustomer result = new customers.Customer.CorporateCustomer(this);
+        int from_bitField0_ = bitField0_;
+        result.id_ = id_;
+        result.companyName_ = companyName_;
+        result.companyRegistrationNo_ = companyRegistrationNo_;
+        result.dateOfRegistration_ = dateOfRegistration_;
+        result.countryOfRegistration_ = countryOfRegistration_;
+        result.lastName_ = lastName_;
+        result.firstName_ = firstName_;
+        result.middleName_ = middleName_;
+        result.rimNumber_ = rimNumber_;
+        result.noOfSignatory_ = noOfSignatory_;
+        result.nationality_ = nationality_;
+        result.businessCategory_ = businessCategory_;
+        result.ownershipStructure_ = ownershipStructure_;
+        result.smsNotification_ = smsNotification_;
+        result.emailNotification_ = emailNotification_;
+        result.blockView_ = blockView_;
+        result.branch_ = branch_;
+        result.accessRevoked_ = accessRevoked_;
+        if (contactInfoBuilder_ == null) {
+          result.contactInfo_ = contactInfo_;
+        } else {
+          result.contactInfo_ = contactInfoBuilder_.build();
+        }
+        if (kycBuilder_ == null) {
+          result.kyc_ = kyc_;
+        } else {
+          result.kyc_ = kycBuilder_.build();
+        }
+        if (productsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            products_ = java.util.Collections.unmodifiableList(products_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.products_ = products_;
+        } else {
+          result.products_ = productsBuilder_.build();
+        }
+        if (signatoriesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            signatories_ = java.util.Collections.unmodifiableList(signatories_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.signatories_ = signatories_;
+        } else {
+          result.signatories_ = signatoriesBuilder_.build();
+        }
+        if (referencesBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0)) {
+            references_ = java.util.Collections.unmodifiableList(references_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.references_ = references_;
+        } else {
+          result.references_ = referencesBuilder_.build();
+        }
+        if (directorsInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0)) {
+            directorsInfo_ = java.util.Collections.unmodifiableList(directorsInfo_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.directorsInfo_ = directorsInfo_;
+        } else {
+          result.directorsInfo_ = directorsInfoBuilder_.build();
+        }
+        result.createdAt_ = createdAt_;
+        result.updatedAt_ = updatedAt_;
+        result.email_ = email_;
+        result.active_ = active_;
+        result.rsm_ = rsm_;
+        result.creationChannelCode_ = creationChannelCode_;
+        result.sectorCode_ = sectorCode_;
+        result.useAltAccNum_ = useAltAccNum_;
+        result.isTradeNameAccount_ = isTradeNameAccount_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.CorporateCustomer) {
+          return mergeFrom((customers.Customer.CorporateCustomer)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.CorporateCustomer other) {
+        if (other == customers.Customer.CorporateCustomer.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
+        if (!other.getCompanyName().isEmpty()) {
+          companyName_ = other.companyName_;
+          onChanged();
+        }
+        if (!other.getCompanyRegistrationNo().isEmpty()) {
+          companyRegistrationNo_ = other.companyRegistrationNo_;
+          onChanged();
+        }
+        if (!other.getDateOfRegistration().isEmpty()) {
+          dateOfRegistration_ = other.dateOfRegistration_;
+          onChanged();
+        }
+        if (!other.getCountryOfRegistration().isEmpty()) {
+          countryOfRegistration_ = other.countryOfRegistration_;
+          onChanged();
+        }
+        if (!other.getLastName().isEmpty()) {
+          lastName_ = other.lastName_;
+          onChanged();
+        }
+        if (!other.getFirstName().isEmpty()) {
+          firstName_ = other.firstName_;
+          onChanged();
+        }
+        if (!other.getMiddleName().isEmpty()) {
+          middleName_ = other.middleName_;
+          onChanged();
+        }
+        if (!other.getRimNumber().isEmpty()) {
+          rimNumber_ = other.rimNumber_;
+          onChanged();
+        }
+        if (!other.getNoOfSignatory().isEmpty()) {
+          noOfSignatory_ = other.noOfSignatory_;
+          onChanged();
+        }
+        if (!other.getNationality().isEmpty()) {
+          nationality_ = other.nationality_;
+          onChanged();
+        }
+        if (!other.getBusinessCategory().isEmpty()) {
+          businessCategory_ = other.businessCategory_;
+          onChanged();
+        }
+        if (!other.getOwnershipStructure().isEmpty()) {
+          ownershipStructure_ = other.ownershipStructure_;
+          onChanged();
+        }
+        if (other.getSmsNotification() != false) {
+          setSmsNotification(other.getSmsNotification());
+        }
+        if (other.getEmailNotification() != false) {
+          setEmailNotification(other.getEmailNotification());
+        }
+        if (other.getBlockView() != false) {
+          setBlockView(other.getBlockView());
+        }
+        if (!other.getBranch().isEmpty()) {
+          branch_ = other.branch_;
+          onChanged();
+        }
+        if (other.getAccessRevoked() != false) {
+          setAccessRevoked(other.getAccessRevoked());
+        }
+        if (other.hasContactInfo()) {
+          mergeContactInfo(other.getContactInfo());
+        }
+        if (other.hasKyc()) {
+          mergeKyc(other.getKyc());
+        }
+        if (productsBuilder_ == null) {
+          if (!other.products_.isEmpty()) {
+            if (products_.isEmpty()) {
+              products_ = other.products_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureProductsIsMutable();
+              products_.addAll(other.products_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.products_.isEmpty()) {
+            if (productsBuilder_.isEmpty()) {
+              productsBuilder_.dispose();
+              productsBuilder_ = null;
+              products_ = other.products_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              productsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getProductsFieldBuilder() : null;
+            } else {
+              productsBuilder_.addAllMessages(other.products_);
+            }
+          }
+        }
+        if (signatoriesBuilder_ == null) {
+          if (!other.signatories_.isEmpty()) {
+            if (signatories_.isEmpty()) {
+              signatories_ = other.signatories_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSignatoriesIsMutable();
+              signatories_.addAll(other.signatories_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.signatories_.isEmpty()) {
+            if (signatoriesBuilder_.isEmpty()) {
+              signatoriesBuilder_.dispose();
+              signatoriesBuilder_ = null;
+              signatories_ = other.signatories_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              signatoriesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getSignatoriesFieldBuilder() : null;
+            } else {
+              signatoriesBuilder_.addAllMessages(other.signatories_);
+            }
+          }
+        }
+        if (referencesBuilder_ == null) {
+          if (!other.references_.isEmpty()) {
+            if (references_.isEmpty()) {
+              references_ = other.references_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureReferencesIsMutable();
+              references_.addAll(other.references_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.references_.isEmpty()) {
+            if (referencesBuilder_.isEmpty()) {
+              referencesBuilder_.dispose();
+              referencesBuilder_ = null;
+              references_ = other.references_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              referencesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getReferencesFieldBuilder() : null;
+            } else {
+              referencesBuilder_.addAllMessages(other.references_);
+            }
+          }
+        }
+        if (directorsInfoBuilder_ == null) {
+          if (!other.directorsInfo_.isEmpty()) {
+            if (directorsInfo_.isEmpty()) {
+              directorsInfo_ = other.directorsInfo_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureDirectorsInfoIsMutable();
+              directorsInfo_.addAll(other.directorsInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.directorsInfo_.isEmpty()) {
+            if (directorsInfoBuilder_.isEmpty()) {
+              directorsInfoBuilder_.dispose();
+              directorsInfoBuilder_ = null;
+              directorsInfo_ = other.directorsInfo_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              directorsInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getDirectorsInfoFieldBuilder() : null;
+            } else {
+              directorsInfoBuilder_.addAllMessages(other.directorsInfo_);
+            }
+          }
+        }
+        if (!other.getCreatedAt().isEmpty()) {
+          createdAt_ = other.createdAt_;
+          onChanged();
+        }
+        if (!other.getUpdatedAt().isEmpty()) {
+          updatedAt_ = other.updatedAt_;
+          onChanged();
+        }
+        if (!other.getEmail().isEmpty()) {
+          email_ = other.email_;
+          onChanged();
+        }
+        if (other.getActive() != false) {
+          setActive(other.getActive());
+        }
+        if (!other.getRsm().isEmpty()) {
+          rsm_ = other.rsm_;
+          onChanged();
+        }
+        if (!other.getCreationChannelCode().isEmpty()) {
+          creationChannelCode_ = other.creationChannelCode_;
+          onChanged();
+        }
+        if (!other.getSectorCode().isEmpty()) {
+          sectorCode_ = other.sectorCode_;
+          onChanged();
+        }
+        if (other.getUseAltAccNum() != false) {
+          setUseAltAccNum(other.getUseAltAccNum());
+        }
+        if (other.getIsTradeNameAccount() != false) {
+          setIsTradeNameAccount(other.getIsTradeNameAccount());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.CorporateCustomer parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.CorporateCustomer) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object id_ = "";
+      /**
+       * <code>string id = 1;</code>
+       * @return The id.
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @return The bytes for id.
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object companyName_ = "";
+      /**
+       * <code>string company_name = 2;</code>
+       * @return The companyName.
+       */
+      public java.lang.String getCompanyName() {
+        java.lang.Object ref = companyName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          companyName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string company_name = 2;</code>
+       * @return The bytes for companyName.
+       */
+      public com.google.protobuf.ByteString
+          getCompanyNameBytes() {
+        java.lang.Object ref = companyName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          companyName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string company_name = 2;</code>
+       * @param value The companyName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompanyName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        companyName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string company_name = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCompanyName() {
+        
+        companyName_ = getDefaultInstance().getCompanyName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string company_name = 2;</code>
+       * @param value The bytes for companyName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompanyNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        companyName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object companyRegistrationNo_ = "";
+      /**
+       * <code>string company_registration_no = 3;</code>
+       * @return The companyRegistrationNo.
+       */
+      public java.lang.String getCompanyRegistrationNo() {
+        java.lang.Object ref = companyRegistrationNo_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          companyRegistrationNo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string company_registration_no = 3;</code>
+       * @return The bytes for companyRegistrationNo.
+       */
+      public com.google.protobuf.ByteString
+          getCompanyRegistrationNoBytes() {
+        java.lang.Object ref = companyRegistrationNo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          companyRegistrationNo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string company_registration_no = 3;</code>
+       * @param value The companyRegistrationNo to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompanyRegistrationNo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        companyRegistrationNo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string company_registration_no = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCompanyRegistrationNo() {
+        
+        companyRegistrationNo_ = getDefaultInstance().getCompanyRegistrationNo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string company_registration_no = 3;</code>
+       * @param value The bytes for companyRegistrationNo to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompanyRegistrationNoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        companyRegistrationNo_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object dateOfRegistration_ = "";
+      /**
+       * <code>string date_of_registration = 4;</code>
+       * @return The dateOfRegistration.
+       */
+      public java.lang.String getDateOfRegistration() {
+        java.lang.Object ref = dateOfRegistration_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dateOfRegistration_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string date_of_registration = 4;</code>
+       * @return The bytes for dateOfRegistration.
+       */
+      public com.google.protobuf.ByteString
+          getDateOfRegistrationBytes() {
+        java.lang.Object ref = dateOfRegistration_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dateOfRegistration_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string date_of_registration = 4;</code>
+       * @param value The dateOfRegistration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDateOfRegistration(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        dateOfRegistration_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string date_of_registration = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDateOfRegistration() {
+        
+        dateOfRegistration_ = getDefaultInstance().getDateOfRegistration();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string date_of_registration = 4;</code>
+       * @param value The bytes for dateOfRegistration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDateOfRegistrationBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        dateOfRegistration_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object countryOfRegistration_ = "";
+      /**
+       * <code>string country_of_registration = 5;</code>
+       * @return The countryOfRegistration.
+       */
+      public java.lang.String getCountryOfRegistration() {
+        java.lang.Object ref = countryOfRegistration_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          countryOfRegistration_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string country_of_registration = 5;</code>
+       * @return The bytes for countryOfRegistration.
+       */
+      public com.google.protobuf.ByteString
+          getCountryOfRegistrationBytes() {
+        java.lang.Object ref = countryOfRegistration_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          countryOfRegistration_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string country_of_registration = 5;</code>
+       * @param value The countryOfRegistration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCountryOfRegistration(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        countryOfRegistration_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string country_of_registration = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCountryOfRegistration() {
+        
+        countryOfRegistration_ = getDefaultInstance().getCountryOfRegistration();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string country_of_registration = 5;</code>
+       * @param value The bytes for countryOfRegistration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCountryOfRegistrationBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        countryOfRegistration_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object lastName_ = "";
+      /**
+       * <code>string last_name = 6;</code>
+       * @return The lastName.
+       */
+      public java.lang.String getLastName() {
+        java.lang.Object ref = lastName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          lastName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string last_name = 6;</code>
+       * @return The bytes for lastName.
+       */
+      public com.google.protobuf.ByteString
+          getLastNameBytes() {
+        java.lang.Object ref = lastName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          lastName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string last_name = 6;</code>
+       * @param value The lastName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        lastName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string last_name = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLastName() {
+        
+        lastName_ = getDefaultInstance().getLastName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string last_name = 6;</code>
+       * @param value The bytes for lastName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        lastName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object firstName_ = "";
+      /**
+       * <code>string first_name = 7;</code>
+       * @return The firstName.
+       */
+      public java.lang.String getFirstName() {
+        java.lang.Object ref = firstName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          firstName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string first_name = 7;</code>
+       * @return The bytes for firstName.
+       */
+      public com.google.protobuf.ByteString
+          getFirstNameBytes() {
+        java.lang.Object ref = firstName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          firstName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string first_name = 7;</code>
+       * @param value The firstName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFirstName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        firstName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string first_name = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFirstName() {
+        
+        firstName_ = getDefaultInstance().getFirstName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string first_name = 7;</code>
+       * @param value The bytes for firstName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFirstNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        firstName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object middleName_ = "";
+      /**
+       * <code>string middle_name = 8;</code>
+       * @return The middleName.
+       */
+      public java.lang.String getMiddleName() {
+        java.lang.Object ref = middleName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          middleName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string middle_name = 8;</code>
+       * @return The bytes for middleName.
+       */
+      public com.google.protobuf.ByteString
+          getMiddleNameBytes() {
+        java.lang.Object ref = middleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          middleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string middle_name = 8;</code>
+       * @param value The middleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiddleName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        middleName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string middle_name = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiddleName() {
+        
+        middleName_ = getDefaultInstance().getMiddleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string middle_name = 8;</code>
+       * @param value The bytes for middleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiddleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        middleName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object rimNumber_ = "";
+      /**
+       * <code>string rim_number = 9;</code>
+       * @return The rimNumber.
+       */
+      public java.lang.String getRimNumber() {
+        java.lang.Object ref = rimNumber_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          rimNumber_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string rim_number = 9;</code>
+       * @return The bytes for rimNumber.
+       */
+      public com.google.protobuf.ByteString
+          getRimNumberBytes() {
+        java.lang.Object ref = rimNumber_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rimNumber_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string rim_number = 9;</code>
+       * @param value The rimNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRimNumber(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        rimNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string rim_number = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRimNumber() {
+        
+        rimNumber_ = getDefaultInstance().getRimNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string rim_number = 9;</code>
+       * @param value The bytes for rimNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRimNumberBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        rimNumber_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object noOfSignatory_ = "";
+      /**
+       * <code>string no_of_signatory = 10;</code>
+       * @return The noOfSignatory.
+       */
+      public java.lang.String getNoOfSignatory() {
+        java.lang.Object ref = noOfSignatory_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          noOfSignatory_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string no_of_signatory = 10;</code>
+       * @return The bytes for noOfSignatory.
+       */
+      public com.google.protobuf.ByteString
+          getNoOfSignatoryBytes() {
+        java.lang.Object ref = noOfSignatory_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          noOfSignatory_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string no_of_signatory = 10;</code>
+       * @param value The noOfSignatory to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNoOfSignatory(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        noOfSignatory_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string no_of_signatory = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNoOfSignatory() {
+        
+        noOfSignatory_ = getDefaultInstance().getNoOfSignatory();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string no_of_signatory = 10;</code>
+       * @param value The bytes for noOfSignatory to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNoOfSignatoryBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        noOfSignatory_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object nationality_ = "";
+      /**
+       * <code>string nationality = 11;</code>
+       * @return The nationality.
+       */
+      public java.lang.String getNationality() {
+        java.lang.Object ref = nationality_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nationality_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string nationality = 11;</code>
+       * @return The bytes for nationality.
+       */
+      public com.google.protobuf.ByteString
+          getNationalityBytes() {
+        java.lang.Object ref = nationality_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nationality_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string nationality = 11;</code>
+       * @param value The nationality to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNationality(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nationality_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nationality = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNationality() {
+        
+        nationality_ = getDefaultInstance().getNationality();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nationality = 11;</code>
+       * @param value The bytes for nationality to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNationalityBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nationality_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object businessCategory_ = "";
+      /**
+       * <code>string business_category = 12;</code>
+       * @return The businessCategory.
+       */
+      public java.lang.String getBusinessCategory() {
+        java.lang.Object ref = businessCategory_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          businessCategory_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string business_category = 12;</code>
+       * @return The bytes for businessCategory.
+       */
+      public com.google.protobuf.ByteString
+          getBusinessCategoryBytes() {
+        java.lang.Object ref = businessCategory_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          businessCategory_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string business_category = 12;</code>
+       * @param value The businessCategory to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBusinessCategory(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        businessCategory_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string business_category = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBusinessCategory() {
+        
+        businessCategory_ = getDefaultInstance().getBusinessCategory();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string business_category = 12;</code>
+       * @param value The bytes for businessCategory to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBusinessCategoryBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        businessCategory_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object ownershipStructure_ = "";
+      /**
+       * <code>string ownership_structure = 13;</code>
+       * @return The ownershipStructure.
+       */
+      public java.lang.String getOwnershipStructure() {
+        java.lang.Object ref = ownershipStructure_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          ownershipStructure_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string ownership_structure = 13;</code>
+       * @return The bytes for ownershipStructure.
+       */
+      public com.google.protobuf.ByteString
+          getOwnershipStructureBytes() {
+        java.lang.Object ref = ownershipStructure_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ownershipStructure_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string ownership_structure = 13;</code>
+       * @param value The ownershipStructure to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOwnershipStructure(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        ownershipStructure_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string ownership_structure = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOwnershipStructure() {
+        
+        ownershipStructure_ = getDefaultInstance().getOwnershipStructure();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string ownership_structure = 13;</code>
+       * @param value The bytes for ownershipStructure to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOwnershipStructureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        ownershipStructure_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean smsNotification_ ;
+      /**
+       * <code>bool sms_notification = 14;</code>
+       * @return The smsNotification.
+       */
+      @java.lang.Override
+      public boolean getSmsNotification() {
+        return smsNotification_;
+      }
+      /**
+       * <code>bool sms_notification = 14;</code>
+       * @param value The smsNotification to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSmsNotification(boolean value) {
+        
+        smsNotification_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool sms_notification = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSmsNotification() {
+        
+        smsNotification_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean emailNotification_ ;
+      /**
+       * <code>bool email_notification = 15;</code>
+       * @return The emailNotification.
+       */
+      @java.lang.Override
+      public boolean getEmailNotification() {
+        return emailNotification_;
+      }
+      /**
+       * <code>bool email_notification = 15;</code>
+       * @param value The emailNotification to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmailNotification(boolean value) {
+        
+        emailNotification_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool email_notification = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmailNotification() {
+        
+        emailNotification_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean blockView_ ;
+      /**
+       * <code>bool block_view = 16;</code>
+       * @return The blockView.
+       */
+      @java.lang.Override
+      public boolean getBlockView() {
+        return blockView_;
+      }
+      /**
+       * <code>bool block_view = 16;</code>
+       * @param value The blockView to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBlockView(boolean value) {
+        
+        blockView_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool block_view = 16;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBlockView() {
+        
+        blockView_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object branch_ = "";
+      /**
+       * <code>string branch = 17;</code>
+       * @return The branch.
+       */
+      public java.lang.String getBranch() {
+        java.lang.Object ref = branch_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          branch_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string branch = 17;</code>
+       * @return The bytes for branch.
+       */
+      public com.google.protobuf.ByteString
+          getBranchBytes() {
+        java.lang.Object ref = branch_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          branch_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string branch = 17;</code>
+       * @param value The branch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBranch(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        branch_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string branch = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBranch() {
+        
+        branch_ = getDefaultInstance().getBranch();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string branch = 17;</code>
+       * @param value The bytes for branch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBranchBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        branch_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean accessRevoked_ ;
+      /**
+       * <code>bool access_revoked = 18;</code>
+       * @return The accessRevoked.
+       */
+      @java.lang.Override
+      public boolean getAccessRevoked() {
+        return accessRevoked_;
+      }
+      /**
+       * <code>bool access_revoked = 18;</code>
+       * @param value The accessRevoked to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccessRevoked(boolean value) {
+        
+        accessRevoked_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool access_revoked = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccessRevoked() {
+        
+        accessRevoked_ = false;
+        onChanged();
+        return this;
+      }
+
+      private customers.Customer.CorporateCustomerContactInfo contactInfo_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomerContactInfo, customers.Customer.CorporateCustomerContactInfo.Builder, customers.Customer.CorporateCustomerContactInfoOrBuilder> contactInfoBuilder_;
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       * @return Whether the contactInfo field is set.
+       */
+      public boolean hasContactInfo() {
+        return contactInfoBuilder_ != null || contactInfo_ != null;
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       * @return The contactInfo.
+       */
+      public customers.Customer.CorporateCustomerContactInfo getContactInfo() {
+        if (contactInfoBuilder_ == null) {
+          return contactInfo_ == null ? customers.Customer.CorporateCustomerContactInfo.getDefaultInstance() : contactInfo_;
+        } else {
+          return contactInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public Builder setContactInfo(customers.Customer.CorporateCustomerContactInfo value) {
+        if (contactInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          contactInfo_ = value;
+          onChanged();
+        } else {
+          contactInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public Builder setContactInfo(
+          customers.Customer.CorporateCustomerContactInfo.Builder builderForValue) {
+        if (contactInfoBuilder_ == null) {
+          contactInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          contactInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public Builder mergeContactInfo(customers.Customer.CorporateCustomerContactInfo value) {
+        if (contactInfoBuilder_ == null) {
+          if (contactInfo_ != null) {
+            contactInfo_ =
+              customers.Customer.CorporateCustomerContactInfo.newBuilder(contactInfo_).mergeFrom(value).buildPartial();
+          } else {
+            contactInfo_ = value;
+          }
+          onChanged();
+        } else {
+          contactInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public Builder clearContactInfo() {
+        if (contactInfoBuilder_ == null) {
+          contactInfo_ = null;
+          onChanged();
+        } else {
+          contactInfo_ = null;
+          contactInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public customers.Customer.CorporateCustomerContactInfo.Builder getContactInfoBuilder() {
+        
+        onChanged();
+        return getContactInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      public customers.Customer.CorporateCustomerContactInfoOrBuilder getContactInfoOrBuilder() {
+        if (contactInfoBuilder_ != null) {
+          return contactInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return contactInfo_ == null ?
+              customers.Customer.CorporateCustomerContactInfo.getDefaultInstance() : contactInfo_;
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomerContactInfo contact_info = 19;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomerContactInfo, customers.Customer.CorporateCustomerContactInfo.Builder, customers.Customer.CorporateCustomerContactInfoOrBuilder> 
+          getContactInfoFieldBuilder() {
+        if (contactInfoBuilder_ == null) {
+          contactInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              customers.Customer.CorporateCustomerContactInfo, customers.Customer.CorporateCustomerContactInfo.Builder, customers.Customer.CorporateCustomerContactInfoOrBuilder>(
+                  getContactInfo(),
+                  getParentForChildren(),
+                  isClean());
+          contactInfo_ = null;
+        }
+        return contactInfoBuilder_;
+      }
+
+      private customers.Customer.CorporateCustomerKyc kyc_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomerKyc, customers.Customer.CorporateCustomerKyc.Builder, customers.Customer.CorporateCustomerKycOrBuilder> kycBuilder_;
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       * @return Whether the kyc field is set.
+       */
+      public boolean hasKyc() {
+        return kycBuilder_ != null || kyc_ != null;
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       * @return The kyc.
+       */
+      public customers.Customer.CorporateCustomerKyc getKyc() {
+        if (kycBuilder_ == null) {
+          return kyc_ == null ? customers.Customer.CorporateCustomerKyc.getDefaultInstance() : kyc_;
+        } else {
+          return kycBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public Builder setKyc(customers.Customer.CorporateCustomerKyc value) {
+        if (kycBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          kyc_ = value;
+          onChanged();
+        } else {
+          kycBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public Builder setKyc(
+          customers.Customer.CorporateCustomerKyc.Builder builderForValue) {
+        if (kycBuilder_ == null) {
+          kyc_ = builderForValue.build();
+          onChanged();
+        } else {
+          kycBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public Builder mergeKyc(customers.Customer.CorporateCustomerKyc value) {
+        if (kycBuilder_ == null) {
+          if (kyc_ != null) {
+            kyc_ =
+              customers.Customer.CorporateCustomerKyc.newBuilder(kyc_).mergeFrom(value).buildPartial();
+          } else {
+            kyc_ = value;
+          }
+          onChanged();
+        } else {
+          kycBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public Builder clearKyc() {
+        if (kycBuilder_ == null) {
+          kyc_ = null;
+          onChanged();
+        } else {
+          kyc_ = null;
+          kycBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public customers.Customer.CorporateCustomerKyc.Builder getKycBuilder() {
+        
+        onChanged();
+        return getKycFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      public customers.Customer.CorporateCustomerKycOrBuilder getKycOrBuilder() {
+        if (kycBuilder_ != null) {
+          return kycBuilder_.getMessageOrBuilder();
+        } else {
+          return kyc_ == null ?
+              customers.Customer.CorporateCustomerKyc.getDefaultInstance() : kyc_;
+        }
+      }
+      /**
+       * <code>.customers.CorporateCustomerKyc kyc = 20;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          customers.Customer.CorporateCustomerKyc, customers.Customer.CorporateCustomerKyc.Builder, customers.Customer.CorporateCustomerKycOrBuilder> 
+          getKycFieldBuilder() {
+        if (kycBuilder_ == null) {
+          kycBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              customers.Customer.CorporateCustomerKyc, customers.Customer.CorporateCustomerKyc.Builder, customers.Customer.CorporateCustomerKycOrBuilder>(
+                  getKyc(),
+                  getParentForChildren(),
+                  isClean());
+          kyc_ = null;
+        }
+        return kycBuilder_;
+      }
+
+      private java.util.List<customers.Customer.AccountProducts> products_ =
+        java.util.Collections.emptyList();
+      private void ensureProductsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          products_ = new java.util.ArrayList<customers.Customer.AccountProducts>(products_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.AccountProducts, customers.Customer.AccountProducts.Builder, customers.Customer.AccountProductsOrBuilder> productsBuilder_;
+
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public java.util.List<customers.Customer.AccountProducts> getProductsList() {
+        if (productsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(products_);
+        } else {
+          return productsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public int getProductsCount() {
+        if (productsBuilder_ == null) {
+          return products_.size();
+        } else {
+          return productsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public customers.Customer.AccountProducts getProducts(int index) {
+        if (productsBuilder_ == null) {
+          return products_.get(index);
+        } else {
+          return productsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder setProducts(
+          int index, customers.Customer.AccountProducts value) {
+        if (productsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureProductsIsMutable();
+          products_.set(index, value);
+          onChanged();
+        } else {
+          productsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder setProducts(
+          int index, customers.Customer.AccountProducts.Builder builderForValue) {
+        if (productsBuilder_ == null) {
+          ensureProductsIsMutable();
+          products_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          productsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder addProducts(customers.Customer.AccountProducts value) {
+        if (productsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureProductsIsMutable();
+          products_.add(value);
+          onChanged();
+        } else {
+          productsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder addProducts(
+          int index, customers.Customer.AccountProducts value) {
+        if (productsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureProductsIsMutable();
+          products_.add(index, value);
+          onChanged();
+        } else {
+          productsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder addProducts(
+          customers.Customer.AccountProducts.Builder builderForValue) {
+        if (productsBuilder_ == null) {
+          ensureProductsIsMutable();
+          products_.add(builderForValue.build());
+          onChanged();
+        } else {
+          productsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder addProducts(
+          int index, customers.Customer.AccountProducts.Builder builderForValue) {
+        if (productsBuilder_ == null) {
+          ensureProductsIsMutable();
+          products_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          productsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder addAllProducts(
+          java.lang.Iterable<? extends customers.Customer.AccountProducts> values) {
+        if (productsBuilder_ == null) {
+          ensureProductsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, products_);
+          onChanged();
+        } else {
+          productsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder clearProducts() {
+        if (productsBuilder_ == null) {
+          products_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          productsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public Builder removeProducts(int index) {
+        if (productsBuilder_ == null) {
+          ensureProductsIsMutable();
+          products_.remove(index);
+          onChanged();
+        } else {
+          productsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public customers.Customer.AccountProducts.Builder getProductsBuilder(
+          int index) {
+        return getProductsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public customers.Customer.AccountProductsOrBuilder getProductsOrBuilder(
+          int index) {
+        if (productsBuilder_ == null) {
+          return products_.get(index);  } else {
+          return productsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public java.util.List<? extends customers.Customer.AccountProductsOrBuilder> 
+           getProductsOrBuilderList() {
+        if (productsBuilder_ != null) {
+          return productsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(products_);
+        }
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public customers.Customer.AccountProducts.Builder addProductsBuilder() {
+        return getProductsFieldBuilder().addBuilder(
+            customers.Customer.AccountProducts.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public customers.Customer.AccountProducts.Builder addProductsBuilder(
+          int index) {
+        return getProductsFieldBuilder().addBuilder(
+            index, customers.Customer.AccountProducts.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.AccountProducts products = 21;</code>
+       */
+      public java.util.List<customers.Customer.AccountProducts.Builder> 
+           getProductsBuilderList() {
+        return getProductsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.AccountProducts, customers.Customer.AccountProducts.Builder, customers.Customer.AccountProductsOrBuilder> 
+          getProductsFieldBuilder() {
+        if (productsBuilder_ == null) {
+          productsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              customers.Customer.AccountProducts, customers.Customer.AccountProducts.Builder, customers.Customer.AccountProductsOrBuilder>(
+                  products_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          products_ = null;
+        }
+        return productsBuilder_;
+      }
+
+      private java.util.List<customers.Customer.Signatory> signatories_ =
+        java.util.Collections.emptyList();
+      private void ensureSignatoriesIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          signatories_ = new java.util.ArrayList<customers.Customer.Signatory>(signatories_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.Signatory, customers.Customer.Signatory.Builder, customers.Customer.SignatoryOrBuilder> signatoriesBuilder_;
+
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public java.util.List<customers.Customer.Signatory> getSignatoriesList() {
+        if (signatoriesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(signatories_);
+        } else {
+          return signatoriesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public int getSignatoriesCount() {
+        if (signatoriesBuilder_ == null) {
+          return signatories_.size();
+        } else {
+          return signatoriesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public customers.Customer.Signatory getSignatories(int index) {
+        if (signatoriesBuilder_ == null) {
+          return signatories_.get(index);
+        } else {
+          return signatoriesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder setSignatories(
+          int index, customers.Customer.Signatory value) {
+        if (signatoriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSignatoriesIsMutable();
+          signatories_.set(index, value);
+          onChanged();
+        } else {
+          signatoriesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder setSignatories(
+          int index, customers.Customer.Signatory.Builder builderForValue) {
+        if (signatoriesBuilder_ == null) {
+          ensureSignatoriesIsMutable();
+          signatories_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          signatoriesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder addSignatories(customers.Customer.Signatory value) {
+        if (signatoriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSignatoriesIsMutable();
+          signatories_.add(value);
+          onChanged();
+        } else {
+          signatoriesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder addSignatories(
+          int index, customers.Customer.Signatory value) {
+        if (signatoriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSignatoriesIsMutable();
+          signatories_.add(index, value);
+          onChanged();
+        } else {
+          signatoriesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder addSignatories(
+          customers.Customer.Signatory.Builder builderForValue) {
+        if (signatoriesBuilder_ == null) {
+          ensureSignatoriesIsMutable();
+          signatories_.add(builderForValue.build());
+          onChanged();
+        } else {
+          signatoriesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder addSignatories(
+          int index, customers.Customer.Signatory.Builder builderForValue) {
+        if (signatoriesBuilder_ == null) {
+          ensureSignatoriesIsMutable();
+          signatories_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          signatoriesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder addAllSignatories(
+          java.lang.Iterable<? extends customers.Customer.Signatory> values) {
+        if (signatoriesBuilder_ == null) {
+          ensureSignatoriesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, signatories_);
+          onChanged();
+        } else {
+          signatoriesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder clearSignatories() {
+        if (signatoriesBuilder_ == null) {
+          signatories_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          signatoriesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public Builder removeSignatories(int index) {
+        if (signatoriesBuilder_ == null) {
+          ensureSignatoriesIsMutable();
+          signatories_.remove(index);
+          onChanged();
+        } else {
+          signatoriesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public customers.Customer.Signatory.Builder getSignatoriesBuilder(
+          int index) {
+        return getSignatoriesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public customers.Customer.SignatoryOrBuilder getSignatoriesOrBuilder(
+          int index) {
+        if (signatoriesBuilder_ == null) {
+          return signatories_.get(index);  } else {
+          return signatoriesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public java.util.List<? extends customers.Customer.SignatoryOrBuilder> 
+           getSignatoriesOrBuilderList() {
+        if (signatoriesBuilder_ != null) {
+          return signatoriesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(signatories_);
+        }
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public customers.Customer.Signatory.Builder addSignatoriesBuilder() {
+        return getSignatoriesFieldBuilder().addBuilder(
+            customers.Customer.Signatory.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public customers.Customer.Signatory.Builder addSignatoriesBuilder(
+          int index) {
+        return getSignatoriesFieldBuilder().addBuilder(
+            index, customers.Customer.Signatory.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.Signatory signatories = 22;</code>
+       */
+      public java.util.List<customers.Customer.Signatory.Builder> 
+           getSignatoriesBuilderList() {
+        return getSignatoriesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.Signatory, customers.Customer.Signatory.Builder, customers.Customer.SignatoryOrBuilder> 
+          getSignatoriesFieldBuilder() {
+        if (signatoriesBuilder_ == null) {
+          signatoriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              customers.Customer.Signatory, customers.Customer.Signatory.Builder, customers.Customer.SignatoryOrBuilder>(
+                  signatories_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          signatories_ = null;
+        }
+        return signatoriesBuilder_;
+      }
+
+      private java.util.List<customers.Customer.Reference> references_ =
+        java.util.Collections.emptyList();
+      private void ensureReferencesIsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          references_ = new java.util.ArrayList<customers.Customer.Reference>(references_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.Reference, customers.Customer.Reference.Builder, customers.Customer.ReferenceOrBuilder> referencesBuilder_;
+
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public java.util.List<customers.Customer.Reference> getReferencesList() {
+        if (referencesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(references_);
+        } else {
+          return referencesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public int getReferencesCount() {
+        if (referencesBuilder_ == null) {
+          return references_.size();
+        } else {
+          return referencesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public customers.Customer.Reference getReferences(int index) {
+        if (referencesBuilder_ == null) {
+          return references_.get(index);
+        } else {
+          return referencesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder setReferences(
+          int index, customers.Customer.Reference value) {
+        if (referencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReferencesIsMutable();
+          references_.set(index, value);
+          onChanged();
+        } else {
+          referencesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder setReferences(
+          int index, customers.Customer.Reference.Builder builderForValue) {
+        if (referencesBuilder_ == null) {
+          ensureReferencesIsMutable();
+          references_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          referencesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder addReferences(customers.Customer.Reference value) {
+        if (referencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReferencesIsMutable();
+          references_.add(value);
+          onChanged();
+        } else {
+          referencesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder addReferences(
+          int index, customers.Customer.Reference value) {
+        if (referencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReferencesIsMutable();
+          references_.add(index, value);
+          onChanged();
+        } else {
+          referencesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder addReferences(
+          customers.Customer.Reference.Builder builderForValue) {
+        if (referencesBuilder_ == null) {
+          ensureReferencesIsMutable();
+          references_.add(builderForValue.build());
+          onChanged();
+        } else {
+          referencesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder addReferences(
+          int index, customers.Customer.Reference.Builder builderForValue) {
+        if (referencesBuilder_ == null) {
+          ensureReferencesIsMutable();
+          references_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          referencesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder addAllReferences(
+          java.lang.Iterable<? extends customers.Customer.Reference> values) {
+        if (referencesBuilder_ == null) {
+          ensureReferencesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, references_);
+          onChanged();
+        } else {
+          referencesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder clearReferences() {
+        if (referencesBuilder_ == null) {
+          references_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          referencesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public Builder removeReferences(int index) {
+        if (referencesBuilder_ == null) {
+          ensureReferencesIsMutable();
+          references_.remove(index);
+          onChanged();
+        } else {
+          referencesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public customers.Customer.Reference.Builder getReferencesBuilder(
+          int index) {
+        return getReferencesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public customers.Customer.ReferenceOrBuilder getReferencesOrBuilder(
+          int index) {
+        if (referencesBuilder_ == null) {
+          return references_.get(index);  } else {
+          return referencesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public java.util.List<? extends customers.Customer.ReferenceOrBuilder> 
+           getReferencesOrBuilderList() {
+        if (referencesBuilder_ != null) {
+          return referencesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(references_);
+        }
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public customers.Customer.Reference.Builder addReferencesBuilder() {
+        return getReferencesFieldBuilder().addBuilder(
+            customers.Customer.Reference.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public customers.Customer.Reference.Builder addReferencesBuilder(
+          int index) {
+        return getReferencesFieldBuilder().addBuilder(
+            index, customers.Customer.Reference.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.Reference references = 23;</code>
+       */
+      public java.util.List<customers.Customer.Reference.Builder> 
+           getReferencesBuilderList() {
+        return getReferencesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.Reference, customers.Customer.Reference.Builder, customers.Customer.ReferenceOrBuilder> 
+          getReferencesFieldBuilder() {
+        if (referencesBuilder_ == null) {
+          referencesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              customers.Customer.Reference, customers.Customer.Reference.Builder, customers.Customer.ReferenceOrBuilder>(
+                  references_,
+                  ((bitField0_ & 0x00000004) != 0),
+                  getParentForChildren(),
+                  isClean());
+          references_ = null;
+        }
+        return referencesBuilder_;
+      }
+
+      private java.util.List<customers.Customer.DirectorData> directorsInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureDirectorsInfoIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          directorsInfo_ = new java.util.ArrayList<customers.Customer.DirectorData>(directorsInfo_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.DirectorData, customers.Customer.DirectorData.Builder, customers.Customer.DirectorDataOrBuilder> directorsInfoBuilder_;
+
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public java.util.List<customers.Customer.DirectorData> getDirectorsInfoList() {
+        if (directorsInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(directorsInfo_);
+        } else {
+          return directorsInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public int getDirectorsInfoCount() {
+        if (directorsInfoBuilder_ == null) {
+          return directorsInfo_.size();
+        } else {
+          return directorsInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public customers.Customer.DirectorData getDirectorsInfo(int index) {
+        if (directorsInfoBuilder_ == null) {
+          return directorsInfo_.get(index);
+        } else {
+          return directorsInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder setDirectorsInfo(
+          int index, customers.Customer.DirectorData value) {
+        if (directorsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.set(index, value);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder setDirectorsInfo(
+          int index, customers.Customer.DirectorData.Builder builderForValue) {
+        if (directorsInfoBuilder_ == null) {
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          directorsInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder addDirectorsInfo(customers.Customer.DirectorData value) {
+        if (directorsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.add(value);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder addDirectorsInfo(
+          int index, customers.Customer.DirectorData value) {
+        if (directorsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.add(index, value);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder addDirectorsInfo(
+          customers.Customer.DirectorData.Builder builderForValue) {
+        if (directorsInfoBuilder_ == null) {
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          directorsInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder addDirectorsInfo(
+          int index, customers.Customer.DirectorData.Builder builderForValue) {
+        if (directorsInfoBuilder_ == null) {
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          directorsInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder addAllDirectorsInfo(
+          java.lang.Iterable<? extends customers.Customer.DirectorData> values) {
+        if (directorsInfoBuilder_ == null) {
+          ensureDirectorsInfoIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, directorsInfo_);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder clearDirectorsInfo() {
+        if (directorsInfoBuilder_ == null) {
+          directorsInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public Builder removeDirectorsInfo(int index) {
+        if (directorsInfoBuilder_ == null) {
+          ensureDirectorsInfoIsMutable();
+          directorsInfo_.remove(index);
+          onChanged();
+        } else {
+          directorsInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public customers.Customer.DirectorData.Builder getDirectorsInfoBuilder(
+          int index) {
+        return getDirectorsInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public customers.Customer.DirectorDataOrBuilder getDirectorsInfoOrBuilder(
+          int index) {
+        if (directorsInfoBuilder_ == null) {
+          return directorsInfo_.get(index);  } else {
+          return directorsInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public java.util.List<? extends customers.Customer.DirectorDataOrBuilder> 
+           getDirectorsInfoOrBuilderList() {
+        if (directorsInfoBuilder_ != null) {
+          return directorsInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(directorsInfo_);
+        }
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public customers.Customer.DirectorData.Builder addDirectorsInfoBuilder() {
+        return getDirectorsInfoFieldBuilder().addBuilder(
+            customers.Customer.DirectorData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public customers.Customer.DirectorData.Builder addDirectorsInfoBuilder(
+          int index) {
+        return getDirectorsInfoFieldBuilder().addBuilder(
+            index, customers.Customer.DirectorData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .customers.DirectorData directors_info = 24;</code>
+       */
+      public java.util.List<customers.Customer.DirectorData.Builder> 
+           getDirectorsInfoBuilderList() {
+        return getDirectorsInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          customers.Customer.DirectorData, customers.Customer.DirectorData.Builder, customers.Customer.DirectorDataOrBuilder> 
+          getDirectorsInfoFieldBuilder() {
+        if (directorsInfoBuilder_ == null) {
+          directorsInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              customers.Customer.DirectorData, customers.Customer.DirectorData.Builder, customers.Customer.DirectorDataOrBuilder>(
+                  directorsInfo_,
+                  ((bitField0_ & 0x00000008) != 0),
+                  getParentForChildren(),
+                  isClean());
+          directorsInfo_ = null;
+        }
+        return directorsInfoBuilder_;
+      }
+
+      private java.lang.Object createdAt_ = "";
+      /**
+       * <code>string created_at = 25;</code>
+       * @return The createdAt.
+       */
+      public java.lang.String getCreatedAt() {
+        java.lang.Object ref = createdAt_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          createdAt_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string created_at = 25;</code>
+       * @return The bytes for createdAt.
+       */
+      public com.google.protobuf.ByteString
+          getCreatedAtBytes() {
+        java.lang.Object ref = createdAt_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          createdAt_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string created_at = 25;</code>
+       * @param value The createdAt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCreatedAt(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        createdAt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string created_at = 25;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCreatedAt() {
+        
+        createdAt_ = getDefaultInstance().getCreatedAt();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string created_at = 25;</code>
+       * @param value The bytes for createdAt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCreatedAtBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        createdAt_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object updatedAt_ = "";
+      /**
+       * <code>string updated_at = 26;</code>
+       * @return The updatedAt.
+       */
+      public java.lang.String getUpdatedAt() {
+        java.lang.Object ref = updatedAt_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          updatedAt_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string updated_at = 26;</code>
+       * @return The bytes for updatedAt.
+       */
+      public com.google.protobuf.ByteString
+          getUpdatedAtBytes() {
+        java.lang.Object ref = updatedAt_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          updatedAt_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string updated_at = 26;</code>
+       * @param value The updatedAt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUpdatedAt(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        updatedAt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string updated_at = 26;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUpdatedAt() {
+        
+        updatedAt_ = getDefaultInstance().getUpdatedAt();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string updated_at = 26;</code>
+       * @param value The bytes for updatedAt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUpdatedAtBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        updatedAt_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object email_ = "";
+      /**
+       * <code>string email = 27;</code>
+       * @return The email.
+       */
+      public java.lang.String getEmail() {
+        java.lang.Object ref = email_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          email_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string email = 27;</code>
+       * @return The bytes for email.
+       */
+      public com.google.protobuf.ByteString
+          getEmailBytes() {
+        java.lang.Object ref = email_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          email_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string email = 27;</code>
+       * @param value The email to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmail(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        email_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string email = 27;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmail() {
+        
+        email_ = getDefaultInstance().getEmail();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string email = 27;</code>
+       * @param value The bytes for email to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmailBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        email_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean active_ ;
+      /**
+       * <code>bool active = 28;</code>
+       * @return The active.
+       */
+      @java.lang.Override
+      public boolean getActive() {
+        return active_;
+      }
+      /**
+       * <code>bool active = 28;</code>
+       * @param value The active to set.
+       * @return This builder for chaining.
+       */
+      public Builder setActive(boolean value) {
+        
+        active_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool active = 28;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearActive() {
+        
+        active_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object rsm_ = "";
+      /**
+       * <code>string rsm = 29;</code>
+       * @return The rsm.
+       */
+      public java.lang.String getRsm() {
+        java.lang.Object ref = rsm_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          rsm_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string rsm = 29;</code>
+       * @return The bytes for rsm.
+       */
+      public com.google.protobuf.ByteString
+          getRsmBytes() {
+        java.lang.Object ref = rsm_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rsm_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string rsm = 29;</code>
+       * @param value The rsm to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRsm(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        rsm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string rsm = 29;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRsm() {
+        
+        rsm_ = getDefaultInstance().getRsm();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string rsm = 29;</code>
+       * @param value The bytes for rsm to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRsmBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        rsm_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object creationChannelCode_ = "";
+      /**
+       * <code>string creation_channel_code = 30;</code>
+       * @return The creationChannelCode.
+       */
+      public java.lang.String getCreationChannelCode() {
+        java.lang.Object ref = creationChannelCode_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          creationChannelCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string creation_channel_code = 30;</code>
+       * @return The bytes for creationChannelCode.
+       */
+      public com.google.protobuf.ByteString
+          getCreationChannelCodeBytes() {
+        java.lang.Object ref = creationChannelCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          creationChannelCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string creation_channel_code = 30;</code>
+       * @param value The creationChannelCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCreationChannelCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        creationChannelCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string creation_channel_code = 30;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCreationChannelCode() {
+        
+        creationChannelCode_ = getDefaultInstance().getCreationChannelCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string creation_channel_code = 30;</code>
+       * @param value The bytes for creationChannelCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCreationChannelCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        creationChannelCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sectorCode_ = "";
+      /**
+       * <code>string sector_code = 31;</code>
+       * @return The sectorCode.
+       */
+      public java.lang.String getSectorCode() {
+        java.lang.Object ref = sectorCode_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sectorCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sector_code = 31;</code>
+       * @return The bytes for sectorCode.
+       */
+      public com.google.protobuf.ByteString
+          getSectorCodeBytes() {
+        java.lang.Object ref = sectorCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sectorCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sector_code = 31;</code>
+       * @param value The sectorCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSectorCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sectorCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sector_code = 31;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSectorCode() {
+        
+        sectorCode_ = getDefaultInstance().getSectorCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sector_code = 31;</code>
+       * @param value The bytes for sectorCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSectorCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sectorCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean useAltAccNum_ ;
+      /**
+       * <code>bool use_alt_acc_num = 32;</code>
+       * @return The useAltAccNum.
+       */
+      @java.lang.Override
+      public boolean getUseAltAccNum() {
+        return useAltAccNum_;
+      }
+      /**
+       * <code>bool use_alt_acc_num = 32;</code>
+       * @param value The useAltAccNum to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUseAltAccNum(boolean value) {
+        
+        useAltAccNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool use_alt_acc_num = 32;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUseAltAccNum() {
+        
+        useAltAccNum_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean isTradeNameAccount_ ;
+      /**
+       * <code>bool is_trade_name_account = 33;</code>
+       * @return The isTradeNameAccount.
+       */
+      @java.lang.Override
+      public boolean getIsTradeNameAccount() {
+        return isTradeNameAccount_;
+      }
+      /**
+       * <code>bool is_trade_name_account = 33;</code>
+       * @param value The isTradeNameAccount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsTradeNameAccount(boolean value) {
+        
+        isTradeNameAccount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_trade_name_account = 33;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsTradeNameAccount() {
+        
+        isTradeNameAccount_ = false;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.CorporateCustomer)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.CorporateCustomer)
+    private static final customers.Customer.CorporateCustomer DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.CorporateCustomer();
+    }
+
+    public static customers.Customer.CorporateCustomer getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CorporateCustomer>
+        PARSER = new com.google.protobuf.AbstractParser<CorporateCustomer>() {
+      @java.lang.Override
+      public CorporateCustomer parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CorporateCustomer(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CorporateCustomer> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CorporateCustomer> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.CorporateCustomer getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface GetCorporateByAccountResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:customers.GetCorporateByAccountResponse)
       com.google.protobuf.MessageOrBuilder {
@@ -66609,6 +73610,21 @@ public final class Customer {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_customers_GetCustomerByAccountRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_GetCorporateCustomerResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_GetCorporateCustomerResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_GetCustomerByPhoneRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_GetCustomerByPhoneRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_CorporateCustomer_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_CorporateCustomer_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_customers_GetCorporateByAccountResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -66765,252 +73781,282 @@ public final class Customer {
       "\n\016customer.proto\022\tcustomers\032\037google/prot" +
       "obuf/timestamp.proto\"I\n\033GetCustomerByAcc" +
       "ountRequest\022\026\n\016account_number\030\001 \001(\t\022\022\n\ns" +
-      "igned_key\030\002 \001(\t\"\267\005\n\035GetCorporateByAccoun" +
-      "tResponse\022\n\n\002id\030\001 \001(\t\022\024\n\014company_name\030\002 " +
-      "\001(\t\022\037\n\027company_registration_no\030\003 \001(\t\022\034\n\024" +
-      "date_of_registration\030\004 \001(\t\022\037\n\027country_of" +
-      "_registration\030\005 \001(\t\022\021\n\tlast_name\030\006 \001(\t\022\022" +
-      "\n\nfirst_name\030\007 \001(\t\022\023\n\013middle_name\030\010 \001(\t\022" +
-      "\022\n\nrim_number\030\t \001(\t\022.\n\ncreated_at\030\n \001(\0132" +
-      "\032.google.protobuf.Timestamp\022.\n\nupdated_a" +
-      "t\030\013 \001(\0132\032.google.protobuf.Timestamp\022,\n\010p" +
-      "roducts\030\014 \003(\0132\032.customers.AccountProduct" +
-      "s\022,\n\003kyc\030\r \001(\0132\037.customers.CorporateCust" +
-      "omerKyc\022=\n\014contact_info\030\016 \001(\0132\'.customer" +
-      "s.CorporateCustomerContactInfo\022\027\n\017use_al" +
-      "t_acc_num\030\017 \001(\010\022/\n\016directors_info\030\020 \003(\0132" +
-      "\027.customers.DirectorData\022)\n\013signatories\030" +
-      "\023 \003(\0132\024.customers.Signatory\022(\n\nreference" +
-      "s\030\024 \003(\0132\024.customers.Reference\022\033\n\023office_" +
-      "phone_number\030\021 \001(\t\022\r\n\005email\030\022 \001(\t\"\213\004\n\tSi" +
-      "gnatory\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_name" +
-      "\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t" +
-      "\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034" +
-      "\n\024contact_phone_number\030\007 \001(\t\022\027\n\017alternat" +
-      "e_phone\030\010 \001(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003" +
-      "bvn\030\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030" +
-      "\014 \001(\t\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003ni" +
-      "n\030\017 \001(\t\0223\n\026documents_and_identity\030\020 \003(\0132" +
-      "\023.customers.Document\022\023\n\013nationality\030\021 \001(" +
-      "\t\022\023\n\013father_name\030\022 \001(\t\022\023\n\013mother_name\030\023 " +
-      "\001(\t\022\024\n\014bvn_verified\030\024 \001(\010\022\024\n\014nin_verifie" +
-      "d\030\025 \001(\010\022\n\n\002id\030\026 \001(\t\022$\n\034passport_photogra" +
-      "ph_verified\030\027 \001(\010\022\024\n\014is_principal\030\030 \001(\010\"" +
-      "\232\003\n\014DirectorData\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nf" +
-      "irst_name\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003" +
-      "sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005titl" +
-      "e\030\006 \001(\t\022\025\n\rcontact_phone\030\007 \001(\t\022\027\n\017altern" +
-      "ate_phone\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n " +
-      "\001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022" +
-      "\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(" +
-      "\t\0223\n\026documents_and_identity\030\020 \003(\0132\023.cust" +
-      "omers.Document\022\n\n\002id\030\021 \001(\t\022\024\n\014is_princip" +
-      "al\030\022 \001(\010\022\024\n\014bvn_verified\030\023 \001(\010\022\024\n\014nin_ve" +
-      "rified\030\024 \001(\010\"\227\003\n\034CorporateCustomerContac" +
-      "tInfo\022\n\n\002id\030\001 \001(\t\022\"\n\032principal_officer_l" +
-      "astname\030\002 \001(\t\022$\n\034principal_officer_first" +
-      "_name\030\003 \001(\t\022%\n\035principal_officer_middle_" +
-      "name\030\004 \001(\t\022\013\n\003sex\030\021 \001(\t\022\025\n\rdate_of_birth" +
-      "\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024contact_phone_n" +
-      "umber\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\033\n\023" +
-      "office_phone_number\030\t \001(\t\022\025\n\remail_addre" +
-      "ss\030\n \001(\t\022\022\n\nintroducer\030\013 \001(\t\022\013\n\003rsm\030\014 \001(" +
-      "\t\022\023\n\013restriction\030\r \001(\t\022\022\n\nupdated_at\030\016 \001" +
-      "(\t\022\022\n\ncreated_at\030\017 \001(\t\"\271\002\n\010Document\022\n\n\002i" +
-      "d\030\001 \001(\t\022\025\n\rdocument_name\030\002 \001(\t\022\027\n\017expira" +
-      "tion_date\030\003 \001(\t\022\024\n\014document_url\030\004 \001(\t\022\027\n" +
-      "\017document_number\030\005 \001(\t\022\033\n\023country_of_iss" +
-      "uance\030\006 \001(\t\022\030\n\020date_of_issuance\030\007 \001(\t\022\031\n" +
-      "\021place_of_issuance\030\010 \001(\t\022:\n\023verification" +
-      "_status\030\t \001(\0162\035.customers.VerificationSt" +
-      "atus\022 \n\010kyc_data\030\n \001(\0132\016.customers.Kyc\022\022" +
-      "\n\ncreated_at\030\013 \001(\t\"\320\004\n\003Kyc\022\n\n\002id\030\001 \001(\t\0221" +
-      "\n\024documentsAndIdentity\030\002 \003(\0132\023.customers" +
-      ".Document\0227\n\033individual_customer_address" +
-      "\030\003 \001(\0132\022.customers.Address\022\021\n\tsignature\030" +
-      "\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\033\n\023passport_photograp" +
-      "h\030\006 \001(\t\022\021\n\tkyc_level\030\007 \001(\t\022\013\n\003tin\030\010 \001(\t\022" +
-      "\024\n\014bvn_verified\030\t \001(\010\022\013\n\003nin\030\n \001(\t\022\024\n\014ni" +
-      "n_verified\030\013 \001(\010\022\024\n\014tin_verified\030\014 \001(\010\022$" +
-      "\n\034passport_photograph_verified\030\r \001(\010\022C\n\032" +
-      "corporate_customer_address\030\016 \001(\0132\037.custo" +
-      "mers.CorporateUserAddress\022\014\n\004tier\030\017 \001(\t\022" +
-      "\027\n\017driving_license\030\020 \001(\t\022 \n\030driving_lice" +
-      "nse_verified\030\021 \001(\010\022%\n\035international_pass" +
-      "port_number\030\022 \001(\t\022.\n&international_passp" +
-      "ort_number_verified\030\023 \001(\t\022\032\n\022voters_card" +
-      "_number\030\024 \001(\t\"\226\002\n\007Address\022\n\n\002id\030\001 \001(\t\022\033\n" +
-      "\023residential_address\030\002 \001(\t\022\021\n\tresidency\030" +
-      "\003 \001(\t\022\027\n\017state_of_origin\030\004 \001(\t\022\025\n\rlga_of" +
-      "_origin\030\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\023\n\013postal_co" +
-      "de\030\007 \001(\t\022\r\n\005state\030\010 \001(\t\022\017\n\007country\030\t \001(\t" +
-      "\022:\n\023verification_status\030\n \001(\0162\035.customer" +
-      "s.VerificationStatus\022 \n\010kyc_data\030\013 \001(\0132\016" +
-      ".customers.Kyc\"\333\002\n\024CorporateUserAddress\022" +
-      "\n\n\002id\030\001 \001(\t\022\027\n\017company_address\030\002 \001(\t\022\r\n\005" +
-      "state\030\003 \001(\t\022\014\n\004city\030\004 \001(\t\022\017\n\007country\030\005 \001" +
-      "(\t\022\037\n\027primary_company_address\030\006 \001(\t\022\035\n\025p" +
-      "rimary_company_state\030\007 \001(\t\022\034\n\024primary_co" +
-      "mpany_city\030\010 \001(\t\022\037\n\027primary_company_coun" +
-      "try\030\t \001(\t\022\017\n\007address\030\n \001(\t\022\033\n\023verificati" +
-      "on_status\030\013 \001(\t\022\022\n\ncreated_at\030\014 \001(\t\022\022\n\nu" +
-      "pdated_at\030\r \001(\t\022\033\n\023primary_company_lga\030\016" +
-      " \001(\t\"\367\002\n\024CorporateCustomerKyc\022\n\n\002id\030\001 \001(" +
-      "\t\0221\n\024documentsAndIdentity\030\002 \003(\0132\023.custom" +
-      "ers.Document\022C\n\032corporate_customer_addre" +
-      "ss\030\003 \001(\0132\037.customers.CorporateUserAddres" +
-      "s\022\021\n\tsignature\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\013\n\003tin" +
-      "\030\006 \001(\t\022\033\n\023passport_photograph\030\007 \001(\t\022\021\n\tk" +
-      "yc_level\030\010 \001(\t\022\014\n\004tier\030\t \001(\t\022\024\n\014tin_veri" +
-      "fied\030\n \001(\010\022\027\n\017driving_license\030\013 \001(\t\022%\n\035i" +
-      "nternational_passport_number\030\014 \001(\t\022\032\n\022vo" +
-      "ters_card_number\030\r \001(\t\"\272\006\n\017AccountProduc" +
-      "ts\022\022\n\nproduct_id\030\001 \001(\t\022\026\n\016account_number" +
-      "\030\002 \001(\t\022\026\n\016access_revoked\030\003 \001(\010\022\016\n\006active" +
-      "\030\004 \001(\010\022\031\n\021effective_balance\030\005 \001(\t\022\026\n\016led" +
-      "ger_balance\030\006 \001(\t\022\024\n\014product_name\030\007 \001(\t\022" +
-      "\024\n\014product_type\030\010 \001(\t\022\014\n\004lien\030\t \001(\t\022\026\n\016o" +
-      "ld_account_no\030\n \001(\t\022\020\n\010od_limit\030\013 \001(\t\022\027\n" +
-      "\017last_debit_date\030\014 \001(\t\022\032\n\022last_credit_am" +
-      "ount\030\r \001(\t\022\030\n\020last_credit_date\030\016 \001(\t\022\020\n\010" +
-      "hold_bal\030\017 \001(\t\022\031\n\021last_debit_amount\030\020 \001(" +
-      "\t\022\024\n\014current_rate\030\021 \001(\t\022\016\n\006margin\030\022 \001(\t\022" +
-      "\n\n\002id\030\023 \001(\t\022\027\n\017default_product\030\024 \001(\010\022\030\n\020" +
-      "accured_interest\030\025 \001(\001\022\"\n\032accured_intere" +
-      "st_overdrawn\030\026 \001(\001\022#\n\005limit\030\027 \001(\0132\024.cust" +
-      "omers.LimitData\022\032\n\022customer_last_name\030\030 " +
-      "\001(\t\022\034\n\024customer_middle_name\030\031 \001(\t\022\033\n\023cus" +
-      "tomer_first_name\030\032 \001(\t\022\035\n\025customer_phone" +
-      "_number\030\033 \001(\t\022\026\n\016customer_email\030\034 \001(\t\022\024\n" +
-      "\014account_name\030\035 \001(\t\022\027\n\017overdraft_limit\030\036" +
-      " \001(\t\022\020\n\010per_diem\030\037 \001(\001\022\032\n\022interest_last_" +
-      "year\030  \001(\001\022\031\n\021interest_paid_ytd\030! \001(\001\022\014\n" +
-      "\004rate\030\" \001(\001\"x\n\tLimitData\022\024\n\014mobile_intra" +
-      "\030\001 \001(\t\022\021\n\tweb_intra\030\002 \001(\t\022\014\n\004ussd\030\003 \001(\t\022" +
-      "\024\n\014mobile_inter\030\004 \001(\t\022\021\n\tweb_inter\030\005 \001(\t" +
-      "\022\013\n\003atm\030\006 \001(\t\"_\n\034CreateBulkCorpAccountRe" +
-      "quest\022?\n\rcustomer_data\030\001 \003(\0132(.customers" +
-      ".CreateCorporateAccountRequest\"{\n\034Create" +
-      "CustomerProductRequest\022\022\n\nproduct_id\030\001 \001" +
-      "(\t\022\023\n\013customer_id\030\002 \001(\t\0222\n\017product_optio" +
-      "ns\030\003 \001(\0132\031.customers.ProductOptions\"T\n\035C" +
-      "reateCustomerProductResponse\022\033\n\023customer" +
-      "_product_id\030\001 \001(\t\022\026\n\016account_number\030\002 \001(" +
-      "\t\"<\n\016ProductOptions\022\026\n\016account_number\030\001 " +
-      "\001(\t\022\022\n\ncreated_at\030\002 \001(\t\",\n\022NameEnquiryRe" +
-      "quest\022\026\n\016account_number\030\001 \001(\t\"\220\001\n\023NameEn" +
-      "quiryResponse\022\025\n\rresponse_code\030\001 \001(\t\022\024\n\014" +
-      "account_name\030\002 \001(\t\022\026\n\016account_number\030\003 \001" +
-      "(\t\022\021\n\tkyc_level\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\024\n\014pr" +
-      "oduct_type\030\006 \001(\t\"\226\001\n\036CreateBulkCorpCusto" +
-      "merResponse\0227\n\010response\030\001 \003(\0132%.customer" +
-      "s.CreateBulkCustomerResponse\022;\n\terrorDat" +
-      "a\030\002 \003(\0132(.customers.CreateBulkCustomerEr" +
-      "rResponse\"M\n\032CreateBulkCustomerResponse\022" +
-      "\n\n\002id\030\001 \001(\t\022\026\n\016account_number\030\002 \001(\t\022\013\n\003t" +
-      "in\030\003 \001(\t\"<\n\035CreateBulkCustomerErrRespons" +
-      "e\022\013\n\003tin\030\001 \001(\t\022\016\n\006reason\030\002 \001(\t\"/\n\016Respon" +
-      "seStatus\022\014\n\004code\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"" +
-      "\315\r\n\035CreateCorporateAccountRequest\022\024\n\014com" +
-      "pany_name\030\001 \001(\t\022\037\n\027company_registration_" +
-      "no\030\002 \001(\t\022\034\n\024date_of_registration\030\003 \001(\t\022\037" +
-      "\n\027country_of_registration\030\004 \001(\t\022\027\n\017compa" +
-      "ny_address\030\005 \001(\t\022\r\n\005state\030\006 \001(\t\022\014\n\004city\030" +
-      "\007 \001(\t\022\017\n\007country\030\010 \001(\t\022\021\n\tlast_name\030\t \001(" +
-      "\t\022\013\n\003bvn\030\n \001(\t\022\013\n\003tin\030\013 \001(\t\022\017\n\007address\030\014" +
-      " \001(\t\0227\n\rdirector_data\030\r \003(\0132 .customers." +
-      "CreateDirectorRequest\022%\n\035principal_offic" +
-      "er_middle_name\030\016 \001(\t\022\013\n\003sex\030\017 \001(\t\022\025\n\rdat" +
-      "e_of_birth\030\020 \001(\t\022\r\n\005title\030\021 \001(\t\022\034\n\024conta" +
-      "ct_phone_number\030\022 \001(\t\022\027\n\017alternate_phone" +
-      "\030\023 \001(\t\022\033\n\023office_phone_number\030\024 \001(\t\022\025\n\re" +
-      "mail_address\030\025 \001(\t\022\013\n\003nin\030\026 \001(\t\022\017\n\007id_ty" +
-      "pe\030\027 \001(\t\022\032\n\022date_of_expiration\030\030 \001(\t\022\031\n\021" +
-      "place_of_issuance\030\031 \001(\t\022\021\n\tid_number\030\032 \001" +
-      "(\t\022\033\n\023country_of_issuance\030\033 \001(\t\022\030\n\020date_" +
-      "of_issuance\030\034 \001(\t\022\024\n\014fathers_name\030\035 \001(\t\022" +
-      "\024\n\014mothers_name\030\036 \001(\t\022\023\n\013nationality\030\037 \001" +
-      "(\t\022\031\n\021business_category\030  \001(\t\022\033\n\023ownersh" +
-      "ip_structure\030! \001(\t\022\017\n\007Product\030\" \001(\t\022\021\n\tb" +
-      "ranch_id\030# \001(\t\022\021\n\tsignature\030$ \001(\t\022\024\n\014Pho" +
-      "to_upload\030% \001(\t\022\022\n\nintroducer\030& \001(\t\022\013\n\003r" +
-      "sm\030\' \001(\t\022\023\n\013restriction\030( \001(\t\022\"\n\032princip" +
-      "al_officer_lastname\030) \001(\t\022$\n\034principal_o" +
-      "fficer_first_name\030* \001(\t\022\037\n\027primary_compa" +
-      "ny_address\030+ \001(\t\022\035\n\025primary_company_stat" +
-      "e\030, \001(\t\022\034\n\024primary_company_city\030- \001(\t\022\037\n" +
-      "\027primary_company_country\030. \001(\t\022\022\n\nfirst_" +
-      "name\030/ \001(\t\022\023\n\013middle_name\0300 \001(\t\022\022\n\nprodu" +
-      "ct_id\0301 \001(\t\022\022\n\nblock_view\0302 \001(\010\0220\n\tdocum" +
-      "ents\0303 \003(\0132\035.customers.CreateDocumentDat" +
-      "a\022\027\n\017no_of_signatory\0304 \001(\t\022\030\n\020sms_notifi" +
-      "cation\0305 \001(\010\022\032\n\022email_notification\0306 \001(\010" +
-      "\022+\n\rreferenceData\0307 \003(\0132\024.customers.Refe" +
-      "rence\022:\n\017signatoriesData\0308 \003(\0132!.custome" +
-      "rs.CreateSignatoryRequest\0224\n\020customer_op" +
-      "tions\0309 \001(\0132\032.customers.CustomerOptions\022" +
-      ":\n\017product_options\030: \001(\0132!.customers.Cus" +
-      "tomerProductOptions\022\031\n\021is_linked_account" +
-      "\030; \001(\010\022\035\n\025linked_account_number\030< \001(\t\022\035\n" +
-      "\025creation_channel_code\030= \001(\t\022\033\n\023primary_" +
-      "company_lga\030> \001(\t\022\023\n\013sector_code\030? \001(\t\022\027" +
-      "\n\017driving_license\030@ \001(\t\"h\n\026CustomerProdu" +
-      "ctOptions\022\032\n\022product_created_at\030\001 \001(\t\022\032\n" +
-      "\022old_account_number\030\002 \001(\t\022\026\n\016account_num" +
-      "ber\030\003 \001(\t\"\275\002\n\tReference\022\032\n\022reference_las" +
-      "tname\030\001 \001(\t\022\034\n\024reference_first_name\030\002 \001(" +
-      "\t\022\035\n\025reference_middle_name\030\003 \001(\t\022\021\n\tbank" +
-      "_name\030\004 \001(\t\022\024\n\014bank_address\030\005 \001(\t\022\026\n\016acc" +
-      "ount_number\030\006 \001(\t\022\024\n\014phone_number\030\007 \001(\t\022" +
-      "\r\n\005email\030\010 \001(\t\022\026\n\016reference_form\030\t \001(\t\022\023" +
-      "\n\013father_name\030\n \001(\t\022\023\n\013mother_name\030\013 \001(\t" +
-      "\022\023\n\013nationality\030\014 \001(\t\022\032\n\022reference_verif" +
-      "ied\030\r \001(\010\"A\n\017CustomerOptions\022\033\n\023customer" +
-      "_created_at\030\001 \001(\t\022\021\n\tis_active\030\002 \001(\t\"\303\003\n" +
-      "\026CreateSignatoryRequest\022\021\n\tlast_name\030\001 \001" +
-      "(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013middle_name\030\003 " +
-      "\001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022" +
-      "\r\n\005title\030\006 \001(\t\022\034\n\024contact_phone_number\030\007" +
-      " \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\025\n\remail_a" +
-      "ddress\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address\030\013 \001" +
-      "(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport_photog" +
-      "raph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\022\023\n\013customer_id\030\020" +
-      " \001(\t\022=\n\026documents_and_identity\030\021 \003(\0132\035.c" +
-      "ustomers.CreateDocumentData\022\023\n\013father_na" +
-      "me\030\022 \001(\t\022\023\n\013mother_name\030\023 \001(\t\022\023\n\013nationa" +
-      "lity\030\024 \001(\t\"\212\003\n\025CreateDirectorRequest\022\021\n\t" +
+      "igned_key\030\002 \001(\t\"N\n\034GetCorporateCustomerR" +
+      "esponse\022.\n\010customer\030\001 \001(\0132\034.customers.Co" +
+      "rporateCustomer\"1\n\031GetCustomerByPhoneReq" +
+      "uest\022\024\n\014phone_number\030\001 \001(\t\"\236\007\n\021Corporate" +
+      "Customer\022\n\n\002id\030\001 \001(\t\022\024\n\014company_name\030\002 \001" +
+      "(\t\022\037\n\027company_registration_no\030\003 \001(\t\022\034\n\024d" +
+      "ate_of_registration\030\004 \001(\t\022\037\n\027country_of_" +
+      "registration\030\005 \001(\t\022\021\n\tlast_name\030\006 \001(\t\022\022\n" +
+      "\nfirst_name\030\007 \001(\t\022\023\n\013middle_name\030\010 \001(\t\022\022" +
+      "\n\nrim_number\030\t \001(\t\022\027\n\017no_of_signatory\030\n " +
+      "\001(\t\022\023\n\013nationality\030\013 \001(\t\022\031\n\021business_cat" +
+      "egory\030\014 \001(\t\022\033\n\023ownership_structure\030\r \001(\t" +
+      "\022\030\n\020sms_notification\030\016 \001(\010\022\032\n\022email_noti" +
+      "fication\030\017 \001(\010\022\022\n\nblock_view\030\020 \001(\010\022\016\n\006br" +
+      "anch\030\021 \001(\t\022\026\n\016access_revoked\030\022 \001(\010\022=\n\014co" +
+      "ntact_info\030\023 \001(\0132\'.customers.CorporateCu" +
+      "stomerContactInfo\022,\n\003kyc\030\024 \001(\0132\037.custome" +
+      "rs.CorporateCustomerKyc\022,\n\010products\030\025 \003(" +
+      "\0132\032.customers.AccountProducts\022)\n\013signato" +
+      "ries\030\026 \003(\0132\024.customers.Signatory\022(\n\nrefe" +
+      "rences\030\027 \003(\0132\024.customers.Reference\022/\n\016di" +
+      "rectors_info\030\030 \003(\0132\027.customers.DirectorD" +
+      "ata\022\022\n\ncreated_at\030\031 \001(\t\022\022\n\nupdated_at\030\032 " +
+      "\001(\t\022\r\n\005email\030\033 \001(\t\022\016\n\006active\030\034 \001(\010\022\013\n\003rs" +
+      "m\030\035 \001(\t\022\035\n\025creation_channel_code\030\036 \001(\t\022\023" +
+      "\n\013sector_code\030\037 \001(\t\022\027\n\017use_alt_acc_num\030 " +
+      " \001(\010\022\035\n\025is_trade_name_account\030! \001(\010\"\267\005\n\035" +
+      "GetCorporateByAccountResponse\022\n\n\002id\030\001 \001(" +
+      "\t\022\024\n\014company_name\030\002 \001(\t\022\037\n\027company_regis" +
+      "tration_no\030\003 \001(\t\022\034\n\024date_of_registration" +
+      "\030\004 \001(\t\022\037\n\027country_of_registration\030\005 \001(\t\022" +
+      "\021\n\tlast_name\030\006 \001(\t\022\022\n\nfirst_name\030\007 \001(\t\022\023" +
+      "\n\013middle_name\030\010 \001(\t\022\022\n\nrim_number\030\t \001(\t\022" +
+      ".\n\ncreated_at\030\n \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\022.\n\nupdated_at\030\013 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\022,\n\010products\030\014 \003(\0132\032.cust" +
+      "omers.AccountProducts\022,\n\003kyc\030\r \001(\0132\037.cus" +
+      "tomers.CorporateCustomerKyc\022=\n\014contact_i" +
+      "nfo\030\016 \001(\0132\'.customers.CorporateCustomerC" +
+      "ontactInfo\022\027\n\017use_alt_acc_num\030\017 \001(\010\022/\n\016d" +
+      "irectors_info\030\020 \003(\0132\027.customers.Director" +
+      "Data\022)\n\013signatories\030\023 \003(\0132\024.customers.Si" +
+      "gnatory\022(\n\nreferences\030\024 \003(\0132\024.customers." +
+      "Reference\022\033\n\023office_phone_number\030\021 \001(\t\022\r" +
+      "\n\005email\030\022 \001(\t\"\213\004\n\tSignatory\022\021\n\tlast_name" +
+      "\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013middle_nam" +
+      "e\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 " +
+      "\001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024contact_phone_numb" +
+      "er\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\025\n\rema" +
+      "il_address\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address" +
+      "\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport_ph" +
+      "otograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026documents" +
+      "_and_identity\030\020 \003(\0132\023.customers.Document" +
+      "\022\023\n\013nationality\030\021 \001(\t\022\023\n\013father_name\030\022 \001" +
+      "(\t\022\023\n\013mother_name\030\023 \001(\t\022\024\n\014bvn_verified\030" +
+      "\024 \001(\010\022\024\n\014nin_verified\030\025 \001(\010\022\n\n\002id\030\026 \001(\t\022" +
+      "$\n\034passport_photograph_verified\030\027 \001(\010\022\024\n" +
+      "\014is_principal\030\030 \001(\010\"\232\003\n\014DirectorData\022\021\n\t" +
       "last_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013m" +
       "iddle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of" +
       "_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\025\n\rcontact_p" +
       "hone\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\r\n\005e" +
       "mail\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address\030\013 \001(\t" +
       "\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport_photogra" +
-      "ph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\022\023\n\013customer_id\030\020 \001" +
-      "(\t\022\024\n\014is_principal\030\021 \001(\010\022=\n\026documents_an" +
-      "d_identity\030\022 \003(\0132\035.customers.CreateDocum" +
-      "entData\"\305\001\n\022CreateDocumentData\022\025\n\rdocume" +
-      "nt_name\030\001 \001(\t\022\024\n\014document_url\030\002 \001(\t\022\027\n\017e" +
-      "xpiration_date\030\003 \001(\t\022\027\n\017document_number\030" +
-      "\004 \001(\t\022\033\n\023country_of_issuance\030\005 \001(\t\022\030\n\020da" +
-      "te_of_issuance\030\006 \001(\t\022\031\n\021place_of_issuanc" +
-      "e\030\007 \001(\t\"<\n\026CreateCustomerResponse\022\n\n\002id\030" +
-      "\001 \001(\t\022\026\n\016account_number\030\002 \001(\t*G\n\022Verific" +
-      "ationStatus\022\010\n\004NULL\020\000\022\013\n\007PENDING\020\001\022\014\n\010AP" +
-      "PROVED\020\002\022\014\n\010REJECTED\020\0032\256\004\n\017CustomerServi" +
-      "ce\022l\n\025CreateCustomerProduct\022\'.customers." +
-      "CreateCustomerProductRequest\032(.customers" +
-      ".CreateCustomerProductResponse\"\000\022u\n\036Crea" +
-      "teCorporateCustomerProduct\022\'.customers.C" +
-      "reateCustomerProductRequest\032(.customers." +
-      "CreateCustomerProductResponse\"\000\022q\n\031Creat" +
-      "BulkCorporateAccount\022\'.customers.CreateB" +
-      "ulkCorpAccountRequest\032).customers.Create" +
-      "BulkCorpCustomerResponse\"\000\022N\n\013NameEnquir" +
-      "y\022\035.customers.NameEnquiryRequest\032\036.custo" +
-      "mers.NameEnquiryResponse\"\000\022s\n\035GetCorpora" +
-      "teCustomerByAccount\022&.customers.GetCusto" +
-      "merByAccountRequest\032(.customers.GetCorpo" +
-      "rateByAccountResponse\"\000b\006proto3"
+      "ph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026documents_and_i" +
+      "dentity\030\020 \003(\0132\023.customers.Document\022\n\n\002id" +
+      "\030\021 \001(\t\022\024\n\014is_principal\030\022 \001(\010\022\024\n\014bvn_veri" +
+      "fied\030\023 \001(\010\022\024\n\014nin_verified\030\024 \001(\010\"\227\003\n\034Cor" +
+      "porateCustomerContactInfo\022\n\n\002id\030\001 \001(\t\022\"\n" +
+      "\032principal_officer_lastname\030\002 \001(\t\022$\n\034pri" +
+      "ncipal_officer_first_name\030\003 \001(\t\022%\n\035princ" +
+      "ipal_officer_middle_name\030\004 \001(\t\022\013\n\003sex\030\021 " +
+      "\001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(" +
+      "\t\022\034\n\024contact_phone_number\030\007 \001(\t\022\027\n\017alter" +
+      "nate_phone\030\010 \001(\t\022\033\n\023office_phone_number\030" +
+      "\t \001(\t\022\025\n\remail_address\030\n \001(\t\022\022\n\nintroduc" +
+      "er\030\013 \001(\t\022\013\n\003rsm\030\014 \001(\t\022\023\n\013restriction\030\r \001" +
+      "(\t\022\022\n\nupdated_at\030\016 \001(\t\022\022\n\ncreated_at\030\017 \001" +
+      "(\t\"\271\002\n\010Document\022\n\n\002id\030\001 \001(\t\022\025\n\rdocument_" +
+      "name\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(\t\022\024\n\014d" +
+      "ocument_url\030\004 \001(\t\022\027\n\017document_number\030\005 \001" +
+      "(\t\022\033\n\023country_of_issuance\030\006 \001(\t\022\030\n\020date_" +
+      "of_issuance\030\007 \001(\t\022\031\n\021place_of_issuance\030\010" +
+      " \001(\t\022:\n\023verification_status\030\t \001(\0162\035.cust" +
+      "omers.VerificationStatus\022 \n\010kyc_data\030\n \001" +
+      "(\0132\016.customers.Kyc\022\022\n\ncreated_at\030\013 \001(\t\"\320" +
+      "\004\n\003Kyc\022\n\n\002id\030\001 \001(\t\0221\n\024documentsAndIdenti" +
+      "ty\030\002 \003(\0132\023.customers.Document\0227\n\033individ" +
+      "ual_customer_address\030\003 \001(\0132\022.customers.A" +
+      "ddress\022\021\n\tsignature\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\033" +
+      "\n\023passport_photograph\030\006 \001(\t\022\021\n\tkyc_level" +
+      "\030\007 \001(\t\022\013\n\003tin\030\010 \001(\t\022\024\n\014bvn_verified\030\t \001(" +
+      "\010\022\013\n\003nin\030\n \001(\t\022\024\n\014nin_verified\030\013 \001(\010\022\024\n\014" +
+      "tin_verified\030\014 \001(\010\022$\n\034passport_photograp" +
+      "h_verified\030\r \001(\010\022C\n\032corporate_customer_a" +
+      "ddress\030\016 \001(\0132\037.customers.CorporateUserAd" +
+      "dress\022\014\n\004tier\030\017 \001(\t\022\027\n\017driving_license\030\020" +
+      " \001(\t\022 \n\030driving_license_verified\030\021 \001(\010\022%" +
+      "\n\035international_passport_number\030\022 \001(\t\022.\n" +
+      "&international_passport_number_verified\030" +
+      "\023 \001(\t\022\032\n\022voters_card_number\030\024 \001(\t\"\226\002\n\007Ad" +
+      "dress\022\n\n\002id\030\001 \001(\t\022\033\n\023residential_address" +
+      "\030\002 \001(\t\022\021\n\tresidency\030\003 \001(\t\022\027\n\017state_of_or" +
+      "igin\030\004 \001(\t\022\025\n\rlga_of_origin\030\005 \001(\t\022\014\n\004cit" +
+      "y\030\006 \001(\t\022\023\n\013postal_code\030\007 \001(\t\022\r\n\005state\030\010 " +
+      "\001(\t\022\017\n\007country\030\t \001(\t\022:\n\023verification_sta" +
+      "tus\030\n \001(\0162\035.customers.VerificationStatus" +
+      "\022 \n\010kyc_data\030\013 \001(\0132\016.customers.Kyc\"\333\002\n\024C" +
+      "orporateUserAddress\022\n\n\002id\030\001 \001(\t\022\027\n\017compa" +
+      "ny_address\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\022\014\n\004city\030" +
+      "\004 \001(\t\022\017\n\007country\030\005 \001(\t\022\037\n\027primary_compan" +
+      "y_address\030\006 \001(\t\022\035\n\025primary_company_state" +
+      "\030\007 \001(\t\022\034\n\024primary_company_city\030\010 \001(\t\022\037\n\027" +
+      "primary_company_country\030\t \001(\t\022\017\n\007address" +
+      "\030\n \001(\t\022\033\n\023verification_status\030\013 \001(\t\022\022\n\nc" +
+      "reated_at\030\014 \001(\t\022\022\n\nupdated_at\030\r \001(\t\022\033\n\023p" +
+      "rimary_company_lga\030\016 \001(\t\"\367\002\n\024CorporateCu" +
+      "stomerKyc\022\n\n\002id\030\001 \001(\t\0221\n\024documentsAndIde" +
+      "ntity\030\002 \003(\0132\023.customers.Document\022C\n\032corp" +
+      "orate_customer_address\030\003 \001(\0132\037.customers" +
+      ".CorporateUserAddress\022\021\n\tsignature\030\004 \001(\t" +
+      "\022\013\n\003bvn\030\005 \001(\t\022\013\n\003tin\030\006 \001(\t\022\033\n\023passport_p" +
+      "hotograph\030\007 \001(\t\022\021\n\tkyc_level\030\010 \001(\t\022\014\n\004ti" +
+      "er\030\t \001(\t\022\024\n\014tin_verified\030\n \001(\010\022\027\n\017drivin" +
+      "g_license\030\013 \001(\t\022%\n\035international_passpor" +
+      "t_number\030\014 \001(\t\022\032\n\022voters_card_number\030\r \001" +
+      "(\t\"\272\006\n\017AccountProducts\022\022\n\nproduct_id\030\001 \001" +
+      "(\t\022\026\n\016account_number\030\002 \001(\t\022\026\n\016access_rev" +
+      "oked\030\003 \001(\010\022\016\n\006active\030\004 \001(\010\022\031\n\021effective_" +
+      "balance\030\005 \001(\t\022\026\n\016ledger_balance\030\006 \001(\t\022\024\n" +
+      "\014product_name\030\007 \001(\t\022\024\n\014product_type\030\010 \001(" +
+      "\t\022\014\n\004lien\030\t \001(\t\022\026\n\016old_account_no\030\n \001(\t\022" +
+      "\020\n\010od_limit\030\013 \001(\t\022\027\n\017last_debit_date\030\014 \001" +
+      "(\t\022\032\n\022last_credit_amount\030\r \001(\t\022\030\n\020last_c" +
+      "redit_date\030\016 \001(\t\022\020\n\010hold_bal\030\017 \001(\t\022\031\n\021la" +
+      "st_debit_amount\030\020 \001(\t\022\024\n\014current_rate\030\021 " +
+      "\001(\t\022\016\n\006margin\030\022 \001(\t\022\n\n\002id\030\023 \001(\t\022\027\n\017defau" +
+      "lt_product\030\024 \001(\010\022\030\n\020accured_interest\030\025 \001" +
+      "(\001\022\"\n\032accured_interest_overdrawn\030\026 \001(\001\022#" +
+      "\n\005limit\030\027 \001(\0132\024.customers.LimitData\022\032\n\022c" +
+      "ustomer_last_name\030\030 \001(\t\022\034\n\024customer_midd" +
+      "le_name\030\031 \001(\t\022\033\n\023customer_first_name\030\032 \001" +
+      "(\t\022\035\n\025customer_phone_number\030\033 \001(\t\022\026\n\016cus" +
+      "tomer_email\030\034 \001(\t\022\024\n\014account_name\030\035 \001(\t\022" +
+      "\027\n\017overdraft_limit\030\036 \001(\t\022\020\n\010per_diem\030\037 \001" +
+      "(\001\022\032\n\022interest_last_year\030  \001(\001\022\031\n\021intere" +
+      "st_paid_ytd\030! \001(\001\022\014\n\004rate\030\" \001(\001\"x\n\tLimit" +
+      "Data\022\024\n\014mobile_intra\030\001 \001(\t\022\021\n\tweb_intra\030" +
+      "\002 \001(\t\022\014\n\004ussd\030\003 \001(\t\022\024\n\014mobile_inter\030\004 \001(" +
+      "\t\022\021\n\tweb_inter\030\005 \001(\t\022\013\n\003atm\030\006 \001(\t\"_\n\034Cre" +
+      "ateBulkCorpAccountRequest\022?\n\rcustomer_da" +
+      "ta\030\001 \003(\0132(.customers.CreateCorporateAcco" +
+      "untRequest\"{\n\034CreateCustomerProductReque" +
+      "st\022\022\n\nproduct_id\030\001 \001(\t\022\023\n\013customer_id\030\002 " +
+      "\001(\t\0222\n\017product_options\030\003 \001(\0132\031.customers" +
+      ".ProductOptions\"T\n\035CreateCustomerProduct" +
+      "Response\022\033\n\023customer_product_id\030\001 \001(\t\022\026\n" +
+      "\016account_number\030\002 \001(\t\"<\n\016ProductOptions\022" +
+      "\026\n\016account_number\030\001 \001(\t\022\022\n\ncreated_at\030\002 " +
+      "\001(\t\",\n\022NameEnquiryRequest\022\026\n\016account_num" +
+      "ber\030\001 \001(\t\"\220\001\n\023NameEnquiryResponse\022\025\n\rres" +
+      "ponse_code\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022\026" +
+      "\n\016account_number\030\003 \001(\t\022\021\n\tkyc_level\030\004 \001(" +
+      "\t\022\013\n\003bvn\030\005 \001(\t\022\024\n\014product_type\030\006 \001(\t\"\226\001\n" +
+      "\036CreateBulkCorpCustomerResponse\0227\n\010respo" +
+      "nse\030\001 \003(\0132%.customers.CreateBulkCustomer" +
+      "Response\022;\n\terrorData\030\002 \003(\0132(.customers." +
+      "CreateBulkCustomerErrResponse\"M\n\032CreateB" +
+      "ulkCustomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016accou" +
+      "nt_number\030\002 \001(\t\022\013\n\003tin\030\003 \001(\t\"<\n\035CreateBu" +
+      "lkCustomerErrResponse\022\013\n\003tin\030\001 \001(\t\022\016\n\006re" +
+      "ason\030\002 \001(\t\"/\n\016ResponseStatus\022\014\n\004code\030\001 \001" +
+      "(\005\022\017\n\007message\030\002 \001(\t\"\315\r\n\035CreateCorporateA" +
+      "ccountRequest\022\024\n\014company_name\030\001 \001(\t\022\037\n\027c" +
+      "ompany_registration_no\030\002 \001(\t\022\034\n\024date_of_" +
+      "registration\030\003 \001(\t\022\037\n\027country_of_registr" +
+      "ation\030\004 \001(\t\022\027\n\017company_address\030\005 \001(\t\022\r\n\005" +
+      "state\030\006 \001(\t\022\014\n\004city\030\007 \001(\t\022\017\n\007country\030\010 \001" +
+      "(\t\022\021\n\tlast_name\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\013\n\003ti" +
+      "n\030\013 \001(\t\022\017\n\007address\030\014 \001(\t\0227\n\rdirector_dat" +
+      "a\030\r \003(\0132 .customers.CreateDirectorReques" +
+      "t\022%\n\035principal_officer_middle_name\030\016 \001(\t" +
+      "\022\013\n\003sex\030\017 \001(\t\022\025\n\rdate_of_birth\030\020 \001(\t\022\r\n\005" +
+      "title\030\021 \001(\t\022\034\n\024contact_phone_number\030\022 \001(" +
+      "\t\022\027\n\017alternate_phone\030\023 \001(\t\022\033\n\023office_pho" +
+      "ne_number\030\024 \001(\t\022\025\n\remail_address\030\025 \001(\t\022\013" +
+      "\n\003nin\030\026 \001(\t\022\017\n\007id_type\030\027 \001(\t\022\032\n\022date_of_" +
+      "expiration\030\030 \001(\t\022\031\n\021place_of_issuance\030\031 " +
+      "\001(\t\022\021\n\tid_number\030\032 \001(\t\022\033\n\023country_of_iss" +
+      "uance\030\033 \001(\t\022\030\n\020date_of_issuance\030\034 \001(\t\022\024\n" +
+      "\014fathers_name\030\035 \001(\t\022\024\n\014mothers_name\030\036 \001(" +
+      "\t\022\023\n\013nationality\030\037 \001(\t\022\031\n\021business_categ" +
+      "ory\030  \001(\t\022\033\n\023ownership_structure\030! \001(\t\022\017" +
+      "\n\007Product\030\" \001(\t\022\021\n\tbranch_id\030# \001(\t\022\021\n\tsi" +
+      "gnature\030$ \001(\t\022\024\n\014Photo_upload\030% \001(\t\022\022\n\ni" +
+      "ntroducer\030& \001(\t\022\013\n\003rsm\030\' \001(\t\022\023\n\013restrict" +
+      "ion\030( \001(\t\022\"\n\032principal_officer_lastname\030" +
+      ") \001(\t\022$\n\034principal_officer_first_name\030* " +
+      "\001(\t\022\037\n\027primary_company_address\030+ \001(\t\022\035\n\025" +
+      "primary_company_state\030, \001(\t\022\034\n\024primary_c" +
+      "ompany_city\030- \001(\t\022\037\n\027primary_company_cou" +
+      "ntry\030. \001(\t\022\022\n\nfirst_name\030/ \001(\t\022\023\n\013middle" +
+      "_name\0300 \001(\t\022\022\n\nproduct_id\0301 \001(\t\022\022\n\nblock" +
+      "_view\0302 \001(\010\0220\n\tdocuments\0303 \003(\0132\035.custome" +
+      "rs.CreateDocumentData\022\027\n\017no_of_signatory" +
+      "\0304 \001(\t\022\030\n\020sms_notification\0305 \001(\010\022\032\n\022emai" +
+      "l_notification\0306 \001(\010\022+\n\rreferenceData\0307 " +
+      "\003(\0132\024.customers.Reference\022:\n\017signatories" +
+      "Data\0308 \003(\0132!.customers.CreateSignatoryRe" +
+      "quest\0224\n\020customer_options\0309 \001(\0132\032.custom" +
+      "ers.CustomerOptions\022:\n\017product_options\030:" +
+      " \001(\0132!.customers.CustomerProductOptions\022" +
+      "\031\n\021is_linked_account\030; \001(\010\022\035\n\025linked_acc" +
+      "ount_number\030< \001(\t\022\035\n\025creation_channel_co" +
+      "de\030= \001(\t\022\033\n\023primary_company_lga\030> \001(\t\022\023\n" +
+      "\013sector_code\030? \001(\t\022\027\n\017driving_license\030@ " +
+      "\001(\t\"h\n\026CustomerProductOptions\022\032\n\022product" +
+      "_created_at\030\001 \001(\t\022\032\n\022old_account_number\030" +
+      "\002 \001(\t\022\026\n\016account_number\030\003 \001(\t\"\275\002\n\tRefere" +
+      "nce\022\032\n\022reference_lastname\030\001 \001(\t\022\034\n\024refer" +
+      "ence_first_name\030\002 \001(\t\022\035\n\025reference_middl" +
+      "e_name\030\003 \001(\t\022\021\n\tbank_name\030\004 \001(\t\022\024\n\014bank_" +
+      "address\030\005 \001(\t\022\026\n\016account_number\030\006 \001(\t\022\024\n" +
+      "\014phone_number\030\007 \001(\t\022\r\n\005email\030\010 \001(\t\022\026\n\016re" +
+      "ference_form\030\t \001(\t\022\023\n\013father_name\030\n \001(\t\022" +
+      "\023\n\013mother_name\030\013 \001(\t\022\023\n\013nationality\030\014 \001(" +
+      "\t\022\032\n\022reference_verified\030\r \001(\010\"A\n\017Custome" +
+      "rOptions\022\033\n\023customer_created_at\030\001 \001(\t\022\021\n" +
+      "\tis_active\030\002 \001(\t\"\303\003\n\026CreateSignatoryRequ" +
+      "est\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001" +
+      "(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\r" +
+      "date_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024co" +
+      "ntact_phone_number\030\007 \001(\t\022\027\n\017alternate_ph" +
+      "one\030\010 \001(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003bvn\030" +
+      "\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(" +
+      "\t\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 " +
+      "\001(\t\022\023\n\013customer_id\030\020 \001(\t\022=\n\026documents_an" +
+      "d_identity\030\021 \003(\0132\035.customers.CreateDocum" +
+      "entData\022\023\n\013father_name\030\022 \001(\t\022\023\n\013mother_n" +
+      "ame\030\023 \001(\t\022\023\n\013nationality\030\024 \001(\t\"\212\003\n\025Creat" +
+      "eDirectorRequest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nf" +
+      "irst_name\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003" +
+      "sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005titl" +
+      "e\030\006 \001(\t\022\025\n\rcontact_phone\030\007 \001(\t\022\027\n\017altern" +
+      "ate_phone\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n " +
+      "\001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022" +
+      "\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(" +
+      "\t\022\023\n\013customer_id\030\020 \001(\t\022\024\n\014is_principal\030\021" +
+      " \001(\010\022=\n\026documents_and_identity\030\022 \003(\0132\035.c" +
+      "ustomers.CreateDocumentData\"\305\001\n\022CreateDo" +
+      "cumentData\022\025\n\rdocument_name\030\001 \001(\t\022\024\n\014doc" +
+      "ument_url\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(\t" +
+      "\022\027\n\017document_number\030\004 \001(\t\022\033\n\023country_of_" +
+      "issuance\030\005 \001(\t\022\030\n\020date_of_issuance\030\006 \001(\t" +
+      "\022\031\n\021place_of_issuance\030\007 \001(\t\"<\n\026CreateCus" +
+      "tomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016account_num" +
+      "ber\030\002 \001(\t*G\n\022VerificationStatus\022\010\n\004NULL\020" +
+      "\000\022\013\n\007PENDING\020\001\022\014\n\010APPROVED\020\002\022\014\n\010REJECTED" +
+      "\020\0032\236\005\n\017CustomerService\022l\n\025CreateCustomer" +
+      "Product\022\'.customers.CreateCustomerProduc" +
+      "tRequest\032(.customers.CreateCustomerProdu" +
+      "ctResponse\"\000\022u\n\036CreateCorporateCustomerP" +
+      "roduct\022\'.customers.CreateCustomerProduct" +
+      "Request\032(.customers.CreateCustomerProduc" +
+      "tResponse\"\000\022q\n\031CreatBulkCorporateAccount" +
+      "\022\'.customers.CreateBulkCorpAccountReques" +
+      "t\032).customers.CreateBulkCorpCustomerResp" +
+      "onse\"\000\022N\n\013NameEnquiry\022\035.customers.NameEn" +
+      "quiryRequest\032\036.customers.NameEnquiryResp" +
+      "onse\"\000\022s\n\035GetCorporateCustomerByAccount\022" +
+      "&.customers.GetCustomerByAccountRequest\032" +
+      "(.customers.GetCorporateByAccountRespons" +
+      "e\"\000\022n\n\033GetCorporateCustomerByPhone\022$.cus" +
+      "tomers.GetCustomerByPhoneRequest\032\'.custo" +
+      "mers.GetCorporateCustomerResponse\"\000b\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -67023,176 +74069,194 @@ public final class Customer {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCustomerByAccountRequest_descriptor,
         new java.lang.String[] { "AccountNumber", "SignedKey", });
-    internal_static_customers_GetCorporateByAccountResponse_descriptor =
+    internal_static_customers_GetCorporateCustomerResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_customers_GetCorporateCustomerResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_GetCorporateCustomerResponse_descriptor,
+        new java.lang.String[] { "Customer", });
+    internal_static_customers_GetCustomerByPhoneRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_customers_GetCustomerByPhoneRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_GetCustomerByPhoneRequest_descriptor,
+        new java.lang.String[] { "PhoneNumber", });
+    internal_static_customers_CorporateCustomer_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_customers_CorporateCustomer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_CorporateCustomer_descriptor,
+        new java.lang.String[] { "Id", "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "LastName", "FirstName", "MiddleName", "RimNumber", "NoOfSignatory", "Nationality", "BusinessCategory", "OwnershipStructure", "SmsNotification", "EmailNotification", "BlockView", "Branch", "AccessRevoked", "ContactInfo", "Kyc", "Products", "Signatories", "References", "DirectorsInfo", "CreatedAt", "UpdatedAt", "Email", "Active", "Rsm", "CreationChannelCode", "SectorCode", "UseAltAccNum", "IsTradeNameAccount", });
+    internal_static_customers_GetCorporateByAccountResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_customers_GetCorporateByAccountResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCorporateByAccountResponse_descriptor,
         new java.lang.String[] { "Id", "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "LastName", "FirstName", "MiddleName", "RimNumber", "CreatedAt", "UpdatedAt", "Products", "Kyc", "ContactInfo", "UseAltAccNum", "DirectorsInfo", "Signatories", "References", "OfficePhoneNumber", "Email", });
     internal_static_customers_Signatory_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_customers_Signatory_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Signatory_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "EmailAddress", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "DocumentsAndIdentity", "Nationality", "FatherName", "MotherName", "BvnVerified", "NinVerified", "Id", "PassportPhotographVerified", "IsPrincipal", });
     internal_static_customers_DirectorData_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_customers_DirectorData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_DirectorData_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhone", "AlternatePhone", "Email", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "DocumentsAndIdentity", "Id", "IsPrincipal", "BvnVerified", "NinVerified", });
     internal_static_customers_CorporateCustomerContactInfo_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_customers_CorporateCustomerContactInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateCustomerContactInfo_descriptor,
         new java.lang.String[] { "Id", "PrincipalOfficerLastname", "PrincipalOfficerFirstName", "PrincipalOfficerMiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "OfficePhoneNumber", "EmailAddress", "Introducer", "Rsm", "Restriction", "UpdatedAt", "CreatedAt", });
     internal_static_customers_Document_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_customers_Document_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Document_descriptor,
         new java.lang.String[] { "Id", "DocumentName", "ExpirationDate", "DocumentUrl", "DocumentNumber", "CountryOfIssuance", "DateOfIssuance", "PlaceOfIssuance", "VerificationStatus", "KycData", "CreatedAt", });
     internal_static_customers_Kyc_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_customers_Kyc_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Kyc_descriptor,
         new java.lang.String[] { "Id", "DocumentsAndIdentity", "IndividualCustomerAddress", "Signature", "Bvn", "PassportPhotograph", "KycLevel", "Tin", "BvnVerified", "Nin", "NinVerified", "TinVerified", "PassportPhotographVerified", "CorporateCustomerAddress", "Tier", "DrivingLicense", "DrivingLicenseVerified", "InternationalPassportNumber", "InternationalPassportNumberVerified", "VotersCardNumber", });
     internal_static_customers_Address_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_customers_Address_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Address_descriptor,
         new java.lang.String[] { "Id", "ResidentialAddress", "Residency", "StateOfOrigin", "LgaOfOrigin", "City", "PostalCode", "State", "Country", "VerificationStatus", "KycData", });
     internal_static_customers_CorporateUserAddress_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_customers_CorporateUserAddress_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateUserAddress_descriptor,
         new java.lang.String[] { "Id", "CompanyAddress", "State", "City", "Country", "PrimaryCompanyAddress", "PrimaryCompanyState", "PrimaryCompanyCity", "PrimaryCompanyCountry", "Address", "VerificationStatus", "CreatedAt", "UpdatedAt", "PrimaryCompanyLga", });
     internal_static_customers_CorporateCustomerKyc_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_customers_CorporateCustomerKyc_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateCustomerKyc_descriptor,
         new java.lang.String[] { "Id", "DocumentsAndIdentity", "CorporateCustomerAddress", "Signature", "Bvn", "Tin", "PassportPhotograph", "KycLevel", "Tier", "TinVerified", "DrivingLicense", "InternationalPassportNumber", "VotersCardNumber", });
     internal_static_customers_AccountProducts_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_customers_AccountProducts_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_AccountProducts_descriptor,
         new java.lang.String[] { "ProductId", "AccountNumber", "AccessRevoked", "Active", "EffectiveBalance", "LedgerBalance", "ProductName", "ProductType", "Lien", "OldAccountNo", "OdLimit", "LastDebitDate", "LastCreditAmount", "LastCreditDate", "HoldBal", "LastDebitAmount", "CurrentRate", "Margin", "Id", "DefaultProduct", "AccuredInterest", "AccuredInterestOverdrawn", "Limit", "CustomerLastName", "CustomerMiddleName", "CustomerFirstName", "CustomerPhoneNumber", "CustomerEmail", "AccountName", "OverdraftLimit", "PerDiem", "InterestLastYear", "InterestPaidYtd", "Rate", });
     internal_static_customers_LimitData_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_customers_LimitData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_LimitData_descriptor,
         new java.lang.String[] { "MobileIntra", "WebIntra", "Ussd", "MobileInter", "WebInter", "Atm", });
     internal_static_customers_CreateBulkCorpAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_customers_CreateBulkCorpAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpAccountRequest_descriptor,
         new java.lang.String[] { "CustomerData", });
     internal_static_customers_CreateCustomerProductRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_customers_CreateCustomerProductRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerProductRequest_descriptor,
         new java.lang.String[] { "ProductId", "CustomerId", "ProductOptions", });
     internal_static_customers_CreateCustomerProductResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_customers_CreateCustomerProductResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerProductResponse_descriptor,
         new java.lang.String[] { "CustomerProductId", "AccountNumber", });
     internal_static_customers_ProductOptions_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_customers_ProductOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_ProductOptions_descriptor,
         new java.lang.String[] { "AccountNumber", "CreatedAt", });
     internal_static_customers_NameEnquiryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_customers_NameEnquiryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_NameEnquiryRequest_descriptor,
         new java.lang.String[] { "AccountNumber", });
     internal_static_customers_NameEnquiryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_customers_NameEnquiryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_NameEnquiryResponse_descriptor,
         new java.lang.String[] { "ResponseCode", "AccountName", "AccountNumber", "KycLevel", "Bvn", "ProductType", });
     internal_static_customers_CreateBulkCorpCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_customers_CreateBulkCorpCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpCustomerResponse_descriptor,
         new java.lang.String[] { "Response", "ErrorData", });
     internal_static_customers_CreateBulkCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_customers_CreateBulkCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerResponse_descriptor,
         new java.lang.String[] { "Id", "AccountNumber", "Tin", });
     internal_static_customers_CreateBulkCustomerErrResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_customers_CreateBulkCustomerErrResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerErrResponse_descriptor,
         new java.lang.String[] { "Tin", "Reason", });
     internal_static_customers_ResponseStatus_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_customers_ResponseStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_ResponseStatus_descriptor,
         new java.lang.String[] { "Code", "Message", });
     internal_static_customers_CreateCorporateAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_customers_CreateCorporateAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCorporateAccountRequest_descriptor,
         new java.lang.String[] { "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "CompanyAddress", "State", "City", "Country", "LastName", "Bvn", "Tin", "Address", "DirectorData", "PrincipalOfficerMiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "OfficePhoneNumber", "EmailAddress", "Nin", "IdType", "DateOfExpiration", "PlaceOfIssuance", "IdNumber", "CountryOfIssuance", "DateOfIssuance", "FathersName", "MothersName", "Nationality", "BusinessCategory", "OwnershipStructure", "Product", "BranchId", "Signature", "PhotoUpload", "Introducer", "Rsm", "Restriction", "PrincipalOfficerLastname", "PrincipalOfficerFirstName", "PrimaryCompanyAddress", "PrimaryCompanyState", "PrimaryCompanyCity", "PrimaryCompanyCountry", "FirstName", "MiddleName", "ProductId", "BlockView", "Documents", "NoOfSignatory", "SmsNotification", "EmailNotification", "ReferenceData", "SignatoriesData", "CustomerOptions", "ProductOptions", "IsLinkedAccount", "LinkedAccountNumber", "CreationChannelCode", "PrimaryCompanyLga", "SectorCode", "DrivingLicense", });
     internal_static_customers_CustomerProductOptions_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_customers_CustomerProductOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerProductOptions_descriptor,
         new java.lang.String[] { "ProductCreatedAt", "OldAccountNumber", "AccountNumber", });
     internal_static_customers_Reference_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_customers_Reference_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Reference_descriptor,
         new java.lang.String[] { "ReferenceLastname", "ReferenceFirstName", "ReferenceMiddleName", "BankName", "BankAddress", "AccountNumber", "PhoneNumber", "Email", "ReferenceForm", "FatherName", "MotherName", "Nationality", "ReferenceVerified", });
     internal_static_customers_CustomerOptions_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_customers_CustomerOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerOptions_descriptor,
         new java.lang.String[] { "CustomerCreatedAt", "IsActive", });
     internal_static_customers_CreateSignatoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_customers_CreateSignatoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateSignatoryRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "EmailAddress", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "DocumentsAndIdentity", "FatherName", "MotherName", "Nationality", });
     internal_static_customers_CreateDirectorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_customers_CreateDirectorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDirectorRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhone", "AlternatePhone", "Email", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "IsPrincipal", "DocumentsAndIdentity", });
     internal_static_customers_CreateDocumentData_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_customers_CreateDocumentData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDocumentData_descriptor,
         new java.lang.String[] { "DocumentName", "DocumentUrl", "ExpirationDate", "DocumentNumber", "CountryOfIssuance", "DateOfIssuance", "PlaceOfIssuance", });
     internal_static_customers_CreateCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_customers_CreateCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerResponse_descriptor,

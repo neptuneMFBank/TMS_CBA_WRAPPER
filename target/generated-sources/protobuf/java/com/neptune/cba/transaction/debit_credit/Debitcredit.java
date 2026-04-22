@@ -70,31 +70,32 @@ public final class Debitcredit {
       "\004code\030\002 \001(\t\"2\n\030DebitCreditStatusRequest\022" +
       "\026\n\016transactionRef\030\001 \001(\t\";\n\031DebitCreditSt" +
       "atusResponse\022\020\n\010response\030\001 \001(\t\022\014\n\004code\030\002" +
-      " \001(\t\"\214\002\n\022DebitCreditRequest\022\025\n\raccountnu" +
+      " \001(\t\"\260\002\n\022DebitCreditRequest\022\025\n\raccountnu" +
       "mber\030\001 \001(\t\022\017\n\007isccode\030\002 \001(\t\022\025\n\raccountst" +
       "atus\030\003 \001(\t\022\020\n\010acctname\030\004 \001(\t\022\014\n\004drcr\030\005 \001" +
       "(\t\022\017\n\007acctype\030\006 \001(\t\022\016\n\006amount\030\007 \001(\001\022\034\n\024t" +
       "ransactionreference\030\010 \001(\t\022\021\n\tnarration\030\t" +
       " \001(\t\022\017\n\007channel\030\n \001(\t\022\013\n\003eid\030\013 \001(\t\022\'\n\006ch" +
-      "arge\030\014 \003(\0132\027.com.neptune.cba.Charge\"\232\001\n\006" +
-      "Charge\022\016\n\006amount\030\001 \001(\001\022\023\n\013description\030\002 " +
-      "\001(\t\022\016\n\006ledger\030\003 \001(\t\022\020\n\010is_fixed\030\004 \001(\010\022\022\n" +
-      "\npercentage\030\005 \001(\001\0225\n\016nested_charges\030\006 \003(" +
-      "\0132\035.com.neptune.cba.NestedCharge\"[\n\014Nest" +
-      "edCharge\022\016\n\006amount\030\001 \001(\001\022\025\n\raccountnumbe" +
-      "r\030\002 \001(\t\022\020\n\010is_fixed\030\003 \001(\010\022\022\n\npercentage\030" +
-      "\004 \001(\001\"4\n\023DebitCreditResponse\022\017\n\007message\030" +
-      "\001 \001(\t\022\014\n\004code\030\002 \001(\t2\327\002\n\022DebitCreditServi" +
-      "ce\022[\n\014debit_credit\022#.com.neptune.cba.Deb" +
-      "itCreditRequest\032$.com.neptune.cba.DebitC" +
-      "reditResponse\"\000\022n\n\023debit_credit_status\022)" +
-      ".com.neptune.cba.DebitCreditStatusReques" +
-      "t\032*.com.neptune.cba.DebitCreditStatusRes" +
-      "ponse\"\000\022t\n\025debit_credit_approval\022+.com.n" +
-      "eptune.cba.DebitCreditApprovalRequest\032,." +
-      "com.neptune.cba.DebitCreditApprovalRespo" +
-      "nse\"\000B,\n(com.neptune.cba.transaction.deb" +
-      "it_creditP\001b\006proto3"
+      "arge\030\014 \003(\0132\027.com.neptune.cba.Charge\022\022\n\nc" +
+      "reated_at\030\r \001(\t\022\016\n\006is_pos\030\016 \001(\010\"\232\001\n\006Char" +
+      "ge\022\016\n\006amount\030\001 \001(\001\022\023\n\013description\030\002 \001(\t\022" +
+      "\016\n\006ledger\030\003 \001(\t\022\020\n\010is_fixed\030\004 \001(\010\022\022\n\nper" +
+      "centage\030\005 \001(\001\0225\n\016nested_charges\030\006 \003(\0132\035." +
+      "com.neptune.cba.NestedCharge\"[\n\014NestedCh" +
+      "arge\022\016\n\006amount\030\001 \001(\001\022\025\n\raccountnumber\030\002 " +
+      "\001(\t\022\020\n\010is_fixed\030\003 \001(\010\022\022\n\npercentage\030\004 \001(" +
+      "\001\"4\n\023DebitCreditResponse\022\017\n\007message\030\001 \001(" +
+      "\t\022\014\n\004code\030\002 \001(\t2\327\002\n\022DebitCreditService\022[" +
+      "\n\014debit_credit\022#.com.neptune.cba.DebitCr" +
+      "editRequest\032$.com.neptune.cba.DebitCredi" +
+      "tResponse\"\000\022n\n\023debit_credit_status\022).com" +
+      ".neptune.cba.DebitCreditStatusRequest\032*." +
+      "com.neptune.cba.DebitCreditStatusRespons" +
+      "e\"\000\022t\n\025debit_credit_approval\022+.com.neptu" +
+      "ne.cba.DebitCreditApprovalRequest\032,.com." +
+      "neptune.cba.DebitCreditApprovalResponse\"" +
+      "\000B,\n(com.neptune.cba.transaction.debit_c" +
+      "reditP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -129,7 +130,7 @@ public final class Debitcredit {
     internal_static_com_neptune_cba_DebitCreditRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_DebitCreditRequest_descriptor,
-        new java.lang.String[] { "Accountnumber", "Isccode", "Accountstatus", "Acctname", "Drcr", "Acctype", "Amount", "Transactionreference", "Narration", "Channel", "Eid", "Charge", });
+        new java.lang.String[] { "Accountnumber", "Isccode", "Accountstatus", "Acctname", "Drcr", "Acctype", "Amount", "Transactionreference", "Narration", "Channel", "Eid", "Charge", "CreatedAt", "IsPos", });
     internal_static_com_neptune_cba_Charge_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_com_neptune_cba_Charge_fieldAccessorTable = new

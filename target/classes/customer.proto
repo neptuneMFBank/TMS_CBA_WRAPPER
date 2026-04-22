@@ -10,11 +10,87 @@ service CustomerService {
   rpc CreatBulkCorporateAccount(CreateBulkCorpAccountRequest) returns (CreateBulkCorpCustomerResponse){}
   rpc NameEnquiry(NameEnquiryRequest) returns (NameEnquiryResponse) {}
   rpc GetCorporateCustomerByAccount(GetCustomerByAccountRequest) returns (GetCorporateByAccountResponse) {}
+  rpc GetCorporateCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCorporateCustomerResponse) {}
 }
 
 message GetCustomerByAccountRequest {
   string account_number = 1;
   string signed_key = 2;
+}
+
+message GetCorporateCustomerResponse {
+  CorporateCustomer customer = 1;
+}
+
+message GetCustomerByPhoneRequest {
+  string phone_number = 1;
+}
+
+message CorporateCustomer {
+
+  string id = 1;
+
+  string company_name = 2;
+
+  string company_registration_no = 3;
+
+  string date_of_registration = 4;
+
+  string country_of_registration = 5;
+
+  string last_name = 6;
+
+  string first_name = 7;
+
+  string middle_name = 8;
+
+  string rim_number = 9;
+
+  string no_of_signatory = 10;
+
+  string nationality = 11;
+
+  string business_category = 12;
+
+  string ownership_structure = 13;
+
+  bool sms_notification = 14;
+
+  bool email_notification = 15;
+
+  bool block_view = 16;
+
+  string branch = 17;
+
+  bool access_revoked = 18;
+
+  CorporateCustomerContactInfo contact_info = 19;
+
+  CorporateCustomerKyc kyc = 20;
+
+  repeated AccountProducts products = 21;
+
+  repeated Signatory signatories = 22;
+
+  repeated Reference references = 23;
+
+  repeated DirectorData directors_info = 24;
+
+  string created_at = 25;
+
+  string updated_at = 26;
+
+  string email = 27;
+
+  bool active = 28;
+
+  string rsm = 29;
+
+  string creation_channel_code = 30;
+
+  string sector_code = 31;
+  bool use_alt_acc_num = 32;
+  bool is_trade_name_account = 33;
 }
 
 message GetCorporateByAccountResponse {
@@ -316,7 +392,6 @@ message NameEnquiryResponse {
   string bvn = 5;
   string product_type = 6;
 }
-
 
 message CreateBulkCorpCustomerResponse {
   repeated CreateBulkCustomerResponse response = 1;

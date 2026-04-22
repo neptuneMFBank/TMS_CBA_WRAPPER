@@ -47,7 +47,7 @@ public final class Intratransfer {
       "\n\034IntraTransferApprovalRequest\022\034\n\024transa" +
       "ctionreference\030\001 \001(\t\022\013\n\003eid\030\002 \001(\t\">\n\035Int" +
       "raTransferApprovalResponse\022\017\n\007message\030\001 " +
-      "\001(\t\022\014\n\004code\030\002 \001(\t\"\336\002\n\024IntraTransferReque" +
+      "\001(\t\022\014\n\004code\030\002 \001(\t\"\202\003\n\024IntraTransferReque" +
       "st\022\022\n\ncustomerId\030\001 \001(\t\022\021\n\tmobilekey\030\002 \001(" +
       "\t\022\023\n\013fromaccount\030\003 \001(\t\022\024\n\014fromacctname\030\004" +
       " \001(\t\022\031\n\021fromaccountstatus\030\005 \001(\t\022\030\n\020froma" +
@@ -56,16 +56,17 @@ public final class Intratransfer {
       "\ttoacctype\030\n \001(\t\022\016\n\006amount\030\013 \001(\001\022\021\n\ttoke" +
       "nType\030\014 \001(\t\022\034\n\024transactionreference\030\r \001(" +
       "\t\022\021\n\tnarration\030\016 \001(\t\022\017\n\007channel\030\017 \001(\t\022\013\n" +
-      "\003eid\030\020 \001(\t\"6\n\025IntraTransferResponse\022\017\n\007m" +
-      "essage\030\001 \001(\t\022\014\n\004code\030\002 \001(\t2\365\001\n\024IntraTran" +
-      "sferService\022a\n\016intra_transfer\022%.com.nept" +
-      "une.cba.IntraTransferRequest\032&.com.neptu" +
-      "ne.cba.IntraTransferResponse\"\000\022z\n\027intra_" +
-      "transfer_approval\022-.com.neptune.cba.Intr" +
-      "aTransferApprovalRequest\032..com.neptune.c" +
-      "ba.IntraTransferApprovalResponse\"\000B.\n*co" +
-      "m.neptune.cba.transaction.intra_transfer" +
-      "P\001b\006proto3"
+      "\003eid\030\020 \001(\t\022\022\n\ncreated_at\030\021 \001(\t\022\016\n\006is_pos" +
+      "\030\022 \001(\010\"6\n\025IntraTransferResponse\022\017\n\007messa" +
+      "ge\030\001 \001(\t\022\014\n\004code\030\002 \001(\t2\365\001\n\024IntraTransfer" +
+      "Service\022a\n\016intra_transfer\022%.com.neptune." +
+      "cba.IntraTransferRequest\032&.com.neptune.c" +
+      "ba.IntraTransferResponse\"\000\022z\n\027intra_tran" +
+      "sfer_approval\022-.com.neptune.cba.IntraTra" +
+      "nsferApprovalRequest\032..com.neptune.cba.I" +
+      "ntraTransferApprovalResponse\"\000B.\n*com.ne" +
+      "ptune.cba.transaction.intra_transferP\001b\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -88,7 +89,7 @@ public final class Intratransfer {
     internal_static_com_neptune_cba_IntraTransferRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_neptune_cba_IntraTransferRequest_descriptor,
-        new java.lang.String[] { "CustomerId", "Mobilekey", "Fromaccount", "Fromacctname", "Fromaccountstatus", "Fromaccountemail", "Fromacctype", "Toaccount", "Toacctname", "Toacctype", "Amount", "TokenType", "Transactionreference", "Narration", "Channel", "Eid", });
+        new java.lang.String[] { "CustomerId", "Mobilekey", "Fromaccount", "Fromacctname", "Fromaccountstatus", "Fromaccountemail", "Fromacctype", "Toaccount", "Toacctname", "Toacctype", "Amount", "TokenType", "Transactionreference", "Narration", "Channel", "Eid", "CreatedAt", "IsPos", });
     internal_static_com_neptune_cba_IntraTransferResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_com_neptune_cba_IntraTransferResponse_fieldAccessorTable = new

@@ -192,4 +192,30 @@ public interface IntraTransferRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getEidBytes();
+
+  /**
+   * <pre>
+   * new field
+   * </pre>
+   *
+   * <code>string created_at = 17;</code>
+   * @return The createdAt.
+   */
+  java.lang.String getCreatedAt();
+  /**
+   * <pre>
+   * new field
+   * </pre>
+   *
+   * <code>string created_at = 17;</code>
+   * @return The bytes for createdAt.
+   */
+  com.google.protobuf.ByteString
+      getCreatedAtBytes();
+
+  /**
+   * <code>bool is_pos = 18;</code>
+   * @return The isPos.
+   */
+  boolean getIsPos();
 }

@@ -278,6 +278,21 @@ public class CustomerService {
         return response;
     }
 
+    public Customer.GetCorporateCustomerResponse getCorporateCustomer(String phone){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.GetCorporateCustomerResponse response;
+        try {
+            Customer.GetCustomerByPhoneRequest request = Customer.GetCustomerByPhoneRequest.newBuilder().setPhoneNumber(phone).build();
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            response = stub.getCorporateCustomerByPhone(request);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
+
     public Customer.CreateCustomerProductResponse getCorporateCustomerAcctNum(String customer_id, String accountNum) {
         String formattedDate = LocalDate.now().toString();
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();

@@ -43,7 +43,10 @@ message DebitCreditRequest {
   string channel = 10;
   string eid = 11;
   repeated Charge  charge =12; // new 8/01/2025
+  string created_at = 13; // new field
+  bool is_pos = 14;
 }
+
 message Charge {
   double amount =1;
   string description =2;

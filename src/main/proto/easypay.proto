@@ -118,6 +118,7 @@ message EasyPayRequest {
   string sessionId =24;
   string transactionId =25;
   double charge = 26;
+  bool is_pos = 27;
 }
 
 message EasyPayResponse {
