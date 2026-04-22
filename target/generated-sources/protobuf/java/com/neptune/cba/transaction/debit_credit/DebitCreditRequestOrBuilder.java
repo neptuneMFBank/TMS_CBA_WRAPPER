@@ -176,4 +176,30 @@ public interface DebitCreditRequestOrBuilder extends
    */
   com.neptune.cba.transaction.debit_credit.ChargeOrBuilder getChargeOrBuilder(
       int index);
+
+  /**
+   * <pre>
+   * new field
+   * </pre>
+   *
+   * <code>string created_at = 13;</code>
+   * @return The createdAt.
+   */
+  java.lang.String getCreatedAt();
+  /**
+   * <pre>
+   * new field
+   * </pre>
+   *
+   * <code>string created_at = 13;</code>
+   * @return The bytes for createdAt.
+   */
+  com.google.protobuf.ByteString
+      getCreatedAtBytes();
+
+  /**
+   * <code>bool is_pos = 14;</code>
+   * @return The isPos.
+   */
+  boolean getIsPos();
 }

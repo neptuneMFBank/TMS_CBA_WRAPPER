@@ -59,6 +59,7 @@ public class Easypay {
                     .setCustomerAccountNumber(safe(payload.getCustomerAccountNumber()))
                     .setAmount(payload.getAmount())
                     .setCharge(payload.getCharge())
+                    .setIsPos(true)
                     .build();
 
             System.out.println("request = " + request);

@@ -55,4 +55,16 @@ public class AsyncConfig implements AsyncConfigurer {
             log.error("Async method {} threw exception", method.getName(), ex);
         };
     }
+
+    @Bean(name = "virtualThreadExecutor")
+    public Executor virtualThreadExecutor() {
+//         OR for Java 17 and below, use ThreadPoolTaskExecutor:
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(20);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("customer-check-");
+        executor.initialize();
+        return executor;
+    }
 }

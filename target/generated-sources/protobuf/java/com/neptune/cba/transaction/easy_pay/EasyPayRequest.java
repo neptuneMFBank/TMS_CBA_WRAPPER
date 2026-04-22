@@ -222,6 +222,11 @@ private static final long serialVersionUID = 0L;
             charge_ = input.readDouble();
             break;
           }
+          case 216: {
+
+            isPos_ = input.readBool();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -1134,6 +1139,17 @@ private static final long serialVersionUID = 0L;
     return charge_;
   }
 
+  public static final int IS_POS_FIELD_NUMBER = 27;
+  private boolean isPos_;
+  /**
+   * <code>bool is_pos = 27;</code>
+   * @return The isPos.
+   */
+  @java.lang.Override
+  public boolean getIsPos() {
+    return isPos_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -1226,6 +1242,9 @@ private static final long serialVersionUID = 0L;
     if (charge_ != 0D) {
       output.writeDouble(26, charge_);
     }
+    if (isPos_ != false) {
+      output.writeBool(27, isPos_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -1317,6 +1336,10 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeDoubleSize(26, charge_);
     }
+    if (isPos_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(27, isPos_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -1386,6 +1409,8 @@ private static final long serialVersionUID = 0L;
     if (java.lang.Double.doubleToLongBits(getCharge())
         != java.lang.Double.doubleToLongBits(
             other.getCharge())) return false;
+    if (getIsPos()
+        != other.getIsPos()) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -1452,6 +1477,9 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + CHARGE_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         java.lang.Double.doubleToLongBits(getCharge()));
+    hash = (37 * hash) + IS_POS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsPos());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -1637,6 +1665,8 @@ private static final long serialVersionUID = 0L;
 
       charge_ = 0D;
 
+      isPos_ = false;
+
       return this;
     }
 
@@ -1689,6 +1719,7 @@ private static final long serialVersionUID = 0L;
       result.sessionId_ = sessionId_;
       result.transactionId_ = transactionId_;
       result.charge_ = charge_;
+      result.isPos_ = isPos_;
       onBuilt();
       return result;
     }
@@ -1836,6 +1867,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getCharge() != 0D) {
         setCharge(other.getCharge());
+      }
+      if (other.getIsPos() != false) {
+        setIsPos(other.getIsPos());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -3658,6 +3692,37 @@ private static final long serialVersionUID = 0L;
     public Builder clearCharge() {
       
       charge_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private boolean isPos_ ;
+    /**
+     * <code>bool is_pos = 27;</code>
+     * @return The isPos.
+     */
+    @java.lang.Override
+    public boolean getIsPos() {
+      return isPos_;
+    }
+    /**
+     * <code>bool is_pos = 27;</code>
+     * @param value The isPos to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsPos(boolean value) {
+      
+      isPos_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>bool is_pos = 27;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsPos() {
+      
+      isPos_ = false;
       onChanged();
       return this;
     }

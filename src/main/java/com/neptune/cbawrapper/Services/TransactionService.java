@@ -50,6 +50,7 @@ public class TransactionService {
                     .setToacctype(safe(intraTransfer.getToacctype()))
                     .setAmount(intraTransfer.getAmount())
                     .setTokenType("")
+                    .setIsPos(true)
                     .setTransactionreference(safe(intraTransfer.getTransactionreference()))
                     .setNarration(safe(intraTransfer.getNarration()))
                     .setChannel("MOBILE")

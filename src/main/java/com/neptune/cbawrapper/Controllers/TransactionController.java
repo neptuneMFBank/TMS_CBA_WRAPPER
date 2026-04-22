@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 import printable.PrintableOuterClass;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -328,7 +330,6 @@ public class TransactionController {
                 billsPaymentData.setRequestReference(request.getMakePayment().getRequestReference());
                 billsPaymentDataRepository.save(billsPaymentData);
 
-
                 System.out.println("got here in " + time());
                 // Step 1: Call makePayment
                 MakePaymentApiResponse makePaymentResponse =
@@ -462,7 +463,7 @@ public class TransactionController {
             System.out.println("12345678900");
             UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, "Withdrawal", null);
             System.out.println("responseSchema = " + responseSchema);
-            if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00")) {
+            if (responseSchema.getResourceId() != null && request.getResponseCode().equals("00") && (transactionRequestSchema.getAmount() > 0)) {
                 System.out.println("================================ " + virtualAccountModel.get().getVirtual_account_number());
                 TransactionDrCr transactionDrCr = new TransactionDrCr();
                 transactionDrCr.setAccountnumber(virtualAccountModel.get().getVirtual_account_number());
@@ -525,7 +526,8 @@ public class TransactionController {
             com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse balanceResponse = new com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse();
 
             if (response != null) {
-                balanceResponse.setEffective_balance(response.getEffectiveBalance());
+                double effBal = BigDecimal.valueOf(response.getEffectiveBalance()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                balanceResponse.setEffective_balance(effBal);
                 balanceResponse.setLedger_balance(response.getLedgerBalance());
                 balanceResponse.setLast_credit_amount(response.getLastCreditAmount());
                 balanceResponse.setLast_debit_amount(response.getLastDebitAmount());
@@ -713,12 +715,13 @@ public class TransactionController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-transaction-details")
-    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
+    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref, @RequestParam String accountNo){
 
         try {
 
             System.out.println("ref = " + ref);
-            transDetailsResponse response = historyService.getTransactionDetails(ref);
+            System.out.println("accountNo = " + accountNo);
+            transDetailsResponse response = historyService.getTransactionDetails(ref, accountNo);
 
             System.out.println("response = " + response);
             if (response == null) {

@@ -78,7 +78,7 @@ public class Helpers {
             if (type.equalsIgnoreCase("Withdrawal")) {
                 System.out.println("1");
                 transactionDetails.setTerminalId(request.getTerminalId());
-                transactionDetails.setNarration("POS");
+                transactionDetails.setNarration("POS Withdrawal");
                 transactionDetails.setStatus("PENDING");
                 transactionDetails.setDateFormat("dd MMMM yyyy");
                 transactionDetails.setTransactionType(request.getTransactionType());
@@ -105,8 +105,8 @@ public class Helpers {
 
             } else if (type.equalsIgnoreCase("Transfers")) {
                 transactionDetails.setTerminalId(request.getTerminalId());
-                transactionDetails.setNarration("POS");
-                transactionDetails.setStatus("PENDING");
+                transactionDetails.setNarration("Transfers");
+                transactionDetails.setStatus("COMPLETED");
                 transactionDetails.setDateFormat("dd MMMM yyyy");
                 transactionDetails.setTransactionType(request.getTransactionType());
                 transactionDetails.setTransactionDate(request.getTransactionDate());
@@ -132,8 +132,8 @@ public class Helpers {
 
             } else if (type.equalsIgnoreCase("Bills")) {
                 transactionDetails.setTerminalId(request.getTerminalId());
-                transactionDetails.setNarration("POS");
-                transactionDetails.setStatus("PENDING");
+                transactionDetails.setNarration("Bills payment");
+                transactionDetails.setStatus("COMPLETED");
                 transactionDetails.setDateFormat("dd MMMM yyyy");
                 transactionDetails.setTransactionType(request.getTransactionType());
                 transactionDetails.setTransactionDate(request.getTransactionDate());
@@ -158,8 +158,8 @@ public class Helpers {
                 transactionDetails.setCardScheme("Mastercard");
             } else {
                 transactionDetails.setTerminalId(request.getTerminalId());
-                transactionDetails.setNarration("POS");
-                transactionDetails.setStatus("PENDING");
+                transactionDetails.setNarration("Inward Transfer Webhook");
+                transactionDetails.setStatus("COMPLETED");
                 transactionDetails.setDateFormat("dd MMMM yyyy");
                 transactionDetails.setTransactionType(payload.getTransactionType());
                 transactionDetails.setTransactionDate(payload.getDateTime());
