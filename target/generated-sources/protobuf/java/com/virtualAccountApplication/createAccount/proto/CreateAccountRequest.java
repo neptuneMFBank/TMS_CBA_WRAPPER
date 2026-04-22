@@ -97,6 +97,11 @@ private static final long serialVersionUID = 0L;
             secondaryParentAccountNumber_ = s;
             break;
           }
+          case 72: {
+
+            isPosAccount_ = input.readBool();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -327,6 +332,21 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int ISPOSACCOUNT_FIELD_NUMBER = 9;
+  private boolean isPosAccount_;
+  /**
+   * <pre>
+   * 10/01/2026
+   * </pre>
+   *
+   * <code>bool isPosAccount = 9;</code>
+   * @return The isPosAccount.
+   */
+  @java.lang.Override
+  public boolean getIsPosAccount() {
+    return isPosAccount_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -356,6 +376,9 @@ private static final long serialVersionUID = 0L;
     if (!getSecondaryParentAccountNumberBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 8, secondaryParentAccountNumber_);
     }
+    if (isPosAccount_ != false) {
+      output.writeBool(9, isPosAccount_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -383,6 +406,10 @@ private static final long serialVersionUID = 0L;
     if (!getSecondaryParentAccountNumberBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, secondaryParentAccountNumber_);
     }
+    if (isPosAccount_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(9, isPosAccount_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -403,6 +430,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getParentId())) return false;
     if (!getSecondaryParentAccountNumber()
         .equals(other.getSecondaryParentAccountNumber())) return false;
+    if (getIsPosAccount()
+        != other.getIsPosAccount()) return false;
     if (!getAccountDataCase().equals(other.getAccountDataCase())) return false;
     switch (accountDataCase_) {
       case 1:
@@ -433,6 +462,9 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getParentId().hashCode();
     hash = (37 * hash) + SECONDARY_PARENT_ACCOUNT_NUMBER_FIELD_NUMBER;
     hash = (53 * hash) + getSecondaryParentAccountNumber().hashCode();
+    hash = (37 * hash) + ISPOSACCOUNT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsPosAccount());
     switch (accountDataCase_) {
       case 1:
         hash = (37 * hash) + DYNAMIC_ACCOUNT_FIELD_NUMBER;
@@ -584,6 +616,8 @@ private static final long serialVersionUID = 0L;
 
       secondaryParentAccountNumber_ = "";
 
+      isPosAccount_ = false;
+
       accountDataCase_ = 0;
       accountData_ = null;
       return this;
@@ -629,6 +663,7 @@ private static final long serialVersionUID = 0L;
       result.accountType_ = accountType_;
       result.parentId_ = parentId_;
       result.secondaryParentAccountNumber_ = secondaryParentAccountNumber_;
+      result.isPosAccount_ = isPosAccount_;
       result.accountDataCase_ = accountDataCase_;
       onBuilt();
       return result;
@@ -688,6 +723,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getSecondaryParentAccountNumber().isEmpty()) {
         secondaryParentAccountNumber_ = other.secondaryParentAccountNumber_;
         onChanged();
+      }
+      if (other.getIsPosAccount() != false) {
+        setIsPosAccount(other.getIsPosAccount());
       }
       switch (other.getAccountDataCase()) {
         case DYNAMIC_ACCOUNT: {
@@ -1230,6 +1268,49 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       secondaryParentAccountNumber_ = value;
+      onChanged();
+      return this;
+    }
+
+    private boolean isPosAccount_ ;
+    /**
+     * <pre>
+     * 10/01/2026
+     * </pre>
+     *
+     * <code>bool isPosAccount = 9;</code>
+     * @return The isPosAccount.
+     */
+    @java.lang.Override
+    public boolean getIsPosAccount() {
+      return isPosAccount_;
+    }
+    /**
+     * <pre>
+     * 10/01/2026
+     * </pre>
+     *
+     * <code>bool isPosAccount = 9;</code>
+     * @param value The isPosAccount to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsPosAccount(boolean value) {
+      
+      isPosAccount_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 10/01/2026
+     * </pre>
+     *
+     * <code>bool isPosAccount = 9;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsPosAccount() {
+      
+      isPosAccount_ = false;
       onChanged();
       return this;
     }

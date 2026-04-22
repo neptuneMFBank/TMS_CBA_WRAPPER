@@ -30,6 +30,7 @@ public class VirtualAccountModel {
     private String businessWalletId;
     private String fcmToken;
     private String genericCode;
+    private boolean codeExpired;
     private String token_expiry;
     private String created_at;
     private String updated_at;
@@ -224,6 +225,14 @@ public class VirtualAccountModel {
 
     public void setPin(String pin) {
         this.pin = pin;
+    }
+
+    public boolean isCodeExpired() {
+        return codeExpired;
+    }
+
+    public void setCodeExpired(boolean codeExpired) {
+        this.codeExpired = codeExpired;
     }
 
     public VirtualAccountModel() {

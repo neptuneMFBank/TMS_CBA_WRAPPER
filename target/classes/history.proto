@@ -8,6 +8,58 @@ option java_package = "com.neptune.cba.transaction.history";
 service HistoryService {
   rpc history(HistoryRequest) returns (HistoryResponse) {
   }
+  rpc transactionStatus(TransactionStatusRequest) returns (TransactionStatusResponse){}
+  rpc transDetails(transDetailsRequest) returns (transDetailsResponse){
+  }
+
+}
+
+message transDetailsResponse {
+  // Existing fields
+  string second_leg = 1;
+  string employee_id = 2;
+  string approval_id = 3; // added June 23
+
+  // Transaction details
+  string bank_name = 4;
+  double amount = 5;
+  string type = 6;               // CREDIT / DEBIT
+  string paid_on = 7;            // formatted date string
+  string narration = 8;
+  string from_name = 9;
+  string to_name = 10;
+  string to_bank = 11;
+  string to_account = 12;
+  string status = 13;            // successful / failed / pending
+  string reference = 14;
+}
+
+message transDetailsRequest {
+  string transdate = 1;
+  string valuedate = 2;
+  double amount = 3;
+  string narration = 4;
+  string account  = 5;
+  string ref =6; // new june 17
+  bool details =7;
+}
+
+message  TransactionStatusResponse{
+  string message = 1;
+  string code = 2;
+  string additionalInfo =3;
+}
+
+message TransactionStatusRequest {
+  string  ref =1;
+  TransactionCategory transactionType = 2;
+}
+
+enum TransactionCategory {
+  BILL_PAYMENT = 0;
+  INTRA = 1;
+  EASY_PAY = 2;
+  DEBIT_CREDIT = 3;
 }
 
 message callOverRequest {
@@ -71,6 +123,8 @@ message Transaction_history {
   string transactionType = 12;
   string status = 13;
   string session_id = 14;
+  string accountname = 15;
+  string pin = 16;
 }
 
 message callOverResponse {

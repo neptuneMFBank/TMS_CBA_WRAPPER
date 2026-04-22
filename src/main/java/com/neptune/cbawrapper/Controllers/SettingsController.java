@@ -1,6 +1,8 @@
 package com.neptune.cbawrapper.Controllers;
 
+import com.neptune.cbawrapper.Models.DisputeReasons;
 import com.neptune.cbawrapper.Models.VirtualAccountModel;
+import com.neptune.cbawrapper.Repository.DisputeRepository;
 import com.neptune.cbawrapper.Repository.VirtualAccountRepository;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.Services.Cron;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,11 +23,13 @@ public class SettingsController {
     private final TmsCoreWalletAccount tmsCoreWalletAccount;
     private final PasswordEncoder passwordEncoder;
     private final VirtualAccountRepository virtualAccountRepository;
+    private final DisputeRepository disputeRepository;
     private final Cron cron;
 
-    public SettingsController(TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder) {
+    public SettingsController(TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
         this.cron = cron;
+        this.disputeRepository = disputeRepository;
         this.virtualAccountRepository = virtualAccountRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -47,6 +52,11 @@ public class SettingsController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
+        if(virtualAccountModel.get().isCodeExpired()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 400, "Code expired", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+        }
+
         if(virtualAccountModel.get().getGenericCode().equalsIgnoreCase(request.getGenericCode())){
             if(LocalDateTime.parse(virtualAccountModel.get().getToken_expiry()).isBefore(LocalDateTime.now())){
                 cron.sendPasswordMail(virtualAccountModel.get());
@@ -55,10 +65,10 @@ public class SettingsController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.OK);
             }
 
-            VirtualAccountModel virtualAccountModel1 = new VirtualAccountModel();
             String hashedPassword = passwordEncoder.encode(request.getPin());
-            virtualAccountModel1.setPin(hashedPassword);
-            virtualAccountRepository.save(virtualAccountModel1);
+            virtualAccountModel.get().setPin(hashedPassword);
+            virtualAccountModel.get().setCodeExpired(true);
+            virtualAccountRepository.save(virtualAccountModel.get());
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Password set successfully", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.OK);
@@ -66,6 +76,35 @@ public class SettingsController {
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>( 501, "Code mismatch", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/create-dispute-reason")
+    public ResponseEntity<ResponseSchema<?>> createDisputeReason(@RequestBody DisputeReasonRequest request){
+        Optional<DisputeReasons> checkDispute = disputeRepository.getDispute(request.getReason());
+
+        if(checkDispute.isPresent()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>( 501, "Dispute type already created", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        DisputeReasons reasons = new DisputeReasons();
+        reasons.setReason(request.getReason());
+        reasons.setType(request.getType());
+
+        disputeRepository.save(reasons);
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Dispute type created successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-dispute-reasons")
+    public ResponseEntity<ResponseSchema<?>> getDisputeReason(){
+        List<DisputeReasons> getDisputeReasons = disputeRepository.findAll();
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Dispute type created successfully", getDisputeReasons, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
 }

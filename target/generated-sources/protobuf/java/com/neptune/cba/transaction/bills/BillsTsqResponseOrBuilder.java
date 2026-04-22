@@ -30,4 +30,16 @@ public interface BillsTsqResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getCodeBytes();
+
+  /**
+   * <code>string additionalInfo = 3;</code>
+   * @return The additionalInfo.
+   */
+  java.lang.String getAdditionalInfo();
+  /**
+   * <code>string additionalInfo = 3;</code>
+   * @return The bytes for additionalInfo.
+   */
+  com.google.protobuf.ByteString
+      getAdditionalInfoBytes();
 }

@@ -40,7 +40,6 @@ public class DebitCreditService {
     private final ErrorLoggingException errorLoggingException;
 
     public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, String businessAcct){
-        double amount = 0.0;
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
 
@@ -70,6 +69,7 @@ public class DebitCreditService {
                     .setNarration(transactionDrCr.getNarration())
                     .setChannel(transactionDrCr.getChannel())
                     .setEid(transactionDrCr.getEid())
+                    .setIsPos(true)
                     .build();
 
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
@@ -78,6 +78,7 @@ public class DebitCreditService {
         }catch (StatusRuntimeException e) {
             System.out.println("StatusRuntimeException = " +e.getMessage() );
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
+            response = DebitCreditResponse.newBuilder().setMessage(e.getMessage()).setCode("500").build();
         } catch (Exception e) {
             System.out.println("Exception = " + e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());

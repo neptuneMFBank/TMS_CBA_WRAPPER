@@ -29,6 +29,7 @@ message CreateAccountRequest {
   AccountTypes account_type = 6;
   string parent_id = 7;
   string  secondary_parent_account_number = 8;
+  bool isPosAccount = 9; // 10/01/2026
 }
 
 message DynamicAccountMessage {

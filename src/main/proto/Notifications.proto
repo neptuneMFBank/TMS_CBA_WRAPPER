@@ -82,6 +82,21 @@ message NotificationRequest {
   bool sendwebhook = 16;
   bool push_notify = 17;
   string extensiontype = 18;
+  bool isTransaction=19;
+  TransactionText transaction=20;
+  bool corporateMail=21;
+}
+
+message TransactionText {
+  string accountNumber = 1;
+  double amount = 2;
+  string description = 3;
+  string date = 4;
+  double balance = 5;
+  string customerName = 6;
+  string recipientName = 7;
+  string recipientBankName = 8;
+  string transRef = 9;
 }
 
 message WebHook {

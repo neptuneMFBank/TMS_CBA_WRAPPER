@@ -1,5 +1,6 @@
 package com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment;
 
+import com.neptune.cbawrapper.Models.BillsAdditionalData;
 import lombok.ToString;
 
 @ToString
@@ -12,6 +13,7 @@ public class MakePaymentApiResponse {
     private String responseCodeGrouping;
     private ResponseData data;
     private Double approvedAmount;
+    private BillsAdditionalData billsAdditionalData;
 
     public String getTransactionRef() {
         return transactionRef;
@@ -75,5 +77,13 @@ public class MakePaymentApiResponse {
 
     public void setApprovedAmount(Double approvedAmount) {
         this.approvedAmount = approvedAmount;
+    }
+
+    public BillsAdditionalData getBillsAdditionalData() {
+        return billsAdditionalData;
+    }
+
+    public void setBillsAdditionalData(BillsAdditionalData billsAdditionalData) {
+        this.billsAdditionalData = billsAdditionalData;
     }
 }

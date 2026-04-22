@@ -45,6 +45,68 @@ public final class HistoryServiceGrpc {
     return getHistoryMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.TransactionStatusRequest,
+      com.neptune.cba.transaction.history.TransactionStatusResponse> getTransactionStatusMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "transactionStatus",
+      requestType = com.neptune.cba.transaction.history.TransactionStatusRequest.class,
+      responseType = com.neptune.cba.transaction.history.TransactionStatusResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.TransactionStatusRequest,
+      com.neptune.cba.transaction.history.TransactionStatusResponse> getTransactionStatusMethod() {
+    io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.TransactionStatusRequest, com.neptune.cba.transaction.history.TransactionStatusResponse> getTransactionStatusMethod;
+    if ((getTransactionStatusMethod = HistoryServiceGrpc.getTransactionStatusMethod) == null) {
+      synchronized (HistoryServiceGrpc.class) {
+        if ((getTransactionStatusMethod = HistoryServiceGrpc.getTransactionStatusMethod) == null) {
+          HistoryServiceGrpc.getTransactionStatusMethod = getTransactionStatusMethod =
+              io.grpc.MethodDescriptor.<com.neptune.cba.transaction.history.TransactionStatusRequest, com.neptune.cba.transaction.history.TransactionStatusResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "transactionStatus"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.history.TransactionStatusRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.history.TransactionStatusResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new HistoryServiceMethodDescriptorSupplier("transactionStatus"))
+              .build();
+        }
+      }
+    }
+    return getTransactionStatusMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.transDetailsRequest,
+      com.neptune.cba.transaction.history.transDetailsResponse> getTransDetailsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "transDetails",
+      requestType = com.neptune.cba.transaction.history.transDetailsRequest.class,
+      responseType = com.neptune.cba.transaction.history.transDetailsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.transDetailsRequest,
+      com.neptune.cba.transaction.history.transDetailsResponse> getTransDetailsMethod() {
+    io.grpc.MethodDescriptor<com.neptune.cba.transaction.history.transDetailsRequest, com.neptune.cba.transaction.history.transDetailsResponse> getTransDetailsMethod;
+    if ((getTransDetailsMethod = HistoryServiceGrpc.getTransDetailsMethod) == null) {
+      synchronized (HistoryServiceGrpc.class) {
+        if ((getTransDetailsMethod = HistoryServiceGrpc.getTransDetailsMethod) == null) {
+          HistoryServiceGrpc.getTransDetailsMethod = getTransDetailsMethod =
+              io.grpc.MethodDescriptor.<com.neptune.cba.transaction.history.transDetailsRequest, com.neptune.cba.transaction.history.transDetailsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "transDetails"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.history.transDetailsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.neptune.cba.transaction.history.transDetailsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new HistoryServiceMethodDescriptorSupplier("transDetails"))
+              .build();
+        }
+      }
+    }
+    return getTransDetailsMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +162,20 @@ public final class HistoryServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHistoryMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void transactionStatus(com.neptune.cba.transaction.history.TransactionStatusRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.TransactionStatusResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getTransactionStatusMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void transDetails(com.neptune.cba.transaction.history.transDetailsRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.transDetailsResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getTransDetailsMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -109,6 +185,20 @@ public final class HistoryServiceGrpc {
                 com.neptune.cba.transaction.history.HistoryRequest,
                 com.neptune.cba.transaction.history.HistoryResponse>(
                   this, METHODID_HISTORY)))
+          .addMethod(
+            getTransactionStatusMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.neptune.cba.transaction.history.TransactionStatusRequest,
+                com.neptune.cba.transaction.history.TransactionStatusResponse>(
+                  this, METHODID_TRANSACTION_STATUS)))
+          .addMethod(
+            getTransDetailsMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.neptune.cba.transaction.history.transDetailsRequest,
+                com.neptune.cba.transaction.history.transDetailsResponse>(
+                  this, METHODID_TRANS_DETAILS)))
           .build();
     }
   }
@@ -134,6 +224,22 @@ public final class HistoryServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getHistoryMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void transactionStatus(com.neptune.cba.transaction.history.TransactionStatusRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.TransactionStatusResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getTransactionStatusMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void transDetails(com.neptune.cba.transaction.history.transDetailsRequest request,
+        io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.transDetailsResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getTransDetailsMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -155,6 +261,20 @@ public final class HistoryServiceGrpc {
     public com.neptune.cba.transaction.history.HistoryResponse history(com.neptune.cba.transaction.history.HistoryRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getHistoryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.neptune.cba.transaction.history.TransactionStatusResponse transactionStatus(com.neptune.cba.transaction.history.TransactionStatusRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getTransactionStatusMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.neptune.cba.transaction.history.transDetailsResponse transDetails(com.neptune.cba.transaction.history.transDetailsRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getTransDetailsMethod(), getCallOptions(), request);
     }
   }
 
@@ -179,9 +299,27 @@ public final class HistoryServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getHistoryMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.neptune.cba.transaction.history.TransactionStatusResponse> transactionStatus(
+        com.neptune.cba.transaction.history.TransactionStatusRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getTransactionStatusMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.neptune.cba.transaction.history.transDetailsResponse> transDetails(
+        com.neptune.cba.transaction.history.transDetailsRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getTransDetailsMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_HISTORY = 0;
+  private static final int METHODID_TRANSACTION_STATUS = 1;
+  private static final int METHODID_TRANS_DETAILS = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -203,6 +341,14 @@ public final class HistoryServiceGrpc {
         case METHODID_HISTORY:
           serviceImpl.history((com.neptune.cba.transaction.history.HistoryRequest) request,
               (io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.HistoryResponse>) responseObserver);
+          break;
+        case METHODID_TRANSACTION_STATUS:
+          serviceImpl.transactionStatus((com.neptune.cba.transaction.history.TransactionStatusRequest) request,
+              (io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.TransactionStatusResponse>) responseObserver);
+          break;
+        case METHODID_TRANS_DETAILS:
+          serviceImpl.transDetails((com.neptune.cba.transaction.history.transDetailsRequest) request,
+              (io.grpc.stub.StreamObserver<com.neptune.cba.transaction.history.transDetailsResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -266,6 +412,8 @@ public final class HistoryServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new HistoryServiceFileDescriptorSupplier())
               .addMethod(getHistoryMethod())
+              .addMethod(getTransactionStatusMethod())
+              .addMethod(getTransDetailsMethod())
               .build();
         }
       }

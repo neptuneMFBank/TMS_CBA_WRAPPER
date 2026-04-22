@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,9 @@ public class CustomerService {
     private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
     @Value("${grpc.customer.request.url}")
     private String customer_server_ip;
+
+    @Value("${grpc.customer.product.id}")
+    private String customer_product_id;
 
     @Value("${grpc.customer.request.port}")
     private int customer_server_port;
@@ -269,6 +273,52 @@ public class CustomerService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
+
+    public Customer.GetCorporateCustomerResponse getCorporateCustomer(String phone){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.GetCorporateCustomerResponse response;
+        try {
+            Customer.GetCustomerByPhoneRequest request = Customer.GetCustomerByPhoneRequest.newBuilder().setPhoneNumber(phone).build();
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            response = stub.getCorporateCustomerByPhone(request);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
+
+    public Customer.CreateCustomerProductResponse getCorporateCustomerAcctNum(String customer_id, String accountNum) {
+        String formattedDate = LocalDate.now().toString();
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.CreateCustomerProductResponse response = null;
+        try {
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            Customer.CreateCustomerProductRequest request = Customer.CreateCustomerProductRequest.newBuilder().setProductOptions(Customer.ProductOptions.newBuilder().setCreatedAt(formattedDate).setAccountNumber(accountNum).build()).setProductId(customer_product_id).setCustomerId(customer_id).build();
+            response = stub.createCorporateCustomerProduct(request);
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+        } finally {
+            channel.shutdownNow();
+        }
+        return response;
+    }
+
+    public Customer.GetCorporateByAccountResponse getCustomerAcctNum(String accountNum) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.GetCorporateByAccountResponse response = null;
+        try {
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            Customer.GetCustomerByAccountRequest request = Customer.GetCustomerByAccountRequest.newBuilder().setAccountNumber(accountNum).setSignedKey("").build();
+            response = stub.getCorporateCustomerByAccount(request);
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+        } finally {
             channel.shutdownNow();
         }
         return response;

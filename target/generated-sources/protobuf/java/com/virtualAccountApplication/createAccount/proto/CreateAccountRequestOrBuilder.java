@@ -72,5 +72,15 @@ public interface CreateAccountRequestOrBuilder extends
   com.google.protobuf.ByteString
       getSecondaryParentAccountNumberBytes();
 
+  /**
+   * <pre>
+   * 10/01/2026
+   * </pre>
+   *
+   * <code>bool isPosAccount = 9;</code>
+   * @return The isPosAccount.
+   */
+  boolean getIsPosAccount();
+
   public com.virtualAccountApplication.createAccount.proto.CreateAccountRequest.AccountDataCase getAccountDataCase();
 }

@@ -27,7 +27,7 @@ public class TransactionDrCr {
     private String eid;
     private String terminalId;
     private String type; // type of transaction either transaction or charge
-    private Boolean isUpdatedToCba;
+    private boolean isUpdatedToCba;
     private String cbaMessage;
     private String status_response_message;
     private String status_response_code;

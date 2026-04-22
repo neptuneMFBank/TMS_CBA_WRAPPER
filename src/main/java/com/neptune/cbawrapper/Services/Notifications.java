@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Services;
 
-import auth.AuthServiceGrpc;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
 import com.neptune.cbawrapper.RequestRessponseSchema.SendNotifications;
 import io.grpc.ManagedChannel;
@@ -48,7 +47,6 @@ public class Notifications {
                     .setFile(notif.getFile())
                     .setReceiverSocketId("")
                     .setAttachment(notif.isAttachment())
-                    .setFile("")
                     .setWebhook(notification_service.Notifications.WebHook.newBuilder()
                             .setEvent("Transaction notification")
                             .setUrl("")
@@ -59,6 +57,7 @@ public class Notifications {
                     .setSendtext(false)
                     .setSendwebhook(false)
                     .setPushNotify(true)
+                    .setCorporateMail(true)
                     .setExtensiontype("")
                     .build();
 

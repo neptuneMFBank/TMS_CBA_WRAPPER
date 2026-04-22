@@ -1,13 +1,13 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.ZonedDateTime;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Document("pos_transaction_requests")
 public class TransactionRequestSchema {
@@ -22,6 +22,10 @@ public class TransactionRequestSchema {
     private String transactionDate;
     private Double amount;
     private String transactionReference;
+    private Integer resourceId;
+
+    @Builder.Default
+    private Boolean loggedDispute = false;
     private String reference;
     private String ptad;
     private String responseCode;
@@ -278,12 +282,29 @@ public class TransactionRequestSchema {
 //        this.transactionPlatformId = transactionPlatformId;
 //    }
 
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
+    }
+
     public String getCardScheme() {
         return cardScheme;
     }
 
     public void setCardScheme(String cardScheme) {
         this.cardScheme = cardScheme;
+    }
+
+    public Boolean getLoggedDispute() {
+        return loggedDispute;
+    }
+
+    public void setLoggedDispute(Boolean loggedDispute) {
+        this.loggedDispute = loggedDispute;
     }
 
     @Override
@@ -298,6 +319,8 @@ public class TransactionRequestSchema {
                 ", transactionDate='" + transactionDate + '\'' +
                 ", amount=" + amount +
                 ", transactionReference='" + transactionReference + '\'' +
+                ", resourceId=" + resourceId +
+                ", loggedDispute=" + loggedDispute +
                 ", reference='" + reference + '\'' +
                 ", ptad='" + ptad + '\'' +
                 ", responseCode='" + responseCode + '\'' +
@@ -316,8 +339,11 @@ public class TransactionRequestSchema {
                 ", merchantId='" + merchantId + '\'' +
                 ", paymentTypeId='" + paymentTypeId + '\'' +
                 ", cardScheme='" + cardScheme + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
                 '}';
+    }
+
+    public TransactionRequestSchema() {
     }
 }

@@ -21,12 +21,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -35,6 +40,9 @@ import java.util.stream.Collectors;
 public class Cron {
     @Value("${spring.profiles.active}")
     private String env;
+
+    @Value("${client.url}")
+    private String client_url;
 
     @Autowired
     private CorePayRestController corePayRestController;
@@ -130,7 +138,6 @@ public class Cron {
                     errorLogsRepository.save(errorLogsModel);
                 }
             }
-
         } catch (Exception e) {
             log.warn("savingsEntityRecord: ", e);
             ErrorLogsModel errorLogsModel = new ErrorLogsModel(tin, e.getMessage());
@@ -165,65 +172,113 @@ public class Cron {
         return new CustomersModel(firstName, customersModel.getMiddlename(), companyName, customersModel.getIncorpNo(), customersModel.getDateOfBirth(), customersModel.getCountryOfRegistration(), sendPhone, sendMail, customersModel.getTin(), customersModel.getEmailAddress(), customersModel.getMobileNo(), false, customersModel.getSavingsId(), ZonedDateTime.now().toString(), ZonedDateTime.now().toString());
     }
 
+//    @Scheduled(cron = "0 */5 * * * *")
+//    public void updateCustomerAccountNumFromCba() {
+//        try {
+//            //TODO: get customers without account number and send them to CBA to generate account numbers for them
+//            List<CustomersModel> customersModels = customersRepository.getCustomersWithoutAccountId();
+//            System.out.println("customersModels = " + customersModels.size());
+//            if (customersModels.isEmpty()) {
+//                return;
+//            }
+//
+//            //TODO: check if customer already exists on CBA if true, use the customer's account number else create a new account for the customer
+//            for (CustomersModel customer : customersModels) {
+//                Customer.GetCorporateCustomerResponse checkCustomer = customerService.getCorporateCustomer(customer.getContact_phone_number());
+//
+//                if(checkCustomer.hasCustomer()){
+//                    customer.setAccount_num(checkCustomer.getCustomer().getProducts(1).getAccountNumber());
+//                    customer.setCba_customer_id(checkCustomer.getCustomer().getId());
+//                    customersRepository.save(customer);
+//                }
+//
+//                customersModels.remove(customer);
+//            }
+//
+//            //TODO add error logging to the db
+//            Customer.CreateBulkCorpCustomerResponse response = customerService.createCustomers(customersModels);
+//            if (response == null) {
+//                return;
+//            }
+//            List<Customer.CreateBulkCustomerErrResponse> errorResponse = response.getErrorDataList();
+//
+//            System.out.println("response = " + response);
+//            System.out.println("errorResponse = " + errorResponse);
+//
+//            if (!errorResponse.isEmpty()) {
+//                for (Customer.CreateBulkCustomerErrResponse response1 : errorResponse) {
+//                    ErrorLogsModel errorLogsModel = new ErrorLogsModel(response1.getTin(), response1.getReason());
+//                    errorLogsModel.setType("CBA_CREATION");
+//                    errorLogsRepository.save(errorLogsModel);
+//                }
+//            }
+//
+//            //TODO: update the generated account number to the customer's entry on the database
+//            List<String> data2 = customersModels
+//                    .stream()
+//                    .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
+//                    .collect(Collectors.toList()); //
+//
+//            Map<String, List<CustomersModel>> customers = customersRepository.findByAccountId(
+//                    data2
+//            ).stream().collect(Collectors.groupingBy(CustomersModel::getTin));
+//
+//            if (customers.isEmpty()) {
+//                return;
+//            }
+//
+//            for (int i = 0; i < response.getResponseList().size(); i++) {
+//                Optional<CustomersModel> customersModel = customers.get(response.getResponseList().get(i).getTin()).stream().findFirst();
+//                final String accountNumber = response.getResponseList().get(i).getAccountNumber();
+//                if (customersModel.isPresent() && StringUtils.isNotBlank(accountNumber)) {
+//                    customersModel.get().setAccount_num(accountNumber);
+//                    customersModel.get().setCba_customer_id(response.getResponseList().get(i).getId());
+//                    customersRepository.save(customersModel.get());
+//                }
+//            }
+//        } catch (Exception e) {
+//            ErrorLogsModel errorLogsModel = new ErrorLogsModel("tin", e.getMessage());
+//            errorLogsModel.setCreatedAt(Instant.now());
+//            errorLogsModel.setUpdatedAt(Instant.now());
+//            errorLogsModel.setType("CBA_ACCOUNT_UPDATE");
+//            errorLogsRepository.save(errorLogsModel);
+//        }
+//
+//    }
+
     @Scheduled(cron = "0 */5 * * * *")
+    @Transactional
     public void updateCustomerAccountNumFromCba() {
         try {
-            //TODO: get customers without account number and send them to CBA to generate account numbers for them
-            List<CustomersModel> customersModels = customersRepository.getCustomersWithoutAccountId();
-            System.out.println("customersModels = " + customersModels.size());
-            if (customersModels.isEmpty()) {
+            log.info("Starting scheduled customer account update from CBA");
+
+            // Fetch customers without account numbers
+            List<CustomersModel> customersWithoutAccounts = customersRepository.getCustomersWithoutAccountId();
+
+            if (customersWithoutAccounts.isEmpty()) {
+                log.info("No customers found without account numbers");
                 return;
             }
 
-            //TODO add error logging to the db
-            Customer.CreateBulkCorpCustomerResponse response = customerService.createCustomers(customersModels);
-            if (response == null) {
-                return;
-            }
-            List<Customer.CreateBulkCustomerErrResponse> errorResponse = response.getErrorDataList();
+            log.info("Found {} customers without account numbers", customersWithoutAccounts.size());
 
-            System.out.println("response = " + response);
-            System.out.println("errorResponse = " + errorResponse);
+            // Separate existing and new customers
+            CustomerSegmentation segmentation = segmentCustomers(customersWithoutAccounts);
 
-            if (!errorResponse.isEmpty()) {
-                for (Customer.CreateBulkCustomerErrResponse response1 : errorResponse) {
-                    ErrorLogsModel errorLogsModel = new ErrorLogsModel(response1.getTin(), response1.getReason());
-                    errorLogsModel.setType("CBA_CREATION");
-                    errorLogsRepository.save(errorLogsModel);
-                }
+            // Update existing customers (found in CBA)
+            updateExistingCustomers(segmentation.getExistingCustomers());
+
+            // Create new customers in bulk
+            if (!segmentation.getNewCustomers().isEmpty()) {
+                createNewCustomersInBulk(segmentation.getNewCustomers());
             }
 
-            //TODO: update the generated account number to the customer's entry on the database
-            List<String> data2 = customersModels
-                    .stream()
-                    .map(CustomersModel::getTin) // Extracts TIN from each CustomersModel
-                    .collect(Collectors.toList()); //
+            log.info("Customer account update completed successfully");
 
-            Map<String, List<CustomersModel>> customers = customersRepository.findByAccountId(
-                    data2
-            ).stream().collect(Collectors.groupingBy(CustomersModel::getTin));
-
-            if (customers.isEmpty()) {
-                return;
-            }
-
-            for (int i = 0; i < response.getResponseList().size(); i++) {
-                Optional<CustomersModel> customersModel = customers.get(response.getResponseList().get(i).getTin()).stream().findFirst();
-                final String accountNumber = response.getResponseList().get(i).getAccountNumber();
-                if (customersModel.isPresent() && StringUtils.isNotBlank(accountNumber)) {
-                    customersModel.get().setAccount_num(accountNumber);
-                    customersModel.get().setCba_customer_id(response.getResponseList().get(i).getId());
-                    customersRepository.save(customersModel.get());
-                }
-            }
         } catch (Exception e) {
-            ErrorLogsModel errorLogsModel = new ErrorLogsModel("tin", e.getMessage());
-            errorLogsModel.setCreatedAt(Instant.now());
-            errorLogsModel.setUpdatedAt(Instant.now());
-            errorLogsModel.setType("CBA_ACCOUNT_UPDATE");
-            errorLogsRepository.save(errorLogsModel);
+            log.error("Error during customer account update", e);
+            logError("SCHEDULED_UPDATE_FAILURE", "Global", e.getMessage());
         }
-
     }
 
     @Scheduled(cron = "0 */7 * * * *")
@@ -340,49 +395,36 @@ public class Cron {
     @Scheduled(cron = "0 */2 * * * *")
     public void updateVirtualAccount() {
         try {
-            List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersWithoutAccountId();
-            Optional<AuthCredentials> authCredentials = authCredentialsRepository.getAuth(env);
+            Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
 
-            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
+            System.out.println("virtualAccountModel = " + virtualAccountModel);
 
-            if (virtualAccountModelList == null) {
+            if (virtualAccountModel.isEmpty()) {
                 return;
             }
 
-            if (authCredentials.isEmpty()) {
+            //TODO: check if POS has already been created for this business with an account number else use the business account number
+            Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
+
+            if(virtualAccount.isEmpty()){
+                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
+                virtualAccountRepository.save(virtualAccountModel1);
+
+                sendPasswordMail(virtualAccountModel.get());
                 return;
             }
 
-            List<VirtualAccountModel> virtualAccountModel2 = new ArrayList<>();
-            for (VirtualAccountModel virtualAccountModel : virtualAccountModelList) {
-                virtualAccountModel.setParent_id(authCredentials.get().getCustomer_id());
-                virtualAccountModel2.add(virtualAccountModel);
-            }
-
-            if (virtualAccountModel2.isEmpty()) {
-                return;
-            }
-            System.out.println("requwest = " + "ssssss");
-
-            //TODO: rewrite this to pass all virtual accounts at once to the CBA and get array of virtual account responses.
-            CreateBulkAccResponse response = virtualAccountService.createVirtualAccount(virtualAccountModel2);
+            //TODO: create corporate account for POS
+            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(),  virtualAccountModel.get().getParent_account());
 
             System.out.println("response = " + response);
-            if (response != null) {
-                List<CreateAccountResponse> data1 = response.getResponseList();
+            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
+                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+                virtualAccountRepository.save(virtualAccountModel1);
 
-                for (int i = 0; i < data1.size(); i++) {
-
-                    for (VirtualAccountModel virtualAccountModel3 : virtualAccountModel2) {
-                        if (virtualAccountModel3.getAccount_name().equals(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountName())) {
-                            System.out.println("response = " + response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-                            virtualAccountModel3.setVirtual_account_number(response.getResponseList().get(i).getStaticAccountCreationResponse().getAccountNumber());
-                            virtualAccountRepository.save(virtualAccountModel3);
-
-                            sendPasswordMail(virtualAccountModel3);
-                        }
-                    }
-                }
+                sendPasswordMail(virtualAccountModel.get());
             }
 
         } catch (Exception e) {
@@ -393,6 +435,7 @@ public class Cron {
             errorLogsRepository.save(errorLogsModel);
         }
     }
+
 
     @Scheduled(cron = "0 */6 * * * *")
     public void updateVirtualAccountToCorePay() {
@@ -430,20 +473,20 @@ public class Cron {
         }
 
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
-            if (transactionDrCr1.getAccountnumber() != null) {
+            if (transactionDrCr1.getAccountnumber() != null && transactionDrCr1.getAmount() > 0) {
 
                 if (transactionDrCr1.getResponseCode().equals("00")) {
 
                     //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
                     //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
 
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(Integer.parseInt(transactionDrCr1.getTransaction_platform_id()));
-                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-
-                    System.out.println("========================================= 1");
-                    if (businessPlatformCharges.isEmpty()) {
-                        return;
-                    }
+                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(transactionDrCr1.getTransaction_platform_id());
+//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
+//
+//                    System.out.println("========================================= 1");
+//                    if (businessPlatformCharges.isEmpty()) {
+//                        return;
+//                    }
 
                     System.out.println("========================================= 2");
                     if (platformCharges.isPresent()) {
@@ -477,7 +520,7 @@ public class Cron {
 //                            amount2 = businessPlatformCharges.get().getThreshold();
 //                        }
 
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, businessPlatformCharges.get().getBusinessWalletId());
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
 
                         if (response != null) {
                             if (response.getCode().equals("200")) {
@@ -629,20 +672,272 @@ public class Cron {
     }
 
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
+        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
+
+        if(customersModel.isEmpty()){
+            return null;
+        }
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
-        virtualAccountModel.setToken_expiry(LocalDateTime.now().toString());
+        virtualAccountModel.setCodeExpired(false);
+        virtualAccountModel.setToken_expiry(LocalDateTime.now().plusMinutes(10).toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"https://tms-neptune.netlify.app/set-pin?code="+genericCode + "\" target=\"_blank\">Set Pin</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" +client_url+genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")
                 .message(message)
-                .receiver_email(virtualAccountModel.getEmail())
+                .receiver_email(customersModel.get().getEmail_address())
                 .sendmail(true)
                 .attachment(true)
                 .build();
         return notifications.sendNotification(notifications1);
+    }
+
+    /**
+     * Segments customers into existing (already in CBA) and new (need to be created)
+     */
+    private CustomerSegmentation segmentCustomers(List<CustomersModel> customers) {
+        List<CustomersModel> existingCustomers = new ArrayList<>();
+        List<CustomersModel> newCustomers = new ArrayList<>();
+        List<CompletableFuture<CustomerCheckResult>> futures = new ArrayList<>();
+
+        // Check customers in parallel batches to avoid overwhelming the gRPC service
+        int batchSize = 10; // Adjust based on your gRPC server capacity
+        for (int i = 0; i < customers.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, customers.size());
+            List<CustomersModel> batch = customers.subList(i, end);
+
+            for (CustomersModel customer : batch) {
+                CompletableFuture<CustomerCheckResult> future = CompletableFuture.supplyAsync(() ->
+                                checkCustomerExists(customer),
+                        executorService // Use virtual threads (Java 21) or a thread pool
+                );
+                futures.add(future);
+            }
+
+            // Wait for current batch to complete before starting next batch
+            try {
+                CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                        .get(30, TimeUnit.SECONDS); // Timeout per batch
+            } catch (Exception e) {
+                log.error("Error processing batch starting at index {}", i, e);
+            }
+        }
+
+        // Collect results
+        for (CompletableFuture<CustomerCheckResult> future : futures) {
+            try {
+                CustomerCheckResult result = future.get();
+                if (result.isExists()) {
+                    existingCustomers.add(result.getCustomer());
+                } else {
+                    newCustomers.add(result.getCustomer());
+                }
+            } catch (Exception e) {
+                log.error("Error getting customer check result", e);
+                // Add to new customers by default if check fails
+//                newCustomers.add(result.getCustomer());
+            }
+        }
+
+        log.info("Segmentation complete: {} existing, {} new customers",
+                existingCustomers.size(), newCustomers.size());
+
+        return new CustomerSegmentation(existingCustomers, newCustomers);
+    }
+
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors() * 2 // tune based on gRPC server capacity
+    );
+
+    /**
+     * Check if customer exists in CBA
+     */
+    private CustomerCheckResult checkCustomerExists(CustomersModel customer) {
+        try {
+            Customer.GetCorporateCustomerResponse response =
+                    customerService.getCorporateCustomer(customer.getContact_phone_number());
+
+            if (response.hasCustomer()) {
+                // Extract account number safely
+                String accountNumber = extractAccountNumber(response);
+                if (accountNumber != null) {
+                    customer.setAccount_num(accountNumber);
+                    customer.setCba_customer_id(response.getCustomer().getId());
+                    return new CustomerCheckResult(customer, true);
+                }
+            }
+
+            return new CustomerCheckResult(customer, false);
+
+        } catch (Exception e) {
+            log.error("Error checking customer existence for phone: {}",
+                    customer.getContact_phone_number(), e);
+            logError("CUSTOMER_CHECK_FAILED", customer.getTin(), e.getMessage());
+            return new CustomerCheckResult(customer, false);
+        }
+    }
+
+    /**
+     * Safely extract account number from gRPC response
+     */
+    private String extractAccountNumber(Customer.GetCorporateCustomerResponse response) {
+        try {
+            if (response.getCustomer().getProductsCount() > 0) {
+                // Use getProducts(0) instead of getProducts(1) - lists are 0-indexed
+                return response.getCustomer().getProducts(0).getAccountNumber();
+            }
+        } catch (Exception e) {
+            log.warn("Error extracting account number", e);
+        }
+        return null;
+    }
+
+    /**
+     * Update existing customers in database
+     */
+    private void updateExistingCustomers(List<CustomersModel> existingCustomers) {
+        if (existingCustomers.isEmpty()) {
+            return;
+        }
+
+        log.info("Updating {} existing customers", existingCustomers.size());
+
+        try {
+            // Batch save for better performance
+            customersRepository.saveAll(existingCustomers);
+            log.info("Successfully updated {} existing customers", existingCustomers.size());
+
+        } catch (Exception e) {
+            log.error("Error updating existing customers", e);
+            logError("EXISTING_CUSTOMER_UPDATE_FAILED", "BATCH", e.getMessage());
+
+            // Fallback: try saving one by one
+            for (CustomersModel customer : existingCustomers) {
+                try {
+                    customersRepository.save(customer);
+                } catch (Exception ex) {
+                    log.error("Failed to update customer: {}", customer.getTin(), ex);
+                    logError("CUSTOMER_UPDATE_FAILED", customer.getTin(), ex.getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * Create new customers in CBA in bulk
+     */
+    private void createNewCustomersInBulk(List<CustomersModel> newCustomers) {
+        log.info("Creating {} new customers in CBA", newCustomers.size());
+
+        try {
+            Customer.CreateBulkCorpCustomerResponse response =
+                    customerService.createCustomers(newCustomers);
+
+            if (response == null) {
+                log.error("Received null response from bulk customer creation");
+                logError("BULK_CREATE_NULL_RESPONSE", "BATCH", "Null response from CBA");
+                return;
+            }
+
+            // Process errors
+            processCreationErrors(response.getErrorDataList());
+
+            // Update successfully created customers
+            updateCreatedCustomers(newCustomers, response.getResponseList());
+
+        } catch (Exception e) {
+            log.error("Error creating customers in bulk", e);
+            logError("BULK_CREATE_FAILED", "BATCH", e.getMessage());
+        }
+    }
+
+    /**
+     * Process and log customer creation errors
+     */
+    private void processCreationErrors(List<Customer.CreateBulkCustomerErrResponse> errors) {
+        if (errors.isEmpty()) {
+            return;
+        }
+
+        log.warn("Encountered {} errors during customer creation", errors.size());
+
+        List<ErrorLogsModel> errorLogs = errors.stream()
+                .map(error -> {
+                    ErrorLogsModel errorLog = new ErrorLogsModel(error.getTin(), error.getReason());
+                    errorLog.setType("CBA_CREATION");
+                    errorLog.setCreatedAt(Instant.now());
+                    errorLog.setUpdatedAt(Instant.now());
+                    return errorLog;
+                })
+                .collect(Collectors.toList());
+
+        try {
+            errorLogsRepository.saveAll(errorLogs);
+        } catch (Exception e) {
+            log.error("Error saving error logs", e);
+        }
+    }
+
+    /**
+     * Update database with created customer account numbers
+     */
+    private void updateCreatedCustomers(
+            List<CustomersModel> customers,
+            List<Customer.CreateBulkCustomerResponse> responses) {
+
+        if (responses.isEmpty()) {
+            log.info("No successful customer creations to update");
+            return;
+        }
+
+        // Create TIN to customer map for O(1) lookup
+        Map<String, CustomersModel> customersByTin = customers.stream()
+                .collect(Collectors.toMap(
+                        CustomersModel::getTin,
+                        customer -> customer,
+                        (existing, duplicate) -> existing // Handle duplicates
+                ));
+
+        List<CustomersModel> customersToUpdate = new ArrayList<>();
+
+        for (Customer.CreateBulkCustomerResponse response : responses) {
+            CustomersModel customer = customersByTin.get(response.getTin());
+
+            if (customer != null && StringUtils.isNotBlank(response.getAccountNumber())) {
+                customer.setAccount_num(response.getAccountNumber());
+                customer.setCba_customer_id(response.getId());
+                customersToUpdate.add(customer);
+            } else {
+                log.warn("Could not find customer for TIN: {} or account number is blank",
+                        response.getTin());
+            }
+        }
+
+        if (!customersToUpdate.isEmpty()) {
+            try {
+                customersRepository.saveAll(customersToUpdate);
+                log.info("Successfully updated {} created customers", customersToUpdate.size());
+            } catch (Exception e) {
+                log.error("Error updating created customers", e);
+                logError("CREATED_CUSTOMER_UPDATE_FAILED", "BATCH", e.getMessage());
+            }
+        }
+    }
+
+    private void logError(String type, String tin, String message) {
+        try {
+            ErrorLogsModel errorLog = new ErrorLogsModel(tin, message);
+            errorLog.setType(type);
+            errorLog.setCreatedAt(Instant.now());
+            errorLog.setUpdatedAt(Instant.now());
+            errorLogsRepository.save(errorLog);
+        } catch (Exception e) {
+            log.error("Failed to log error to database", e);
+        }
     }
 }
 
