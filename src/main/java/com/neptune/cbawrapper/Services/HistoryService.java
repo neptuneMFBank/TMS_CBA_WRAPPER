@@ -78,14 +78,14 @@ public class HistoryService {
         return response;
     }
 
-    public transDetailsResponse getTransactionDetails(String ref, String accountNo){
+    public transDetailsResponse getTransactionDetails(String ref){
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         transDetailsResponse response = null;
 
         try {
             HistoryServiceGrpc.HistoryServiceBlockingStub stub = HistoryServiceGrpc.newBlockingStub(channel);
-            transDetailsRequest request = transDetailsRequest.newBuilder().setDetails(true).setAccount(accountNo).setRef(ref).build();
-            response = stub.transDetails(request);
+            TransDetailsByRefRequest request = TransDetailsByRefRequest.newBuilder().setRef(ref).build();
+            response = stub.transDetailsByRef(request);
         }catch (StatusRuntimeException e){
             System.out.println("error1 GET_TRANSACTION_DETAILS_HANDLER = " + e.getMessage());
             errorLoggingException.logError("GET_TRANSACTION_DETAILS_HANDLER", String.valueOf(e.getCause()), e.getMessage());
