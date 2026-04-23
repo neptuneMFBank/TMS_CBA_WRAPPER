@@ -173,6 +173,7 @@ public class TransactionController {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getBeneficiaryAccountNumber());
             if (virtualAccountModel.isPresent()) {
+                System.out.println("jjjjjjjjjjjjewqdsd");
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
                 logAllTransactions(null, null, "Webhook", payload);
@@ -730,13 +731,12 @@ public class TransactionController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-transaction-details")
-    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref, @RequestParam String accountNo){
+    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
 
         try {
 
             System.out.println("ref = " + ref);
-            System.out.println("accountNo = " + accountNo);
-            transDetailsResponse response = historyService.getTransactionDetails(ref, accountNo);
+            transDetailsResponse response = historyService.getTransactionDetails(ref);
 
             System.out.println("response = " + response);
             if (response == null) {

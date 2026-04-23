@@ -31,46 +31,46 @@ public class PushyAPI {
     public String SECRET_API_URL;
 
     public void sendPush(String token, DebitCreditData request) throws Exception {
-        System.out.println("notification request = " + request);
-        // Prepare list of target device tokens
-        List<String> deviceTokens = new ArrayList<>();
-
-        System.out.println("token = " + token);
-
-        // Add your device tokens here
-        deviceTokens.add(token);
-
-        // Convert to String[] array
-        String[] to = deviceTokens.toArray(new String[deviceTokens.size()]);
-
-        // Optionally, send to a publish/subscribe topic instead
-        // String to = '/topics/news';
-
-        // Set payload (any object, it will be serialized to JSON)
-        Map<String, String> payload = new HashMap<>();
-
-        String message = "Successfully received " + request.getAmount() + " Naira from " + request.getSourceAccountName();
-
-        // Add "message" parameter to payload
-
-        // iOS notification fields
-        Map<String, Object> notification = new HashMap<>();
-        String json = mapper.writeValueAsString(request);
-
-        payload.put("message", message);
-        payload.put("transactionType", "BANK TRANSFER");
-        payload.put("body", json);
-
-        notification.put("badge", 1);
-        notification.put("sound", "ping.aiff");
-        notification.put("title", "Test Notification");
-        notification.put("body", json);
-
-        // Prepare the push request
-        PushyPushRequest push = new PushyPushRequest(payload, to, notification);
-
-        System.out.println("push = " + push.toString());
         try {
+            System.out.println("notification request = " + request);
+            // Prepare list of target device tokens
+            List<String> deviceTokens = new ArrayList<>();
+
+            System.out.println("token = " + token);
+
+            // Add your device tokens here
+            deviceTokens.add(token);
+
+            // Convert to String[] array
+            String[] to = deviceTokens.toArray(new String[deviceTokens.size()]);
+
+            // Optionally, send to a publish/subscribe topic instead
+            // String to = '/topics/news';
+
+            // Set payload (any object, it will be serialized to JSON)
+            Map<String, String> payload = new HashMap<>();
+
+            String message = "Successfully received " + request.getAmount() + " Naira from " + request.getSourceAccountName();
+
+            // Add "message" parameter to payload
+
+            // iOS notification fields
+            Map<String, Object> notification = new HashMap<>();
+            String json = mapper.writeValueAsString(request);
+
+            payload.put("message", message);
+            payload.put("transactionType", "BANK TRANSFER");
+            payload.put("body", json);
+
+            notification.put("badge", 1);
+            notification.put("sound", "ping.aiff");
+            notification.put("title", "Test Notification");
+            notification.put("body", json);
+
+            // Prepare the push request
+            PushyPushRequest push = new PushyPushRequest(payload, to, notification);
+
+            System.out.println("push = " + push.toString());
             // Try sending the push notification
             sendPushNotification(push);
         }

@@ -308,6 +308,7 @@ auth/Auth$RegenerateApiKeyResponse$Builder.class
 notification_service/Notifications$NotificationOrBuilder.class
 com/neptune/cba/transaction/bills/BillsServiceGrpc$BillsServiceMethodDescriptorSupplier.class
 com/neptune/cba/transaction/history/HistoryServiceGrpc$HistoryServiceStub.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequestOrBuilder.class
 com/neptune/cbawrapper/BuilderPattern/TransactionHistoryBuilder.class
 auth/Auth$AuthenticateApiKeyRequest$1.class
 auth/Auth$Update3ppWebhookRequestOrBuilder.class
@@ -370,6 +371,7 @@ auth/Auth$GenerateApiKeyRequest$Builder.class
 notification_service/Notifications$CustomNotificationRequest$Builder.class
 com/neptune/cbawrapper/RequestRessponseSchema/ReverseResponseData.class
 com/neptune/cbawrapper/Models/CustomerProductOptions.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest$1.class
 printable/PrintableOuterClass$AccountInfo$1.class
 com/virtualAccountApplication/createAccount/proto/ThirdPartyUser.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc.class
@@ -689,6 +691,7 @@ customers/Customer$CreateDirectorRequest.class
 com/neptune/cba/transaction/history/HistoryRequestOrBuilder.class
 com/neptune/cbawrapper/Models/Counter.class
 customers/Customer$CreateDirectorRequest$1.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest.class
 customers/Customer$CreateBulkCustomerResponse.class
 auth/Auth$VerifyEmailOtpRequest$Builder.class
 notification_service/Notifications$GetAllNotificationResponse$Builder.class
@@ -1126,6 +1129,7 @@ com/neptune/cba/transaction/history/callOverRequest.class
 customers/Customer$CreateSignatoryRequest$Builder.class
 com/neptune/cbawrapper/RequestRessponseSchema/CustomerSegmentation.class
 auth/Auth$VerifyPhoneNumberOtpRequest.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest$Builder.class
 com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc$GetAccountServiceBaseDescriptorSupplier.class
 com/neptune/cba/transaction/balance/BalanceResponse$Builder.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryResponse.class
