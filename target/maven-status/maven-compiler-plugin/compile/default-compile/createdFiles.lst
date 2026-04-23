@@ -183,6 +183,7 @@ auth/Auth$ThirdPartyUser.class
 com/virtualAccountApplication/createAccount/proto/GetAccountRequest$1.class
 auth/AuthServiceGrpc$2.class
 notification_service/NotificationServiceGrpc$NotificationServiceFileDescriptorSupplier.class
+customers/Customer$GetCorporateCustomerByTinRequest$Builder.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferApprovalRequestOrBuilder.class
 com/neptune/cba/transaction/type/CreateTransactionResponse.class
 com/neptune/cba/transaction/history/HistoryResponse$Builder.class
@@ -200,6 +201,7 @@ com/neptune/cba/transaction/balance/BulkBalanceResponseOrBuilder.class
 com/neptune/cbawrapper/RequestRessponseSchema/EasyPayRequestData.class
 auth/Auth$Get2faQrCodeUrlResponse$Builder.class
 com/neptune/cba/transaction/history/SpentTodayResponse$Builder.class
+customers/Customer$GetCorporateCustomerByTinRequestOrBuilder.class
 com/neptune/cba/transaction/type/UpdateTypeResponse$Builder.class
 auth/Auth$City$1.class
 auth/AuthServiceGrpc$AuthServiceBlockingStub.class
@@ -596,6 +598,7 @@ com/neptune/cbawrapper/RequestRessponseSchema/InstitutionsData.class
 printable/PrintableOuterClass$PdfRequest.class
 auth/Auth$OtpResponse$Builder.class
 com/neptune/cba/transaction/easy_pay/EasyPayRequest$1.class
+customers/Customer$GetCorporateCustomerByTinRequest.class
 com/neptune/cba/transaction/debit_credit/NestedCharge$1.class
 com/neptune/cba/transaction/type/RemoveChargeResponse$1.class
 customers/Customer$DirectorDataOrBuilder.class
@@ -1142,6 +1145,7 @@ com/neptune/cba/transaction/bills/BillReverseRequestOrBuilder.class
 com/neptune/cba/transaction/type/TransactionTypeResponse$1.class
 auth/Auth$Get3ppWebhookResponse$1.class
 com/neptune/cba/transaction/bills/BillsTsqResponseOrBuilder.class
+customers/Customer$GetCorporateCustomerByTinRequest$1.class
 auth/Auth$Employee$Builder.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequestOrBuilder.class
 com/neptune/cbawrapper/Models/IntraTransferResponseData$IntraTransferResponseDataBuilder.class

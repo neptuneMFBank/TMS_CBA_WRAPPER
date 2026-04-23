@@ -115,7 +115,7 @@ public class Helpers {
                 transactionDetails.setReference(request.getTransactionReference());
                 transactionDetails.setPtad(request.getPtad());
                 transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("");
                 transactionDetails.setCardExpiry("");
                 transactionDetails.setTransactionFee(0);
@@ -142,7 +142,7 @@ public class Helpers {
                 transactionDetails.setReference(request.getMakePayment().getRequestReference());
                 transactionDetails.setPtad(request.getPtad());
                 transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("00");
                 transactionDetails.setCardExpiry("00");
                 transactionDetails.setTransactionFee(0);
@@ -168,7 +168,7 @@ public class Helpers {
                 transactionDetails.setReference(request.getReference());
                 transactionDetails.setPtad("Neptune");
                 transactionDetails.setTransactionPlatformId(4);
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("00");
                 transactionDetails.setCardExpiry("nil");
                 transactionDetails.setTransactionFee(0);
