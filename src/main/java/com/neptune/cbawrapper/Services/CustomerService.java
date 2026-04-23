@@ -41,6 +41,8 @@ public class CustomerService {
     private final ErrorLoggingException errorLoggingException;
 
     public Customer.CreateBulkCorpCustomerResponse createCustomers(List<CustomersModel> customers) {
+        System.out.println("customer_server_ip = " + customer_server_ip);
+        System.out.println("customer_server_port = " + customer_server_port);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.CreateBulkCorpCustomerResponse response = null;
         try {

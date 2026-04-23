@@ -11,6 +11,11 @@ service CustomerService {
   rpc NameEnquiry(NameEnquiryRequest) returns (NameEnquiryResponse) {}
   rpc GetCorporateCustomerByAccount(GetCustomerByAccountRequest) returns (GetCorporateByAccountResponse) {}
   rpc GetCorporateCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCorporateCustomerResponse) {}
+  rpc GetCorporateCustomerByTin(GetCorporateCustomerByTinRequest) returns (GetCorporateCustomerResponse) {}
+}
+
+message GetCorporateCustomerByTinRequest {
+  string tin = 1;
 }
 
 message GetCustomerByAccountRequest {
