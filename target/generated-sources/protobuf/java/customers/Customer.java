@@ -172,6 +172,574 @@ public final class Customer {
     // @@protoc_insertion_point(enum_scope:customers.VerificationStatus)
   }
 
+  public interface GetCorporateCustomerByTinRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:customers.GetCorporateCustomerByTinRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string tin = 1;</code>
+     * @return The tin.
+     */
+    java.lang.String getTin();
+    /**
+     * <code>string tin = 1;</code>
+     * @return The bytes for tin.
+     */
+    com.google.protobuf.ByteString
+        getTinBytes();
+  }
+  /**
+   * Protobuf type {@code customers.GetCorporateCustomerByTinRequest}
+   */
+  public static final class GetCorporateCustomerByTinRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:customers.GetCorporateCustomerByTinRequest)
+      GetCorporateCustomerByTinRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetCorporateCustomerByTinRequest.newBuilder() to construct.
+    private GetCorporateCustomerByTinRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetCorporateCustomerByTinRequest() {
+      tin_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetCorporateCustomerByTinRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetCorporateCustomerByTinRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tin_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return customers.Customer.internal_static_customers_GetCorporateCustomerByTinRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return customers.Customer.internal_static_customers_GetCorporateCustomerByTinRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              customers.Customer.GetCorporateCustomerByTinRequest.class, customers.Customer.GetCorporateCustomerByTinRequest.Builder.class);
+    }
+
+    public static final int TIN_FIELD_NUMBER = 1;
+    private volatile java.lang.Object tin_;
+    /**
+     * <code>string tin = 1;</code>
+     * @return The tin.
+     */
+    @java.lang.Override
+    public java.lang.String getTin() {
+      java.lang.Object ref = tin_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tin_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string tin = 1;</code>
+     * @return The bytes for tin.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTinBytes() {
+      java.lang.Object ref = tin_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tin_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTinBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, tin_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTinBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, tin_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof customers.Customer.GetCorporateCustomerByTinRequest)) {
+        return super.equals(obj);
+      }
+      customers.Customer.GetCorporateCustomerByTinRequest other = (customers.Customer.GetCorporateCustomerByTinRequest) obj;
+
+      if (!getTin()
+          .equals(other.getTin())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIN_FIELD_NUMBER;
+      hash = (53 * hash) + getTin().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static customers.Customer.GetCorporateCustomerByTinRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(customers.Customer.GetCorporateCustomerByTinRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code customers.GetCorporateCustomerByTinRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:customers.GetCorporateCustomerByTinRequest)
+        customers.Customer.GetCorporateCustomerByTinRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerByTinRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerByTinRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                customers.Customer.GetCorporateCustomerByTinRequest.class, customers.Customer.GetCorporateCustomerByTinRequest.Builder.class);
+      }
+
+      // Construct using customers.Customer.GetCorporateCustomerByTinRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        tin_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return customers.Customer.internal_static_customers_GetCorporateCustomerByTinRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerByTinRequest getDefaultInstanceForType() {
+        return customers.Customer.GetCorporateCustomerByTinRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerByTinRequest build() {
+        customers.Customer.GetCorporateCustomerByTinRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public customers.Customer.GetCorporateCustomerByTinRequest buildPartial() {
+        customers.Customer.GetCorporateCustomerByTinRequest result = new customers.Customer.GetCorporateCustomerByTinRequest(this);
+        result.tin_ = tin_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof customers.Customer.GetCorporateCustomerByTinRequest) {
+          return mergeFrom((customers.Customer.GetCorporateCustomerByTinRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(customers.Customer.GetCorporateCustomerByTinRequest other) {
+        if (other == customers.Customer.GetCorporateCustomerByTinRequest.getDefaultInstance()) return this;
+        if (!other.getTin().isEmpty()) {
+          tin_ = other.tin_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        customers.Customer.GetCorporateCustomerByTinRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (customers.Customer.GetCorporateCustomerByTinRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object tin_ = "";
+      /**
+       * <code>string tin = 1;</code>
+       * @return The tin.
+       */
+      public java.lang.String getTin() {
+        java.lang.Object ref = tin_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tin_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string tin = 1;</code>
+       * @return The bytes for tin.
+       */
+      public com.google.protobuf.ByteString
+          getTinBytes() {
+        java.lang.Object ref = tin_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tin_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string tin = 1;</code>
+       * @param value The tin to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTin(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tin_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tin = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTin() {
+        
+        tin_ = getDefaultInstance().getTin();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tin = 1;</code>
+       * @param value The bytes for tin to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTinBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tin_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:customers.GetCorporateCustomerByTinRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:customers.GetCorporateCustomerByTinRequest)
+    private static final customers.Customer.GetCorporateCustomerByTinRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new customers.Customer.GetCorporateCustomerByTinRequest();
+    }
+
+    public static customers.Customer.GetCorporateCustomerByTinRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetCorporateCustomerByTinRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetCorporateCustomerByTinRequest>() {
+      @java.lang.Override
+      public GetCorporateCustomerByTinRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetCorporateCustomerByTinRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetCorporateCustomerByTinRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetCorporateCustomerByTinRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public customers.Customer.GetCorporateCustomerByTinRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface GetCustomerByAccountRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:customers.GetCustomerByAccountRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -73605,6 +74173,11 @@ public final class Customer {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_customers_GetCorporateCustomerByTinRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_customers_GetCorporateCustomerByTinRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_customers_GetCustomerByAccountRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -73779,484 +74352,494 @@ public final class Customer {
   static {
     java.lang.String[] descriptorData = {
       "\n\016customer.proto\022\tcustomers\032\037google/prot" +
-      "obuf/timestamp.proto\"I\n\033GetCustomerByAcc" +
-      "ountRequest\022\026\n\016account_number\030\001 \001(\t\022\022\n\ns" +
-      "igned_key\030\002 \001(\t\"N\n\034GetCorporateCustomerR" +
-      "esponse\022.\n\010customer\030\001 \001(\0132\034.customers.Co" +
-      "rporateCustomer\"1\n\031GetCustomerByPhoneReq" +
-      "uest\022\024\n\014phone_number\030\001 \001(\t\"\236\007\n\021Corporate" +
-      "Customer\022\n\n\002id\030\001 \001(\t\022\024\n\014company_name\030\002 \001" +
-      "(\t\022\037\n\027company_registration_no\030\003 \001(\t\022\034\n\024d" +
-      "ate_of_registration\030\004 \001(\t\022\037\n\027country_of_" +
-      "registration\030\005 \001(\t\022\021\n\tlast_name\030\006 \001(\t\022\022\n" +
-      "\nfirst_name\030\007 \001(\t\022\023\n\013middle_name\030\010 \001(\t\022\022" +
-      "\n\nrim_number\030\t \001(\t\022\027\n\017no_of_signatory\030\n " +
-      "\001(\t\022\023\n\013nationality\030\013 \001(\t\022\031\n\021business_cat" +
-      "egory\030\014 \001(\t\022\033\n\023ownership_structure\030\r \001(\t" +
-      "\022\030\n\020sms_notification\030\016 \001(\010\022\032\n\022email_noti" +
-      "fication\030\017 \001(\010\022\022\n\nblock_view\030\020 \001(\010\022\016\n\006br" +
-      "anch\030\021 \001(\t\022\026\n\016access_revoked\030\022 \001(\010\022=\n\014co" +
-      "ntact_info\030\023 \001(\0132\'.customers.CorporateCu" +
-      "stomerContactInfo\022,\n\003kyc\030\024 \001(\0132\037.custome" +
-      "rs.CorporateCustomerKyc\022,\n\010products\030\025 \003(" +
-      "\0132\032.customers.AccountProducts\022)\n\013signato" +
-      "ries\030\026 \003(\0132\024.customers.Signatory\022(\n\nrefe" +
-      "rences\030\027 \003(\0132\024.customers.Reference\022/\n\016di" +
-      "rectors_info\030\030 \003(\0132\027.customers.DirectorD" +
-      "ata\022\022\n\ncreated_at\030\031 \001(\t\022\022\n\nupdated_at\030\032 " +
-      "\001(\t\022\r\n\005email\030\033 \001(\t\022\016\n\006active\030\034 \001(\010\022\013\n\003rs" +
-      "m\030\035 \001(\t\022\035\n\025creation_channel_code\030\036 \001(\t\022\023" +
-      "\n\013sector_code\030\037 \001(\t\022\027\n\017use_alt_acc_num\030 " +
-      " \001(\010\022\035\n\025is_trade_name_account\030! \001(\010\"\267\005\n\035" +
-      "GetCorporateByAccountResponse\022\n\n\002id\030\001 \001(" +
-      "\t\022\024\n\014company_name\030\002 \001(\t\022\037\n\027company_regis" +
-      "tration_no\030\003 \001(\t\022\034\n\024date_of_registration" +
-      "\030\004 \001(\t\022\037\n\027country_of_registration\030\005 \001(\t\022" +
-      "\021\n\tlast_name\030\006 \001(\t\022\022\n\nfirst_name\030\007 \001(\t\022\023" +
-      "\n\013middle_name\030\010 \001(\t\022\022\n\nrim_number\030\t \001(\t\022" +
-      ".\n\ncreated_at\030\n \001(\0132\032.google.protobuf.Ti" +
-      "mestamp\022.\n\nupdated_at\030\013 \001(\0132\032.google.pro" +
-      "tobuf.Timestamp\022,\n\010products\030\014 \003(\0132\032.cust" +
-      "omers.AccountProducts\022,\n\003kyc\030\r \001(\0132\037.cus" +
-      "tomers.CorporateCustomerKyc\022=\n\014contact_i" +
-      "nfo\030\016 \001(\0132\'.customers.CorporateCustomerC" +
-      "ontactInfo\022\027\n\017use_alt_acc_num\030\017 \001(\010\022/\n\016d" +
-      "irectors_info\030\020 \003(\0132\027.customers.Director" +
-      "Data\022)\n\013signatories\030\023 \003(\0132\024.customers.Si" +
-      "gnatory\022(\n\nreferences\030\024 \003(\0132\024.customers." +
-      "Reference\022\033\n\023office_phone_number\030\021 \001(\t\022\r" +
-      "\n\005email\030\022 \001(\t\"\213\004\n\tSignatory\022\021\n\tlast_name" +
-      "\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013middle_nam" +
-      "e\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 " +
-      "\001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024contact_phone_numb" +
-      "er\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\025\n\rema" +
-      "il_address\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address" +
-      "\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport_ph" +
-      "otograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026documents" +
-      "_and_identity\030\020 \003(\0132\023.customers.Document" +
-      "\022\023\n\013nationality\030\021 \001(\t\022\023\n\013father_name\030\022 \001" +
-      "(\t\022\023\n\013mother_name\030\023 \001(\t\022\024\n\014bvn_verified\030" +
-      "\024 \001(\010\022\024\n\014nin_verified\030\025 \001(\010\022\n\n\002id\030\026 \001(\t\022" +
-      "$\n\034passport_photograph_verified\030\027 \001(\010\022\024\n" +
-      "\014is_principal\030\030 \001(\010\"\232\003\n\014DirectorData\022\021\n\t" +
+      "obuf/timestamp.proto\"/\n GetCorporateCust" +
+      "omerByTinRequest\022\013\n\003tin\030\001 \001(\t\"I\n\033GetCust" +
+      "omerByAccountRequest\022\026\n\016account_number\030\001" +
+      " \001(\t\022\022\n\nsigned_key\030\002 \001(\t\"N\n\034GetCorporate" +
+      "CustomerResponse\022.\n\010customer\030\001 \001(\0132\034.cus" +
+      "tomers.CorporateCustomer\"1\n\031GetCustomerB" +
+      "yPhoneRequest\022\024\n\014phone_number\030\001 \001(\t\"\236\007\n\021" +
+      "CorporateCustomer\022\n\n\002id\030\001 \001(\t\022\024\n\014company" +
+      "_name\030\002 \001(\t\022\037\n\027company_registration_no\030\003" +
+      " \001(\t\022\034\n\024date_of_registration\030\004 \001(\t\022\037\n\027co" +
+      "untry_of_registration\030\005 \001(\t\022\021\n\tlast_name" +
+      "\030\006 \001(\t\022\022\n\nfirst_name\030\007 \001(\t\022\023\n\013middle_nam" +
+      "e\030\010 \001(\t\022\022\n\nrim_number\030\t \001(\t\022\027\n\017no_of_sig" +
+      "natory\030\n \001(\t\022\023\n\013nationality\030\013 \001(\t\022\031\n\021bus" +
+      "iness_category\030\014 \001(\t\022\033\n\023ownership_struct" +
+      "ure\030\r \001(\t\022\030\n\020sms_notification\030\016 \001(\010\022\032\n\022e" +
+      "mail_notification\030\017 \001(\010\022\022\n\nblock_view\030\020 " +
+      "\001(\010\022\016\n\006branch\030\021 \001(\t\022\026\n\016access_revoked\030\022 " +
+      "\001(\010\022=\n\014contact_info\030\023 \001(\0132\'.customers.Co" +
+      "rporateCustomerContactInfo\022,\n\003kyc\030\024 \001(\0132" +
+      "\037.customers.CorporateCustomerKyc\022,\n\010prod" +
+      "ucts\030\025 \003(\0132\032.customers.AccountProducts\022)" +
+      "\n\013signatories\030\026 \003(\0132\024.customers.Signator" +
+      "y\022(\n\nreferences\030\027 \003(\0132\024.customers.Refere" +
+      "nce\022/\n\016directors_info\030\030 \003(\0132\027.customers." +
+      "DirectorData\022\022\n\ncreated_at\030\031 \001(\t\022\022\n\nupda" +
+      "ted_at\030\032 \001(\t\022\r\n\005email\030\033 \001(\t\022\016\n\006active\030\034 " +
+      "\001(\010\022\013\n\003rsm\030\035 \001(\t\022\035\n\025creation_channel_cod" +
+      "e\030\036 \001(\t\022\023\n\013sector_code\030\037 \001(\t\022\027\n\017use_alt_" +
+      "acc_num\030  \001(\010\022\035\n\025is_trade_name_account\030!" +
+      " \001(\010\"\267\005\n\035GetCorporateByAccountResponse\022\n" +
+      "\n\002id\030\001 \001(\t\022\024\n\014company_name\030\002 \001(\t\022\037\n\027comp" +
+      "any_registration_no\030\003 \001(\t\022\034\n\024date_of_reg" +
+      "istration\030\004 \001(\t\022\037\n\027country_of_registrati" +
+      "on\030\005 \001(\t\022\021\n\tlast_name\030\006 \001(\t\022\022\n\nfirst_nam" +
+      "e\030\007 \001(\t\022\023\n\013middle_name\030\010 \001(\t\022\022\n\nrim_numb" +
+      "er\030\t \001(\t\022.\n\ncreated_at\030\n \001(\0132\032.google.pr" +
+      "otobuf.Timestamp\022.\n\nupdated_at\030\013 \001(\0132\032.g" +
+      "oogle.protobuf.Timestamp\022,\n\010products\030\014 \003" +
+      "(\0132\032.customers.AccountProducts\022,\n\003kyc\030\r " +
+      "\001(\0132\037.customers.CorporateCustomerKyc\022=\n\014" +
+      "contact_info\030\016 \001(\0132\'.customers.Corporate" +
+      "CustomerContactInfo\022\027\n\017use_alt_acc_num\030\017" +
+      " \001(\010\022/\n\016directors_info\030\020 \003(\0132\027.customers" +
+      ".DirectorData\022)\n\013signatories\030\023 \003(\0132\024.cus" +
+      "tomers.Signatory\022(\n\nreferences\030\024 \003(\0132\024.c" +
+      "ustomers.Reference\022\033\n\023office_phone_numbe" +
+      "r\030\021 \001(\t\022\r\n\005email\030\022 \001(\t\"\213\004\n\tSignatory\022\021\n\t" +
       "last_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013m" +
       "iddle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of" +
-      "_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\025\n\rcontact_p" +
-      "hone\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001(\t\022\r\n\005e" +
-      "mail\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address\030\013 \001(\t" +
-      "\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport_photogra" +
-      "ph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026documents_and_i" +
-      "dentity\030\020 \003(\0132\023.customers.Document\022\n\n\002id" +
-      "\030\021 \001(\t\022\024\n\014is_principal\030\022 \001(\010\022\024\n\014bvn_veri" +
-      "fied\030\023 \001(\010\022\024\n\014nin_verified\030\024 \001(\010\"\227\003\n\034Cor" +
-      "porateCustomerContactInfo\022\n\n\002id\030\001 \001(\t\022\"\n" +
-      "\032principal_officer_lastname\030\002 \001(\t\022$\n\034pri" +
-      "ncipal_officer_first_name\030\003 \001(\t\022%\n\035princ" +
-      "ipal_officer_middle_name\030\004 \001(\t\022\013\n\003sex\030\021 " +
-      "\001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(" +
-      "\t\022\034\n\024contact_phone_number\030\007 \001(\t\022\027\n\017alter" +
-      "nate_phone\030\010 \001(\t\022\033\n\023office_phone_number\030" +
-      "\t \001(\t\022\025\n\remail_address\030\n \001(\t\022\022\n\nintroduc" +
-      "er\030\013 \001(\t\022\013\n\003rsm\030\014 \001(\t\022\023\n\013restriction\030\r \001" +
-      "(\t\022\022\n\nupdated_at\030\016 \001(\t\022\022\n\ncreated_at\030\017 \001" +
-      "(\t\"\271\002\n\010Document\022\n\n\002id\030\001 \001(\t\022\025\n\rdocument_" +
-      "name\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(\t\022\024\n\014d" +
-      "ocument_url\030\004 \001(\t\022\027\n\017document_number\030\005 \001" +
-      "(\t\022\033\n\023country_of_issuance\030\006 \001(\t\022\030\n\020date_" +
-      "of_issuance\030\007 \001(\t\022\031\n\021place_of_issuance\030\010" +
-      " \001(\t\022:\n\023verification_status\030\t \001(\0162\035.cust" +
-      "omers.VerificationStatus\022 \n\010kyc_data\030\n \001" +
-      "(\0132\016.customers.Kyc\022\022\n\ncreated_at\030\013 \001(\t\"\320" +
-      "\004\n\003Kyc\022\n\n\002id\030\001 \001(\t\0221\n\024documentsAndIdenti" +
-      "ty\030\002 \003(\0132\023.customers.Document\0227\n\033individ" +
-      "ual_customer_address\030\003 \001(\0132\022.customers.A" +
-      "ddress\022\021\n\tsignature\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\033" +
-      "\n\023passport_photograph\030\006 \001(\t\022\021\n\tkyc_level" +
-      "\030\007 \001(\t\022\013\n\003tin\030\010 \001(\t\022\024\n\014bvn_verified\030\t \001(" +
-      "\010\022\013\n\003nin\030\n \001(\t\022\024\n\014nin_verified\030\013 \001(\010\022\024\n\014" +
-      "tin_verified\030\014 \001(\010\022$\n\034passport_photograp" +
-      "h_verified\030\r \001(\010\022C\n\032corporate_customer_a" +
-      "ddress\030\016 \001(\0132\037.customers.CorporateUserAd" +
-      "dress\022\014\n\004tier\030\017 \001(\t\022\027\n\017driving_license\030\020" +
-      " \001(\t\022 \n\030driving_license_verified\030\021 \001(\010\022%" +
-      "\n\035international_passport_number\030\022 \001(\t\022.\n" +
-      "&international_passport_number_verified\030" +
-      "\023 \001(\t\022\032\n\022voters_card_number\030\024 \001(\t\"\226\002\n\007Ad" +
-      "dress\022\n\n\002id\030\001 \001(\t\022\033\n\023residential_address" +
-      "\030\002 \001(\t\022\021\n\tresidency\030\003 \001(\t\022\027\n\017state_of_or" +
-      "igin\030\004 \001(\t\022\025\n\rlga_of_origin\030\005 \001(\t\022\014\n\004cit" +
-      "y\030\006 \001(\t\022\023\n\013postal_code\030\007 \001(\t\022\r\n\005state\030\010 " +
-      "\001(\t\022\017\n\007country\030\t \001(\t\022:\n\023verification_sta" +
-      "tus\030\n \001(\0162\035.customers.VerificationStatus" +
-      "\022 \n\010kyc_data\030\013 \001(\0132\016.customers.Kyc\"\333\002\n\024C" +
-      "orporateUserAddress\022\n\n\002id\030\001 \001(\t\022\027\n\017compa" +
-      "ny_address\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\022\014\n\004city\030" +
-      "\004 \001(\t\022\017\n\007country\030\005 \001(\t\022\037\n\027primary_compan" +
-      "y_address\030\006 \001(\t\022\035\n\025primary_company_state" +
-      "\030\007 \001(\t\022\034\n\024primary_company_city\030\010 \001(\t\022\037\n\027" +
-      "primary_company_country\030\t \001(\t\022\017\n\007address" +
-      "\030\n \001(\t\022\033\n\023verification_status\030\013 \001(\t\022\022\n\nc" +
-      "reated_at\030\014 \001(\t\022\022\n\nupdated_at\030\r \001(\t\022\033\n\023p" +
-      "rimary_company_lga\030\016 \001(\t\"\367\002\n\024CorporateCu" +
-      "stomerKyc\022\n\n\002id\030\001 \001(\t\0221\n\024documentsAndIde" +
-      "ntity\030\002 \003(\0132\023.customers.Document\022C\n\032corp" +
-      "orate_customer_address\030\003 \001(\0132\037.customers" +
-      ".CorporateUserAddress\022\021\n\tsignature\030\004 \001(\t" +
-      "\022\013\n\003bvn\030\005 \001(\t\022\013\n\003tin\030\006 \001(\t\022\033\n\023passport_p" +
-      "hotograph\030\007 \001(\t\022\021\n\tkyc_level\030\010 \001(\t\022\014\n\004ti" +
-      "er\030\t \001(\t\022\024\n\014tin_verified\030\n \001(\010\022\027\n\017drivin" +
-      "g_license\030\013 \001(\t\022%\n\035international_passpor" +
-      "t_number\030\014 \001(\t\022\032\n\022voters_card_number\030\r \001" +
-      "(\t\"\272\006\n\017AccountProducts\022\022\n\nproduct_id\030\001 \001" +
-      "(\t\022\026\n\016account_number\030\002 \001(\t\022\026\n\016access_rev" +
-      "oked\030\003 \001(\010\022\016\n\006active\030\004 \001(\010\022\031\n\021effective_" +
-      "balance\030\005 \001(\t\022\026\n\016ledger_balance\030\006 \001(\t\022\024\n" +
-      "\014product_name\030\007 \001(\t\022\024\n\014product_type\030\010 \001(" +
-      "\t\022\014\n\004lien\030\t \001(\t\022\026\n\016old_account_no\030\n \001(\t\022" +
-      "\020\n\010od_limit\030\013 \001(\t\022\027\n\017last_debit_date\030\014 \001" +
-      "(\t\022\032\n\022last_credit_amount\030\r \001(\t\022\030\n\020last_c" +
-      "redit_date\030\016 \001(\t\022\020\n\010hold_bal\030\017 \001(\t\022\031\n\021la" +
-      "st_debit_amount\030\020 \001(\t\022\024\n\014current_rate\030\021 " +
-      "\001(\t\022\016\n\006margin\030\022 \001(\t\022\n\n\002id\030\023 \001(\t\022\027\n\017defau" +
-      "lt_product\030\024 \001(\010\022\030\n\020accured_interest\030\025 \001" +
-      "(\001\022\"\n\032accured_interest_overdrawn\030\026 \001(\001\022#" +
-      "\n\005limit\030\027 \001(\0132\024.customers.LimitData\022\032\n\022c" +
-      "ustomer_last_name\030\030 \001(\t\022\034\n\024customer_midd" +
-      "le_name\030\031 \001(\t\022\033\n\023customer_first_name\030\032 \001" +
-      "(\t\022\035\n\025customer_phone_number\030\033 \001(\t\022\026\n\016cus" +
-      "tomer_email\030\034 \001(\t\022\024\n\014account_name\030\035 \001(\t\022" +
-      "\027\n\017overdraft_limit\030\036 \001(\t\022\020\n\010per_diem\030\037 \001" +
-      "(\001\022\032\n\022interest_last_year\030  \001(\001\022\031\n\021intere" +
-      "st_paid_ytd\030! \001(\001\022\014\n\004rate\030\" \001(\001\"x\n\tLimit" +
-      "Data\022\024\n\014mobile_intra\030\001 \001(\t\022\021\n\tweb_intra\030" +
-      "\002 \001(\t\022\014\n\004ussd\030\003 \001(\t\022\024\n\014mobile_inter\030\004 \001(" +
-      "\t\022\021\n\tweb_inter\030\005 \001(\t\022\013\n\003atm\030\006 \001(\t\"_\n\034Cre" +
-      "ateBulkCorpAccountRequest\022?\n\rcustomer_da" +
-      "ta\030\001 \003(\0132(.customers.CreateCorporateAcco" +
-      "untRequest\"{\n\034CreateCustomerProductReque" +
-      "st\022\022\n\nproduct_id\030\001 \001(\t\022\023\n\013customer_id\030\002 " +
-      "\001(\t\0222\n\017product_options\030\003 \001(\0132\031.customers" +
-      ".ProductOptions\"T\n\035CreateCustomerProduct" +
-      "Response\022\033\n\023customer_product_id\030\001 \001(\t\022\026\n" +
-      "\016account_number\030\002 \001(\t\"<\n\016ProductOptions\022" +
-      "\026\n\016account_number\030\001 \001(\t\022\022\n\ncreated_at\030\002 " +
-      "\001(\t\",\n\022NameEnquiryRequest\022\026\n\016account_num" +
-      "ber\030\001 \001(\t\"\220\001\n\023NameEnquiryResponse\022\025\n\rres" +
-      "ponse_code\030\001 \001(\t\022\024\n\014account_name\030\002 \001(\t\022\026" +
-      "\n\016account_number\030\003 \001(\t\022\021\n\tkyc_level\030\004 \001(" +
-      "\t\022\013\n\003bvn\030\005 \001(\t\022\024\n\014product_type\030\006 \001(\t\"\226\001\n" +
-      "\036CreateBulkCorpCustomerResponse\0227\n\010respo" +
-      "nse\030\001 \003(\0132%.customers.CreateBulkCustomer" +
-      "Response\022;\n\terrorData\030\002 \003(\0132(.customers." +
-      "CreateBulkCustomerErrResponse\"M\n\032CreateB" +
-      "ulkCustomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016accou" +
-      "nt_number\030\002 \001(\t\022\013\n\003tin\030\003 \001(\t\"<\n\035CreateBu" +
-      "lkCustomerErrResponse\022\013\n\003tin\030\001 \001(\t\022\016\n\006re" +
-      "ason\030\002 \001(\t\"/\n\016ResponseStatus\022\014\n\004code\030\001 \001" +
-      "(\005\022\017\n\007message\030\002 \001(\t\"\315\r\n\035CreateCorporateA" +
-      "ccountRequest\022\024\n\014company_name\030\001 \001(\t\022\037\n\027c" +
-      "ompany_registration_no\030\002 \001(\t\022\034\n\024date_of_" +
-      "registration\030\003 \001(\t\022\037\n\027country_of_registr" +
-      "ation\030\004 \001(\t\022\027\n\017company_address\030\005 \001(\t\022\r\n\005" +
-      "state\030\006 \001(\t\022\014\n\004city\030\007 \001(\t\022\017\n\007country\030\010 \001" +
-      "(\t\022\021\n\tlast_name\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\013\n\003ti" +
-      "n\030\013 \001(\t\022\017\n\007address\030\014 \001(\t\0227\n\rdirector_dat" +
-      "a\030\r \003(\0132 .customers.CreateDirectorReques" +
-      "t\022%\n\035principal_officer_middle_name\030\016 \001(\t" +
-      "\022\013\n\003sex\030\017 \001(\t\022\025\n\rdate_of_birth\030\020 \001(\t\022\r\n\005" +
-      "title\030\021 \001(\t\022\034\n\024contact_phone_number\030\022 \001(" +
-      "\t\022\027\n\017alternate_phone\030\023 \001(\t\022\033\n\023office_pho" +
-      "ne_number\030\024 \001(\t\022\025\n\remail_address\030\025 \001(\t\022\013" +
-      "\n\003nin\030\026 \001(\t\022\017\n\007id_type\030\027 \001(\t\022\032\n\022date_of_" +
-      "expiration\030\030 \001(\t\022\031\n\021place_of_issuance\030\031 " +
-      "\001(\t\022\021\n\tid_number\030\032 \001(\t\022\033\n\023country_of_iss" +
-      "uance\030\033 \001(\t\022\030\n\020date_of_issuance\030\034 \001(\t\022\024\n" +
-      "\014fathers_name\030\035 \001(\t\022\024\n\014mothers_name\030\036 \001(" +
-      "\t\022\023\n\013nationality\030\037 \001(\t\022\031\n\021business_categ" +
-      "ory\030  \001(\t\022\033\n\023ownership_structure\030! \001(\t\022\017" +
-      "\n\007Product\030\" \001(\t\022\021\n\tbranch_id\030# \001(\t\022\021\n\tsi" +
-      "gnature\030$ \001(\t\022\024\n\014Photo_upload\030% \001(\t\022\022\n\ni" +
-      "ntroducer\030& \001(\t\022\013\n\003rsm\030\' \001(\t\022\023\n\013restrict" +
-      "ion\030( \001(\t\022\"\n\032principal_officer_lastname\030" +
-      ") \001(\t\022$\n\034principal_officer_first_name\030* " +
-      "\001(\t\022\037\n\027primary_company_address\030+ \001(\t\022\035\n\025" +
-      "primary_company_state\030, \001(\t\022\034\n\024primary_c" +
-      "ompany_city\030- \001(\t\022\037\n\027primary_company_cou" +
-      "ntry\030. \001(\t\022\022\n\nfirst_name\030/ \001(\t\022\023\n\013middle" +
-      "_name\0300 \001(\t\022\022\n\nproduct_id\0301 \001(\t\022\022\n\nblock" +
-      "_view\0302 \001(\010\0220\n\tdocuments\0303 \003(\0132\035.custome" +
-      "rs.CreateDocumentData\022\027\n\017no_of_signatory" +
-      "\0304 \001(\t\022\030\n\020sms_notification\0305 \001(\010\022\032\n\022emai" +
-      "l_notification\0306 \001(\010\022+\n\rreferenceData\0307 " +
-      "\003(\0132\024.customers.Reference\022:\n\017signatories" +
-      "Data\0308 \003(\0132!.customers.CreateSignatoryRe" +
-      "quest\0224\n\020customer_options\0309 \001(\0132\032.custom" +
-      "ers.CustomerOptions\022:\n\017product_options\030:" +
-      " \001(\0132!.customers.CustomerProductOptions\022" +
-      "\031\n\021is_linked_account\030; \001(\010\022\035\n\025linked_acc" +
-      "ount_number\030< \001(\t\022\035\n\025creation_channel_co" +
-      "de\030= \001(\t\022\033\n\023primary_company_lga\030> \001(\t\022\023\n" +
-      "\013sector_code\030? \001(\t\022\027\n\017driving_license\030@ " +
-      "\001(\t\"h\n\026CustomerProductOptions\022\032\n\022product" +
-      "_created_at\030\001 \001(\t\022\032\n\022old_account_number\030" +
-      "\002 \001(\t\022\026\n\016account_number\030\003 \001(\t\"\275\002\n\tRefere" +
-      "nce\022\032\n\022reference_lastname\030\001 \001(\t\022\034\n\024refer" +
-      "ence_first_name\030\002 \001(\t\022\035\n\025reference_middl" +
-      "e_name\030\003 \001(\t\022\021\n\tbank_name\030\004 \001(\t\022\024\n\014bank_" +
-      "address\030\005 \001(\t\022\026\n\016account_number\030\006 \001(\t\022\024\n" +
-      "\014phone_number\030\007 \001(\t\022\r\n\005email\030\010 \001(\t\022\026\n\016re" +
-      "ference_form\030\t \001(\t\022\023\n\013father_name\030\n \001(\t\022" +
-      "\023\n\013mother_name\030\013 \001(\t\022\023\n\013nationality\030\014 \001(" +
-      "\t\022\032\n\022reference_verified\030\r \001(\010\"A\n\017Custome" +
-      "rOptions\022\033\n\023customer_created_at\030\001 \001(\t\022\021\n" +
-      "\tis_active\030\002 \001(\t\"\303\003\n\026CreateSignatoryRequ" +
-      "est\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_name\030\002 \001" +
-      "(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\r" +
-      "date_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024co" +
-      "ntact_phone_number\030\007 \001(\t\022\027\n\017alternate_ph" +
-      "one\030\010 \001(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003bvn\030" +
-      "\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(" +
-      "\t\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 " +
-      "\001(\t\022\023\n\013customer_id\030\020 \001(\t\022=\n\026documents_an" +
-      "d_identity\030\021 \003(\0132\035.customers.CreateDocum" +
-      "entData\022\023\n\013father_name\030\022 \001(\t\022\023\n\013mother_n" +
-      "ame\030\023 \001(\t\022\023\n\013nationality\030\024 \001(\t\"\212\003\n\025Creat" +
-      "eDirectorRequest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nf" +
-      "irst_name\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003" +
-      "sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005titl" +
-      "e\030\006 \001(\t\022\025\n\rcontact_phone\030\007 \001(\t\022\027\n\017altern" +
-      "ate_phone\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n " +
-      "\001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022" +
-      "\033\n\023passport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(" +
-      "\t\022\023\n\013customer_id\030\020 \001(\t\022\024\n\014is_principal\030\021" +
-      " \001(\010\022=\n\026documents_and_identity\030\022 \003(\0132\035.c" +
-      "ustomers.CreateDocumentData\"\305\001\n\022CreateDo" +
-      "cumentData\022\025\n\rdocument_name\030\001 \001(\t\022\024\n\014doc" +
-      "ument_url\030\002 \001(\t\022\027\n\017expiration_date\030\003 \001(\t" +
-      "\022\027\n\017document_number\030\004 \001(\t\022\033\n\023country_of_" +
-      "issuance\030\005 \001(\t\022\030\n\020date_of_issuance\030\006 \001(\t" +
-      "\022\031\n\021place_of_issuance\030\007 \001(\t\"<\n\026CreateCus" +
-      "tomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016account_num" +
-      "ber\030\002 \001(\t*G\n\022VerificationStatus\022\010\n\004NULL\020" +
-      "\000\022\013\n\007PENDING\020\001\022\014\n\010APPROVED\020\002\022\014\n\010REJECTED" +
-      "\020\0032\236\005\n\017CustomerService\022l\n\025CreateCustomer" +
-      "Product\022\'.customers.CreateCustomerProduc" +
-      "tRequest\032(.customers.CreateCustomerProdu" +
-      "ctResponse\"\000\022u\n\036CreateCorporateCustomerP" +
-      "roduct\022\'.customers.CreateCustomerProduct" +
-      "Request\032(.customers.CreateCustomerProduc" +
-      "tResponse\"\000\022q\n\031CreatBulkCorporateAccount" +
-      "\022\'.customers.CreateBulkCorpAccountReques" +
-      "t\032).customers.CreateBulkCorpCustomerResp" +
-      "onse\"\000\022N\n\013NameEnquiry\022\035.customers.NameEn" +
-      "quiryRequest\032\036.customers.NameEnquiryResp" +
-      "onse\"\000\022s\n\035GetCorporateCustomerByAccount\022" +
-      "&.customers.GetCustomerByAccountRequest\032" +
-      "(.customers.GetCorporateByAccountRespons" +
-      "e\"\000\022n\n\033GetCorporateCustomerByPhone\022$.cus" +
-      "tomers.GetCustomerByPhoneRequest\032\'.custo" +
-      "mers.GetCorporateCustomerResponse\"\000b\006pro" +
-      "to3"
+      "_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\034\n\024contact_p" +
+      "hone_number\030\007 \001(\t\022\027\n\017alternate_phone\030\010 \001" +
+      "(\t\022\025\n\remail_address\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017" +
+      "\n\007address\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023pa" +
+      "ssport_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026" +
+      "documents_and_identity\030\020 \003(\0132\023.customers" +
+      ".Document\022\023\n\013nationality\030\021 \001(\t\022\023\n\013father" +
+      "_name\030\022 \001(\t\022\023\n\013mother_name\030\023 \001(\t\022\024\n\014bvn_" +
+      "verified\030\024 \001(\010\022\024\n\014nin_verified\030\025 \001(\010\022\n\n\002" +
+      "id\030\026 \001(\t\022$\n\034passport_photograph_verified" +
+      "\030\027 \001(\010\022\024\n\014is_principal\030\030 \001(\010\"\232\003\n\014Directo" +
+      "rData\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst_name\030\002" +
+      " \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025" +
+      "\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 \001(\t\022\025\n\r" +
+      "contact_phone\030\007 \001(\t\022\027\n\017alternate_phone\030\010" +
+      " \001(\t\022\r\n\005email\030\t \001(\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007addr" +
+      "ess\030\013 \001(\t\022\021\n\tsignature\030\014 \001(\t\022\033\n\023passport" +
+      "_photograph\030\016 \001(\t\022\013\n\003nin\030\017 \001(\t\0223\n\026docume" +
+      "nts_and_identity\030\020 \003(\0132\023.customers.Docum" +
+      "ent\022\n\n\002id\030\021 \001(\t\022\024\n\014is_principal\030\022 \001(\010\022\024\n" +
+      "\014bvn_verified\030\023 \001(\010\022\024\n\014nin_verified\030\024 \001(" +
+      "\010\"\227\003\n\034CorporateCustomerContactInfo\022\n\n\002id" +
+      "\030\001 \001(\t\022\"\n\032principal_officer_lastname\030\002 \001" +
+      "(\t\022$\n\034principal_officer_first_name\030\003 \001(\t" +
+      "\022%\n\035principal_officer_middle_name\030\004 \001(\t\022" +
+      "\013\n\003sex\030\021 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005t" +
+      "itle\030\006 \001(\t\022\034\n\024contact_phone_number\030\007 \001(\t" +
+      "\022\027\n\017alternate_phone\030\010 \001(\t\022\033\n\023office_phon" +
+      "e_number\030\t \001(\t\022\025\n\remail_address\030\n \001(\t\022\022\n" +
+      "\nintroducer\030\013 \001(\t\022\013\n\003rsm\030\014 \001(\t\022\023\n\013restri" +
+      "ction\030\r \001(\t\022\022\n\nupdated_at\030\016 \001(\t\022\022\n\ncreat" +
+      "ed_at\030\017 \001(\t\"\271\002\n\010Document\022\n\n\002id\030\001 \001(\t\022\025\n\r" +
+      "document_name\030\002 \001(\t\022\027\n\017expiration_date\030\003" +
+      " \001(\t\022\024\n\014document_url\030\004 \001(\t\022\027\n\017document_n" +
+      "umber\030\005 \001(\t\022\033\n\023country_of_issuance\030\006 \001(\t" +
+      "\022\030\n\020date_of_issuance\030\007 \001(\t\022\031\n\021place_of_i" +
+      "ssuance\030\010 \001(\t\022:\n\023verification_status\030\t \001" +
+      "(\0162\035.customers.VerificationStatus\022 \n\010kyc" +
+      "_data\030\n \001(\0132\016.customers.Kyc\022\022\n\ncreated_a" +
+      "t\030\013 \001(\t\"\320\004\n\003Kyc\022\n\n\002id\030\001 \001(\t\0221\n\024documents" +
+      "AndIdentity\030\002 \003(\0132\023.customers.Document\0227" +
+      "\n\033individual_customer_address\030\003 \001(\0132\022.cu" +
+      "stomers.Address\022\021\n\tsignature\030\004 \001(\t\022\013\n\003bv" +
+      "n\030\005 \001(\t\022\033\n\023passport_photograph\030\006 \001(\t\022\021\n\t" +
+      "kyc_level\030\007 \001(\t\022\013\n\003tin\030\010 \001(\t\022\024\n\014bvn_veri" +
+      "fied\030\t \001(\010\022\013\n\003nin\030\n \001(\t\022\024\n\014nin_verified\030" +
+      "\013 \001(\010\022\024\n\014tin_verified\030\014 \001(\010\022$\n\034passport_" +
+      "photograph_verified\030\r \001(\010\022C\n\032corporate_c" +
+      "ustomer_address\030\016 \001(\0132\037.customers.Corpor" +
+      "ateUserAddress\022\014\n\004tier\030\017 \001(\t\022\027\n\017driving_" +
+      "license\030\020 \001(\t\022 \n\030driving_license_verifie" +
+      "d\030\021 \001(\010\022%\n\035international_passport_number" +
+      "\030\022 \001(\t\022.\n&international_passport_number_" +
+      "verified\030\023 \001(\t\022\032\n\022voters_card_number\030\024 \001" +
+      "(\t\"\226\002\n\007Address\022\n\n\002id\030\001 \001(\t\022\033\n\023residentia" +
+      "l_address\030\002 \001(\t\022\021\n\tresidency\030\003 \001(\t\022\027\n\017st" +
+      "ate_of_origin\030\004 \001(\t\022\025\n\rlga_of_origin\030\005 \001" +
+      "(\t\022\014\n\004city\030\006 \001(\t\022\023\n\013postal_code\030\007 \001(\t\022\r\n" +
+      "\005state\030\010 \001(\t\022\017\n\007country\030\t \001(\t\022:\n\023verific" +
+      "ation_status\030\n \001(\0162\035.customers.Verificat" +
+      "ionStatus\022 \n\010kyc_data\030\013 \001(\0132\016.customers." +
+      "Kyc\"\333\002\n\024CorporateUserAddress\022\n\n\002id\030\001 \001(\t" +
+      "\022\027\n\017company_address\030\002 \001(\t\022\r\n\005state\030\003 \001(\t" +
+      "\022\014\n\004city\030\004 \001(\t\022\017\n\007country\030\005 \001(\t\022\037\n\027prima" +
+      "ry_company_address\030\006 \001(\t\022\035\n\025primary_comp" +
+      "any_state\030\007 \001(\t\022\034\n\024primary_company_city\030" +
+      "\010 \001(\t\022\037\n\027primary_company_country\030\t \001(\t\022\017" +
+      "\n\007address\030\n \001(\t\022\033\n\023verification_status\030\013" +
+      " \001(\t\022\022\n\ncreated_at\030\014 \001(\t\022\022\n\nupdated_at\030\r" +
+      " \001(\t\022\033\n\023primary_company_lga\030\016 \001(\t\"\367\002\n\024Co" +
+      "rporateCustomerKyc\022\n\n\002id\030\001 \001(\t\0221\n\024docume" +
+      "ntsAndIdentity\030\002 \003(\0132\023.customers.Documen" +
+      "t\022C\n\032corporate_customer_address\030\003 \001(\0132\037." +
+      "customers.CorporateUserAddress\022\021\n\tsignat" +
+      "ure\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\013\n\003tin\030\006 \001(\t\022\033\n\023p" +
+      "assport_photograph\030\007 \001(\t\022\021\n\tkyc_level\030\010 " +
+      "\001(\t\022\014\n\004tier\030\t \001(\t\022\024\n\014tin_verified\030\n \001(\010\022" +
+      "\027\n\017driving_license\030\013 \001(\t\022%\n\035internationa" +
+      "l_passport_number\030\014 \001(\t\022\032\n\022voters_card_n" +
+      "umber\030\r \001(\t\"\272\006\n\017AccountProducts\022\022\n\nprodu" +
+      "ct_id\030\001 \001(\t\022\026\n\016account_number\030\002 \001(\t\022\026\n\016a" +
+      "ccess_revoked\030\003 \001(\010\022\016\n\006active\030\004 \001(\010\022\031\n\021e" +
+      "ffective_balance\030\005 \001(\t\022\026\n\016ledger_balance" +
+      "\030\006 \001(\t\022\024\n\014product_name\030\007 \001(\t\022\024\n\014product_" +
+      "type\030\010 \001(\t\022\014\n\004lien\030\t \001(\t\022\026\n\016old_account_" +
+      "no\030\n \001(\t\022\020\n\010od_limit\030\013 \001(\t\022\027\n\017last_debit" +
+      "_date\030\014 \001(\t\022\032\n\022last_credit_amount\030\r \001(\t\022" +
+      "\030\n\020last_credit_date\030\016 \001(\t\022\020\n\010hold_bal\030\017 " +
+      "\001(\t\022\031\n\021last_debit_amount\030\020 \001(\t\022\024\n\014curren" +
+      "t_rate\030\021 \001(\t\022\016\n\006margin\030\022 \001(\t\022\n\n\002id\030\023 \001(\t" +
+      "\022\027\n\017default_product\030\024 \001(\010\022\030\n\020accured_int" +
+      "erest\030\025 \001(\001\022\"\n\032accured_interest_overdraw" +
+      "n\030\026 \001(\001\022#\n\005limit\030\027 \001(\0132\024.customers.Limit" +
+      "Data\022\032\n\022customer_last_name\030\030 \001(\t\022\034\n\024cust" +
+      "omer_middle_name\030\031 \001(\t\022\033\n\023customer_first" +
+      "_name\030\032 \001(\t\022\035\n\025customer_phone_number\030\033 \001" +
+      "(\t\022\026\n\016customer_email\030\034 \001(\t\022\024\n\014account_na" +
+      "me\030\035 \001(\t\022\027\n\017overdraft_limit\030\036 \001(\t\022\020\n\010per" +
+      "_diem\030\037 \001(\001\022\032\n\022interest_last_year\030  \001(\001\022" +
+      "\031\n\021interest_paid_ytd\030! \001(\001\022\014\n\004rate\030\" \001(\001" +
+      "\"x\n\tLimitData\022\024\n\014mobile_intra\030\001 \001(\t\022\021\n\tw" +
+      "eb_intra\030\002 \001(\t\022\014\n\004ussd\030\003 \001(\t\022\024\n\014mobile_i" +
+      "nter\030\004 \001(\t\022\021\n\tweb_inter\030\005 \001(\t\022\013\n\003atm\030\006 \001" +
+      "(\t\"_\n\034CreateBulkCorpAccountRequest\022?\n\rcu" +
+      "stomer_data\030\001 \003(\0132(.customers.CreateCorp" +
+      "orateAccountRequest\"{\n\034CreateCustomerPro" +
+      "ductRequest\022\022\n\nproduct_id\030\001 \001(\t\022\023\n\013custo" +
+      "mer_id\030\002 \001(\t\0222\n\017product_options\030\003 \001(\0132\031." +
+      "customers.ProductOptions\"T\n\035CreateCustom" +
+      "erProductResponse\022\033\n\023customer_product_id" +
+      "\030\001 \001(\t\022\026\n\016account_number\030\002 \001(\t\"<\n\016Produc" +
+      "tOptions\022\026\n\016account_number\030\001 \001(\t\022\022\n\ncrea" +
+      "ted_at\030\002 \001(\t\",\n\022NameEnquiryRequest\022\026\n\016ac" +
+      "count_number\030\001 \001(\t\"\220\001\n\023NameEnquiryRespon" +
+      "se\022\025\n\rresponse_code\030\001 \001(\t\022\024\n\014account_nam" +
+      "e\030\002 \001(\t\022\026\n\016account_number\030\003 \001(\t\022\021\n\tkyc_l" +
+      "evel\030\004 \001(\t\022\013\n\003bvn\030\005 \001(\t\022\024\n\014product_type\030" +
+      "\006 \001(\t\"\226\001\n\036CreateBulkCorpCustomerResponse" +
+      "\0227\n\010response\030\001 \003(\0132%.customers.CreateBul" +
+      "kCustomerResponse\022;\n\terrorData\030\002 \003(\0132(.c" +
+      "ustomers.CreateBulkCustomerErrResponse\"M" +
+      "\n\032CreateBulkCustomerResponse\022\n\n\002id\030\001 \001(\t" +
+      "\022\026\n\016account_number\030\002 \001(\t\022\013\n\003tin\030\003 \001(\t\"<\n" +
+      "\035CreateBulkCustomerErrResponse\022\013\n\003tin\030\001 " +
+      "\001(\t\022\016\n\006reason\030\002 \001(\t\"/\n\016ResponseStatus\022\014\n" +
+      "\004code\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\315\r\n\035CreateC" +
+      "orporateAccountRequest\022\024\n\014company_name\030\001" +
+      " \001(\t\022\037\n\027company_registration_no\030\002 \001(\t\022\034\n" +
+      "\024date_of_registration\030\003 \001(\t\022\037\n\027country_o" +
+      "f_registration\030\004 \001(\t\022\027\n\017company_address\030" +
+      "\005 \001(\t\022\r\n\005state\030\006 \001(\t\022\014\n\004city\030\007 \001(\t\022\017\n\007co" +
+      "untry\030\010 \001(\t\022\021\n\tlast_name\030\t \001(\t\022\013\n\003bvn\030\n " +
+      "\001(\t\022\013\n\003tin\030\013 \001(\t\022\017\n\007address\030\014 \001(\t\0227\n\rdir" +
+      "ector_data\030\r \003(\0132 .customers.CreateDirec" +
+      "torRequest\022%\n\035principal_officer_middle_n" +
+      "ame\030\016 \001(\t\022\013\n\003sex\030\017 \001(\t\022\025\n\rdate_of_birth\030" +
+      "\020 \001(\t\022\r\n\005title\030\021 \001(\t\022\034\n\024contact_phone_nu" +
+      "mber\030\022 \001(\t\022\027\n\017alternate_phone\030\023 \001(\t\022\033\n\023o" +
+      "ffice_phone_number\030\024 \001(\t\022\025\n\remail_addres" +
+      "s\030\025 \001(\t\022\013\n\003nin\030\026 \001(\t\022\017\n\007id_type\030\027 \001(\t\022\032\n" +
+      "\022date_of_expiration\030\030 \001(\t\022\031\n\021place_of_is" +
+      "suance\030\031 \001(\t\022\021\n\tid_number\030\032 \001(\t\022\033\n\023count" +
+      "ry_of_issuance\030\033 \001(\t\022\030\n\020date_of_issuance" +
+      "\030\034 \001(\t\022\024\n\014fathers_name\030\035 \001(\t\022\024\n\014mothers_" +
+      "name\030\036 \001(\t\022\023\n\013nationality\030\037 \001(\t\022\031\n\021busin" +
+      "ess_category\030  \001(\t\022\033\n\023ownership_structur" +
+      "e\030! \001(\t\022\017\n\007Product\030\" \001(\t\022\021\n\tbranch_id\030# " +
+      "\001(\t\022\021\n\tsignature\030$ \001(\t\022\024\n\014Photo_upload\030%" +
+      " \001(\t\022\022\n\nintroducer\030& \001(\t\022\013\n\003rsm\030\' \001(\t\022\023\n" +
+      "\013restriction\030( \001(\t\022\"\n\032principal_officer_" +
+      "lastname\030) \001(\t\022$\n\034principal_officer_firs" +
+      "t_name\030* \001(\t\022\037\n\027primary_company_address\030" +
+      "+ \001(\t\022\035\n\025primary_company_state\030, \001(\t\022\034\n\024" +
+      "primary_company_city\030- \001(\t\022\037\n\027primary_co" +
+      "mpany_country\030. \001(\t\022\022\n\nfirst_name\030/ \001(\t\022" +
+      "\023\n\013middle_name\0300 \001(\t\022\022\n\nproduct_id\0301 \001(\t" +
+      "\022\022\n\nblock_view\0302 \001(\010\0220\n\tdocuments\0303 \003(\0132" +
+      "\035.customers.CreateDocumentData\022\027\n\017no_of_" +
+      "signatory\0304 \001(\t\022\030\n\020sms_notification\0305 \001(" +
+      "\010\022\032\n\022email_notification\0306 \001(\010\022+\n\rreferen" +
+      "ceData\0307 \003(\0132\024.customers.Reference\022:\n\017si" +
+      "gnatoriesData\0308 \003(\0132!.customers.CreateSi" +
+      "gnatoryRequest\0224\n\020customer_options\0309 \001(\013" +
+      "2\032.customers.CustomerOptions\022:\n\017product_" +
+      "options\030: \001(\0132!.customers.CustomerProduc" +
+      "tOptions\022\031\n\021is_linked_account\030; \001(\010\022\035\n\025l" +
+      "inked_account_number\030< \001(\t\022\035\n\025creation_c" +
+      "hannel_code\030= \001(\t\022\033\n\023primary_company_lga" +
+      "\030> \001(\t\022\023\n\013sector_code\030? \001(\t\022\027\n\017driving_l" +
+      "icense\030@ \001(\t\"h\n\026CustomerProductOptions\022\032" +
+      "\n\022product_created_at\030\001 \001(\t\022\032\n\022old_accoun" +
+      "t_number\030\002 \001(\t\022\026\n\016account_number\030\003 \001(\t\"\275" +
+      "\002\n\tReference\022\032\n\022reference_lastname\030\001 \001(\t" +
+      "\022\034\n\024reference_first_name\030\002 \001(\t\022\035\n\025refere" +
+      "nce_middle_name\030\003 \001(\t\022\021\n\tbank_name\030\004 \001(\t" +
+      "\022\024\n\014bank_address\030\005 \001(\t\022\026\n\016account_number" +
+      "\030\006 \001(\t\022\024\n\014phone_number\030\007 \001(\t\022\r\n\005email\030\010 " +
+      "\001(\t\022\026\n\016reference_form\030\t \001(\t\022\023\n\013father_na" +
+      "me\030\n \001(\t\022\023\n\013mother_name\030\013 \001(\t\022\023\n\013nationa" +
+      "lity\030\014 \001(\t\022\032\n\022reference_verified\030\r \001(\010\"A" +
+      "\n\017CustomerOptions\022\033\n\023customer_created_at" +
+      "\030\001 \001(\t\022\021\n\tis_active\030\002 \001(\t\"\303\003\n\026CreateSign" +
+      "atoryRequest\022\021\n\tlast_name\030\001 \001(\t\022\022\n\nfirst" +
+      "_name\030\002 \001(\t\022\023\n\013middle_name\030\003 \001(\t\022\013\n\003sex\030" +
+      "\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(\t\022\r\n\005title\030\006 " +
+      "\001(\t\022\034\n\024contact_phone_number\030\007 \001(\t\022\027\n\017alt" +
+      "ernate_phone\030\010 \001(\t\022\025\n\remail_address\030\t \001(" +
+      "\t\022\013\n\003bvn\030\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsigna" +
+      "ture\030\014 \001(\t\022\033\n\023passport_photograph\030\016 \001(\t\022" +
+      "\013\n\003nin\030\017 \001(\t\022\023\n\013customer_id\030\020 \001(\t\022=\n\026doc" +
+      "uments_and_identity\030\021 \003(\0132\035.customers.Cr" +
+      "eateDocumentData\022\023\n\013father_name\030\022 \001(\t\022\023\n" +
+      "\013mother_name\030\023 \001(\t\022\023\n\013nationality\030\024 \001(\t\"" +
+      "\212\003\n\025CreateDirectorRequest\022\021\n\tlast_name\030\001" +
+      " \001(\t\022\022\n\nfirst_name\030\002 \001(\t\022\023\n\013middle_name\030" +
+      "\003 \001(\t\022\013\n\003sex\030\004 \001(\t\022\025\n\rdate_of_birth\030\005 \001(" +
+      "\t\022\r\n\005title\030\006 \001(\t\022\025\n\rcontact_phone\030\007 \001(\t\022" +
+      "\027\n\017alternate_phone\030\010 \001(\t\022\r\n\005email\030\t \001(\t\022" +
+      "\013\n\003bvn\030\n \001(\t\022\017\n\007address\030\013 \001(\t\022\021\n\tsignatu" +
+      "re\030\014 \001(\t\022\033\n\023passport_photograph\030\016 \001(\t\022\013\n" +
+      "\003nin\030\017 \001(\t\022\023\n\013customer_id\030\020 \001(\t\022\024\n\014is_pr" +
+      "incipal\030\021 \001(\010\022=\n\026documents_and_identity\030" +
+      "\022 \003(\0132\035.customers.CreateDocumentData\"\305\001\n" +
+      "\022CreateDocumentData\022\025\n\rdocument_name\030\001 \001" +
+      "(\t\022\024\n\014document_url\030\002 \001(\t\022\027\n\017expiration_d" +
+      "ate\030\003 \001(\t\022\027\n\017document_number\030\004 \001(\t\022\033\n\023co" +
+      "untry_of_issuance\030\005 \001(\t\022\030\n\020date_of_issua" +
+      "nce\030\006 \001(\t\022\031\n\021place_of_issuance\030\007 \001(\t\"<\n\026" +
+      "CreateCustomerResponse\022\n\n\002id\030\001 \001(\t\022\026\n\016ac" +
+      "count_number\030\002 \001(\t*G\n\022VerificationStatus" +
+      "\022\010\n\004NULL\020\000\022\013\n\007PENDING\020\001\022\014\n\010APPROVED\020\002\022\014\n" +
+      "\010REJECTED\020\0032\223\006\n\017CustomerService\022l\n\025Creat" +
+      "eCustomerProduct\022\'.customers.CreateCusto" +
+      "merProductRequest\032(.customers.CreateCust" +
+      "omerProductResponse\"\000\022u\n\036CreateCorporate" +
+      "CustomerProduct\022\'.customers.CreateCustom" +
+      "erProductRequest\032(.customers.CreateCusto" +
+      "merProductResponse\"\000\022q\n\031CreatBulkCorpora" +
+      "teAccount\022\'.customers.CreateBulkCorpAcco" +
+      "untRequest\032).customers.CreateBulkCorpCus" +
+      "tomerResponse\"\000\022N\n\013NameEnquiry\022\035.custome" +
+      "rs.NameEnquiryRequest\032\036.customers.NameEn" +
+      "quiryResponse\"\000\022s\n\035GetCorporateCustomerB" +
+      "yAccount\022&.customers.GetCustomerByAccoun" +
+      "tRequest\032(.customers.GetCorporateByAccou" +
+      "ntResponse\"\000\022n\n\033GetCorporateCustomerByPh" +
+      "one\022$.customers.GetCustomerByPhoneReques" +
+      "t\032\'.customers.GetCorporateCustomerRespon" +
+      "se\"\000\022s\n\031GetCorporateCustomerByTin\022+.cust" +
+      "omers.GetCorporateCustomerByTinRequest\032\'" +
+      ".customers.GetCorporateCustomerResponse\"" +
+      "\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.TimestampProto.getDescriptor(),
         });
-    internal_static_customers_GetCustomerByAccountRequest_descriptor =
+    internal_static_customers_GetCorporateCustomerByTinRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_customers_GetCorporateCustomerByTinRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_customers_GetCorporateCustomerByTinRequest_descriptor,
+        new java.lang.String[] { "Tin", });
+    internal_static_customers_GetCustomerByAccountRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_customers_GetCustomerByAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCustomerByAccountRequest_descriptor,
         new java.lang.String[] { "AccountNumber", "SignedKey", });
     internal_static_customers_GetCorporateCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_customers_GetCorporateCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCorporateCustomerResponse_descriptor,
         new java.lang.String[] { "Customer", });
     internal_static_customers_GetCustomerByPhoneRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_customers_GetCustomerByPhoneRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCustomerByPhoneRequest_descriptor,
         new java.lang.String[] { "PhoneNumber", });
     internal_static_customers_CorporateCustomer_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_customers_CorporateCustomer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateCustomer_descriptor,
         new java.lang.String[] { "Id", "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "LastName", "FirstName", "MiddleName", "RimNumber", "NoOfSignatory", "Nationality", "BusinessCategory", "OwnershipStructure", "SmsNotification", "EmailNotification", "BlockView", "Branch", "AccessRevoked", "ContactInfo", "Kyc", "Products", "Signatories", "References", "DirectorsInfo", "CreatedAt", "UpdatedAt", "Email", "Active", "Rsm", "CreationChannelCode", "SectorCode", "UseAltAccNum", "IsTradeNameAccount", });
     internal_static_customers_GetCorporateByAccountResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_customers_GetCorporateByAccountResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_GetCorporateByAccountResponse_descriptor,
         new java.lang.String[] { "Id", "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "LastName", "FirstName", "MiddleName", "RimNumber", "CreatedAt", "UpdatedAt", "Products", "Kyc", "ContactInfo", "UseAltAccNum", "DirectorsInfo", "Signatories", "References", "OfficePhoneNumber", "Email", });
     internal_static_customers_Signatory_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_customers_Signatory_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Signatory_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "EmailAddress", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "DocumentsAndIdentity", "Nationality", "FatherName", "MotherName", "BvnVerified", "NinVerified", "Id", "PassportPhotographVerified", "IsPrincipal", });
     internal_static_customers_DirectorData_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_customers_DirectorData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_DirectorData_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhone", "AlternatePhone", "Email", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "DocumentsAndIdentity", "Id", "IsPrincipal", "BvnVerified", "NinVerified", });
     internal_static_customers_CorporateCustomerContactInfo_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_customers_CorporateCustomerContactInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateCustomerContactInfo_descriptor,
         new java.lang.String[] { "Id", "PrincipalOfficerLastname", "PrincipalOfficerFirstName", "PrincipalOfficerMiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "OfficePhoneNumber", "EmailAddress", "Introducer", "Rsm", "Restriction", "UpdatedAt", "CreatedAt", });
     internal_static_customers_Document_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_customers_Document_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Document_descriptor,
         new java.lang.String[] { "Id", "DocumentName", "ExpirationDate", "DocumentUrl", "DocumentNumber", "CountryOfIssuance", "DateOfIssuance", "PlaceOfIssuance", "VerificationStatus", "KycData", "CreatedAt", });
     internal_static_customers_Kyc_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_customers_Kyc_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Kyc_descriptor,
         new java.lang.String[] { "Id", "DocumentsAndIdentity", "IndividualCustomerAddress", "Signature", "Bvn", "PassportPhotograph", "KycLevel", "Tin", "BvnVerified", "Nin", "NinVerified", "TinVerified", "PassportPhotographVerified", "CorporateCustomerAddress", "Tier", "DrivingLicense", "DrivingLicenseVerified", "InternationalPassportNumber", "InternationalPassportNumberVerified", "VotersCardNumber", });
     internal_static_customers_Address_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_customers_Address_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Address_descriptor,
         new java.lang.String[] { "Id", "ResidentialAddress", "Residency", "StateOfOrigin", "LgaOfOrigin", "City", "PostalCode", "State", "Country", "VerificationStatus", "KycData", });
     internal_static_customers_CorporateUserAddress_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_customers_CorporateUserAddress_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateUserAddress_descriptor,
         new java.lang.String[] { "Id", "CompanyAddress", "State", "City", "Country", "PrimaryCompanyAddress", "PrimaryCompanyState", "PrimaryCompanyCity", "PrimaryCompanyCountry", "Address", "VerificationStatus", "CreatedAt", "UpdatedAt", "PrimaryCompanyLga", });
     internal_static_customers_CorporateCustomerKyc_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_customers_CorporateCustomerKyc_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CorporateCustomerKyc_descriptor,
         new java.lang.String[] { "Id", "DocumentsAndIdentity", "CorporateCustomerAddress", "Signature", "Bvn", "Tin", "PassportPhotograph", "KycLevel", "Tier", "TinVerified", "DrivingLicense", "InternationalPassportNumber", "VotersCardNumber", });
     internal_static_customers_AccountProducts_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_customers_AccountProducts_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_AccountProducts_descriptor,
         new java.lang.String[] { "ProductId", "AccountNumber", "AccessRevoked", "Active", "EffectiveBalance", "LedgerBalance", "ProductName", "ProductType", "Lien", "OldAccountNo", "OdLimit", "LastDebitDate", "LastCreditAmount", "LastCreditDate", "HoldBal", "LastDebitAmount", "CurrentRate", "Margin", "Id", "DefaultProduct", "AccuredInterest", "AccuredInterestOverdrawn", "Limit", "CustomerLastName", "CustomerMiddleName", "CustomerFirstName", "CustomerPhoneNumber", "CustomerEmail", "AccountName", "OverdraftLimit", "PerDiem", "InterestLastYear", "InterestPaidYtd", "Rate", });
     internal_static_customers_LimitData_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_customers_LimitData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_LimitData_descriptor,
         new java.lang.String[] { "MobileIntra", "WebIntra", "Ussd", "MobileInter", "WebInter", "Atm", });
     internal_static_customers_CreateBulkCorpAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_customers_CreateBulkCorpAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpAccountRequest_descriptor,
         new java.lang.String[] { "CustomerData", });
     internal_static_customers_CreateCustomerProductRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_customers_CreateCustomerProductRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerProductRequest_descriptor,
         new java.lang.String[] { "ProductId", "CustomerId", "ProductOptions", });
     internal_static_customers_CreateCustomerProductResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_customers_CreateCustomerProductResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerProductResponse_descriptor,
         new java.lang.String[] { "CustomerProductId", "AccountNumber", });
     internal_static_customers_ProductOptions_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_customers_ProductOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_ProductOptions_descriptor,
         new java.lang.String[] { "AccountNumber", "CreatedAt", });
     internal_static_customers_NameEnquiryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_customers_NameEnquiryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_NameEnquiryRequest_descriptor,
         new java.lang.String[] { "AccountNumber", });
     internal_static_customers_NameEnquiryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_customers_NameEnquiryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_NameEnquiryResponse_descriptor,
         new java.lang.String[] { "ResponseCode", "AccountName", "AccountNumber", "KycLevel", "Bvn", "ProductType", });
     internal_static_customers_CreateBulkCorpCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_customers_CreateBulkCorpCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCorpCustomerResponse_descriptor,
         new java.lang.String[] { "Response", "ErrorData", });
     internal_static_customers_CreateBulkCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_customers_CreateBulkCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerResponse_descriptor,
         new java.lang.String[] { "Id", "AccountNumber", "Tin", });
     internal_static_customers_CreateBulkCustomerErrResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_customers_CreateBulkCustomerErrResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateBulkCustomerErrResponse_descriptor,
         new java.lang.String[] { "Tin", "Reason", });
     internal_static_customers_ResponseStatus_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_customers_ResponseStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_ResponseStatus_descriptor,
         new java.lang.String[] { "Code", "Message", });
     internal_static_customers_CreateCorporateAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_customers_CreateCorporateAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCorporateAccountRequest_descriptor,
         new java.lang.String[] { "CompanyName", "CompanyRegistrationNo", "DateOfRegistration", "CountryOfRegistration", "CompanyAddress", "State", "City", "Country", "LastName", "Bvn", "Tin", "Address", "DirectorData", "PrincipalOfficerMiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "OfficePhoneNumber", "EmailAddress", "Nin", "IdType", "DateOfExpiration", "PlaceOfIssuance", "IdNumber", "CountryOfIssuance", "DateOfIssuance", "FathersName", "MothersName", "Nationality", "BusinessCategory", "OwnershipStructure", "Product", "BranchId", "Signature", "PhotoUpload", "Introducer", "Rsm", "Restriction", "PrincipalOfficerLastname", "PrincipalOfficerFirstName", "PrimaryCompanyAddress", "PrimaryCompanyState", "PrimaryCompanyCity", "PrimaryCompanyCountry", "FirstName", "MiddleName", "ProductId", "BlockView", "Documents", "NoOfSignatory", "SmsNotification", "EmailNotification", "ReferenceData", "SignatoriesData", "CustomerOptions", "ProductOptions", "IsLinkedAccount", "LinkedAccountNumber", "CreationChannelCode", "PrimaryCompanyLga", "SectorCode", "DrivingLicense", });
     internal_static_customers_CustomerProductOptions_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_customers_CustomerProductOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerProductOptions_descriptor,
         new java.lang.String[] { "ProductCreatedAt", "OldAccountNumber", "AccountNumber", });
     internal_static_customers_Reference_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_customers_Reference_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_Reference_descriptor,
         new java.lang.String[] { "ReferenceLastname", "ReferenceFirstName", "ReferenceMiddleName", "BankName", "BankAddress", "AccountNumber", "PhoneNumber", "Email", "ReferenceForm", "FatherName", "MotherName", "Nationality", "ReferenceVerified", });
     internal_static_customers_CustomerOptions_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_customers_CustomerOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CustomerOptions_descriptor,
         new java.lang.String[] { "CustomerCreatedAt", "IsActive", });
     internal_static_customers_CreateSignatoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_customers_CreateSignatoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateSignatoryRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhoneNumber", "AlternatePhone", "EmailAddress", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "DocumentsAndIdentity", "FatherName", "MotherName", "Nationality", });
     internal_static_customers_CreateDirectorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_customers_CreateDirectorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDirectorRequest_descriptor,
         new java.lang.String[] { "LastName", "FirstName", "MiddleName", "Sex", "DateOfBirth", "Title", "ContactPhone", "AlternatePhone", "Email", "Bvn", "Address", "Signature", "PassportPhotograph", "Nin", "CustomerId", "IsPrincipal", "DocumentsAndIdentity", });
     internal_static_customers_CreateDocumentData_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_customers_CreateDocumentData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateDocumentData_descriptor,
         new java.lang.String[] { "DocumentName", "DocumentUrl", "ExpirationDate", "DocumentNumber", "CountryOfIssuance", "DateOfIssuance", "PlaceOfIssuance", });
     internal_static_customers_CreateCustomerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_customers_CreateCustomerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_customers_CreateCustomerResponse_descriptor,

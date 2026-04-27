@@ -183,6 +183,7 @@ auth/Auth$ThirdPartyUser.class
 com/virtualAccountApplication/createAccount/proto/GetAccountRequest$1.class
 auth/AuthServiceGrpc$2.class
 notification_service/NotificationServiceGrpc$NotificationServiceFileDescriptorSupplier.class
+customers/Customer$GetCorporateCustomerByTinRequest$Builder.class
 com/neptune/cba/transaction/intra_transfer/IntraTransferApprovalRequestOrBuilder.class
 com/neptune/cba/transaction/type/CreateTransactionResponse.class
 com/neptune/cba/transaction/history/HistoryResponse$Builder.class
@@ -200,6 +201,7 @@ com/neptune/cba/transaction/balance/BulkBalanceResponseOrBuilder.class
 com/neptune/cbawrapper/RequestRessponseSchema/EasyPayRequestData.class
 auth/Auth$Get2faQrCodeUrlResponse$Builder.class
 com/neptune/cba/transaction/history/SpentTodayResponse$Builder.class
+customers/Customer$GetCorporateCustomerByTinRequestOrBuilder.class
 com/neptune/cba/transaction/type/UpdateTypeResponse$Builder.class
 auth/Auth$City$1.class
 auth/AuthServiceGrpc$AuthServiceBlockingStub.class
@@ -306,6 +308,7 @@ auth/Auth$RegenerateApiKeyResponse$Builder.class
 notification_service/Notifications$NotificationOrBuilder.class
 com/neptune/cba/transaction/bills/BillsServiceGrpc$BillsServiceMethodDescriptorSupplier.class
 com/neptune/cba/transaction/history/HistoryServiceGrpc$HistoryServiceStub.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequestOrBuilder.class
 com/neptune/cbawrapper/BuilderPattern/TransactionHistoryBuilder.class
 auth/Auth$AuthenticateApiKeyRequest$1.class
 auth/Auth$Update3ppWebhookRequestOrBuilder.class
@@ -368,6 +371,7 @@ auth/Auth$GenerateApiKeyRequest$Builder.class
 notification_service/Notifications$CustomNotificationRequest$Builder.class
 com/neptune/cbawrapper/RequestRessponseSchema/ReverseResponseData.class
 com/neptune/cbawrapper/Models/CustomerProductOptions.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest$1.class
 printable/PrintableOuterClass$AccountInfo$1.class
 com/virtualAccountApplication/createAccount/proto/ThirdPartyUser.class
 com/neptune/cba/transaction/type/TransactionTypeServiceGrpc.class
@@ -596,6 +600,7 @@ com/neptune/cbawrapper/RequestRessponseSchema/InstitutionsData.class
 printable/PrintableOuterClass$PdfRequest.class
 auth/Auth$OtpResponse$Builder.class
 com/neptune/cba/transaction/easy_pay/EasyPayRequest$1.class
+customers/Customer$GetCorporateCustomerByTinRequest.class
 com/neptune/cba/transaction/debit_credit/NestedCharge$1.class
 com/neptune/cba/transaction/type/RemoveChargeResponse$1.class
 customers/Customer$DirectorDataOrBuilder.class
@@ -686,6 +691,7 @@ customers/Customer$CreateDirectorRequest.class
 com/neptune/cba/transaction/history/HistoryRequestOrBuilder.class
 com/neptune/cbawrapper/Models/Counter.class
 customers/Customer$CreateDirectorRequest$1.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest.class
 customers/Customer$CreateBulkCustomerResponse.class
 auth/Auth$VerifyEmailOtpRequest$Builder.class
 notification_service/Notifications$GetAllNotificationResponse$Builder.class
@@ -1123,6 +1129,7 @@ com/neptune/cba/transaction/history/callOverRequest.class
 customers/Customer$CreateSignatoryRequest$Builder.class
 com/neptune/cbawrapper/RequestRessponseSchema/CustomerSegmentation.class
 auth/Auth$VerifyPhoneNumberOtpRequest.class
+com/neptune/cba/transaction/history/TransDetailsByRefRequest$Builder.class
 com/virtualAccountApplication/createAccount/proto/GetAccountServiceGrpc$GetAccountServiceBaseDescriptorSupplier.class
 com/neptune/cba/transaction/balance/BalanceResponse$Builder.class
 com/virtualAccountApplication/createAccount/proto/NameEnquiryResponse.class
@@ -1142,6 +1149,7 @@ com/neptune/cba/transaction/bills/BillReverseRequestOrBuilder.class
 com/neptune/cba/transaction/type/TransactionTypeResponse$1.class
 auth/Auth$Get3ppWebhookResponse$1.class
 com/neptune/cba/transaction/bills/BillsTsqResponseOrBuilder.class
+customers/Customer$GetCorporateCustomerByTinRequest$1.class
 auth/Auth$Employee$Builder.class
 com/virtualAccountApplication/createAccount/proto/CreateBulkAccountRequestOrBuilder.class
 com/neptune/cbawrapper/Models/IntraTransferResponseData$IntraTransferResponseDataBuilder.class

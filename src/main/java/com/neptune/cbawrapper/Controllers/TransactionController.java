@@ -62,6 +62,7 @@ public class TransactionController {
     private final TransactionsRepository transactionsRepository;
     private final TransactionCoreController transactionCoreController;
     private final VirtualAccountRepository virtualAccountRepository;
+    private final CustomersRepository customersRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
     private final PushyAPI pushyAPI;
@@ -172,6 +173,7 @@ public class TransactionController {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getBeneficiaryAccountNumber());
             if (virtualAccountModel.isPresent()) {
+                System.out.println("jjjjjjjjjjjjewqdsd");
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
                 logAllTransactions(null, null, "Webhook", payload);
@@ -506,21 +508,35 @@ public class TransactionController {
     @GetMapping("/get-balance")
     public ResponseEntity<ResponseSchema<?>> getBalance(@RequestParam String accountNum, @RequestParam String type) {
         try {
+            String account;
+            String account_id = "";
             Optional<VirtualAccountModel> virtualAccountModel;
             if (type.equalsIgnoreCase("virtual_account")) {
                 virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(accountNum);
+
+                if (virtualAccountModel.isEmpty()) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
             } else if (type.equalsIgnoreCase("business_account")) {
-                virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByBusinessAccount(accountNum);
+                Optional<CustomersModel> customersModel = customersRepository.checkForCustomerByAcct(accountNum);
+
+                if(customersModel.isEmpty()){
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
+
+                account_id = customersModel.get().getCba_customer_id();
             } else {
                 virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByParentAccount(accountNum);
+
+                if (virtualAccountModel.isEmpty()) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
             }
 
-            if (virtualAccountModel.isEmpty()) {
-                ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
-                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
-            }
-
-            BalanceResponse response = debitCreditService.getBalance(accountNum, virtualAccountModel.get().getParent_id());
+            BalanceResponse response = debitCreditService.getBalance(accountNum, account_id);
 
             System.out.println("response = " + response);
             com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse balanceResponse = new com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse();
@@ -715,13 +731,12 @@ public class TransactionController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-transaction-details")
-    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref, @RequestParam String accountNo){
+    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
 
         try {
 
             System.out.println("ref = " + ref);
-            System.out.println("accountNo = " + accountNo);
-            transDetailsResponse response = historyService.getTransactionDetails(ref, accountNo);
+            transDetailsResponse response = historyService.getTransactionDetails(ref);
 
             System.out.println("response = " + response);
             if (response == null) {

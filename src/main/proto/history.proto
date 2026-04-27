@@ -11,7 +11,13 @@ service HistoryService {
   rpc transactionStatus(TransactionStatusRequest) returns (TransactionStatusResponse){}
   rpc transDetails(transDetailsRequest) returns (transDetailsResponse){
   }
+  rpc transDetailsByRef(TransDetailsByRefRequest) returns (transDetailsResponse){
+  }
 
+}
+
+message TransDetailsByRefRequest {
+  string ref = 1;
 }
 
 message transDetailsResponse {

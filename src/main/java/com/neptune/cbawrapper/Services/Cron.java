@@ -9,8 +9,6 @@ import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.CategoryServices;
-import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
-import com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -246,7 +244,7 @@ public class Cron {
 //
 //    }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     @Transactional
     public void updateCustomerAccountNumFromCba() {
         try {
@@ -281,7 +279,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -437,7 +435,7 @@ public class Cron {
     }
 
 
-    @Scheduled(cron = "0 */6 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -487,6 +485,7 @@ public class Cron {
 //                    if (businessPlatformCharges.isEmpty()) {
 //                        return;
 //                    }
+                    System.out.println("Hello world");
 
                     System.out.println("========================================= 2");
                     if (platformCharges.isPresent()) {
@@ -766,7 +765,7 @@ public class Cron {
     private CustomerCheckResult checkCustomerExists(CustomersModel customer) {
         try {
             Customer.GetCorporateCustomerResponse response =
-                    customerService.getCorporateCustomer(customer.getContact_phone_number());
+                    customerService.getCorporateCustomer(customer.getTin());
 
             if (response.hasCustomer()) {
                 // Extract account number safely
@@ -792,6 +791,7 @@ public class Cron {
      * Safely extract account number from gRPC response
      */
     private String extractAccountNumber(Customer.GetCorporateCustomerResponse response) {
+
         try {
             if (response.getCustomer().getProductsCount() > 0) {
                 // Use getProducts(0) instead of getProducts(1) - lists are 0-indexed
@@ -871,6 +871,7 @@ public class Cron {
         }
 
         log.warn("Encountered {} errors during customer creation", errors.size());
+        log.warn("error {}", errors);
 
         List<ErrorLogsModel> errorLogs = errors.stream()
                 .map(error -> {

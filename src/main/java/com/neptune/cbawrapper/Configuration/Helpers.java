@@ -9,10 +9,7 @@ import com.google.gson.*;
 import com.neptune.cba.transaction.bills.MakePaymentResponse;
 import com.neptune.cba.transaction.history.TransactionStatusResponse;
 import com.neptune.cbawrapper.Models.*;
-import com.neptune.cbawrapper.Repository.BusinessPlatformChargesRepository;
-import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
-import com.neptune.cbawrapper.Repository.CustomersRepository;
-import com.neptune.cbawrapper.Repository.PlatformChargeRepository;
+import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
@@ -30,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -50,11 +48,13 @@ public class Helpers {
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final PlatformChargeRepository platformChargeRepository;
     private final TransactionCoreController transactionCoreController;
+    private final VirtualAccountRepository virtualAccountRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository, ObjectMapper objectMapper) {
+    public Helpers(TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository, ObjectMapper objectMapper) {
         this.platformChargeRepository = platformChargeRepository;
         this.transactionCoreController = transactionCoreController;
+        this.virtualAccountRepository = virtualAccountRepository;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.objectMapper = objectMapper;
@@ -115,7 +115,7 @@ public class Helpers {
                 transactionDetails.setReference(request.getTransactionReference());
                 transactionDetails.setPtad(request.getPtad());
                 transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("");
                 transactionDetails.setCardExpiry("");
                 transactionDetails.setTransactionFee(0);
@@ -142,7 +142,7 @@ public class Helpers {
                 transactionDetails.setReference(request.getMakePayment().getRequestReference());
                 transactionDetails.setPtad(request.getPtad());
                 transactionDetails.setTransactionPlatformId(platformCharges.get().getPlatformId());
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("00");
                 transactionDetails.setCardExpiry("00");
                 transactionDetails.setTransactionFee(0);
@@ -157,18 +157,23 @@ public class Helpers {
                 transactionDetails.setLocale("en");
                 transactionDetails.setCardScheme("Mastercard");
             } else {
-                transactionDetails.setTerminalId(request.getTerminalId());
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(payload.getDateTime(), inputFormatter);
+                Optional<VirtualAccountModel> accountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getBeneficiaryAccountNumber());
+                transactionDetails.setTerminalId(accountModel.get().getTerminalId());
                 transactionDetails.setNarration("Inward Transfer Webhook");
                 transactionDetails.setStatus("COMPLETED");
                 transactionDetails.setDateFormat("dd MMMM yyyy");
                 transactionDetails.setTransactionType(payload.getTransactionType());
-                transactionDetails.setTransactionDate(payload.getDateTime());
+                transactionDetails.setTransactionDate(zonedDateTime.format(outputFormatter));
                 transactionDetails.setAmount(Double.parseDouble(String.valueOf(payload.getAmount())));
-                transactionDetails.setTransactionReference(request.getReference());
-                transactionDetails.setReference(request.getReference());
+                transactionDetails.setTransactionReference(payload.getReference());
+                transactionDetails.setReference(payload.getReference());
                 transactionDetails.setPtad("Neptune");
                 transactionDetails.setTransactionPlatformId(4);
-                transactionDetails.setResponseCode("00");
+                transactionDetails.setResponseCode("01");
                 transactionDetails.setPan("00");
                 transactionDetails.setCardExpiry("nil");
                 transactionDetails.setTransactionFee(0);
@@ -181,8 +186,10 @@ public class Helpers {
                 transactionDetails.setStan("00");
                 transactionDetails.setSerialNo("00");
                 transactionDetails.setLocale("en");
-                transactionDetails.setCardScheme("");
+                transactionDetails.setCardScheme("any");
             }
+
+            System.out.println("transactionDetails = " + transactionDetails.toString());
 
             return transactionCoreController.createTransaction(transactionDetails);
         } catch (Exception e) {
