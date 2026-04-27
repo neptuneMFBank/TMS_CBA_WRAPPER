@@ -279,7 +279,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -435,7 +435,7 @@ public class Cron {
     }
 
 
-    @Scheduled(cron = "0 */6 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -485,6 +485,7 @@ public class Cron {
 //                    if (businessPlatformCharges.isEmpty()) {
 //                        return;
 //                    }
+                    System.out.println("Hello world");
 
                     System.out.println("========================================= 2");
                     if (platformCharges.isPresent()) {

@@ -284,9 +284,9 @@ public class CustomerService {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.GetCorporateCustomerResponse response;
         try {
-            Customer.GetCustomerByPhoneRequest request = Customer.GetCustomerByPhoneRequest.newBuilder().setPhoneNumber(phone).build();
+            Customer.GetCorporateCustomerByTinRequest request = Customer.GetCorporateCustomerByTinRequest.newBuilder().setTin(phone).build();
             CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
-            response = stub.getCorporateCustomerByPhone(request);
+            response = stub.getCorporateCustomerByTin(request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }finally {
