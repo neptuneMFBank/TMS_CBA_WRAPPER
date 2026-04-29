@@ -39,4 +39,6 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
 
     @Query("{ 'parent_account': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByParentAccount(String parent_account);
+
+    Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
 }
