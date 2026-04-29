@@ -3,6 +3,7 @@ package com.neptune.cbawrapper.Models;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Document(collection = "virtual_accounts")
@@ -32,8 +33,9 @@ public class VirtualAccountModel {
     private String genericCode;
     private boolean codeExpired;
     private String token_expiry;
-    private String created_at;
-    private String updated_at;
+    @Field("created_at")
+    private String createdAt;
+    private String updatedAt;
 
     public String getToken_expiry() {
         return token_expiry;
@@ -44,19 +46,19 @@ public class VirtualAccountModel {
     }
 
     public String getCreated_at() {
-        return created_at;
+        return createdAt;
     }
 
     public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+        this.createdAt = created_at;
     }
 
     public String getUpdated_at() {
-        return updated_at;
+        return updatedAt;
     }
 
     public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
+        this.updatedAt = updated_at;
     }
 
     public String getId() {
@@ -254,5 +256,36 @@ public class VirtualAccountModel {
         this.nin = nin;
         this.parent_id = parent_id;
         this.parent_account = parent_account;
+    }
+
+    @Override
+    public String toString() {
+        return "VirtualAccountModel{" +
+                "id='" + id + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", account_name='" + account_name + '\'' +
+                ", email='" + email + '\'' +
+                ", bvn='" + bvn + '\'' +
+                ", nin='" + nin + '\'' +
+                ", tin='" + tin + '\'' +
+                ", is_updated=" + is_updated +
+                ", parent_id='" + parent_id + '\'' +
+                ", parent_account='" + parent_account + '\'' +
+                ", pin='" + pin + '\'' +
+                ", business_id='" + business_id + '\'' +
+                ", business_wallet='" + business_wallet + '\'' +
+                ", savingsId='" + savingsId + '\'' +
+                ", virtual_account_number='" + virtual_account_number + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", businessName='" + businessName + '\'' +
+                ", businessSavingsId=" + businessSavingsId +
+                ", businessWalletId='" + businessWalletId + '\'' +
+                ", fcmToken='" + fcmToken + '\'' +
+                ", genericCode='" + genericCode + '\'' +
+                ", codeExpired=" + codeExpired +
+                ", token_expiry='" + token_expiry + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
 }

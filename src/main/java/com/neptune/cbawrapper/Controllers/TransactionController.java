@@ -820,6 +820,21 @@ public class TransactionController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-transaction-platform")
+    public ResponseEntity<ResponseSchema<?>> getTransactionPlatform(@RequestParam int platformId){
+        Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(platformId);
+
+        if(platformCharges.isEmpty()){
+            errorLoggingException.logError("GET_TRANSACTION_PLATFORM", "Transaction platform with id does not exist", "Transaction with reference does not exist");
+            ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "Transaction platform not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
+        }
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Transaction platform retrieved successfully", platformCharges.get(), "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
     @Async("statementExecutor")
     public CompletableFuture<PrintableOuterClass.StatementOfAccountResponse> generateStateAsync(
             GenerateStatementRequest request,
