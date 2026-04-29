@@ -1,6 +1,0 @@
-1. create two separate controllers for POS and onboarding.
-2. Save POS transactions to a table and create a cron to send them to CBA
-3. Create a new table for CBA transactions: Whenever you need receive a request from the POS, save it in no.2 and when you run the cron create new entries for each pending transaction on no.3 and then send to CBA. When CBA send a response, update the status of no.3 table item.
-4. On updating CBA after successful transfer, I'll need to pass the charge amount and commission amount for now this will be very.
-5. Connecting this application to microservice.
-6.
