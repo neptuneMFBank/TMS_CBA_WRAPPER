@@ -32,6 +32,19 @@ public class MerchantData {
     private String businessOccupationCode;
     private String merchantCategoryCode;
     private String stateCode;
+    private String title;
+    private String emailAddress;
+    private String officeName;
+    private String state;
+    private String incorpNo;
+    private String terminalAddressLga;
+    private String merchantAddressLga;
+    private String rcNumber;
+    private String officeAddress;
+    private Double gpsLatitude;
+    private Double gpsLongitude;
+    private String dateOfIncorporation;
+    private String industryType;
 
     private String visaAcquirerIdNumber;
     private String verveAcquirerIdNumber;
@@ -364,45 +377,108 @@ public class MerchantData {
         this.updatedAt = updatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "MerchantData{" +
-                "id='" + id + '\'' +
-                ", merchantId='" + merchantId + '\'' +
-                ", merchantName='" + merchantName + '\'' +
-                ", contactName='" + contactName + '\'' +
-                ", contactTitle='" + contactTitle + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", email='" + email + '\'' +
-                ", merchantPhysicalAddr='" + merchantPhysicalAddr + '\'' +
-                ", terminalId='" + terminalId + '\'' +
-                ", bankCode='" + bankCode + '\'' +
-                ", bankAccNo='" + bankAccNo + '\'' +
-                ", businessOccupationCode='" + businessOccupationCode + '\'' +
-                ", merchantCategoryCode='" + merchantCategoryCode + '\'' +
-                ", stateCode='" + stateCode + '\'' +
-                ", visaAcquirerIdNumber='" + visaAcquirerIdNumber + '\'' +
-                ", verveAcquirerIdNumber='" + verveAcquirerIdNumber + '\'' +
-                ", mastercardAcquirerIdNumber='" + mastercardAcquirerIdNumber + '\'' +
-                ", terminalOwnerCode='" + terminalOwnerCode + '\'' +
-                ", merchantAccountName='" + merchantAccountName + '\'' +
-                ", ptspCode='" + ptspCode + '\'' +
-                ", merchantAcctDomicileBankCode='" + merchantAcctDomicileBankCode + '\'' +
-                ", terminalGroupId='" + terminalGroupId + '\'' +
-                ", bvn='" + bvn + '\'' +
-                ", tin='" + tin + '\'' +
-                ", merchantAddressLgaCode='" + merchantAddressLgaCode + '\'' +
-                ", agentCode='" + agentCode + '\'' +
-                ", gpsInfo='" + gpsInfo + '\'' +
-                ", terminalAddressLgaCode='" + terminalAddressLgaCode + '\'' +
-                ", terminalAddress='" + terminalAddress + '\'' +
-                ", merchantAcquirerId='" + merchantAcquirerId + '\'' +
-                ", terminalModelDescription='" + terminalModelDescription + '\'' +
-                ", appName='" + appName + '\'' +
-                ", appVersion='" + appVersion + '\'' +
-                ", terminalType='" + terminalType + '\'' +
-                ", uploaded=" + uploaded +
-                '}';
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getIncorpNo() {
+        return incorpNo;
+    }
+
+    public void setIncorpNo(String incorpNo) {
+        this.incorpNo = incorpNo;
+    }
+
+    public String getTerminalAddressLga() {
+        return terminalAddressLga;
+    }
+
+    public void setTerminalAddressLga(String terminalAddressLga) {
+        this.terminalAddressLga = terminalAddressLga;
+    }
+
+    public String getMerchantAddressLga() {
+        return merchantAddressLga;
+    }
+
+    public void setMerchantAddressLga(String merchantAddressLga) {
+        this.merchantAddressLga = merchantAddressLga;
+    }
+
+    public String getRcNumber() {
+        return rcNumber;
+    }
+
+    public void setRcNumber(String rcNumber) {
+        this.rcNumber = rcNumber;
+    }
+
+    public String getOfficeAddress() {
+        return officeAddress;
+    }
+
+    public void setOfficeAddress(String officeAddress) {
+        this.officeAddress = officeAddress;
+    }
+
+    public Double getGpsLatitude() {
+        return gpsLatitude;
+    }
+
+    public void setGpsLatitude(Double gpsLatitude) {
+        this.gpsLatitude = gpsLatitude;
+    }
+
+    public Double getGpsLongitude() {
+        return gpsLongitude;
+    }
+
+    public void setGpsLongitude(Double gpsLongitude) {
+        this.gpsLongitude = gpsLongitude;
+    }
+
+    public String getDateOfIncorporation() {
+        return dateOfIncorporation;
+    }
+
+    public void setDateOfIncorporation(String dateOfIncorporation) {
+        this.dateOfIncorporation = dateOfIncorporation;
+    }
+
+    public String getIndustryType() {
+        return industryType;
+    }
+
+    public void setIndustryType(String industryType) {
+        this.industryType = industryType;
     }
 }
 
