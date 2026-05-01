@@ -169,6 +169,11 @@ public class SettingsController {
         Customer.GetCorporateByAccountResponse response =
                 customerService.getCustomerAcctNum(request.getBusinessAcct());
 
+        if(response == null){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
         String terminalLgaCode = getLga.stream()
                 .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getTerminalAddressLga()))
                 .map(Lgas::getLgaCode)
