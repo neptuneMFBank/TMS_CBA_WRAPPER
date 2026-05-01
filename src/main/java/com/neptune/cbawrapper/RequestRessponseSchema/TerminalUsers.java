@@ -11,9 +11,14 @@ public class TerminalUsers {
     private String state;
     private String incorpNo;
     private String terminalAddress;
-    private String gps;
     private String terminalAddressLga;
     private String merchantAddressLga;
+    private String rcNumber;
+    private String officeAddress;
+    private Double gpsLatitude;
+    private Double gpsLongitude;
+    private String dateOfIncorporation;
+    private String industryType;
 
     public String getBusinessAcct() {
         return businessAcct;
@@ -111,12 +116,52 @@ public class TerminalUsers {
         this.merchantAddressLga = merchantAddressLga;
     }
 
-    public String getGps() {
-        return gps;
+    public String getRcNumber() {
+        return rcNumber;
     }
 
-    public void setGps(String gps) {
-        this.gps = gps;
+    public void setRcNumber(String rcNumber) {
+        this.rcNumber = rcNumber;
+    }
+
+    public String getOfficeAddress() {
+        return officeAddress;
+    }
+
+    public void setOfficeAddress(String officeAddress) {
+        this.officeAddress = officeAddress;
+    }
+
+    public Double getGpsLatitude() {
+        return gpsLatitude;
+    }
+
+    public void setGpsLatitude(Double gpsLatitude) {
+        this.gpsLatitude = gpsLatitude;
+    }
+
+    public Double getGpsLongitude() {
+        return gpsLongitude;
+    }
+
+    public void setGpsLongitude(Double gpsLongitude) {
+        this.gpsLongitude = gpsLongitude;
+    }
+
+    public String getDateOfIncorporation() {
+        return dateOfIncorporation;
+    }
+
+    public void setDateOfIncorporation(String dateOfIncorporation) {
+        this.dateOfIncorporation = dateOfIncorporation;
+    }
+
+    public String getIndustryType() {
+        return industryType;
+    }
+
+    public void setIndustryType(String industryType) {
+        this.industryType = industryType;
     }
 
     public TerminalUsers() {
