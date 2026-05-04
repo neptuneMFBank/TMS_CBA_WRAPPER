@@ -21,10 +21,10 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(false);
+                        .allowedOriginPatterns("http://localhost:*") // allows any localhost port
+                        .allowedMethods("*") // allow all methods
+                        .allowedHeaders("*") // allow all headers
+                        .allowCredentials(true); // enable cookies/auth
             }
         };
     }
