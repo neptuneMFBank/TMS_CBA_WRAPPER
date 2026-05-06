@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.type";
+
+service TransactionTypeService {
+  rpc transaction_type(Empty) returns (TransactionTypeResponse) {
+  }
+  rpc create_type(TransactionType) returns (CreateTransactionResponse) {
+  }
+  rpc delete_type(DeleteTypeRequest) returns (DeleteTypeResponse){
+  }
+  rpc update_type(UpdateTypeRequest) returns (UpdateTypeResponse) {
+  }
+  rpc add_child(AddChildRequest) returns (AddChildResponse){
+  }
+  rpc add_charge(AddChargeRequest) returns (AddChargeResponse){
+  }
+  rpc remove_charge(RemoveChargeRequest) returns (RemoveChargeResponse){
+  }
+
+}
+message RemoveChargeRequest{
+  int64 charge_id =1; //updated
+}
+message RemoveChargeResponse{
+  string message = 1;
+  string code = 2;
+}
+message AddChargeRequest {
+  string code =1;
+  string description = 2;
+  double amount =3;
+  string transactionType =4; //DEBIT/CREDIT
+  int64 id = 5;
+  string ledger = 6; //ledger code
+}
+message AddChargeResponse{
+  string message = 1;
+  string code = 2;
+}
+message TransactionType {
+
+  string name =1;
+  string code =2;
+  string description =3;
+  string ledger_id =4;
+  string ledger_code=11;
+  string type =5;
+  int64 parent_id =6;
+  bool has_children =7;
+  repeated TransactionType children = 8;
+  int64 id =9;
+  repeated AddChargeRequest charges = 10;
+}
+
+message Empty {
+
+}
+message DeleteTypeRequest{
+  int64 id = 1;
+}
+message DeleteTypeResponse{
+  string message = 1;
+  string code = 2;
+}
+
+message UpdateTypeRequest {
+  string name =1;
+  string code =2;
+  string description =3;
+  string ledger_id =4;
+  string type =5;
+  int64 id =6;
+}
+
+message UpdateTypeResponse{
+  string message = 1;
+  string code = 2;
+}
+message AddChildRequest {
+  int64 parent_id =1;
+  TransactionType child = 2;
+}
+message AddChildResponse{
+  string message = 1;
+  string code = 2;
+}
+
+message CreateTransactionResponse {
+  string message = 1;
+  string code = 2;
+}
+
+
+message TransactionTypeResponse {
+  repeated TransactionType transaction_types = 1;
+}

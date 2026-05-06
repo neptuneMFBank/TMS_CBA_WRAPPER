@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+option go_package = "./proto/printable";
+package printable;
+
+
+service Printable {
+  rpc GetTrialBalancePdf(GetTrialBalanceRequest) returns (PDFResponse) {};
+  rpc LoanReportPdf(LoanReportsRequest) returns (PDFResponse) {};
+  rpc BillMemo(GetBillingMemoRequest) returns (PDFResponse){};
+  rpc StatementOfAccount(StatementRequest) returns (StatementOfAccountResponse){};
+  rpc FileToPdf(PdfRequest) returns (PdfResponse){};
+}
+
+message PdfRequest {
+  string file = 1;
+  string format = 2;
+}
+
+message PdfResponse {
+  string pdf = 1;
+}
+
+message CustomerDetails {
+  string name = 1;
+  string accountNumber = 2;
+  string address = 3;
+}
+
+message AccountSummary {
+  string statementPeriod = 1;
+  string currency = 2;
+  double openingBalance = 3;
+  double totalCredit = 4;
+  double totalDebit = 5;
+  double closingBalance = 6;
+  string datePrinted = 7;
+  string accountType = 8;
+}
+
+message Transaction {
+  string date = 1;
+  string reference = 2;
+  string details = 3;
+  double debit = 4;
+  double credit = 5;
+  double balance = 6;
+}
+
+message AccountInfo {
+  CustomerDetails customerDetails = 1;
+  AccountSummary accountSummary = 2;
+  repeated Transaction transactions = 3;
+}
+
+message GetTrialBalanceRequest {
+  repeated Ledger ledgers = 1;
+  double totalAsset = 2;
+  double totalCapital = 3;
+  double totalInterestExpense = 4;
+  double totalInterestIncome = 5;
+  double totalLiability = 6;
+  double totalNonInterestExpense = 7;
+  double totalNonInterestIncome = 8;
+  double ytd = 9;  // Year-to-date (YTD)
+  string startDate=10;
+  string endDate=11;
+}
+
+message Ledger {
+  string accountType = 1;
+  string accountNumber = 2;
+  string ledgerType = 3;
+  string description = 4;
+  double openBal = 5;
+  double closingBalance = 6;
+  string nodeName = 7;
+  double totalDebit = 8;
+  double totalCredit = 9;
+}
+
+message Data {
+  repeated Ledger ledgers = 1;
+}
+
+message Response {
+  bool success = 1;
+  string message = 2;
+  string status = 3;
+  Data data = 4;
+}
+
+message StatementRequest {
+  string acctNo=1;
+  string fromdate=2;
+  string todate=3;
+  string email=4;
+  string name=5;
+  string address=6;
+  string accountType=7;
+}
+
+
+message StatementOfAccountResponse {
+  string pdf=1;
+  AccountInfo account_info=2;
+
+}
+
+
+message PDFResponse{
+  string pdf=1;
+}
+
+message LoanReportsRequest {
+  bool is_allowed_to_view_non_performing_loan = 1;
+  bool is_allowed_to_view_outstanding_loan = 2;
+  bool is_allowed_to_view_deposit_loan_count = 3;
+}
+
+
+message GetBillingMemoRequest {
+  string unique_id = 1;
+  int32 size = 2;
+  int32 page = 3;
+  string accountNumber=4;
+  string customerName=5;
+  string loanAmount=6;
+  string loanAdvanceDate=7;
+  string totalRepayment=8;
+  string annualInterestRate=9;
+  string loanAdvance=10;
+}
+
+// protoc --proto_path=./proto --go_out=./ --go-grpc_out=./ ./proto/printable/printable.proto
