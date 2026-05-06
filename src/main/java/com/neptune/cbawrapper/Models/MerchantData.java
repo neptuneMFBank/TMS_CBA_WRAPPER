@@ -41,8 +41,8 @@ public class MerchantData {
     private String merchantAddressLga;
     private String rcNumber;
     private String officeAddress;
-    private Double gpsLatitude;
-    private Double gpsLongitude;
+    private String gpsLatitude;
+    private String gpsLongitude;
     private String dateOfIncorporation;
     private String industryType;
 
@@ -62,7 +62,7 @@ public class MerchantData {
     private String terminalAddressLgaCode;
 
     private String terminalAddress;
-
+    private String status;
     private String merchantAcquirerId;
     private String terminalModelDescription;
     private String appName;
@@ -449,19 +449,19 @@ public class MerchantData {
         this.officeAddress = officeAddress;
     }
 
-    public Double getGpsLatitude() {
+    public String getGpsLatitude() {
         return gpsLatitude;
     }
 
-    public void setGpsLatitude(Double gpsLatitude) {
+    public void setGpsLatitude(String gpsLatitude) {
         this.gpsLatitude = gpsLatitude;
     }
 
-    public Double getGpsLongitude() {
+    public String getGpsLongitude() {
         return gpsLongitude;
     }
 
-    public void setGpsLongitude(Double gpsLongitude) {
+    public void setGpsLongitude(String gpsLongitude) {
         this.gpsLongitude = gpsLongitude;
     }
 
@@ -479,6 +479,14 @@ public class MerchantData {
 
     public void setIndustryType(String industryType) {
         this.industryType = industryType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

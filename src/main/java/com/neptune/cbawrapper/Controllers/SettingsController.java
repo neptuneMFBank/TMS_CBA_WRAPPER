@@ -1,12 +1,11 @@
 package com.neptune.cbawrapper.Controllers;
 
+import com.neptune.cba.transaction.balance.BalanceResponse;
+import com.neptune.cba.transaction.balance.BulkBalanceResponse;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
-import com.neptune.cbawrapper.Services.Cron;
-import com.neptune.cbawrapper.Services.CustomerService;
-import com.neptune.cbawrapper.Services.MerchantExcelService;
-import com.neptune.cbawrapper.Services.TmsCoreWalletAccount;
+import com.neptune.cbawrapper.Services.*;
 import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -62,10 +60,12 @@ public class SettingsController {
     private final LgaRepository lgaRepository;
     private final CustomerService customerService;
     private final StateRepository stateRepository;
+    private final TransactionService transactionService;
 
-    public SettingsController(MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
+    public SettingsController(TransactionService transactionService, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
         this.cron = cron;
+        this.transactionService = transactionService;
         this.bankRepository = bankRepository;
         this.merchantExcelService = merchantExcelService;
         this.merchantRepository = merchantRepository;
@@ -157,12 +157,6 @@ public class SettingsController {
         Optional<Bank> getBanks = bankRepository.findByBankName(pos_settlement_bank_name);
         List<Lgas> getLga = lgaRepository.findAll();
 
-        Optional<MerchantData> checkIfMerchantAlreadyCreated = merchantRepository.findMerchantByBusinessAcct(request.getBusinessAcct());
-
-        if(checkIfMerchantAlreadyCreated.isPresent()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(409, "Merchant with business account number already registered for POS", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
-        }
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
 
@@ -191,11 +185,13 @@ public class SettingsController {
                 .orElseThrow(() -> new RuntimeException("State not found"));
 
         String terminalId;
+        String merchantId = "";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
+        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("00000000001")));
 
         MerchantData merchant = MerchantData.builder()
                 .uploaded(false)
-                .merchantId("MCH00000" + terminalId)
+                .merchantId("2NEP" + merchantId)
                 .merchantName(request.getDisplayName())
                 .contactName(request.getOfficeName())
                 .contactTitle(request.getTitle())
@@ -209,6 +205,7 @@ public class SettingsController {
                 .businessOccupationCode("5411")
                 .merchantCategoryCode("5999")
                 .stateCode(stateCode)
+                .status("Pending")
                 .gpsLongitude(request.getGpsLongitude())
                 .gpsLatitude(request.getGpsLongitude())
                 .dateOfIncorporation(request.getDateOfIncorporation())
@@ -251,6 +248,79 @@ public class SettingsController {
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "downloadable merchant count is " + merchant.size(), merchant, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-business-pos")
+    public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
+        List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findAllByBusinessWalletId(businessAcct);
+
+        if(merchant.isEmpty()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "No POS registered associated with this account", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        Map<String, String> accountData = new HashMap<>();
+
+        for (VirtualAccountModel account : virtualAccountModel) {
+            if (account.getVirtual_account_number() != null) {
+
+                accountData.put(
+                        account.getParent_id(), // key
+                        account.getVirtual_account_number() // value
+                );
+            }
+        }
+
+        BulkBalanceResponse response = transactionService.getBulkBalance(accountData, "savings", "key");
+
+        List<GetPOSResponse> data = getGetPOSResponses(merchant, virtualAccountModel, response);
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "You have requested for " + merchant.size(), data, "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    private static List<GetPOSResponse> getGetPOSResponses(
+            List<MerchantData> merchants,
+            List<VirtualAccountModel> virtualAccounts,
+            BulkBalanceResponse response
+    ) {
+        List<GetPOSResponse> data = new ArrayList<>();
+
+        // Build lookup map: terminalId → virtual account number
+        Map<String, String> accountMap = new HashMap<>();
+
+        for (VirtualAccountModel v : virtualAccounts) {
+            if (v.getTerminalId() != null && v.getVirtual_account_number() != null) {
+                accountMap.put(v.getTerminalId(), v.getVirtual_account_number());
+            }
+        }
+
+        for (MerchantData m : merchants) {
+            GetPOSResponse posResponse = new GetPOSResponse();
+            String posAcct = accountMap.getOrDefault(m.getTerminalId(), "");
+
+            double balance = response.getBalanceResponseList()
+                    .stream()
+                    .filter(b -> posAcct.equals(b.getAccountNumber()))
+                    .map(BalanceResponse::getEffectiveBalance) // ✅ FIX
+                    .findFirst()
+                    .orElse(0.0);
+
+            posResponse.setTerminalID(m.getTerminalId());
+            posResponse.setApplicationStatus(m.getStatus());
+            posResponse.setStatus(m.getStatus());
+            posResponse.setPosLongitude(m.getGpsLongitude());
+            posResponse.setPosLatitude(m.getGpsLatitude());
+            posResponse.setBalance(String.valueOf(balance));
+            // Match account using terminalId
+            posResponse.setPosAcctNum(posAcct);
+
+            data.add(posResponse);
+        }
+
+        return data;
     }
 
     @CrossOrigin(origins = "*")

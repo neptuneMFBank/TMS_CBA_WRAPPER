@@ -1,7 +1,6 @@
 package com.neptune.cbawrapper.Repository;
 
 import com.neptune.cbawrapper.Models.MerchantData;
-import com.neptune.cbawrapper.Models.VirtualAccountModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,9 @@ import java.util.Optional;
 public interface MerchantRepository extends MongoRepository<MerchantData, String> {
     List<MerchantData> findByUploadedFalse();
 
-    Optional<MerchantData> findMerchantByBusinessAcct(String businessAcct);
+    Optional<MerchantData> findMerchantByTin(String tin);
+
+    List<MerchantData> findMerchantByBusinessAcct(String businessAcct);
 
     Optional<MerchantData> findFirstByOrderByCreatedAtDesc();
 }
