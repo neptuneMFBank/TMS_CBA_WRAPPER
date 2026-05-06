@@ -32,7 +32,7 @@
 		<grpc.version>1.35.0</grpc.version>
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.taget>17</maven.compiler.taget>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -186,11 +186,6 @@
 		</extensions>
 		<plugins>
 			<plugin>
-				<groupId>org.xolstice.maven.plugins</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.6.1</version> <!-- Consider updating this to a more recent version -->
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -209,9 +204,9 @@
 				<artifactId>protobuf-maven-plugin</artifactId>
 				<version>0.6.1</version>
 				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:osx-x86_64</protocArtifact>
+					<protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:osx-x86_64</pluginArtifact>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
 				</configuration>
 				<executions>
 					<execution>
