@@ -1,5 +1,8 @@
 package com.neptune.cbawrapper.Services;
 
+import com.neptune.cba.transaction.balance.BalanceRequest;
+import com.neptune.cba.transaction.balance.BalanceServiceGrpc;
+import com.neptune.cba.transaction.balance.BulkBalanceRequest;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferRequest;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferServiceGrpc;
@@ -13,6 +16,8 @@ import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -92,6 +97,51 @@ public class TransactionService {
         }
     }
 
+    public com.neptune.cba.transaction.balance.BulkBalanceResponse getBulkBalance(
+            Map<String, String> accountData,
+            String type,
+            String date
+    ) {
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(transaction_ip, transaction_port)
+                .usePlaintext()
+                .build();
+
+        com.neptune.cba.transaction.balance.BulkBalanceResponse response = null;
+
+        try {
+            BalanceServiceGrpc.BalanceServiceBlockingStub stub =
+                    BalanceServiceGrpc.newBlockingStub(channel);
+
+            // Build BulkBalanceRequest
+            BulkBalanceRequest.Builder bulkBuilder = BulkBalanceRequest.newBuilder();
+
+            for (Map.Entry<String, String> data : accountData.entrySet()) {
+
+                // Build BalanceRequest (NOT BulkBalanceRequest)
+                BalanceRequest balanceRequest = BalanceRequest.newBuilder()
+                        .setAccountId(data.getKey())
+                        .setAccountNumber(data.getValue())
+                        .build();
+
+                bulkBuilder.addBalanceRequest(balanceRequest);
+            }
+
+            BulkBalanceRequest request = bulkBuilder
+                    .setAccType(type)
+                    .setDate(date != null ? date : "")
+                    .build();
+
+            response = stub.bulkBalance(request);
+
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+        } finally {
+            channel.shutdownNow();
+        }
+
+        return response;
+    }
 
     private String safe(String value) {
         return value == null ? "" : value;

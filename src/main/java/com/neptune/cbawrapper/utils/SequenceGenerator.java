@@ -53,6 +53,43 @@ public class SequenceGenerator {
         throw new IllegalArgumentException("Invalid input: " + currentValue);
     }
 
+    public String incrementString(String input) {
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Input string cannot be null or empty");
+        }
+
+        int length = input.length();
+        String charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        // Convert input to char array and process from right to left
+        char[] chars = input.toUpperCase().toCharArray();
+        boolean carry = true;
+
+        for (int i = chars.length - 1; i >= 0 && carry; i--) {
+            int currentIndex = charset.indexOf(chars[i]);
+
+            if (currentIndex == -1) {
+                throw new IllegalArgumentException("Invalid character in input: " + chars[i]);
+            }
+
+            int nextIndex = currentIndex + 1;
+
+            if (nextIndex < charset.length()) {
+                chars[i] = charset.charAt(nextIndex);
+                carry = false;
+            } else {
+                // Wrap around back to '0' and carry over to next position
+                chars[i] = '0';
+            }
+        }
+
+        if (carry) {
+            throw new IllegalArgumentException("Input has exceeded maximum value for length " + length);
+        }
+
+        return new String(chars);
+    }
+
     private String incrementBase36(String value) {
 
         char[] arr = value.toCharArray();
@@ -82,6 +119,7 @@ public class SequenceGenerator {
     }
 
     public String getValueAfter2NEP(String input) {
+        System.out.println("input = " + input);
 
         if (input == null || !input.startsWith("2NEP")) {
             throw new IllegalArgumentException("Invalid input");
