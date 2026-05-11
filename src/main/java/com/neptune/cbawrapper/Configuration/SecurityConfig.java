@@ -15,17 +15,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOriginPatterns("http://localhost:*") // allows any localhost port
-                        .allowedMethods("*") // allow all methods
-                        .allowedHeaders("*") // allow all headers
-                        .allowCredentials(true); // enable cookies/auth
-            }
-        };
-    }
 }

@@ -380,7 +380,7 @@ public class Cron {
         virtualAccountModel.setNin("");
         virtualAccountModel.setIs_updated(false);
         virtualAccountModel.setTin(customersModel.getTin());
-        virtualAccountModel.setParent_id(customersModel.getId());
+        virtualAccountModel.setParent_id(customersModel.getCba_customer_id());
         virtualAccountModel.setParent_account(customersModel.getAccount_num());
         virtualAccountModel.setBusinessName(data.getBusinessName());
         virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
@@ -417,13 +417,13 @@ public class Cron {
             Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(), virtualAccountModel.get().getParent_account());
 
             System.out.println("response = " + response);
-            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
-                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
-                virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
-                virtualAccountRepository.save(virtualAccountModel1);
+//            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
+            VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+            virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+            virtualAccountModel1.setCustomer_product_id(response.getCustomerProductId());
+            virtualAccountRepository.save(virtualAccountModel1);
 
-                sendPasswordMail(virtualAccountModel.get());
-            }
+            sendPasswordMail(virtualAccountModel.get());
 
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
@@ -549,7 +549,7 @@ public class Cron {
                                 System.out.println("NOT_SENT_TO_CBA");
                                 System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
                             }
-                        }else {
+                        } else {
                             UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
                             requestSchema.setNote(response.getMessage());
                             requestSchema.setStatus(Integer.parseInt(response.getCode()));
