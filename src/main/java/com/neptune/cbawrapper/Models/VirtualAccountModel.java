@@ -24,6 +24,7 @@ public class VirtualAccountModel {
     private String business_id;
     private String business_wallet;
     private String savingsId;
+    private String customer_product_id;
     private String virtual_account_number;
     private String terminalId;
     private String businessName;
@@ -256,6 +257,14 @@ public class VirtualAccountModel {
         this.nin = nin;
         this.parent_id = parent_id;
         this.parent_account = parent_account;
+    }
+
+    public String getCustomer_product_id() {
+        return customer_product_id;
+    }
+
+    public void setCustomer_product_id(String customer_product_id) {
+        this.customer_product_id = customer_product_id;
     }
 
     @Override
