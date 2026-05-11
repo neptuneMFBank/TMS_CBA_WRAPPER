@@ -380,7 +380,7 @@ public class Cron {
         virtualAccountModel.setNin("");
         virtualAccountModel.setIs_updated(false);
         virtualAccountModel.setTin(customersModel.getTin());
-        virtualAccountModel.setParent_id(customersModel.getId());
+        virtualAccountModel.setParent_id(customersModel.getCba_customer_id());
         virtualAccountModel.setParent_account(customersModel.getAccount_num());
         virtualAccountModel.setBusinessName(data.getBusinessName());
         virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
