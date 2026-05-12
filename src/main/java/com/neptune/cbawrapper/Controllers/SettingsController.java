@@ -10,10 +10,8 @@ import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +83,6 @@ public class SettingsController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
-
     @CrossOrigin(origins = "*")
     @PostMapping("/set-password")
     public ResponseEntity<ResponseSchema<?>> setPassword(@RequestBody PinRequest request) {
@@ -121,6 +118,23 @@ public class SettingsController {
         ResponseSchema<?> responseSchema = new ResponseSchema<>(501, "Code mismatch", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/reset-password")
+    public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestParam String account) {
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(account);
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        cron.sendPasswordMail(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password expired, kindly check your mail for new password link", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
 
     @CrossOrigin(origins = "*")
     @PostMapping("/create-dispute-reason")
