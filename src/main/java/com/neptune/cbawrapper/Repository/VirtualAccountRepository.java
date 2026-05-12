@@ -37,6 +37,11 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'businessWalletId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByBusinessAccount(String businessWalletId);
 
+    @Query("{ 'businessWalletId': { $eq: ?0 } }")
+    List<VirtualAccountModel> findAllByBusinessWalletId(String businessWalletId);
+
     @Query("{ 'parent_account': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByParentAccount(String parent_account);
+
+    Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
 }
