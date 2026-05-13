@@ -201,7 +201,7 @@ public class SettingsController {
         String terminalId;
         String merchantId = "";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
-        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("00000000001")));
+        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
 
         MerchantData merchant = MerchantData.builder()
                 .uploaded(false)
