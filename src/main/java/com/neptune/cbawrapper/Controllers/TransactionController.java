@@ -211,6 +211,7 @@ public class TransactionController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
         System.out.println("request = " + request);
         request.setDateFormat("dd MMMM yyyy");
         request.setStatus("pending");
@@ -233,6 +234,24 @@ public class TransactionController {
         BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
 
         if (request.isBillsPayment() || request.isTransfer()) {
+            if(request.isBillsPayment()) {
+                if (!virtualAccountModel.get().getPayBills()) {
+                    responseData.setMessage("Bills payment have been deactivated");
+                    responseData.setStatus(404);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
+                }
+            }
+            if(request.isTransfer()){
+                if (!virtualAccountModel.get().getInitiateTrans()) {
+                    responseData.setMessage("Outward transfers have been deactivated");
+                    responseData.setStatus(404);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
+                }
+            }
             boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
             if (!isAuthenticated) {
                 responseData.setMessage("Unauthorized");
@@ -539,7 +558,7 @@ public class TransactionController {
             BalanceResponse response = debitCreditService.getBalance(accountNum, account_id);
 
             System.out.println("response = " + response);
-            com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse balanceResponse = new com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse();
+            BalanceResponseData balanceResponse = new BalanceResponseData();
 
             if (response != null) {
                 double effBal = BigDecimal.valueOf(response.getEffectiveBalance()).setScale(2, RoundingMode.HALF_UP).doubleValue();

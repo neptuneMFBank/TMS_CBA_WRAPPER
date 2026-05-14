@@ -3,6 +3,7 @@ package com.neptune.cbawrapper.Services;
 import com.neptune.cba.transaction.balance.BalanceRequest;
 import com.neptune.cba.transaction.balance.BalanceServiceGrpc;
 import com.neptune.cba.transaction.balance.BulkBalanceRequest;
+import com.neptune.cba.transaction.balance.BulkBalanceResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferRequest;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferServiceGrpc;
@@ -97,7 +98,7 @@ public class TransactionService {
         }
     }
 
-    public com.neptune.cba.transaction.balance.BulkBalanceResponse getBulkBalance(
+    public BulkBalanceResponse getBulkBalance(
             Map<String, String> accountData,
             String type,
             String date

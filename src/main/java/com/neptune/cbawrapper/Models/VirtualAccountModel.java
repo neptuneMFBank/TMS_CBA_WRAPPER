@@ -15,6 +15,8 @@ public class VirtualAccountModel {
     private String account_name;
     private String email;
     private String bvn;
+    private Boolean payBills = true;
+    private Boolean initiateTrans = true;
     private String nin;
     private String tin;
     private Boolean is_updated;
@@ -265,6 +267,38 @@ public class VirtualAccountModel {
 
     public void setCustomer_product_id(String customer_product_id) {
         this.customer_product_id = customer_product_id;
+    }
+
+    public Boolean getPayBills() {
+        return payBills;
+    }
+
+    public void setPayBills(Boolean payBills) {
+        this.payBills = payBills;
+    }
+
+    public Boolean getInitiateTrans() {
+        return initiateTrans;
+    }
+
+    public void setInitiateTrans(Boolean initiateTrans) {
+        this.initiateTrans = initiateTrans;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

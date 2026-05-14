@@ -8,6 +8,8 @@ public class GetPOSResponse {
     private String posLatitude;
     private String balance;
     private String status;
+    private Boolean payBills;
+    private Boolean initiateTrans;
 
     public String getStatus() {
         return status;
@@ -63,5 +65,21 @@ public class GetPOSResponse {
 
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    public Boolean getPayBills() {
+        return payBills;
+    }
+
+    public void setPayBills(Boolean payBills) {
+        this.payBills = payBills;
+    }
+
+    public Boolean getInitiateTrans() {
+        return initiateTrans;
+    }
+
+    public void setInitiateTrans(Boolean initiateTrans) {
+        this.initiateTrans = initiateTrans;
     }
 }
