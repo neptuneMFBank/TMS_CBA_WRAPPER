@@ -4,12 +4,21 @@ public class GetPOSResponse {
     private String terminalID;
     private String applicationStatus;
     private String posAcctNum;
+    private String posName;
     private String posLongitude;
     private String posLatitude;
     private String balance;
     private String status;
     private Boolean payBills;
     private Boolean initiateTrans;
+
+    public String getPosName() {
+        return posName;
+    }
+
+    public void setPosName(String posName) {
+        this.posName = posName;
+    }
 
     public String getStatus() {
         return status;
