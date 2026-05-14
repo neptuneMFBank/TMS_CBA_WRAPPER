@@ -176,7 +176,7 @@ public class SettingsController {
         virtualAccountModel.get().setCodeExpired(true);
         virtualAccountRepository.save(virtualAccountModel.get());
 
-        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password expired, kindly check your mail for new password link", "", "", ZonedDateTime.now(), false);
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password successfully reset", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
