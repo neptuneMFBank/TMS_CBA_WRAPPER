@@ -110,7 +110,7 @@ public class SettingsController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        boolean matches = passwordEncoder.matches(request.getPin(), request.getConfirmOldPin());
+        boolean matches = passwordEncoder.matches(request.getConfirmOldPin(), virtualAccountModel.get().getPin());
 
         if (!matches) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "wrong pin", "", "", ZonedDateTime.now(), false);
@@ -263,6 +263,7 @@ public class SettingsController {
                 .bankAccNo(pos_settlement_bank_number)
                 .businessOccupationCode("5411")
                 .merchantCategoryCode("5999")
+                .appName(request.getDisplayName())
                 .stateCode(stateCode)
                 .status("Pending")
                 .gpsLongitude(request.getGpsLongitude())
@@ -390,6 +391,7 @@ public class SettingsController {
             posResponse.setPosLatitude(m.getGpsLatitude());
             posResponse.setBalance(String.valueOf(balance));
             // Match account using terminalId
+            posResponse.setPosName(m.getAppName());
             posResponse.setPosAcctNum(acct);
 
             data.add(posResponse);
