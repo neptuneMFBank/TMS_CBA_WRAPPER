@@ -162,7 +162,7 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/reset-password")
+    @PostMapping("/reset-pin")
     public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
