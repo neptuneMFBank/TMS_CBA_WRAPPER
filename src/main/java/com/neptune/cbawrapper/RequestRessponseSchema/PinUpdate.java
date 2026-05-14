@@ -2,7 +2,7 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 public class PinUpdate {
     private String pin;
-    private String confirmPin;
+    private String confirmOldPin;
     private String account;
 
     public String getAccount() {
@@ -21,11 +21,11 @@ public class PinUpdate {
         this.pin = pin;
     }
 
-    public String getConfirmPin() {
-        return confirmPin;
+    public String getConfirmOldPin() {
+        return confirmOldPin;
     }
 
-    public void setConfirmPin(String confirmPin) {
-        this.confirmPin = confirmPin;
+    public void setConfirmOldPin(String confirmOldPin) {
+        this.confirmOldPin = confirmOldPin;
     }
 }

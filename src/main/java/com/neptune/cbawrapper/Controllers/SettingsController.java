@@ -45,7 +45,6 @@ public class SettingsController {
     @Value("${pos.afrigo.acquirer.id.number}")
     private String pos_afrigo_acquirer_id_number;
 
-
     private final TmsCoreWalletAccount tmsCoreWalletAccount;
     private final PasswordEncoder passwordEncoder;
     private final MerchantRepository merchantRepository;
@@ -111,6 +110,13 @@ public class SettingsController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
+        boolean matches = passwordEncoder.matches(request.getPin(), request.getConfirmOldPin());
+
+        if (!matches) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "wrong pin", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
         String hashedPassword = passwordEncoder.encode(request.getPin());
         virtualAccountModel.get().setPin(hashedPassword);
         virtualAccountRepository.save(virtualAccountModel.get());
@@ -156,16 +162,19 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/reset-password")
-    public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestParam String account) {
-        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(account);
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
         if (virtualAccountModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        cron.sendPasswordMail(virtualAccountModel.get());
+        String hashedPassword = passwordEncoder.encode(request.getNewPin());
+        virtualAccountModel.get().setPin(hashedPassword);
+        virtualAccountModel.get().setCodeExpired(true);
+        virtualAccountRepository.save(virtualAccountModel.get());
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password expired, kindly check your mail for new password link", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
