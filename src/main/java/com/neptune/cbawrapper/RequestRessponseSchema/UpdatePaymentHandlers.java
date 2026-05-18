@@ -28,4 +28,13 @@ public class UpdatePaymentHandlers {
     public void setTrans(Boolean trans) {
         this.trans = trans;
     }
+
+    @Override
+    public String toString() {
+        return "UpdatePaymentHandlers{" +
+                "bills=" + bills +
+                ", trans=" + trans +
+                ", acctNum='" + acctNum + '\'' +
+                '}';
+    }
 }

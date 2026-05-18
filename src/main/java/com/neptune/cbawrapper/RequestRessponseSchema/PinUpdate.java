@@ -28,4 +28,13 @@ public class PinUpdate {
     public void setConfirmOldPin(String confirmOldPin) {
         this.confirmOldPin = confirmOldPin;
     }
+
+    @Override
+    public String toString() {
+        return "PinUpdate{" +
+                "pin='" + pin + '\'' +
+                ", confirmOldPin='" + confirmOldPin + '\'' +
+                ", account='" + account + '\'' +
+                '}';
+    }
 }
