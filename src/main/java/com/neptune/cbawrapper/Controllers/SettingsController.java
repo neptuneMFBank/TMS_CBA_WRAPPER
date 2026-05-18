@@ -84,7 +84,8 @@ public class SettingsController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/update-transaction-handlers")
-    public ResponseEntity<ResponseSchema<?>> setPin(@RequestBody UpdatePaymentHandlers request) {
+    public ResponseEntity<ResponseSchema<?>> updateHandlers(@RequestBody UpdatePaymentHandlers request) {
+        System.out.println("request = " + request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNum());
 
         if (virtualAccountModel.isEmpty()) {
@@ -103,6 +104,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @PostMapping("/set-pin")
     public ResponseEntity<ResponseSchema<?>> setPin(@RequestBody PinUpdate request) {
+        System.out.println("request = " + request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
         if (virtualAccountModel.isEmpty()) {
@@ -113,8 +115,8 @@ public class SettingsController {
         boolean matches = passwordEncoder.matches(request.getConfirmOldPin(), virtualAccountModel.get().getPin());
 
         if (!matches) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "wrong pin", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Unauthorized", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
         }
 
         String hashedPassword = passwordEncoder.encode(request.getPin());
@@ -164,6 +166,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @PostMapping("/reset-pin")
     public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
+        System.out.println("request = " + request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
         if (virtualAccountModel.isEmpty()) {

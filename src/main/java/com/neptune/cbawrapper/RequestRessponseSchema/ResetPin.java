@@ -19,4 +19,12 @@ public class ResetPin {
     public void setAccount(String account) {
         this.account = account;
     }
+
+    @Override
+    public String toString() {
+        return "ResetPin{" +
+                "newPin='" + newPin + '\'' +
+                ", account='" + account + '\'' +
+                '}';
+    }
 }
