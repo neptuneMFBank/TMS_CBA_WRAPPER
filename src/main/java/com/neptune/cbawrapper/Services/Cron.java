@@ -32,7 +32,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
 @Slf4j
 @Controller
 public class Cron {
@@ -64,6 +63,7 @@ public class Cron {
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
     private final DebitCreditService debitCreditService;
+    private final MerchantRepository merchantRepository;
     private final CategoriesRepository categoriesRepository;
     private final CategoryServicesRepository categoryServicesRepository;
     private final TransactionCoreController transactionCoreController;
@@ -72,11 +72,12 @@ public class Cron {
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
     private final Notifications notifications;
 
-    public Cron(CustomersRepository customersRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
+    public Cron(CustomersRepository customersRepository, MerchantRepository merchantRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
         this.helpers = helpers;
+        this.merchantRepository = merchantRepository;
         this.categoryServicesRepository = categoryServicesRepository;
         this.categoriesRepository = categoriesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
@@ -128,6 +129,11 @@ public class Cron {
                 if (StringUtils.isNotBlank(tin) && resultList.contains(tin)) {
                     CustomersModel customersModel2 = getCustomersModel(customersModels, i);
                     customersRepository.save(customersModel2);
+
+                    Optional<MerchantData> merchantData =  merchantRepository.findMerchantByTin(tin);
+                    merchantData.get().setUploaded(true);
+
+                    merchantRepository.save(merchantData.get());
                 } else {
                     ErrorLogsModel errorLogsModel = new ErrorLogsModel(fullName, "TIN is not available");
                     errorLogsModel.setType("CorePay_CREATION");
@@ -378,6 +384,8 @@ public class Cron {
         virtualAccountModel.setBvn("");
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
+        virtualAccountModel.setPayBills(true);
+        virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);
         virtualAccountModel.setTin(customersModel.getTin());
         virtualAccountModel.setParent_id(customersModel.getCba_customer_id());

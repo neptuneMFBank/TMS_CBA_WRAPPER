@@ -1,6 +1,6 @@
 package com.neptune.cbawrapper.RequestRessponseSchema;
 
-public class BalanceResponse {
+public class BalanceResponseData {
 
     private Double effective_balance;
     private Double ledger_balance;
@@ -102,6 +102,6 @@ public class BalanceResponse {
         this.account_number = account_number;
     }
 
-    public BalanceResponse() {
+    public BalanceResponseData() {
     }
 }

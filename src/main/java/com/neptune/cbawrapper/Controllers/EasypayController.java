@@ -122,6 +122,7 @@ public class EasypayController {
         String expiry = LocalDateTime.now().plusMinutes(30).toString();
         try {
             String session_Id = "2103" + (System.currentTimeMillis() / 1000);
+            String ref = String.valueOf((System.currentTimeMillis() / 1000));
             if (requestPayload.getDestinationInstitutionCode().equals("090329")) {
 //            save name enquiry data and use the result for /outward_transfer
                 String transaction_id = UUID.randomUUID().toString();
@@ -133,6 +134,7 @@ public class EasypayController {
                 enquiryResponseModel.setSessionID(session_Id);
                 enquiryResponseModel.setTransactionId(transaction_id);
                 enquiryResponseModel.setChannelCode(1);
+                enquiryResponseModel.setRef(ref);
                 enquiryResponseModel.setDestinationInstitutionCode(requestPayload.getDestinationInstitutionCode());
                 enquiryResponseModel.setAccountName(response.getAccountName());
                 enquiryResponseModel.setAccountNumber(response.getAccountNumber());
@@ -151,7 +153,6 @@ public class EasypayController {
             }
             System.out.println("11111111111222222222222");
             System.out.println("request = " + requestPayload);
-            String ref = String.valueOf((System.currentTimeMillis() / 1000));
             NameEnquiryRequest nameEnquiryRequest = new NameEnquiryRequest();
             nameEnquiryRequest.setPlatform("mobile");
             nameEnquiryRequest.setRequestId(ref);
@@ -189,7 +190,7 @@ public class EasypayController {
 
             NameEnquiry data = new NameEnquiry();
             data.setExpiry_time(expiry);
-            data.setUnique_id(session_Id);//data.setUnique_id(response.getData().getSessionID());
+            data.setUnique_id(ref);//data.setUnique_id(response.getData().getSessionID());
             data.setAccountName(response.getData().getAccountName());
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);

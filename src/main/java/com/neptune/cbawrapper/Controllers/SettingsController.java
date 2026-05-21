@@ -10,10 +10,8 @@ import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +44,6 @@ public class SettingsController {
 
     @Value("${pos.afrigo.acquirer.id.number}")
     private String pos_afrigo_acquirer_id_number;
-
 
     private final TmsCoreWalletAccount tmsCoreWalletAccount;
     private final PasswordEncoder passwordEncoder;
@@ -85,6 +82,50 @@ public class SettingsController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping("/update-transaction-handlers")
+    public ResponseEntity<ResponseSchema<?>> updateHandlers(@RequestBody UpdatePaymentHandlers request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAcctNum());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid code", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        virtualAccountModel.get().setPayBills(request.getBills());
+        virtualAccountModel.get().setInitiateTrans(request.getTrans());
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "handlers set successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/set-pin")
+    public ResponseEntity<ResponseSchema<?>> setPin(@RequestBody PinUpdate request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account number", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        boolean matches = passwordEncoder.matches(request.getConfirmOldPin(), virtualAccountModel.get().getPin());
+
+        if (!matches) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Unauthorized", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+        }
+
+        String hashedPassword = passwordEncoder.encode(request.getPin());
+        virtualAccountModel.get().setPin(hashedPassword);
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password set successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/set-password")
@@ -121,6 +162,27 @@ public class SettingsController {
         ResponseSchema<?> responseSchema = new ResponseSchema<>(501, "Code mismatch", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/reset-pin")
+    public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount()); // 8519781359
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        String hashedPassword = passwordEncoder.encode(request.getNewPin());
+        virtualAccountModel.get().setPin(hashedPassword);
+        virtualAccountModel.get().setCodeExpired(true);
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Password successfully reset", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
 
     @CrossOrigin(origins = "*")
     @PostMapping("/create-dispute-reason")
@@ -187,7 +249,7 @@ public class SettingsController {
         String terminalId;
         String merchantId = "";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
-        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("00000000001")));
+        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
 
         MerchantData merchant = MerchantData.builder()
                 .uploaded(false)
@@ -204,6 +266,7 @@ public class SettingsController {
                 .bankAccNo(pos_settlement_bank_number)
                 .businessOccupationCode("5411")
                 .merchantCategoryCode("5999")
+                .appName(request.getDisplayName())
                 .stateCode(stateCode)
                 .status("Pending")
                 .gpsLongitude(request.getGpsLongitude())
@@ -289,33 +352,50 @@ public class SettingsController {
         List<GetPOSResponse> data = new ArrayList<>();
 
         // Build lookup map: terminalId → virtual account number
-        Map<String, String> accountMap = new HashMap<>();
+        Map<String, VirtualAcct> accountMap = new HashMap<>();
 
         for (VirtualAccountModel v : virtualAccounts) {
             if (v.getTerminalId() != null && v.getVirtual_account_number() != null) {
-                accountMap.put(v.getTerminalId(), v.getVirtual_account_number());
+                VirtualAcct virtualAcct = VirtualAcct.builder()
+                        .payBills(v.getPayBills())
+                        .initiateTrans(v.getInitiateTrans())
+                        .acctNum(v.getVirtual_account_number())
+                        .build();
+                accountMap.put(v.getTerminalId(), virtualAcct);
             }
         }
 
         for (MerchantData m : merchants) {
             GetPOSResponse posResponse = new GetPOSResponse();
-            String posAcct = accountMap.getOrDefault(m.getTerminalId(), "");
+            VirtualAcct posData = accountMap.get(m.getTerminalId());
 
             double balance = response.getBalanceResponseList()
                     .stream()
-                    .filter(b -> posAcct.equals(b.getAccountNumber()))
+                    .filter(b -> posData.getAcctNum().equals(b.getAccountNumber()))
                     .map(BalanceResponse::getEffectiveBalance) // ✅ FIX
                     .findFirst()
                     .orElse(0.0);
+
+            boolean initiateTrans = false;
+            boolean payBills = false;
+            String acct = "";
+            if(posData != null){
+                initiateTrans = posData.getInitiateTrans();
+                payBills = posData.getPayBills();
+                acct = posData.getAcctNum();
+            }
 
             posResponse.setTerminalID(m.getTerminalId());
             posResponse.setApplicationStatus(m.getStatus());
             posResponse.setStatus(m.getStatus());
             posResponse.setPosLongitude(m.getGpsLongitude());
+            posResponse.setInitiateTrans(initiateTrans);
+            posResponse.setPayBills(payBills);
             posResponse.setPosLatitude(m.getGpsLatitude());
             posResponse.setBalance(String.valueOf(balance));
             // Match account using terminalId
-            posResponse.setPosAcctNum(posAcct);
+            posResponse.setPosName(m.getAppName());
+            posResponse.setPosAcctNum(acct);
 
             data.add(posResponse);
         }

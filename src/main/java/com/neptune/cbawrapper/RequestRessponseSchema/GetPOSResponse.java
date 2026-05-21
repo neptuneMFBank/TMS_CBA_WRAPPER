@@ -4,10 +4,21 @@ public class GetPOSResponse {
     private String terminalID;
     private String applicationStatus;
     private String posAcctNum;
+    private String posName;
     private String posLongitude;
     private String posLatitude;
     private String balance;
     private String status;
+    private Boolean payBills;
+    private Boolean initiateTrans;
+
+    public String getPosName() {
+        return posName;
+    }
+
+    public void setPosName(String posName) {
+        this.posName = posName;
+    }
 
     public String getStatus() {
         return status;
@@ -63,5 +74,21 @@ public class GetPOSResponse {
 
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    public Boolean getPayBills() {
+        return payBills;
+    }
+
+    public void setPayBills(Boolean payBills) {
+        this.payBills = payBills;
+    }
+
+    public Boolean getInitiateTrans() {
+        return initiateTrans;
+    }
+
+    public void setInitiateTrans(Boolean initiateTrans) {
+        this.initiateTrans = initiateTrans;
     }
 }
