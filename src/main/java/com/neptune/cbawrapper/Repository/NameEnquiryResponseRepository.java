@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface NameEnquiryResponseRepository extends MongoRepository<NameEnquiryResponseModel, String> {
 
-    @Query("{ 'sessionID': { $eq: ?0 } }")
-    Optional<NameEnquiryResponseModel> getNameEnquiryById(String sessionID);
+    @Query("{ 'ref': { $eq: ?0 } }")
+    Optional<NameEnquiryResponseModel> getNameEnquiryById(String ref);
 }

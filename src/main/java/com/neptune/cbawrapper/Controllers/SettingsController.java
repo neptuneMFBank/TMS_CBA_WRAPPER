@@ -167,7 +167,7 @@ public class SettingsController {
     @PostMapping("/reset-pin")
     public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
         System.out.println("request = " + request.toString());
-        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount()); // 8519781359
 
         if (virtualAccountModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account", "", "", ZonedDateTime.now(), false);
