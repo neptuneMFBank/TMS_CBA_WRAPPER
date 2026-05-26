@@ -472,14 +472,14 @@ public class Cron {
     public void pushTransactionsToCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
 
-        System.out.println("transactionDrCr = " + transactionDrCr);
-
         if (transactionDrCr.isEmpty()) {
             return;
         }
 
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
             if (transactionDrCr1.getAccountnumber() != null && transactionDrCr1.getAmount() > 0) {
+
+                System.out.println("transactionDrCr = " + transactionDrCr);
 
                 if (transactionDrCr1.getResponseCode().equals("00")) {
 

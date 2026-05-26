@@ -145,7 +145,7 @@ public class EasypayController {
 
                 NameEnquiry data = new NameEnquiry();
                 data.setExpiry_time(expiry);
-                data.setUnique_id(session_Id);
+                data.setUnique_id(ref);//data.setUnique_id(response.getData().getSessionID());
                 data.setAccountName(response.getAccountName());
 
                 ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", data, "", ZonedDateTime.now(), false);
