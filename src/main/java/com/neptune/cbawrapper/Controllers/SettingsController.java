@@ -167,7 +167,7 @@ public class SettingsController {
     @PostMapping("/reset-pin")
     public ResponseEntity<ResponseSchema<?>> resetPassword(@RequestBody ResetPin request) {
         System.out.println("request = " + request.toString());
-        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount()); // 8519781359
 
         if (virtualAccountModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid account", "", "", ZonedDateTime.now(), false);
@@ -249,11 +249,11 @@ public class SettingsController {
         String terminalId;
         String merchantId = "";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
-        merchantId = geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
+        merchantId = "2NEP0425SL00001"; // "2NEP" + geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
 
         MerchantData merchant = MerchantData.builder()
                 .uploaded(false)
-                .merchantId("2NEP" + merchantId)
+                .merchantId(merchantId)
                 .merchantName(request.getDisplayName())
                 .contactName(request.getOfficeName())
                 .contactTitle(request.getTitle())
