@@ -216,25 +216,36 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @PostMapping("/create-pos-request")
     public ResponseEntity<ResponseSchema<?>> generateTerminalIds(@RequestBody TerminalUsers request) {
+        System.out.println("request = " + request.toString());
+        System.out.println("1234 ---------------------");
         Optional<Bank> getBanks = bankRepository.findByBankName(pos_settlement_bank_name);
+        System.out.println("1234 --------------------- ------------------");
         List<Lgas> getLga = lgaRepository.findAll();
+        System.out.println("----------- 1234 ---------------------");
 
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
+        System.out.println("============================");
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
-
+        System.out.println("============================ ================");
         Customer.GetCorporateByAccountResponse response =
                 customerService.getCustomerAcctNum(request.getBusinessAcct());
+        System.out.println("0000000000000000000000000000000000000");
+        System.out.println("response = " + response);
 
         if(response == null){
+            System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
+
+        System.out.println("7777777777777777777");
 
         String terminalLgaCode = getLga.stream()
                 .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getTerminalAddressLga()))
                 .map(Lgas::getLgaCode)
                 .findFirst()
                 .orElse(null);
+        System.out.println("7777777777777777777 -----");
 
         String merchantLgaCode = getLga.stream()
                 .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getMerchantAddressLga()))
@@ -242,15 +253,23 @@ public class SettingsController {
                 .findFirst()
                 .orElse(null);
 
+
+        System.out.println("7777777777777777777 ++++++++++");
+
         String stateCode = stateRepository.findByStateNameIgnoreCase(normalizeStateName(request.getState()))
                 .map(States::getStateCode)
                 .orElseThrow(() -> new RuntimeException("State not found"));
+
+
+        System.out.println("7777777777777777777 =9999999999");
 
         String terminalId;
         String merchantId = "";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
         merchantId = "2NEP0425SL00001"; // "2NEP" + geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
 
+
+        System.out.println("7777777777777777777 +000000ss0ss0sssss");
         MerchantData merchant = MerchantData.builder()
                 .uploaded(false)
                 .merchantId(merchantId)
@@ -297,8 +316,11 @@ public class SettingsController {
                 .createdAt(ZonedDateTime.now().toString())
                 .updatedAt(ZonedDateTime.now().toString())
                 .build();
+        System.out.println("7777777777777777777 ^^^^^^^^^^^^^^^");
 
         merchantRepository.save(merchant);
+
+        System.out.println("7777777777777777777 ********8s8s8s8s8s8s");
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Business details for POS created successfully", null, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
