@@ -336,6 +336,20 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping("/get-merchant-data")
+    public ResponseEntity<ResponseSchema<?>> getMerchantData(@RequestParam("tin") String tin) {
+        Optional<MerchantData> merchant = merchantRepository.findMerchantByTin(tin);
+
+        if(merchant.isEmpty()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Received successfully", merchant.get(), "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/get-business-pos")
     public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
         List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
