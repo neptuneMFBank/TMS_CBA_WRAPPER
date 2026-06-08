@@ -47,14 +47,16 @@ public class Helpers {
 
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final PlatformChargeRepository platformChargeRepository;
+    private final MerchantRepository merchantRepository;
     private final TransactionCoreController transactionCoreController;
     private final VirtualAccountRepository virtualAccountRepository;
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
 
-    public Helpers(TransactionCoreController transactionCoreController, VirtualAccountRepository virtualAccountRepository, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository, ObjectMapper objectMapper) {
+    public Helpers(TransactionCoreController transactionCoreController, MerchantRepository merchantRepository, VirtualAccountRepository virtualAccountRepository, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequests, BusinessPlatformChargesRepository businessPlatformChargesRepository, ObjectMapper objectMapper) {
         this.platformChargeRepository = platformChargeRepository;
         this.transactionCoreController = transactionCoreController;
         this.virtualAccountRepository = virtualAccountRepository;
+        this.merchantRepository = merchantRepository;
         this.businessPlatformChargesRepository = businessPlatformChargesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
         this.objectMapper = objectMapper;
@@ -381,5 +383,13 @@ public class Helpers {
         } catch (JsonProcessingException e) {
             return null;
         }
+    }
+
+    public Optional<MerchantData> getMerchant(String tin){
+        List<MerchantData> merchantData = merchantRepository.findMerchantByTin(tin);
+        if (merchantData.isEmpty()) {
+            return Optional.empty();
+        }
+        return merchantData.stream().findFirst();
     }
 }

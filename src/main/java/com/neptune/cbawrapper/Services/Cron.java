@@ -130,7 +130,7 @@ public class Cron {
                     CustomersModel customersModel2 = getCustomersModel(customersModels, i);
                     customersRepository.save(customersModel2);
 
-                    Optional<MerchantData> merchantData =  merchantRepository.findMerchantByTin(tin);
+                    Optional<MerchantData> merchantData = helpers.getMerchant(tin);
                     merchantData.get().setUploaded(true);
 
                     merchantRepository.save(merchantData.get());
