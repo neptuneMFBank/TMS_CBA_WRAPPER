@@ -2,6 +2,7 @@ package com.neptune.cbawrapper.Controllers;
 
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BulkBalanceResponse;
+import com.neptune.cbawrapper.Configuration.Helpers;
 import com.neptune.cbawrapper.Models.*;
 import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
@@ -54,16 +55,18 @@ public class SettingsController {
     private final MerchantExcelService merchantExcelService;
     private final BankRepository bankRepository;
     private final SequenceGenerator sequenceGenerator;
+    private final Helpers helpers;
     private final LgaRepository lgaRepository;
     private final CustomerService customerService;
     private final StateRepository stateRepository;
     private final TransactionService transactionService;
 
-    public SettingsController(TransactionService transactionService, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
+    public SettingsController(TransactionService transactionService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
         this.cron = cron;
         this.transactionService = transactionService;
         this.bankRepository = bankRepository;
+        this.helpers = helpers;
         this.merchantExcelService = merchantExcelService;
         this.merchantRepository = merchantRepository;
         this.customerService = customerService;
@@ -217,105 +220,162 @@ public class SettingsController {
     @PostMapping("/create-pos-request")
     public ResponseEntity<ResponseSchema<?>> generateTerminalIds(@RequestBody TerminalUsers request) {
         System.out.println("request = " + request.toString());
-        System.out.println("1234 ---------------------");
-        Optional<Bank> getBanks = bankRepository.findByBankName(pos_settlement_bank_name);
-        System.out.println("1234 --------------------- ------------------");
-        List<Lgas> getLga = lgaRepository.findAll();
-        System.out.println("----------- 1234 ---------------------");
-
-        Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
-        System.out.println("============================");
+        Optional<MerchantData> merchantData = helpers.getMerchant(request.getTin());
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
-        Customer.GetCorporateByAccountResponse response =
-                customerService.getCustomerAcctNum(request.getBusinessAcct());
-        System.out.println("0000000000000000000000000000000000000");
-        System.out.println("response = " + response);
 
-        if(response == null){
-            System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
-        }
-
-        System.out.println("7777777777777777777");
-
-        String terminalLgaCode = getLga.stream()
-                .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getTerminalAddressLga()))
-                .map(Lgas::getLgaCode)
-                .findFirst()
-                .orElse(null);
-        System.out.println("7777777777777777777 -----");
-
-        String merchantLgaCode = getLga.stream()
-                .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getMerchantAddressLga()))
-                .map(Lgas::getLgaCode)
-                .findFirst()
-                .orElse(null);
-
-
-        System.out.println("7777777777777777777 ++++++++++");
-
-        String stateCode = stateRepository.findByStateNameIgnoreCase(normalizeStateName(request.getState()))
-                .map(States::getStateCode)
-                .orElseThrow(() -> new RuntimeException("State not found"));
-
-
-        System.out.println("7777777777777777777 =9999999999");
+        Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
 
         String terminalId;
-        String merchantId = "";
+        String merchantId = "2NEP0425SL00001";
         terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
-        merchantId = "2NEP0425SL00001"; // "2NEP" + geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
+
+        MerchantData merchant;
+        if(merchantData.isPresent()) {
+            merchant = MerchantData.builder()
+                    .uploaded(false)
+                    .merchantId(merchantData.get().getMerchantId())
+                    .merchantName(request.getDisplayName())
+                    .contactName(request.getOfficeName())
+                    .contactTitle(request.getTitle())
+                    .mobilePhone(request.getMobileNo())
+                    .email(request.getEmailAddress())
+                    .merchantPhysicalAddr(merchantData.get().getMerchantPhysicalAddr())
+                    .terminalId("2NEP" + terminalId)
+                    .businessAcct(request.getBusinessAcct())
+                    .bankCode(merchantData.get().getBankCode())
+                    .bankAccNo(pos_settlement_bank_number)
+                    .businessOccupationCode("5411")
+                    .merchantCategoryCode("5999")
+                    .appName(request.getDisplayName())
+                    .stateCode(merchantData.get().getStateCode())
+                    .status("Pending")
+                    .gpsLongitude(request.getGpsLongitude())
+                    .gpsLatitude(request.getGpsLongitude())
+                    .dateOfIncorporation(request.getDateOfIncorporation())
+                    .officeName(request.getOfficeName())
+                    .rcNumber(request.getRcNumber())
+                    .officeAddress(request.getOfficeAddress())
+                    .parentId(merchantData.get().getId())
+                    .visaAcquirerIdNumber(pos_visa_acquirer_id_number)
+                    .verveAcquirerIdNumber(pos_verve_acquirer_id_number)
+                    .mastercardAcquirerIdNumber(pos_mastercard_acquirer_id_number)
+                    .terminalOwnerCode("507")
+                    .merchantAccountName(merchantData.get().getMerchantAccountName())
+                    .ptspCode("Interswitch")
+                    .merchantAcctDomicileBankCode(merchantData.get().getMerchantAcctDomicileBankCode())
+                    .terminalGroupId("2NEP")
+                    .bvn("")
+                    .tin(request.getTin())
+                    .merchantAddressLgaCode(merchantData.get().getMerchantAddressLgaCode())
+                    .agentCode("AG001")
+                    .terminalAddressLgaCode(merchantData.get().getTerminalAddressLgaCode())
+                    .terminalAddress(request.getTerminalAddress())
+                    .merchantAcquirerId("ACQ001")
+                    .terminalModelDescription("PAX S90")
+                    .appName("NeptunePay")
+                    .appVersion("1.0.0")
+                    .terminalType("POS")
+                    .createdAt(ZonedDateTime.now().toString())
+                    .updatedAt(ZonedDateTime.now().toString())
+                    .build();
+        }else {
+
+            System.out.println("1234 ---------------------");
+            Optional<Bank> getBanks = bankRepository.findByBankName(pos_settlement_bank_name);
+            System.out.println("1234 --------------------- ------------------");
+            List<Lgas> getLga = lgaRepository.findAll();
+            System.out.println("----------- 1234 ---------------------");
+            System.out.println("============================");
+
+            Customer.GetCorporateByAccountResponse response =
+                    customerService.getCustomerAcctNum(request.getBusinessAcct());
+            System.out.println("0000000000000000000000000000000000000");
+            System.out.println("response = " + response);
+
+            if(response == null){
+                System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+            }
+
+            System.out.println("7777777777777777777");
+
+            String terminalLgaCode = getLga.stream()
+                    .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getTerminalAddressLga()))
+                    .map(Lgas::getLgaCode)
+                    .findFirst()
+                    .orElse(null);
+            System.out.println("7777777777777777777 -----");
+
+            String merchantLgaCode = getLga.stream()
+                    .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getMerchantAddressLga()))
+                    .map(Lgas::getLgaCode)
+                    .findFirst()
+                    .orElse(null);
 
 
-        System.out.println("7777777777777777777 +000000ss0ss0sssss");
-        MerchantData merchant = MerchantData.builder()
-                .uploaded(false)
-                .merchantId(merchantId)
-                .merchantName(request.getDisplayName())
-                .contactName(request.getOfficeName())
-                .contactTitle(request.getTitle())
-                .mobilePhone(request.getMobileNo())
-                .email(request.getEmailAddress())
-                .merchantPhysicalAddr(response.getKyc().getCorporateCustomerAddress().getAddress())
-                .terminalId("2NEP"+terminalId)
-                .businessAcct(request.getBusinessAcct())
-                .bankCode(getBanks.get().getBankCode())
-                .bankAccNo(pos_settlement_bank_number)
-                .businessOccupationCode("5411")
-                .merchantCategoryCode("5999")
-                .appName(request.getDisplayName())
-                .stateCode(stateCode)
-                .status("Pending")
-                .gpsLongitude(request.getGpsLongitude())
-                .gpsLatitude(request.getGpsLongitude())
-                .dateOfIncorporation(request.getDateOfIncorporation())
-                .officeName(request.getOfficeName())
-                .rcNumber(request.getRcNumber())
-                .officeAddress(request.getOfficeAddress())
-                .visaAcquirerIdNumber(pos_visa_acquirer_id_number)
-                .verveAcquirerIdNumber(pos_verve_acquirer_id_number)
-                .mastercardAcquirerIdNumber(pos_mastercard_acquirer_id_number)
-                .terminalOwnerCode("507")
-                .merchantAccountName(getBanks.get().getBankName())
-                .ptspCode("Interswitch")
-                .merchantAcctDomicileBankCode(getBanks.get().getBankCode())
-                .terminalGroupId("2NEP")
-                .bvn("")
-                .tin(request.getTin())
-                .merchantAddressLgaCode(merchantLgaCode)
-                .agentCode("AG001")
-                .terminalAddressLgaCode(terminalLgaCode)
-                .terminalAddress(request.getTerminalAddress())
-                .merchantAcquirerId("ACQ001")
-                .terminalModelDescription("PAX S90")
-                .appName("NeptunePay")
-                .appVersion("1.0.0")
-                .terminalType("POS")
-                .createdAt(ZonedDateTime.now().toString())
-                .updatedAt(ZonedDateTime.now().toString())
-                .build();
+            System.out.println("7777777777777777777 ++++++++++");
+
+            String stateCode = stateRepository.findByStateNameIgnoreCase(normalizeStateName(request.getState()))
+                    .map(States::getStateCode)
+                    .orElseThrow(() -> new RuntimeException("State not found"));
+
+
+            System.out.println("7777777777777777777 =9999999999");
+
+//        merchantId = "2NEP0425SL00001"; // "2NEP" + geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
+
+
+            System.out.println("7777777777777777777 +000000ss0ss0sssss");
+
+            merchant = MerchantData.builder()
+                    .uploaded(false)
+                    .merchantId(merchantId)
+                    .merchantName(merchantData.get().getMerchantName())
+                    .contactName(merchantData.get().getOfficeName())
+                    .contactTitle(merchantData.get().getTitle())
+                    .mobilePhone(merchantData.get().getMobilePhone())
+                    .email(merchantData.get().getEmailAddress())
+                    .merchantPhysicalAddr(response.getKyc().getCorporateCustomerAddress().getAddress())
+                    .terminalId("2NEP" + terminalId)
+                    .businessAcct(merchantData.get().getBusinessAcct())
+                    .bankCode(getBanks.get().getBankCode())
+                    .bankAccNo(pos_settlement_bank_number)
+                    .businessOccupationCode("5411")
+                    .merchantCategoryCode("5999")
+                    .appName(request.getDisplayName())
+                    .stateCode(stateCode)
+                    .status("Pending")
+                    .gpsLongitude(request.getGpsLongitude())
+                    .gpsLatitude(request.getGpsLongitude())
+                    .dateOfIncorporation(merchantData.get().getDateOfIncorporation())
+                    .officeName(merchantData.get().getOfficeName())
+                    .rcNumber(request.getRcNumber())
+                    .officeAddress(merchantData.get().getOfficeAddress())
+                    .visaAcquirerIdNumber(pos_visa_acquirer_id_number)
+                    .verveAcquirerIdNumber(pos_verve_acquirer_id_number)
+                    .mastercardAcquirerIdNumber(pos_mastercard_acquirer_id_number)
+                    .terminalOwnerCode("507")
+                    .merchantAccountName(getBanks.get().getBankName())
+                    .ptspCode("Interswitch")
+                    .merchantAcctDomicileBankCode(getBanks.get().getBankCode())
+                    .terminalGroupId("2NEP")
+                    .bvn("")
+                    .tin(request.getTin())
+                    .merchantAddressLgaCode(merchantLgaCode)
+                    .agentCode("AG001")
+                    .terminalAddressLgaCode(terminalLgaCode)
+                    .terminalAddress(request.getTerminalAddress())
+                    .merchantAcquirerId("ACQ001")
+                    .terminalModelDescription("PAX S90")
+                    .appName("NeptunePay")
+                    .appVersion("1.0.0")
+                    .terminalType("POS")
+                    .createdAt(ZonedDateTime.now().toString())
+                    .updatedAt(ZonedDateTime.now().toString())
+                    .build();
+        }
         System.out.println("7777777777777777777 ^^^^^^^^^^^^^^^");
 
         merchantRepository.save(merchant);
@@ -338,7 +398,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @GetMapping("/get-merchant-data")
     public ResponseEntity<ResponseSchema<?>> getMerchantData(@RequestParam("tin") String tin) {
-        Optional<MerchantData> merchant = merchantRepository.findMerchantByTin(tin);
+        Optional<MerchantData> merchant = helpers.getMerchant(tin);
 
         if(merchant.isEmpty()){
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
@@ -444,7 +504,7 @@ public class SettingsController {
     public ResponseEntity<?> downloadTerminalSheet(@RequestParam String type) {
 
         List<MerchantData> merchant =
-                merchantRepository.findByUploadedFalse();
+                merchantRepository.findBySyncFalse();
 
         if (merchant.isEmpty()) {
 
@@ -468,6 +528,9 @@ public class SettingsController {
 
             byte[] file =
                     merchantExcelService.generateExcel(merchant);
+
+            merchant.forEach(merchantData -> merchantData.setSync(true));
+            merchantRepository.saveAll(merchant);
 
             return ResponseEntity.ok()
                     .header("Content-Disposition",

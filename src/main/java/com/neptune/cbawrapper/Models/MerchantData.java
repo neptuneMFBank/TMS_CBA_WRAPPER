@@ -68,7 +68,9 @@ public class MerchantData {
     private String appName;
     private String appVersion;
     private String terminalType;
-    private boolean uploaded;
+    private boolean uploaded = false;
+    private boolean sync = false;
+    private String parentId;
     @Field("created_at")
     private String createdAt;
     private String updatedAt;
@@ -487,6 +489,22 @@ public class MerchantData {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isSync() {
+        return sync;
+    }
+
+    public void setSync(boolean sync) {
+        this.sync = sync;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }
 
