@@ -35,6 +35,7 @@ public class MerchantData {
     private String title;
     private String emailAddress;
     private String officeName;
+    private boolean hasParent = false;
     private String state;
     private String incorpNo;
     private String terminalAddressLga;
@@ -505,6 +506,14 @@ public class MerchantData {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public boolean isHasParent() {
+        return hasParent;
+    }
+
+    public void setHasParent(boolean hasParent) {
+        this.hasParent = hasParent;
     }
 }
 
