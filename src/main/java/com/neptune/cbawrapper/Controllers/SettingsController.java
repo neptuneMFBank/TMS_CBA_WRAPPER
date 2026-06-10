@@ -428,10 +428,6 @@ public class SettingsController {
                 .toList();
         List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findByTerminalIdIn(terminalIds);
 
-        mongoTemplate.getCollection("virtual_accounts")
-                .find(new org.bson.Document("terminalId", "2NEP0002"))
-                .forEach(doc -> System.out.println("Raw doc: " + doc.toJson()));
-
         System.out.println("virtualAccountModel = " + virtualAccountModel.size());
 
         if(merchant.isEmpty()){
