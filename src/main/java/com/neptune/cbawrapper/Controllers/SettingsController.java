@@ -1,5 +1,6 @@
 package com.neptune.cbawrapper.Controllers;
 
+import com.mongodb.client.FindIterable;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BulkBalanceResponse;
 import com.neptune.cbawrapper.Configuration.Helpers;
@@ -10,8 +11,11 @@ import com.neptune.cbawrapper.Services.*;
 import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -60,6 +65,9 @@ public class SettingsController {
     private final CustomerService customerService;
     private final StateRepository stateRepository;
     private final TransactionService transactionService;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public SettingsController(TransactionService transactionService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
@@ -415,7 +423,16 @@ public class SettingsController {
     @GetMapping("/get-business-pos")
     public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
         List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
-        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findAllByBusinessWalletId(businessAcct);
+        List<String> terminalIds = merchant.stream()
+                .map(MerchantData::getTerminalId)
+                .toList();
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findByTerminalIdIn(terminalIds);
+
+        mongoTemplate.getCollection("virtual_accounts")
+                .find(new org.bson.Document("terminalId", "2NEP0002"))
+                .forEach(doc -> System.out.println("Raw doc: " + doc.toJson()));
+
+        System.out.println("virtualAccountModel = " + virtualAccountModel.size());
 
         if(merchant.isEmpty()){
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "No POS registered associated with this account", "", "", ZonedDateTime.now(), false);
@@ -453,6 +470,7 @@ public class SettingsController {
         Map<String, VirtualAcct> accountMap = new HashMap<>();
 
         for (VirtualAccountModel v : virtualAccounts) {
+            System.out.println("v = " + v.toString());
             if (v.getTerminalId() != null && v.getVirtual_account_number() != null) {
                 VirtualAcct virtualAcct = VirtualAcct.builder()
                         .payBills(v.getPayBills())
@@ -465,19 +483,27 @@ public class SettingsController {
 
         for (MerchantData m : merchants) {
             GetPOSResponse posResponse = new GetPOSResponse();
+
+            System.out.println("accountMap = " + accountMap);
+            System.out.println("m = " + m.toString());
+
             VirtualAcct posData = accountMap.get(m.getTerminalId());
 
-            double balance = response.getBalanceResponseList()
-                    .stream()
-                    .filter(b -> posData.getAcctNum().equals(b.getAccountNumber()))
-                    .map(BalanceResponse::getEffectiveBalance) // ✅ FIX
-                    .findFirst()
-                    .orElse(0.0);
+            double balance = 0.0;
+            if(posData != null){
+                balance = response.getBalanceResponseList()
+                        .stream()
+                        .filter(b -> posData.getAcctNum().equals(b.getAccountNumber()))
+                        .map(BalanceResponse::getEffectiveBalance) // ✅ FIX
+                        .findFirst()
+                        .orElse(0.0);
+            }
 
             boolean initiateTrans = false;
             boolean payBills = false;
             String acct = "";
             if(posData != null){
+                System.out.println("posData = " + posData.toString());
                 initiateTrans = posData.getInitiateTrans();
                 payBills = posData.getPayBills();
                 acct = posData.getAcctNum();
