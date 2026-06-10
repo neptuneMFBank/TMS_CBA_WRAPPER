@@ -2,9 +2,11 @@ package com.neptune.cbawrapper.RequestRessponseSchema;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
+@ToString
 public class VirtualAcct {
     private Boolean payBills;
     private Boolean initiateTrans;

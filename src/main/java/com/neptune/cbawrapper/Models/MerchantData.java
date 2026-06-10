@@ -515,5 +515,66 @@ public class MerchantData {
     public void setHasParent(boolean hasParent) {
         this.hasParent = hasParent;
     }
+
+    @Override
+    public String toString() {
+        return "MerchantData{" +
+                "id='" + id + '\'' +
+                ", businessAcct='" + businessAcct + '\'' +
+                ", merchantId='" + merchantId + '\'' +
+                ", merchantName='" + merchantName + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactTitle='" + contactTitle + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", email='" + email + '\'' +
+                ", merchantPhysicalAddr='" + merchantPhysicalAddr + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", bankCode='" + bankCode + '\'' +
+                ", bankAccNo='" + bankAccNo + '\'' +
+                ", businessOccupationCode='" + businessOccupationCode + '\'' +
+                ", merchantCategoryCode='" + merchantCategoryCode + '\'' +
+                ", stateCode='" + stateCode + '\'' +
+                ", title='" + title + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", officeName='" + officeName + '\'' +
+                ", hasParent=" + hasParent +
+                ", state='" + state + '\'' +
+                ", incorpNo='" + incorpNo + '\'' +
+                ", terminalAddressLga='" + terminalAddressLga + '\'' +
+                ", merchantAddressLga='" + merchantAddressLga + '\'' +
+                ", rcNumber='" + rcNumber + '\'' +
+                ", officeAddress='" + officeAddress + '\'' +
+                ", gpsLatitude='" + gpsLatitude + '\'' +
+                ", gpsLongitude='" + gpsLongitude + '\'' +
+                ", dateOfIncorporation='" + dateOfIncorporation + '\'' +
+                ", industryType='" + industryType + '\'' +
+                ", visaAcquirerIdNumber='" + visaAcquirerIdNumber + '\'' +
+                ", verveAcquirerIdNumber='" + verveAcquirerIdNumber + '\'' +
+                ", mastercardAcquirerIdNumber='" + mastercardAcquirerIdNumber + '\'' +
+                ", terminalOwnerCode='" + terminalOwnerCode + '\'' +
+                ", merchantAccountName='" + merchantAccountName + '\'' +
+                ", ptspCode='" + ptspCode + '\'' +
+                ", merchantAcctDomicileBankCode='" + merchantAcctDomicileBankCode + '\'' +
+                ", terminalGroupId='" + terminalGroupId + '\'' +
+                ", bvn='" + bvn + '\'' +
+                ", tin='" + tin + '\'' +
+                ", merchantAddressLgaCode='" + merchantAddressLgaCode + '\'' +
+                ", agentCode='" + agentCode + '\'' +
+                ", gpsInfo='" + gpsInfo + '\'' +
+                ", terminalAddressLgaCode='" + terminalAddressLgaCode + '\'' +
+                ", terminalAddress='" + terminalAddress + '\'' +
+                ", status='" + status + '\'' +
+                ", merchantAcquirerId='" + merchantAcquirerId + '\'' +
+                ", terminalModelDescription='" + terminalModelDescription + '\'' +
+                ", appName='" + appName + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", terminalType='" + terminalType + '\'' +
+                ", uploaded=" + uploaded +
+                ", sync=" + sync +
+                ", parentId='" + parentId + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
+    }
 }
 

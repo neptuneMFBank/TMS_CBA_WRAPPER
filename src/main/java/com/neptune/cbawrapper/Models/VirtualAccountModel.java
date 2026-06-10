@@ -28,6 +28,7 @@ public class VirtualAccountModel {
     private String savingsId;
     private String customer_product_id;
     private String virtual_account_number;
+    @Field("terminalId")
     private String terminalId;
     private String businessName;
     private Integer businessSavingsId;
