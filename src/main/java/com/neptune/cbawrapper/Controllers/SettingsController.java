@@ -484,7 +484,7 @@ public class SettingsController {
             }
 
             posResponse.setTerminalID(m.getTerminalId());
-            posResponse.setApplicationStatus(m.getStatus());
+            posResponse.setApplicationStatus(m.isUploaded() ? "Approved" : "Pending");
             posResponse.setStatus(m.getStatus());
             posResponse.setPosLongitude(m.getGpsLongitude());
             posResponse.setInitiateTrans(initiateTrans);
