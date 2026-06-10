@@ -131,9 +131,12 @@ public class Cron {
                     customersRepository.save(customersModel2);
 
                     Optional<MerchantData> merchantData = helpers.getMerchant(tin);
-                    merchantData.get().setUploaded(true);
 
-                    merchantRepository.save(merchantData.get());
+                    if(merchantData.isPresent()) {
+                        merchantData.get().setUploaded(true);
+                        merchantRepository.save(merchantData.get());
+                    }
+
                 } else {
                     ErrorLogsModel errorLogsModel = new ErrorLogsModel(fullName, "TIN is not available");
                     errorLogsModel.setType("CorePay_CREATION");

@@ -385,11 +385,13 @@ public class Helpers {
         }
     }
 
-    public Optional<MerchantData> getMerchant(String tin){
+    public Optional<MerchantData> getMerchant(String tin) {
         List<MerchantData> merchantData = merchantRepository.findMerchantByTin(tin);
         if (merchantData.isEmpty()) {
             return Optional.empty();
         }
-        return merchantData.stream().findFirst();
+        return merchantData.stream()
+                .filter(merchant -> !merchant.isUploaded())
+                .findFirst();
     }
 }
