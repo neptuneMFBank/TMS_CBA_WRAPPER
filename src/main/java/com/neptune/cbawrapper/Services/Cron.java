@@ -92,7 +92,7 @@ public class Cron {
         this.notifications = notifications;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -332,7 +332,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -401,7 +401,7 @@ public class Cron {
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -573,7 +573,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void checkTransactionStatusOnCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsLoggedToCba(true);
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {

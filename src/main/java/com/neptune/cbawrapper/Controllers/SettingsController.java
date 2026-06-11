@@ -234,9 +234,18 @@ public class SettingsController {
 
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
 
-        String terminalId;
         String merchantId = "2NEP0425SL00001";
-        terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
+        String terminalId = geMerchantAcct
+                .map(m -> sequenceGenerator.nextValue(
+                        sequenceGenerator.getValueAfter2NEP(m.getTerminalId())))
+                .orElseGet(() -> {
+                    String baseTerminalId = getVirtualAcct
+                            .map(VirtualAccountModel::getTerminalId)
+                            .orElse("2NEP0001");
+
+                    return sequenceGenerator.nextValue(
+                            sequenceGenerator.getValueAfter2NEP(baseTerminalId));
+                });
 
         MerchantData merchant;
         if(merchantData.isPresent()) {
