@@ -166,4 +166,28 @@ public class TerminalUsers {
 
     public TerminalUsers() {
     }
+
+    @Override
+    public String toString() {
+        return "TerminalUsers{" +
+                "businessAcct='" + businessAcct + '\'' +
+                ", title='" + title + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", officeName='" + officeName + '\'' +
+                ", tin='" + tin + '\'' +
+                ", state='" + state + '\'' +
+                ", incorpNo='" + incorpNo + '\'' +
+                ", terminalAddress='" + terminalAddress + '\'' +
+                ", terminalAddressLga='" + terminalAddressLga + '\'' +
+                ", merchantAddressLga='" + merchantAddressLga + '\'' +
+                ", rcNumber='" + rcNumber + '\'' +
+                ", officeAddress='" + officeAddress + '\'' +
+                ", gpsLatitude='" + gpsLatitude + '\'' +
+                ", gpsLongitude='" + gpsLongitude + '\'' +
+                ", dateOfIncorporation='" + dateOfIncorporation + '\'' +
+                ", industryType='" + industryType + '\'' +
+                '}';
+    }
 }

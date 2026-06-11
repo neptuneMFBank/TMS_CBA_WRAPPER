@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface MerchantRepository extends MongoRepository<MerchantData, String> {
     List<MerchantData> findByUploadedFalse();
 
-    Optional<MerchantData> findMerchantByTin(String tin);
+    List<MerchantData> findBySyncFalse();
+
+    List<MerchantData> findMerchantByTin(String tin);
 
     List<MerchantData> findMerchantByBusinessAcct(String businessAcct);
 

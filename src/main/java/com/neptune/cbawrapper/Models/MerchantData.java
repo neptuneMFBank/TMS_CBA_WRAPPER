@@ -35,6 +35,7 @@ public class MerchantData {
     private String title;
     private String emailAddress;
     private String officeName;
+    private boolean hasParent = false;
     private String state;
     private String incorpNo;
     private String terminalAddressLga;
@@ -68,7 +69,9 @@ public class MerchantData {
     private String appName;
     private String appVersion;
     private String terminalType;
-    private boolean uploaded;
+    private boolean uploaded = false;
+    private boolean sync = false;
+    private String parentId;
     @Field("created_at")
     private String createdAt;
     private String updatedAt;
@@ -487,6 +490,91 @@ public class MerchantData {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isSync() {
+        return sync;
+    }
+
+    public void setSync(boolean sync) {
+        this.sync = sync;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public boolean isHasParent() {
+        return hasParent;
+    }
+
+    public void setHasParent(boolean hasParent) {
+        this.hasParent = hasParent;
+    }
+
+    @Override
+    public String toString() {
+        return "MerchantData{" +
+                "id='" + id + '\'' +
+                ", businessAcct='" + businessAcct + '\'' +
+                ", merchantId='" + merchantId + '\'' +
+                ", merchantName='" + merchantName + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactTitle='" + contactTitle + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", email='" + email + '\'' +
+                ", merchantPhysicalAddr='" + merchantPhysicalAddr + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", bankCode='" + bankCode + '\'' +
+                ", bankAccNo='" + bankAccNo + '\'' +
+                ", businessOccupationCode='" + businessOccupationCode + '\'' +
+                ", merchantCategoryCode='" + merchantCategoryCode + '\'' +
+                ", stateCode='" + stateCode + '\'' +
+                ", title='" + title + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", officeName='" + officeName + '\'' +
+                ", hasParent=" + hasParent +
+                ", state='" + state + '\'' +
+                ", incorpNo='" + incorpNo + '\'' +
+                ", terminalAddressLga='" + terminalAddressLga + '\'' +
+                ", merchantAddressLga='" + merchantAddressLga + '\'' +
+                ", rcNumber='" + rcNumber + '\'' +
+                ", officeAddress='" + officeAddress + '\'' +
+                ", gpsLatitude='" + gpsLatitude + '\'' +
+                ", gpsLongitude='" + gpsLongitude + '\'' +
+                ", dateOfIncorporation='" + dateOfIncorporation + '\'' +
+                ", industryType='" + industryType + '\'' +
+                ", visaAcquirerIdNumber='" + visaAcquirerIdNumber + '\'' +
+                ", verveAcquirerIdNumber='" + verveAcquirerIdNumber + '\'' +
+                ", mastercardAcquirerIdNumber='" + mastercardAcquirerIdNumber + '\'' +
+                ", terminalOwnerCode='" + terminalOwnerCode + '\'' +
+                ", merchantAccountName='" + merchantAccountName + '\'' +
+                ", ptspCode='" + ptspCode + '\'' +
+                ", merchantAcctDomicileBankCode='" + merchantAcctDomicileBankCode + '\'' +
+                ", terminalGroupId='" + terminalGroupId + '\'' +
+                ", bvn='" + bvn + '\'' +
+                ", tin='" + tin + '\'' +
+                ", merchantAddressLgaCode='" + merchantAddressLgaCode + '\'' +
+                ", agentCode='" + agentCode + '\'' +
+                ", gpsInfo='" + gpsInfo + '\'' +
+                ", terminalAddressLgaCode='" + terminalAddressLgaCode + '\'' +
+                ", terminalAddress='" + terminalAddress + '\'' +
+                ", status='" + status + '\'' +
+                ", merchantAcquirerId='" + merchantAcquirerId + '\'' +
+                ", terminalModelDescription='" + terminalModelDescription + '\'' +
+                ", appName='" + appName + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", terminalType='" + terminalType + '\'' +
+                ", uploaded=" + uploaded +
+                ", sync=" + sync +
+                ", parentId='" + parentId + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
 }
 

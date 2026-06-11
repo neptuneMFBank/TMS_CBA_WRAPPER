@@ -92,7 +92,7 @@ public class Cron {
         this.notifications = notifications;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -130,10 +130,13 @@ public class Cron {
                     CustomersModel customersModel2 = getCustomersModel(customersModels, i);
                     customersRepository.save(customersModel2);
 
-                    Optional<MerchantData> merchantData =  merchantRepository.findMerchantByTin(tin);
-                    merchantData.get().setUploaded(true);
+                    Optional<MerchantData> merchantData = helpers.getMerchant(tin);
 
-                    merchantRepository.save(merchantData.get());
+                    if(merchantData.isPresent()) {
+                        merchantData.get().setUploaded(true);
+                        merchantRepository.save(merchantData.get());
+                    }
+
                 } else {
                     ErrorLogsModel errorLogsModel = new ErrorLogsModel(fullName, "TIN is not available");
                     errorLogsModel.setType("CorePay_CREATION");
@@ -329,7 +332,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -398,7 +401,7 @@ public class Cron {
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -570,7 +573,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void checkTransactionStatusOnCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsLoggedToCba(true);
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
