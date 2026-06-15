@@ -232,6 +232,12 @@ public class SettingsController {
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
 
+        System.out.println("merchantData = " + merchantData);
+        if(merchantData.isEmpty()){
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "You cannot add merchant for this terminal at this moment", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+        }
+
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
 
         String merchantId = "2NEP0425SL00001";
