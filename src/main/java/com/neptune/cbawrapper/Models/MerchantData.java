@@ -70,11 +70,20 @@ public class MerchantData {
     private String appVersion;
     private String terminalType;
     private boolean uploaded = false;
+    private boolean terminalCreated = false;
     private boolean sync = false;
     private String parentId;
     @Field("created_at")
     private String createdAt;
     private String updatedAt;
+
+    public boolean isTerminalCreated() {
+        return terminalCreated;
+    }
+
+    public void setTerminalCreated(boolean terminalCreated) {
+        this.terminalCreated = terminalCreated;
+    }
 
     public String getId() {
         return id;
