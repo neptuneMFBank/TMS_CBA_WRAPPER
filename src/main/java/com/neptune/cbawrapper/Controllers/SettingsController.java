@@ -228,7 +228,7 @@ public class SettingsController {
     @PostMapping("/create-pos-request")
     public ResponseEntity<ResponseSchema<?>> generateTerminalIds(@RequestBody TerminalUsers request) {
         System.out.println("request = " + request.toString());
-        Optional<MerchantData> merchantData = helpers.getMerchant(request.getTin());
+        Optional<MerchantData> merchantData = helpers.getMerchantData(request.getTin());
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
 
