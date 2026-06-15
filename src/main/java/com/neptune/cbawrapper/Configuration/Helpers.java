@@ -416,11 +416,13 @@ public class Helpers {
             return Optional.empty();
         }
 
-        System.out.println("merchantData = " + merchantData.size());
 
         Optional<MerchantData> result = merchantData.stream()
-                .filter(merchant -> !merchant.isUploaded())
+                .filter(MerchantData::isUploaded)
                 .findFirst();
+
+        System.out.println("---------------------------------------------");
+        System.out.println("merchantData = " + merchantData.size());
 
         if (result.isEmpty()) {
             System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
