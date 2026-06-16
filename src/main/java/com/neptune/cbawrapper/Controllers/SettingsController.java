@@ -421,7 +421,7 @@ public class SettingsController {
         Optional<MerchantData> merchant = helpers.getMerchant(tin);
 
         if(merchant.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Terminal already created for this account", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
