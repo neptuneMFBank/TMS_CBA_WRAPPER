@@ -386,12 +386,48 @@ public class Helpers {
     }
 
     public Optional<MerchantData> getMerchant(String tin) {
-        List<MerchantData> merchantData = merchantRepository.findMerchantByTin(tin);
+        System.out.println("tin = " + tin);
+        List<MerchantData> merchantData = merchantRepository.findByTin(tin);
+
         if (merchantData.isEmpty()) {
+            System.out.println("No merchant found for TIN: " + tin);
             return Optional.empty();
         }
-        return merchantData.stream()
-                .filter(merchant -> !merchant.isUploaded())
+
+        System.out.println("merchantData = " + merchantData.size());
+
+        Optional<MerchantData> result = merchantData.stream()
+                .filter(merchant -> !merchant.isTerminalCreated())
                 .findFirst();
+
+        if (result.isEmpty()) {
+            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+        }
+
+        return result;
+    }
+
+    public Optional<MerchantData> getMerchantData(String tin) {
+        System.out.println("tin = " + tin);
+        List<MerchantData> merchantData = merchantRepository.findByTin(tin);
+
+        if (merchantData.isEmpty()) {
+            System.out.println("No merchant found for TIN: " + tin);
+            return Optional.empty();
+        }
+
+
+        Optional<MerchantData> result = merchantData.stream()
+                .filter(MerchantData::isUploaded)
+                .findFirst();
+
+        System.out.println("---------------------------------------------");
+        System.out.println("merchantData = " + merchantData.size());
+
+        if (result.isEmpty()) {
+            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+        }
+
+        return result;
     }
 }

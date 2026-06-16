@@ -362,6 +362,16 @@ public class Cron {
                     System.out.println("55555555555555");
                     if (virtualAccountModel.isEmpty()) {
                         System.out.println("66666666666666");
+
+                        Optional<MerchantData> merchantData = helpers.getMerchant(customersModel.get().getTin());
+
+                        if(merchantData.isPresent()) {
+                            merchantData.get().setTerminalCreated(true);
+                            merchantData.get().setUploaded(true);
+                            merchantRepository.save(merchantData.get());
+                        }
+
+
                         VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);

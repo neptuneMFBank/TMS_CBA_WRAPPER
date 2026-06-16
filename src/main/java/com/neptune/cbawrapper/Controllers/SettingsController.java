@@ -228,18 +228,28 @@ public class SettingsController {
     @PostMapping("/create-pos-request")
     public ResponseEntity<ResponseSchema<?>> generateTerminalIds(@RequestBody TerminalUsers request) {
         System.out.println("request = " + request.toString());
-        Optional<MerchantData> merchantData = helpers.getMerchant(request.getTin());
+        Optional<MerchantData> merchantData = helpers.getMerchantData(request.getTin());
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
-
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
 
-        String terminalId;
         String merchantId = "2NEP0425SL00001";
-        terminalId = geMerchantAcct.map(MerchantData -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(MerchantData.getTerminalId()))).orElseGet(() -> sequenceGenerator.nextValue(sequenceGenerator.getValueAfter2NEP(getVirtualAcct.get().getTerminalId())));
+        String terminalId = geMerchantAcct
+                .map(m -> sequenceGenerator.nextValue(
+                        sequenceGenerator.getValueAfter2NEP(m.getTerminalId())))
+                .orElseGet(() -> {
+                    String baseTerminalId = getVirtualAcct
+                            .map(VirtualAccountModel::getTerminalId)
+                            .orElse("2NEP0001");
+
+                    return sequenceGenerator.nextValue(
+                            sequenceGenerator.getValueAfter2NEP(baseTerminalId));
+                });
 
         MerchantData merchant;
         if(merchantData.isPresent()) {
+            System.out.println("merchantData = " + merchantData);
+
             merchant = MerchantData.builder()
                     .uploaded(false)
                     .merchantId(merchantData.get().getMerchantId())
@@ -411,7 +421,7 @@ public class SettingsController {
         Optional<MerchantData> merchant = helpers.getMerchant(tin);
 
         if(merchant.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Business with account number not found", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Terminal already created for this account", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
