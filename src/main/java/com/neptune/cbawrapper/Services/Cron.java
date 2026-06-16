@@ -367,6 +367,7 @@ public class Cron {
 
                         if(merchantData.isPresent()) {
                             merchantData.get().setTerminalCreated(true);
+                            merchantData.get().setUploaded(true);
                             merchantRepository.save(merchantData.get());
                         }
 
