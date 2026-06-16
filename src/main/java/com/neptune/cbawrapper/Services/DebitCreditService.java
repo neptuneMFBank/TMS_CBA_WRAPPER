@@ -54,7 +54,7 @@ public class DebitCreditService {
         System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
         System.out.println("platformCharge = " + platformCharge);
         System.out.println("charge_ledger_code = " + charge_ledger_code);
-//        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
+        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
 
         try {
             Charge charge = Charge.newBuilder().setAmount(platformCharge).setLedger(charge_ledger_code).setIsFixed(true).setPercentage(0).setDescription("Platform charge").build();

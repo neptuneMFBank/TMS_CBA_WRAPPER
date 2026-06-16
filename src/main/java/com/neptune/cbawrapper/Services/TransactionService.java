@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -99,7 +100,7 @@ public class TransactionService {
     }
 
     public BulkBalanceResponse getBulkBalance(
-            Map<String, String> accountData,
+            Map<String, List<String>> accountData,
             String type,
             String date
     ) {
@@ -115,23 +116,22 @@ public class TransactionService {
                     BalanceServiceGrpc.newBlockingStub(channel);
 
             // Build BulkBalanceRequest
-            BulkBalanceRequest.Builder bulkBuilder = BulkBalanceRequest.newBuilder();
-
-            for (Map.Entry<String, String> data : accountData.entrySet()) {
-
-                // Build BalanceRequest (NOT BulkBalanceRequest)
-                BalanceRequest balanceRequest = BalanceRequest.newBuilder()
-                        .setAccountId(data.getKey())
-                        .setAccountNumber(data.getValue())
-                        .build();
-
-                bulkBuilder.addBalanceRequest(balanceRequest);
-            }
-
-            BulkBalanceRequest request = bulkBuilder
-                    .setAccType(type)
+            BulkBalanceRequest request = accountData.entrySet().stream()
+                    .flatMap(entry -> entry.getValue().stream()
+                            .map(accountNumber -> BalanceRequest.newBuilder()
+                                    .setAccountId(entry.getKey())
+                                    .setAccountNumber(accountNumber)
+                                    .build()))
+                    .collect(
+                            BulkBalanceRequest::newBuilder,                          // supplier
+                            BulkBalanceRequest.Builder::addBalanceRequest,          // accumulator
+                            (b1, b2) -> b1.addAllBalanceRequest(b2.getBalanceRequestList()) // combiner
+                    )
+                    .setAccType(type)  // set your other fields here
                     .setDate(date != null ? date : "")
                     .build();
+
+            System.out.println("request = " + request);
 
             response = stub.bulkBalance(request);
 
