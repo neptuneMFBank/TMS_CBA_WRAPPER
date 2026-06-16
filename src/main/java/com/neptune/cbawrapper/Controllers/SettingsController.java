@@ -231,13 +231,6 @@ public class SettingsController {
         Optional<MerchantData> merchantData = helpers.getMerchantData(request.getTin());
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
-
-        System.out.println("merchantData = " + merchantData);
-        if(merchantData.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "You cannot add merchant for this terminal at this moment", null, "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.OK);
-        }
-
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
 
         String merchantId = "2NEP0425SL00001";
@@ -255,6 +248,8 @@ public class SettingsController {
 
         MerchantData merchant;
         if(merchantData.isPresent()) {
+            System.out.println("merchantData = " + merchantData);
+
             merchant = MerchantData.builder()
                     .uploaded(false)
                     .merchantId(merchantData.get().getMerchantId())
