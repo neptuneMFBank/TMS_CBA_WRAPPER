@@ -23,7 +23,7 @@ public class MerchantData {
     private String contactTitle;
     private String mobilePhone;
     private String email;
-
+    private Boolean useAcct;
     private String merchantPhysicalAddr;
 
     private String terminalId;
@@ -195,6 +195,14 @@ public class MerchantData {
 
     public void setMerchantCategoryCode(String merchantCategoryCode) {
         this.merchantCategoryCode = merchantCategoryCode;
+    }
+
+    public Boolean getUseAcct() {
+        return useAcct;
+    }
+
+    public void setUseAcct(Boolean useAcct) {
+        this.useAcct = useAcct;
     }
 
     public String getStateCode() {
