@@ -425,13 +425,20 @@ public class Cron {
             //TODO: check if POS has already been created for this business with an account number else use the business account number
             Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
 
-            if (virtualAccount.isEmpty()) {
-                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
-                virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
-                virtualAccountRepository.save(virtualAccountModel1);
 
-                sendPasswordMail(virtualAccountModel.get());
-                return;
+            Optional<MerchantData> merchantData = helpers.getMerchant(virtualAccountModel.get().getTin());
+
+            if(merchantData.isPresent()) {
+                if(merchantData.get().getUseAcct()) {
+                    if (virtualAccount.isEmpty()) {
+                        VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                        virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
+                        virtualAccountRepository.save(virtualAccountModel1);
+
+                        sendPasswordMail(virtualAccountModel.get());
+                        return;
+                    }
+                }
             }
 
             //TODO: create corporate account for POS

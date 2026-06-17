@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -285,6 +286,7 @@ public class SettingsController {
                     .merchantAcctDomicileBankCode(merchantData.get().getMerchantAcctDomicileBankCode())
                     .terminalGroupId("2NEP")
                     .bvn("")
+                    .useAcct(false)
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantData.get().getMerchantAddressLgaCode())
                     .agentCode("AG001")
@@ -366,6 +368,7 @@ public class SettingsController {
                     .merchantCategoryCode("5999")
                     .appName(request.getDisplayName())
                     .stateCode(stateCode)
+                    .useAcct(true)
                     .status("Pending")
                     .gpsLongitude(request.getGpsLongitude())
                     .gpsLatitude(request.getGpsLongitude())
@@ -438,26 +441,28 @@ public class SettingsController {
                 .toList();
         List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findByTerminalIdIn(terminalIds);
 
-        System.out.println("virtualAccountModel = " + virtualAccountModel.size());
-
         if(merchant.isEmpty()){
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "No POS registered associated with this account", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        Map<String, String> accountData = new HashMap<>();
+        Map<String, List<String>> accountData = new HashMap<>();
 
         for (VirtualAccountModel account : virtualAccountModel) {
             if (account.getVirtual_account_number() != null) {
+                System.out.println("1");
 
-                accountData.put(
-                        account.getParent_id(), // key
-                        account.getVirtual_account_number() // value
+                System.out.println("account.getParent_id() = " + account.getParent_id());
+                System.out.println("account.getVirtual_account_number() = " + account.getVirtual_account_number());
+
+                accountData.computeIfAbsent(
+                                account.getParent_id(), k -> new ArrayList<>())
+                        .add(account.getVirtual_account_number()
                 );
             }
         }
 
-        BulkBalanceResponse response = transactionService.getBulkBalance(accountData, "savings", "key");
+        BulkBalanceResponse response = transactionService.getBulkBalance(accountData, "savings", "");
 
         List<GetPOSResponse> data = getGetPOSResponses(merchant, virtualAccountModel, response);
 
@@ -522,7 +527,7 @@ public class SettingsController {
             posResponse.setInitiateTrans(initiateTrans);
             posResponse.setPayBills(payBills);
             posResponse.setPosLatitude(m.getGpsLatitude());
-            posResponse.setBalance(String.valueOf(balance));
+            posResponse.setBalance(new BigDecimal(balance).toPlainString());
             // Match account using terminalId
             posResponse.setPosName(m.getAppName());
             posResponse.setPosAcctNum(acct);
