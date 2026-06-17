@@ -19,6 +19,7 @@ public class TerminalUsers {
     private String gpsLongitude;
     private String dateOfIncorporation;
     private String industryType;
+    private Boolean useAcct;
 
     public String getBusinessAcct() {
         return businessAcct;
@@ -162,6 +163,14 @@ public class TerminalUsers {
 
     public void setIndustryType(String industryType) {
         this.industryType = industryType;
+    }
+
+    public Boolean getUseAcct() {
+        return useAcct;
+    }
+
+    public void setUseAcct(Boolean useAcct) {
+        this.useAcct = useAcct;
     }
 
     public TerminalUsers() {
