@@ -538,6 +538,7 @@ public class TransactionController {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
                     return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
                 }
+                account_id = virtualAccountModel.get().getParent_id();
             } else if (type.equalsIgnoreCase("business_account")) {
                 Optional<CustomersModel> customersModel = customersRepository.checkForCustomerByAcct(accountNum);
 
@@ -554,6 +555,7 @@ public class TransactionController {
                     ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
                     return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
                 }
+                account_id = virtualAccountModel.get().getParent_id();
             }
 
             BalanceResponse response = debitCreditService.getBalance(accountNum, account_id);
