@@ -58,6 +58,7 @@ public class SettingsController {
     private final VirtualAccountRepository virtualAccountRepository;
     private final DisputeRepository disputeRepository;
     private final Cron cron;
+    private final SeederService seederService;
     private final MerchantExcelService merchantExcelService;
     private final BankRepository bankRepository;
     private final SequenceGenerator sequenceGenerator;
@@ -70,8 +71,9 @@ public class SettingsController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public SettingsController(TransactionService transactionService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
+    public SettingsController(TransactionService transactionService, SeederService seederService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
+        this.seederService = seederService;
         this.cron = cron;
         this.transactionService = transactionService;
         this.bankRepository = bankRepository;
@@ -233,6 +235,7 @@ public class SettingsController {
         Optional<VirtualAccountModel> getVirtualAcct = virtualAccountRepository.findFirstByOrderByCreatedAtDesc();
         System.out.println("============================ ================");
         Optional<MerchantData> geMerchantAcct = merchantRepository.findFirstByOrderByCreatedAtDesc();
+        List<Lgas> getLga = lgaRepository.findAll();
 
         String merchantId = "2NEP0425SL00001";
         String terminalId = geMerchantAcct
@@ -246,6 +249,17 @@ public class SettingsController {
                     return sequenceGenerator.nextValue(
                             sequenceGenerator.getValueAfter2NEP(baseTerminalId));
                 });
+
+        String merchantLgaCode = getLga.stream()
+                .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getMerchantAddressLga()))
+                .map(Lgas::getLgaCode)
+                .findFirst()
+                .orElse(null);
+
+
+        String stateCode = stateRepository.findByStateNameIgnoreCase(normalizeStateName(request.getState()))
+                .map(States::getStateCode)
+                .orElseThrow(() -> new RuntimeException("State not found"));
 
         MerchantData merchant;
         if(merchantData.isPresent()) {
@@ -268,7 +282,7 @@ public class SettingsController {
                     .businessOccupationCode("5411")
                     .merchantCategoryCode("5999")
                     .appName(request.getDisplayName())
-                    .stateCode(merchantData.get().getStateCode())
+                    .stateCode(stateCode)
                     .status("Pending")
                     .gpsLongitude(request.getGpsLongitude())
                     .gpsLatitude(request.getGpsLongitude())
@@ -288,7 +302,7 @@ public class SettingsController {
                     .bvn("")
                     .useAcct(false)
                     .tin(request.getTin())
-                    .merchantAddressLgaCode(merchantData.get().getMerchantAddressLgaCode())
+                    .merchantAddressLgaCode(merchantLgaCode)
                     .agentCode("AG001")
                     .terminalAddressLgaCode(merchantData.get().getTerminalAddressLgaCode())
                     .terminalAddress(request.getTerminalAddress())
@@ -305,7 +319,6 @@ public class SettingsController {
             System.out.println("1234 ---------------------");
             Optional<Bank> getBanks = bankRepository.findByBankName(pos_settlement_bank_name);
             System.out.println("1234 --------------------- ------------------");
-            List<Lgas> getLga = lgaRepository.findAll();
             System.out.println("----------- 1234 ---------------------");
             System.out.println("============================");
 
@@ -327,28 +340,6 @@ public class SettingsController {
                     .map(Lgas::getLgaCode)
                     .findFirst()
                     .orElse(null);
-            System.out.println("7777777777777777777 -----");
-
-            String merchantLgaCode = getLga.stream()
-                    .filter(lga -> lga.getLgaName().equalsIgnoreCase(request.getMerchantAddressLga()))
-                    .map(Lgas::getLgaCode)
-                    .findFirst()
-                    .orElse(null);
-
-
-            System.out.println("7777777777777777777 ++++++++++");
-
-            String stateCode = stateRepository.findByStateNameIgnoreCase(normalizeStateName(request.getState()))
-                    .map(States::getStateCode)
-                    .orElseThrow(() -> new RuntimeException("State not found"));
-
-
-            System.out.println("7777777777777777777 =9999999999");
-
-//        merchantId = "2NEP0425SL00001"; // "2NEP" + geMerchantAcct.map(merchantData -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP(merchantData.getMerchantId()))).orElseGet(() -> terminalId + sequenceGenerator.incrementString(sequenceGenerator.getValueAfter2NEP("2NEP00000000001")));
-
-
-            System.out.println("7777777777777777777 +000000ss0ss0sssss");
 
             merchant = MerchantData.builder()
                     .uploaded(false)
