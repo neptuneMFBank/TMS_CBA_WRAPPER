@@ -375,6 +375,17 @@ public class Cron {
                         VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
+
+                        Optional<MerchantData> merchantData1 = merchantRepository.findByTerminalId(data.getTerminalId());
+
+                        if(merchantData1.isPresent()) {
+                            if(merchantData1.get().isHasParent()) {
+                                System.out.println("has parent = " + data.getTerminalId());
+                                merchantData1.get().setTerminalCreated(true);
+                                merchantData1.get().setUploaded(true);
+                                merchantRepository.save(merchantData1.get());
+                            }
+                        }
                     }
                 }
 //                }

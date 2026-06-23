@@ -16,6 +16,9 @@ public interface MerchantRepository extends MongoRepository<MerchantData, String
 
     List<MerchantData> findByTin(String tin);
 
+    @Query("{ 'terminalId': { $eq: ?0 } }")
+    Optional<MerchantData> findByTerminalId(String terminalId);
+
     List<MerchantData> findMerchantByBusinessAcct(String businessAcct);
 
     Optional<MerchantData> findFirstByOrderByCreatedAtDesc();
