@@ -430,4 +430,28 @@ public class Helpers {
 
         return result;
     }
+
+
+    public Optional<MerchantData> getChildMerchantData(String tin) {
+        System.out.println("tin = " + tin);
+        List<MerchantData> merchantData = merchantRepository.findByTin(tin);
+
+        if (merchantData.isEmpty()) {
+            System.out.println("No merchant found for TIN: " + tin);
+            return Optional.empty();
+        }
+
+        Optional<MerchantData> result = merchantData.stream()
+                .filter(merchant -> !merchant.isUploaded())
+                .findFirst();
+
+        System.out.println("---------------------------------------------");
+        System.out.println("merchantData = " + merchantData.size());
+
+        if (result.isEmpty()) {
+            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+        }
+
+        return result;
+    }
 }
