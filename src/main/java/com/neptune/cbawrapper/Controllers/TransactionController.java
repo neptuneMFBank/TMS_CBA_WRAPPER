@@ -444,13 +444,12 @@ public class TransactionController {
                 transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                 transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
                 transactionsModel.setOriginatorKYCLevel(1);
-                transactionsModel.setOriginatorNarration("Transfer of " + request.getAmount() / 10 + " to " + enquiryResponseModel.get().getAccountName());
+                transactionsModel.setOriginatorNarration("Transfer of " + request.getAmount() + " to " + enquiryResponseModel.get().getAccountName());
                 transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
-                transactionsModel.setOriginatorNarration(request.getNarration());
                 transactionsModel.setTransactionLocation(request.getTransactionLocation());
                 transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
                 transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
-                transactionsModel.setAmount(request.getAmount() / 10);
+                transactionsModel.setAmount(request.getAmount());
                 transactionsModel.setCharge(20);
                 easypayTransactionsRepository.save(transactionsModel);
                 EasyPayResponse response = easypay.transferOutward(transactionsModel);
