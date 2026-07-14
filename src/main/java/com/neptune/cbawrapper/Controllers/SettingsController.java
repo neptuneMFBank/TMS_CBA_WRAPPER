@@ -299,7 +299,7 @@ public class SettingsController {
                     .ptspCode("Interswitch")
                     .merchantAcctDomicileBankCode(merchantData.get().getMerchantAcctDomicileBankCode())
                     .terminalGroupId("2NEP")
-                    .bvn("")
+                    .bvn(merchantData.get().getBvn())
                     .useAcct(false)
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantLgaCode)
@@ -375,7 +375,7 @@ public class SettingsController {
                     .ptspCode("Interswitch")
                     .merchantAcctDomicileBankCode(getBanks.get().getBankCode())
                     .terminalGroupId("2NEP")
-                    .bvn("")
+                    .bvn(response.getDirectorsInfoList().stream().map(Customer.DirectorData::getBvn).filter(bvn -> !bvn.isBlank()).findFirst().orElse(null))
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantLgaCode)
                     .agentCode("AG001")
@@ -518,7 +518,7 @@ public class SettingsController {
             posResponse.setInitiateTrans(initiateTrans);
             posResponse.setPayBills(payBills);
             posResponse.setPosLatitude(m.getGpsLatitude());
-            posResponse.setBalance(new BigDecimal(balance).toPlainString());
+            posResponse.setBalance(String.format("%.2f", new BigDecimal(balance)));
             // Match account using terminalId
             posResponse.setPosName(m.getAppName());
             posResponse.setPosAcctNum(acct);

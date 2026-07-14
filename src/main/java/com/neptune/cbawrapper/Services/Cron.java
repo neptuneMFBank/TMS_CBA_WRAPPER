@@ -436,7 +436,6 @@ public class Cron {
             //TODO: check if POS has already been created for this business with an account number else use the business account number
             Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
 
-
             Optional<MerchantData> merchantData = helpers.getMerchant(virtualAccountModel.get().getTin());
 
             if(merchantData.isPresent()) {
