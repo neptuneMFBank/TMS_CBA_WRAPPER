@@ -534,6 +534,11 @@ public class Cron {
                         if (amount > 100) {
                             amount = 100;
                         }
+
+                        double amount2 = (0.3 / 100) * transactionDrCr1.getAmount();
+                        if (amount2 > 20) {
+                            amount2 = 20;
+                        }
 //                        double amount2;
 //
 //                        if (chargeType.equalsIgnoreCase("percentage")) {
@@ -557,7 +562,7 @@ public class Cron {
 //                            amount2 = businessPlatformCharges.get().getThreshold();
 //                        }
 
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
+                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, amount2, "");
 
                         System.out.println("response = " + response);
                         if (response != null) {
