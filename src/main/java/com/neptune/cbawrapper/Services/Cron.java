@@ -444,7 +444,7 @@ public class Cron {
                         VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
                         virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
                         virtualAccountRepository.save(virtualAccountModel1);
-
+                        customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel.get().getParent_account()).setInitiator("").build());
                         sendPasswordMail(virtualAccountModel.get());
                         return;
                     }
