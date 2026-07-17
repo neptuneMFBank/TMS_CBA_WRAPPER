@@ -405,6 +405,7 @@ public class TransactionController {
                     IntraTransfer intraTransfer = IntraTransfer.builder()
                             .customerId(virtualAccountModel.get().getParent_id())
                             .mobilekey("")
+                            .narration("Transfer of " + request.getAmount() + " to " + enquiryResponseModel.get().getAccountName())
                             .fromaccount(virtualAccountModel.get().getVirtual_account_number())
                             .fromacctname(virtualAccountModel.get().getAccount_name())
                             .fromaccountstatus("active")
