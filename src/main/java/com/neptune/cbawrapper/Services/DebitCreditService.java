@@ -88,6 +88,8 @@ public class DebitCreditService {
                     .setIsPos(true)
                     .build();
 
+            System.out.println("DebitCreditRequest request = " + request);
+
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
             System.out.println("response = " + response);
