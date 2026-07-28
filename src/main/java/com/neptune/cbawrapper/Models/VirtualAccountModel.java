@@ -20,6 +20,8 @@ public class VirtualAccountModel {
     private String nin;
     private String tin;
     private Boolean is_updated;
+    private Boolean isSyncToBiz = false;
+    private Boolean accountAdded = false;
     private String parent_id;
     private String parent_account;
     private String pin;
@@ -300,6 +302,22 @@ public class VirtualAccountModel {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Boolean getSyncToBiz() {
+        return isSyncToBiz;
+    }
+
+    public void setSyncToBiz(Boolean syncToBiz) {
+        isSyncToBiz = syncToBiz;
+    }
+
+    public Boolean getAccountAdded() {
+        return accountAdded;
+    }
+
+    public void setAccountAdded(Boolean accountAdded) {
+        this.accountAdded = accountAdded;
     }
 
     @Override

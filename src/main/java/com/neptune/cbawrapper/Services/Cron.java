@@ -11,16 +11,22 @@ import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.CategoryServices;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.InetAddress;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -58,12 +64,14 @@ public class Cron {
     private final CustomerService customerService;
     private final ErrorLogsRepository errorLogsRepository;
     private final Helpers helpers;
+    private final WebhookAPIService webhookAPIService;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final AuthCredentialsRepository authCredentialsRepository;
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
     private final DebitCreditService debitCreditService;
     private final MerchantRepository merchantRepository;
+    private final TransactionLockService transactionLockService;
     private final CategoriesRepository categoriesRepository;
     private final CategoryServicesRepository categoryServicesRepository;
     private final TransactionCoreController transactionCoreController;
@@ -72,11 +80,13 @@ public class Cron {
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
     private final Notifications notifications;
 
-    public Cron(CustomersRepository customersRepository, MerchantRepository merchantRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
+    public Cron(CustomersRepository customersRepository, TransactionLockService transactionLockService, WebhookAPIService webhookAPIService, MerchantRepository merchantRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
+        this.webhookAPIService = webhookAPIService;
         this.helpers = helpers;
+        this.transactionLockService = transactionLockService;
         this.merchantRepository = merchantRepository;
         this.categoryServicesRepository = categoryServicesRepository;
         this.categoriesRepository = categoriesRepository;
@@ -423,6 +433,33 @@ public class Cron {
     }
 
     @Scheduled(cron = "0 */1 * * * *")
+    public void updateVirtualAcct(){
+        try {
+            List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.findByIsSyncToBizAndAccountAdded(false, true);
+
+            if(virtualAccountModelList.isEmpty()){
+                return;
+            }
+
+            VirtualAccountModel account = virtualAccountModelList
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+
+            CreateBizResponse response = webhookAPIService.pushEbizUpdate(account);
+
+            System.out.println("response from ebiz update = " + response);
+
+            if(response.getCode() == 200){
+                account.setSyncToBiz(true);
+                virtualAccountRepository.save(account);
+            }
+        }catch (Exception e){
+
+        }
+    }
+
+    @Scheduled(cron = "0 */1 * * * *")
     public void updateVirtualAccount() {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -458,6 +495,8 @@ public class Cron {
 //            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
             VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
             virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+            virtualAccountModel1.setSyncToBiz(false);
+            virtualAccountModel1.setAccountAdded(true);
             virtualAccountModel1.setCustomer_product_id(response.getCustomerProductId());
             virtualAccountRepository.save(virtualAccountModel1);
 
@@ -499,109 +538,174 @@ public class Cron {
     }
 
     @Scheduled(cron = "0 */1 * * * *")
+    @SchedulerLock(name = "pushTransactionsToCba", lockAtMostFor = "55s", lockAtLeastFor = "10s")
     public void pushTransactionsToCba() {
-        List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
+        // ✅ Atomically fetch AND lock in one DB operation
+        List<TransactionDrCr> transactions = fetchAndLockTransactions();
 
-        if (transactionDrCr.isEmpty()) {
-            return;
-        }
+        if (transactions.isEmpty()) return;
 
-        for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
-            if (transactionDrCr1.getAccountnumber() != null && transactionDrCr1.getAmount() > 0) {
-
-                System.out.println("transactionDrCr = " + transactionDrCr);
-
-                if (transactionDrCr1.getResponseCode().equals("00")) {
-
-                    //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
-                    //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
-
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(transactionDrCr1.getTransaction_platform_id());
-//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-//
-//                    System.out.println("========================================= 1");
-//                    if (businessPlatformCharges.isEmpty()) {
-//                        return;
-//                    }
-                    System.out.println("Hello world");
-
-                    System.out.println("========================================= 2");
-                    if (platformCharges.isPresent()) {
-                        System.out.println("========================================= 3");
-                        //todo: debit platform charge from terminal
-                        String chargeType = platformCharges.get().getChargeType();
-                        double amount = (0.5 / 100) * transactionDrCr1.getAmount();
-                        if (amount > 100) {
-                            amount = 100;
-                        }
-
-                        double amount2 = (0.3 / 100) * transactionDrCr1.getAmount();
-                        if (amount2 > 20) {
-                            amount2 = 20;
-                        }
-//                        double amount2;
-//
-//                        if (chargeType.equalsIgnoreCase("percentage")) {
-//                            amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
-//                        } else {
-//                            amount = platformCharges.get().getAmount();
-//                        }
-//
-//                        if (amount > platformCharges.get().getThreshold()) {
-//                            amount = platformCharges.get().getThreshold();
-//                        }
-
-//                        String chargeType2 = businessPlatformCharges.get().getChargeType();
-//                        if (chargeType2.equalsIgnoreCase("percentage")) {
-//                            amount2 = (businessPlatformCharges.get().getAmount() / 100) * amount;
-//                        } else {
-//                            amount2 = businessPlatformCharges.get().getAmount();
-//                        }
-
-//                        if (amount2 > businessPlatformCharges.get().getThreshold()) {
-//                            amount2 = businessPlatformCharges.get().getThreshold();
-//                        }
-
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, amount2, "");
-
-                        System.out.println("response = " + response);
-                        if (response != null) {
-                            if (response.getCode().equals("200")) {
-                                String id = transactionDrCr1.getId();
-                                transactionDrCr1.setUpdatedToCba(true);
-                                transactionDrCr1.setCbaMessage(response.getMessage());
-                                transactionDrCr1.setCreated_at(LocalDateTime.now().toString());
-                                transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
-                                cbaTransactionRequestsRepository.save(transactionDrCr1);
-
-                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                                requestSchema.setNote("SUBMITTED");
-                                requestSchema.setStatus(200);
-                                System.out.println("requestSchema = " + requestSchema);
-                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                                System.out.println("SENT_TO_CBA");
-                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-                            } else {
-                                System.out.println("jjjjjjjj here");
-                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                                requestSchema.setNote(response.getMessage());
-                                requestSchema.setStatus(100);
-                                System.out.println("kkkkkkkkkkkkk");
-                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                                System.out.println("jjsjsjadj");
-                                System.out.println("NOT_SENT_TO_CBA");
-                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-                            }
-                        } else {
-                            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                            requestSchema.setNote(response.getMessage());
-                            requestSchema.setStatus(Integer.parseInt(response.getCode()));
-                            System.out.println("kkkkkkkkkkkkk");
-                            Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                        }
-                    }
-                }
+        transactions.parallelStream().forEach(transaction -> {
+            try {
+                processTransaction(transaction);
+            } catch (Exception e) {
+                log.error("Error processing transaction: {}", transaction.getId(), e);
+                releaseTransaction(transaction.getId(), false, e.getMessage());
             }
+        });
+    }
+
+    // ✅ Fetch AND lock in a single atomic MongoDB operation
+    private List<TransactionDrCr> fetchAndLockTransactions() {
+        LocalDateTime lockExpiry = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isUpdatedToCba").is(false)
+                        .and("responseCode").is("00")
+                        .andOperator(
+                                new Criteria().orOperator(
+                                        Criteria.where("isProcessing").is(false),
+                                        // ✅ Also recover stale locks automatically
+                                        Criteria.where("processingStartedAt").lt(lockExpiry.toString())
+                                )
+                        )
+        );
+
+        Update update = new Update()
+                .set("isProcessing", true)
+                .set("processingStartedAt", LocalDateTime.now().toString())
+                .set("processingInstance", getInstanceId());
+
+        // ✅ findAndModify is atomic at DB level
+        List<TransactionDrCr> claimed = new ArrayList<>();
+        TransactionDrCr transaction;
+
+        do {
+            transaction = mongoTemplate.findAndModify(
+                    query,
+                    update,
+                    FindAndModifyOptions.options().returnNew(true),
+                    TransactionDrCr.class
+            );
+            if (transaction != null) {
+                claimed.add(transaction);
+            }
+        } while (transaction != null);
+
+        return claimed;
+    }
+
+    private void processTransaction(TransactionDrCr transaction) {
+        log.info("Processing transaction: {}", transaction.getId());
+
+        try {
+            // Validate
+            if (transaction.getAccountnumber() == null || transaction.getAmount() <= 0) {
+                log.warn("Invalid transaction data: {}", transaction.getId());
+                markAsFailed(transaction, "Invalid transaction data");
+                return;
+            }
+
+            // ✅ Get platform charges
+            Optional<PlatformCharges> platformCharges = platformChargeRepository
+                    .getChargeByName(transaction.getTransaction_platform_id());
+
+            if (platformCharges.isEmpty()) {
+                log.warn("No platform charges found: {}", transaction.getId());
+                markAsFailed(transaction, "No platform charges found");
+                return;
+            }
+
+            double amount = Math.min((0.5 / 100) * transaction.getAmount(), 100);
+            double amount2 = Math.min((0.3 / 100) * transaction.getAmount(), 20);
+
+            // ✅ Call CBA
+            DebitCreditResponse response = debitCreditService.debitCredit(
+                    transaction, amount, amount2, ""
+            );
+
+            if (response == null) {
+                log.error("Null response from CBA for transaction: {}", transaction.getId());
+                releaseTransaction(transaction.getId(), false, "Null response from CBA");
+                return;
+            }
+
+            handleResponse(transaction, response);
+
+        } catch (Exception e) {
+            log.error("Unexpected error processing transaction: {}", transaction.getId(), e);
+            releaseTransaction(transaction.getId(), false, e.getMessage());
+        }
+    }
+
+    private void handleResponse(TransactionDrCr transaction, DebitCreditResponse response) {
+        if (response.getCode().equals("200") || response.getCode().equals("201")) {
+            // ✅ Mark fully completed
+            markAsCompleted(transaction, response.getMessage());
+            updateTransactionStatus(transaction.getResourceId(), "SUBMITTED", 200);
+            log.info("Transaction successfully sent to CBA: {}", transaction.getId());
+        } else {
+            // ✅ Release lock for retry
+            releaseTransaction(transaction.getId(), false, response.getMessage());
+            updateTransactionStatus(transaction.getResourceId(), response.getMessage(), 100);
+            log.warn("CBA rejected transaction: {} — {}", transaction.getId(), response.getMessage());
+        }
+    }
+
+    // ✅ Mark as permanently completed
+    private void markAsCompleted(TransactionDrCr transaction, String message) {
+        Query query = new Query(Criteria.where("_id").is(transaction.getId()));
+        Update update = new Update()
+                .set("isUpdatedToCba", true)
+                .set("isProcessing", false)
+                .set("cbaMessage", message)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+    }
+
+    // ✅ Mark as failed — allow retry
+    private void releaseTransaction(String id, boolean success, String message) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("isUpdatedToCba", success)
+                .set("cbaMessage", message)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+    }
+
+    // ✅ Mark as permanently failed — stop retrying
+    private void markAsFailed(TransactionDrCr transaction, String reason) {
+        Query query = new Query(Criteria.where("_id").is(transaction.getId()));
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("isUpdatedToCba", false)
+                .set("failedPermanently", true)
+                .set("cbaMessage", reason)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+    }
+
+    private void updateTransactionStatus(Integer resourceId, String note, int status) {
+        try {
+            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+            requestSchema.setNote(note);
+            requestSchema.setStatus(status);
+            transactionCoreController.updateTransaction(resourceId, requestSchema);
+        } catch (Exception e) {
+            log.error("Failed to update transaction status for resourceId: {}", resourceId, e);
+        }
+    }
+
+    // ✅ Unique instance ID to track which server processed the transaction
+    private String getInstanceId() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (Exception e) {
+            return UUID.randomUUID().toString();
         }
     }
 
@@ -644,6 +748,25 @@ public class Cron {
             System.out.println("requestSchema = " + requestSchema);
             Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
         }
+    }
+
+    @Scheduled(cron = "0 */5 * * * *")  // every 5 minutes
+    public void recoverStaleLocks() {
+        // Find transactions stuck processing for more than 5 minutes
+        LocalDateTime threshold = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isProcessing").is(true)
+                        .and("isUpdatedToCba").is(false)
+                        .and("processingStartedAt").lt(threshold.toString())
+        );
+
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("processingStartedAt", null);
+
+        mongoTemplate.updateMulti(query, update, TransactionDrCr.class);
+        log.info("Stale locks recovered at {}", LocalDateTime.now());
     }
 
     @Scheduled(cron = "0 0 0 ? * FRI")

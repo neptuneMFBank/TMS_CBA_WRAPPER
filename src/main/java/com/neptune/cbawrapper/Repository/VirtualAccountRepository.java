@@ -47,4 +47,6 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     Optional<VirtualAccountModel> getVirtualAccountModelByParentAccount(String parent_account);
 
     Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
+
+    List<VirtualAccountModel> findByIsSyncToBizAndAccountAdded(Boolean isSyncToBiz, Boolean accountAdded);
 }
