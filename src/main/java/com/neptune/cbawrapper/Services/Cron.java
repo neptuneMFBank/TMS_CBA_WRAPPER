@@ -102,7 +102,7 @@ public class Cron {
         this.notifications = notifications;
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -263,7 +263,7 @@ public class Cron {
 //
 //    }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     @Transactional
     public void updateCustomerAccountNumFromCba() {
         try {
@@ -298,7 +298,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -342,7 +342,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -432,7 +432,7 @@ public class Cron {
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAcct(){
         try {
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.findByIsSyncToBizAndAccountAdded(false, true);
@@ -459,7 +459,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAccount() {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
@@ -512,7 +512,7 @@ public class Cron {
     }
 
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -537,7 +537,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     @SchedulerLock(name = "pushTransactionsToCba", lockAtMostFor = "55s", lockAtLeastFor = "10s")
     public void pushTransactionsToCba() {
         // ✅ Atomically fetch AND lock in one DB operation
