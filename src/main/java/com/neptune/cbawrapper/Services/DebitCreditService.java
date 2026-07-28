@@ -5,8 +5,11 @@ import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BalanceServiceGrpc;
 import com.neptune.cba.transaction.debit_credit.*;
 import com.neptune.cbawrapper.Exception.ErrorLoggingException;
+import com.neptune.cbawrapper.Models.CbaTransactionRequestLogs;
 import com.neptune.cbawrapper.Models.TransactionDrCr;
 import com.neptune.cbawrapper.Models.VerifyUser;
+import com.neptune.cbawrapper.Repository.CbaTransactionRequestLogsRepository;
+import com.neptune.cbawrapper.Repository.CbaTransactionRequestsRepository;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -18,6 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -37,26 +42,15 @@ public class DebitCreditService {
     @Value("${grpc.debitCredit.transaction.ledger_code}")
     private String transaction_ledger_code;
 
+    private final CbaTransactionRequestLogsRepository cbaTransactionRequestLogsRepository;
+
     private final ErrorLoggingException errorLoggingException;
 
-    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, double nestedCharge, String businessAcct){
+    private static final Logger log = LoggerFactory.getLogger(DebitCreditService.class);
+
+    public DebitCreditResponse debitCredit(TransactionDrCr transactionDrCr, double platformCharge, double nestedCharge, String businessAcct) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(debitCredit_server_ip, debitCredit_server_port).usePlaintext().build();
         DebitCreditResponse response = null;
-
-        System.out.println("transactionDrCr.getAccountnumber() = " + transactionDrCr.getAccountnumber());
-        System.out.println("transactionDrCr.getAccountstatus() = " + transactionDrCr.getAccountstatus());
-        System.out.println("transactionDrCr.getAcctname() = " + transactionDrCr.getAcctname());
-        System.out.println("transactionDrCr.getDrcr() = " + transactionDrCr.getDrcr());
-        System.out.println("transactionDrCr.getAcctype() = " + transactionDrCr.getAcctype());
-        System.out.println("transactionDrCr.getAmount() = " + transactionDrCr.getAmount());
-        System.out.println("transactionDrCr.getTransactionreference() = " + transactionDrCr.getTransactionreference());
-        System.out.println("transactionDrCr.getNarration() = " + transactionDrCr.getNarration());
-        System.out.println("transactionDrCr.getChannel() = " + transactionDrCr.getChannel());
-        System.out.println("platformCharge = " + platformCharge);
-        System.out.println("charge_ledger_code = " + charge_ledger_code);
-        System.out.println("transactionDrCr.getEid() = " + transactionDrCr.getEid());
-
-        System.out.println("==================================== debitCredit start");
 
         Charge charge = Charge.newBuilder()
                 .setAmount(platformCharge)
@@ -72,7 +66,7 @@ public class DebitCreditService {
                 .setPercentage(0)
                 .setDescription("Platform charge")
                 .build();
-//            System.out.println("charge = " + charge.toString());
+
         DebitCreditRequest request = DebitCreditRequest.newBuilder()
                 .setAccountnumber(transactionDrCr.getAccountnumber())
                 .setIsccode(transaction_ledger_code)
@@ -89,25 +83,51 @@ public class DebitCreditService {
                 .setIsPos(true)
                 .build();
 
-        System.out.println("DebitCreditRequest request = " + request);
-        System.out.println("==================================== debitCredit end");
+        log.info("request ${} ", request);
 
         try {
-
             DebitCreditServiceGrpc.DebitCreditServiceBlockingStub stub = DebitCreditServiceGrpc.newBlockingStub(channel);
             response = stub.debitCredit(request);
-            System.out.println("response = " + response);
-        }catch (StatusRuntimeException e) {
-            System.out.println("StatusRuntimeException = " +e.getMessage() );
+
+            // ✅ Log request and response to MongoDB after successful call
+            saveLog(request.toString(), response.toString(), transactionDrCr.getTransactionreference());
+
+        } catch (StatusRuntimeException e) {
+            log.error("StatusRuntimeException: {}", e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_STATUS_RUNTIME_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
             response = DebitCreditResponse.newBuilder().setMessage(e.getMessage()).setCode("500").build();
+
+            // ✅ Log failed request and error response
+            saveLog(request.toString(), response.toString(), transactionDrCr.getTransactionreference());
+
         } catch (Exception e) {
-            System.out.println("Exception = " + e.getMessage());
+            log.error("Exception: {}", e.getMessage());
             errorLoggingException.logError("DEBIT_CREDIT_EXCEPTION_ERROR", String.valueOf(e.getCause()), e.getMessage());
-        }finally {
+
+            // ✅ Log failed request with exception message
+            saveLog(request.toString(), "EXCEPTION: " + e.getMessage(), transactionDrCr.getTransactionreference());
+
+        } finally {
             channel.shutdownNow();
         }
+
         return response;
+    }
+
+    private void saveLog(String request, String response, String ref) {
+        try {
+            CbaTransactionRequestLogs log = CbaTransactionRequestLogs.builder()
+                    .request(request)
+                    .transaction_reference(ref)
+                    .response(response)
+                    .createdAt(LocalDateTime.now().toString())
+                    .updatedAt(LocalDateTime.now().toString())
+                    .build();
+            cbaTransactionRequestLogsRepository.save(log);
+        } catch (Exception e) {
+            // ✅ Never let logging failure break the main transaction flow
+            log.error("Failed to save transaction log: {}", e.getMessage());
+        }
     }
 
     public BalanceResponse getBalance(String acct_num, String customer_id) {
