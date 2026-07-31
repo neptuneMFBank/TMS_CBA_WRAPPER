@@ -435,18 +435,22 @@ public class Cron {
     @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAcct(){
         try {
+            System.out.println("got here 1112");
             List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.findByIsSyncToBizAndAccountAdded(false, true);
 
+            System.out.println("got here 1113");
             if(virtualAccountModelList.isEmpty()){
                 return;
             }
+            System.out.println("got here 1114");
 
             VirtualAccountModel account = virtualAccountModelList
                     .stream()
                     .findFirst()
                     .orElse(null);
+            System.out.println("got here 1115");
 
-            CreateBizResponse response = webhookAPIService.pushEbizUpdate(account);
+            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
 
             System.out.println("response from ebiz update = " + response);
 
@@ -455,7 +459,7 @@ public class Cron {
                 virtualAccountRepository.save(account);
             }
         }catch (Exception e){
-
+            System.out.println("error = " + e.getMessage());
         }
     }
 
@@ -480,6 +484,8 @@ public class Cron {
                     if (virtualAccount.isEmpty()) {
                         VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
                         virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
+                        virtualAccountModel1.setSyncToBiz(false);
+                        virtualAccountModel1.setAccountAdded(true);
                         virtualAccountRepository.save(virtualAccountModel1);
                         customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel.get().getParent_account()).setInitiator("").build());
                         sendPasswordMail(virtualAccountModel.get());

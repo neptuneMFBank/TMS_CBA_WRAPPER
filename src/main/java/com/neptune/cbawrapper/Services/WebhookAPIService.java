@@ -23,7 +23,7 @@ public class WebhookAPIService {
     @Value("${grpc.account.ebiz.request.url}")
     private String ebiz_server_url;
 
-    public CreateBizResponse pushEbizUpdate(VirtualAccountModel accountModel){
+    public CreateBizResponse.BizResponseData pushEbizUpdate(VirtualAccountModel accountModel){
         try {
             CreateBizRequest request = CreateBizRequest.builder().id(accountModel.getBusiness_id()).parent_account_number(accountModel.getParent_account()).pos_account_number(accountModel.getVirtual_account_number()).build();
 
@@ -40,7 +40,9 @@ public class WebhookAPIService {
                             CreateBizResponse.class
                     );
 
-            return response.getBody();
+            System.out.println("response.getBody() = " + response.getBody());
+
+            return response.getBody().getData();
         } catch (RestClientException e) {
 
             log.error("Failed to fetch CRC report for BVN {}", e);
