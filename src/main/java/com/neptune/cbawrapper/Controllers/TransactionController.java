@@ -902,7 +902,7 @@ public class TransactionController {
 
             // Step 4: Call queryBills
             TransactionStatusResponse queryBillsResponse = historyService.getTransactionDetails(TransactionCategory.BILL_PAYMENT, requestReference);
-            BillsAdditionalData billsAdditionalData = null;
+            BillsAdditionalData billsAdditionalData = new BillsAdditionalData();
             if (Optional.ofNullable(queryBillsResponse)
                     .map(TransactionStatusResponse::getAdditionalInfo)
                     .filter(info -> !info.isEmpty())

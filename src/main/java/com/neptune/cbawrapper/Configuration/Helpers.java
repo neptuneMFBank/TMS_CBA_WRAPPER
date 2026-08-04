@@ -13,6 +13,8 @@ import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import com.neptune.cbawrapper.Services.TransactionCoreController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 @Service
 public class Helpers {
 
+    private static final Logger log = LoggerFactory.getLogger(Helpers.class);
     @Value("${secret.key}")
     private String secretKey;
 
@@ -358,7 +361,7 @@ public class Helpers {
     }
 
     public MakePaymentApiResponse toApiResponse(MakePaymentResponse makePaymentResponse) {
-        BillsAdditionalData billsAdditionalData = null;
+        BillsAdditionalData billsAdditionalData = new BillsAdditionalData();
         System.out.println("MakePaymentResponse = " + makePaymentResponse);
 //        if (!makePaymentResponse.getAdditionalInfo().isEmpty()) {
         try {
@@ -381,6 +384,7 @@ public class Helpers {
             dto.setBillsAdditionalData(billsAdditionalData);
             return dto;
         } catch (JsonProcessingException e) {
+            log.error("error occurred {} ", e.getMessage());
             return null;
         }
     }

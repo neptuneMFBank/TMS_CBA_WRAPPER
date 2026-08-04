@@ -3,9 +3,9 @@ package com.neptune.cbawrapper.Models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 public class BillsAdditionalData {
     @JsonProperty("Pin")
     private String pin;
@@ -60,4 +60,7 @@ public class BillsAdditionalData {
 
     @JsonProperty("Minimum Payable")
     private String minimumPayable;
+
+    public BillsAdditionalData() {
+    }
 }
