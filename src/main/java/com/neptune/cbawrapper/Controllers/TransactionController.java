@@ -938,13 +938,13 @@ public class TransactionController {
             billsPaymentDataRepository.save(billsPaymentData);
 
             // Step 6: Write response back to the waiting HTTP client
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
 
         } catch (Exception e) {
-            log.error("Error processing bills payment", e);
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
+            log.error("Error processing bills payment {}", e.getMessage(), e);
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 
