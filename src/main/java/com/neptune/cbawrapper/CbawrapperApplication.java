@@ -25,6 +25,7 @@ public class CbawrapperApplication {
 		SpringApplication application = new SpringApplication(CbawrapperApplication.class);
 		Environment environment = application.run(args).getEnvironment();
 		System.out.println("customer url = " + environment.getProperty("grpc.customer.request.url"));
+		System.out.println("db url = " + environment.getProperty("spring.data.mongodb.uri"));
 		System.out.println("customer port = " + environment.getProperty("grpc.customer.request.port"));
 		System.out.println("LocalDate.now().toString() = " + LocalDate.now().toString());
 

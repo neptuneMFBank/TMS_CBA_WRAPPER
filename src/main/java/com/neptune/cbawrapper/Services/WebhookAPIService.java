@@ -25,7 +25,7 @@ public class WebhookAPIService {
 
     public CreateBizResponse.BizResponseData pushEbizUpdate(VirtualAccountModel accountModel){
         try {
-            CreateBizRequest request = CreateBizRequest.builder().id(accountModel.getBusiness_id()).parent_account_number(accountModel.getParent_account()).pos_account_number(accountModel.getVirtual_account_number()).build();
+            CreateBizRequest request = CreateBizRequest.builder().id(accountModel.getBusiness_id()).parent_account_number("6019159900").pos_account_number("6010323991").build();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
