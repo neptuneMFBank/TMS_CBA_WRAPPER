@@ -59,7 +59,7 @@ public class PushyAPI {
             String json = mapper.writeValueAsString(request);
 
             payload.put("message", message);
-            payload.put("transactionType", "BANK TRANSFER");
+            payload.put("transactionType", "CARD WITHDRAWAL");
             payload.put("body", json);
 
             notification.put("badge", 1);
