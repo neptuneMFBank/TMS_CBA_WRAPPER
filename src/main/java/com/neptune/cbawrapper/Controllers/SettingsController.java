@@ -12,6 +12,8 @@ import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -34,6 +36,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/settings")
 public class SettingsController {
 
+    private static final Logger log = LoggerFactory.getLogger(SettingsController.class);
     @Value("${pos.settlement.bank.name}")
     private String pos_settlement_bank_name;
 
@@ -300,7 +303,7 @@ public class SettingsController {
                     .merchantAcctDomicileBankCode(merchantData.get().getMerchantAcctDomicileBankCode())
                     .terminalGroupId("2NEP")
                     .bvn(merchantData.get().getBvn())
-                    .useAcct(false)
+                    .useAcct(request.getUseAcct())
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantLgaCode)
                     .agentCode("AG001")
@@ -359,7 +362,7 @@ public class SettingsController {
                     .merchantCategoryCode("5999")
                     .appName(request.getDisplayName())
                     .stateCode(stateCode)
-                    .useAcct(true)
+                    .useAcct(request.getUseAcct())
                     .status("Pending")
                     .gpsLongitude(request.getGpsLongitude())
                     .gpsLatitude(request.getGpsLatitude())
@@ -426,6 +429,8 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @GetMapping("/get-business-pos")
     public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
+        log.info("businessAcct {} ", businessAcct);
+        System.out.println("businessAcct = " + businessAcct);
         List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
         List<String> terminalIds = merchant.stream()
                 .map(MerchantData::getTerminalId)

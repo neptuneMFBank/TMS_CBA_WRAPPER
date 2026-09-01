@@ -61,11 +61,16 @@ public class Notifications {
                     .setExtensiontype("")
                     .build();
 
+            System.out.println("request = " + request);
+
             NotificationServiceGrpc.NotificationServiceBlockingStub stub = NotificationServiceGrpc.newBlockingStub(channel);
             response = stub.notify(request); //connection().create3ppUser(request);
+            System.out.println("response = " + response);
         }catch (StatusRuntimeException e) {
+            System.out.println("error 1 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("error 2 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } finally {
             channel.shutdownNow();
