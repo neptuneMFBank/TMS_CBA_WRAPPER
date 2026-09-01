@@ -359,18 +359,20 @@ public class TransactionController {
 
                 if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
                     System.out.println("request.getMakePayment().getBillType()  1 = " + request.getMakePayment().getBillType());
-                    DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
-                            new DeferredResult<>(60_000L, () -> {
-                                ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
-                                        504, "Payment query timed out", null, "", ZonedDateTime.now(), true
-                                );
-                                return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
-                            });
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
                     logAllTransactions(request, platformCharges, "Bills", null);
                     processPaymentAndQuery(
-                            makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
+                            makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType
                     );
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                            200,
+                            "Bills payment processing",
+                            makePaymentResponse,
+                            "",
+                            ZonedDateTime.now(),
+                            true
+                    );
+                    return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
                 }else {
                     System.out.println("request.getMakePayment().getBillType() 2 = " + request.getMakePayment().getBillType());
                     logAllTransactions(request, platformCharges, "Bills", null);
@@ -884,8 +886,16 @@ public class TransactionController {
             MakePaymentApiResponse makePaymentResponse,
             BillsPaymentData billsPaymentData,
             String requestReference,
-            BillType billType,
-            DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult) {
+            BillType billType
+            ) {
+
+        DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
+                new DeferredResult<>(60_000L, () -> {
+                    ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
+                            504, "Payment query timed out", null, "", ZonedDateTime.now(), true
+                    );
+                    return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
+                });
 
         try {
             System.out.println("got here in 1112233 in " + time());
@@ -928,13 +938,13 @@ public class TransactionController {
             billsPaymentDataRepository.save(billsPaymentData);
 
             // Step 6: Write response back to the waiting HTTP client
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
 
         } catch (Exception e) {
-            log.error("Error processing bills payment", e);
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
+            log.error("Error processing bills payment {}", e.getMessage(), e);
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 
