@@ -126,7 +126,7 @@ public class TransactionController {
             WebhookData webhookData = objectMapper.convertValue(object, WebhookData.class);
             System.out.println("webhookData = " + webhookData.toString());
             DebitCreditData payload = webhookData.getPayload().getData();
-            payload.setTransactionType("BANK TRANSFER");
+            payload.setTransactionType("CARD WITHDRAWAL");
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
