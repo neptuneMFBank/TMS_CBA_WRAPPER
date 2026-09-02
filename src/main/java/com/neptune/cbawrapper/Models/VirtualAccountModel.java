@@ -22,6 +22,8 @@ public class VirtualAccountModel {
     private Boolean is_updated;
     private Boolean isSyncToBiz = false;
     private Boolean accountAdded = false;
+    private Boolean customerUpdateRequired = false;
+    private Integer bizUpdateCount;
     private String parent_id;
     private String parent_account;
     private String pin;
@@ -61,6 +63,22 @@ public class VirtualAccountModel {
 
     public String getUpdated_at() {
         return updatedAt;
+    }
+
+    public Integer getBizUpdateCount() {
+        return bizUpdateCount;
+    }
+
+    public void setBizUpdateCount(Integer bizUpdateCount) {
+        this.bizUpdateCount = bizUpdateCount;
+    }
+
+    public Boolean getCustomerUpdateRequired() {
+        return customerUpdateRequired;
+    }
+
+    public void setCustomerUpdateRequired(Boolean customerUpdateRequired) {
+        this.customerUpdateRequired = customerUpdateRequired;
     }
 
     public void setUpdated_at(String updated_at) {

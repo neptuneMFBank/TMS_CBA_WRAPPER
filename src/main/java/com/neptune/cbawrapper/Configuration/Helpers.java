@@ -70,9 +70,9 @@ public class Helpers {
         return customersRepository.findBySavingsId(details);
     }
 
-    public Optional<CustomersModel> getCustomerBySavingsId(int details) {
+    public Optional<CustomersModel> getCustomerBySavingsId(String details) {
         // Fetch customers matching savings IDs
-        return customersRepository.findCustomerBySavingsId(details);
+        return customersRepository.checkForCustomerByAcct(details);
     }
 
     public UpdateTransactionResponseSchema registerTransactionToTMS(CorepayPosTransactionRequest request, Optional<PlatformCharges> platformCharges, String type, DebitCreditData payload) {
