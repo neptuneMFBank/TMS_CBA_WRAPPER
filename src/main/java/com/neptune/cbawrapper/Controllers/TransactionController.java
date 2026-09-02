@@ -126,7 +126,7 @@ public class TransactionController {
             WebhookData webhookData = objectMapper.convertValue(object, WebhookData.class);
             System.out.println("webhookData = " + webhookData.toString());
             DebitCreditData payload = webhookData.getPayload().getData();
-            payload.setTransactionType("CARD WITHDRAWAL");
+            payload.setTransactionType("BANK TRANSFER");
             Optional<Transactions> checkIfTransactionWithRefExists = transactionsRepository.checkIfTransactionWithRefExists(payload.getReference());
 
             Transactions transactions;
@@ -139,16 +139,22 @@ public class TransactionController {
                 transactions.setSourceBank(payload.getSourceBank());
                 transactions.setReference(payload.getReference());
                 transactions.setSessionId(payload.getSessionId());
+                transactions.setCharge(BigDecimal.valueOf(20.00));
+                transactions.setUpdatedToCba(false);
                 transactions.setNarration(payload.getNarration());
                 transactions.setDateTime(payload.getDateTime());
                 transactions.setAmount(payload.getAmount());
                 transactions.setTransactionType(payload.getTransactionType());
                 transactions.setEvent(webhookData.getEvent());
+                transactions.setCreated_at(ZonedDateTime.now().toString());
+                transactions.setUpdated_at(ZonedDateTime.now().toString());
             } else {
                 System.out.println("0000000000000000000");
                 transactions = checkIfTransactionWithRefExists.get();
                 transactions.setAmount(payload.getAmount());
                 transactions.setEvent(webhookData.getEvent());
+                transactions.setCreated_at(ZonedDateTime.now().toString());
+                transactions.setUpdated_at(ZonedDateTime.now().toString());
             }
             transactionsRepository.save(transactions);
             String event;
@@ -593,6 +599,8 @@ public class TransactionController {
     @Validated
     @GetMapping("/get-transaction-history")
     public ResponseEntity<ResponseSchema<?>> getTransactionHistory(@RequestParam String accountNum, @RequestParam String narration, @RequestParam String start_date, @RequestParam String end_date, @RequestParam int page, @RequestParam int size) {
+        System.out.println("accountNum = " + accountNum + " end_date " + end_date + " start_date " + start_date);
+        System.out.println("page = " + page + " size  " + size);
         HistoryResponse response = historyService.getAcctHistory(accountNum, start_date, narration, end_date, page, size);
 
         System.out.println("response = " + response);
@@ -653,7 +661,7 @@ public class TransactionController {
 
         // Validate customer
         Optional<CustomersModel> customersModel =
-                helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
+                helpers.getCustomerBySavingsId(accountModel.get().getBusinessWalletId());
 
         if (customersModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(

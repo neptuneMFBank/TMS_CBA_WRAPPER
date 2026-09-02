@@ -13,6 +13,7 @@ import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -382,7 +384,7 @@ public class Cron {
                         }
 
 
-                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data);
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct());
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
 
@@ -409,7 +411,8 @@ public class Cron {
         }
     }
 
-    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data) {
+    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data, boolean useAcct) {
+
         VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
         virtualAccountModel.setSavingsId(customersModel.getSavingsAccountId());
         virtualAccountModel.setPhone_number(customersModel.getContact_phone_number());
@@ -429,6 +432,9 @@ public class Cron {
         virtualAccountModel.setBusinessWalletId(data.getBusinessWalletId());
         virtualAccountModel.setCreated_at(ZonedDateTime.now().toString());
         virtualAccountModel.setUpdated_at(ZonedDateTime.now().toString());
+        if(useAcct){
+            virtualAccountModel.setCustomerUpdateRequired(true);
+        }
         return virtualAccountModel;
     }
 
@@ -442,7 +448,8 @@ public class Cron {
             if(virtualAccountModelList.isEmpty()){
                 return;
             }
-            System.out.println("got here 1114"); // 1471 04271676027 adeyemi.oyeye@gmail.com
+            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
+            System.out.println("got here 1114");
 
             VirtualAccountModel account = virtualAccountModelList
                     .stream()
@@ -450,14 +457,23 @@ public class Cron {
                     .orElse(null);
             System.out.println("got here 1115");
 
+            if(account == null){
+                return;
+            }
+
+            if(account.getBizUpdateCount() >= 2){
+                return;
+            }
+
             CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
 
             System.out.println("response from ebiz update = " + response);
 
+            account.setBizUpdateCount(account.getBizUpdateCount() + 1);
             if(response.getCode() == 200){
                 account.setSyncToBiz(true);
-                virtualAccountRepository.save(account);
             }
+            virtualAccountRepository.save(account);
         }catch (Exception e){
             System.out.println("error = " + e.getMessage());
         }
@@ -468,7 +484,7 @@ public class Cron {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
 
-            System.out.println("virtualAccountModel = " + virtualAccountModel);
+            System.out.println("virtualAccountModel = " + virtualAccountModel); // 6047436688
 
             if (virtualAccountModel.isEmpty()) {
                 return;
@@ -478,6 +494,7 @@ public class Cron {
             Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
 
             Optional<MerchantData> merchantData = helpers.getMerchant(virtualAccountModel.get().getTin());
+            System.out.println("merchantData = " + merchantData);
 
             if(merchantData.isPresent()) {
                 if(merchantData.get().getUseAcct()) {
@@ -485,6 +502,7 @@ public class Cron {
                         VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
                         virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
                         virtualAccountModel1.setSyncToBiz(false);
+                        virtualAccountModel1.setCustomerUpdateRequired(false);
                         virtualAccountModel1.setAccountAdded(true);
                         virtualAccountRepository.save(virtualAccountModel1);
                         customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel.get().getParent_account()).setInitiator("").build());
@@ -507,6 +525,42 @@ public class Cron {
             virtualAccountRepository.save(virtualAccountModel1);
 
             sendPasswordMail(virtualAccountModel.get());
+
+        } catch (Exception e) {
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_UPDATE");
+            errorLogsRepository.save(errorLogsModel);
+        }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
+    public void updateVirtualAccountToCustomerAsync() {
+        try {
+            System.out.println("started ============================== updateVirtualAccountToCustomerAsync ");
+            Optional<VirtualAccountModel> virtualAccountModel1 = virtualAccountRepository.findByCustomerUpdateRequired(true);
+            System.out.println(" virtualAccountModel updateVirtualAccountToCustomerAsync = " + virtualAccountModel1.toString());
+
+                System.out.println("processing 1 ============================== updateVirtualAccountToCustomerAsync ");
+                if(virtualAccountModel1.get().getCustomerUpdateRequired()){
+                    System.out.println("processing 2 ============================== updateVirtualAccountToCustomerAsync " + virtualAccountModel1.toString());
+                    virtualAccountModel1.get().setVirtual_account_number(virtualAccountModel1.get().getParent_account());
+                    virtualAccountModel1.get().setSyncToBiz(false);
+                    virtualAccountModel1.get().setAccountAdded(true);
+                    virtualAccountModel1.get().setCustomerUpdateRequired(false);
+                    virtualAccountRepository.save(virtualAccountModel1.get());
+                    customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel1.get().getParent_account()).setInitiator("").build());
+
+                    //TODO: create corporate account for POS
+                    Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel1.get().getParent_id(), virtualAccountModel1.get().getParent_account());
+                    sendPasswordMail(virtualAccountModel1.get());
+
+                    System.out.println("response customer updateVirtualAccountToCustomerAsync = " + response);
+                }
+
+            System.out.println("ended 1 ============================== updateVirtualAccountToCustomerAsync ");
+
 
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
@@ -548,6 +602,7 @@ public class Cron {
     public void pushTransactionsToCba() {
         // ✅ Atomically fetch AND lock in one DB operation
         List<TransactionDrCr> transactions = fetchAndLockTransactions();
+//        List<Transactions> inwardTransaction = fetchAndLockInwardTransactionCharges();
 
         if (transactions.isEmpty()) return;
 
@@ -556,9 +611,20 @@ public class Cron {
                 processTransaction(transaction);
             } catch (Exception e) {
                 log.error("Error processing transaction: {}", transaction.getId(), e);
-                releaseTransaction(transaction.getId(), false, e.getMessage());
+                releaseTransaction(transaction.getId(), false, e.getMessage(), TransactionDrCr.class);
             }
         });
+
+//        if(inwardTransaction.isEmpty()) return;
+//
+//        inwardTransaction.parallelStream().forEach(transaction -> {
+//            try {
+//                processInwardTransactionCharge(transaction);
+//            } catch (Exception e) {
+//                log.error("Error processing transaction: {}", transaction.getId(), e);
+//                releaseTransaction(transaction.getId(), false, e.getMessage(), Transactions.class);
+//            }
+//        });
     }
 
     // ✅ Fetch AND lock in a single atomic MongoDB operation
@@ -601,6 +667,45 @@ public class Cron {
         return claimed;
     }
 
+    // ✅ Fetch AND lock in a single atomic MongoDB operation
+    private List<Transactions> fetchAndLockInwardTransactionCharges() {
+        LocalDateTime lockExpiry = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isUpdatedToCba").is(false)
+                        .andOperator(
+                                new Criteria().orOperator(
+                                        Criteria.where("isProcessing").is(false),
+                                        // ✅ Also recover stale locks automatically
+                                        Criteria.where("processingStartedAt").lt(lockExpiry.toString())
+                                )
+                        )
+        );
+
+        Update update = new Update()
+                .set("isProcessing", true)
+                .set("processingStartedAt", LocalDateTime.now().toString())
+                .set("processingInstance", getInstanceId());
+
+        // ✅ findAndModify is atomic at DB level
+        List<Transactions> claimed = new ArrayList<>();
+        Transactions transaction;
+
+        do {
+            transaction = mongoTemplate.findAndModify(
+                    query,
+                    update,
+                    FindAndModifyOptions.options().returnNew(true),
+                    Transactions.class
+            );
+            if (transaction != null) {
+                claimed.add(transaction);
+            }
+        } while (transaction != null);
+
+        return claimed;
+    }
+
     private void processTransaction(TransactionDrCr transaction) {
         log.info("Processing transaction: {}", transaction.getId());
 
@@ -608,7 +713,7 @@ public class Cron {
             // Validate
             if (transaction.getAccountnumber() == null || transaction.getAmount() <= 0) {
                 log.warn("Invalid transaction data: {}", transaction.getId());
-                markAsFailed(transaction, "Invalid transaction data");
+                markAsFailed(transaction.getId(), "Invalid transaction data", TransactionDrCr.class);
                 return;
             }
 
@@ -618,7 +723,7 @@ public class Cron {
 
             if (platformCharges.isEmpty()) {
                 log.warn("No platform charges found: {}", transaction.getId());
-                markAsFailed(transaction, "No platform charges found");
+                markAsFailed(transaction.getId(), "No platform charges found", TransactionDrCr.class);
                 return;
             }
 
@@ -632,46 +737,88 @@ public class Cron {
 
             if (response == null) {
                 log.error("Null response from CBA for transaction: {}", transaction.getId());
-                releaseTransaction(transaction.getId(), false, "Null response from CBA");
+                releaseTransaction(transaction.getId(), false, "Null response from CBA", TransactionDrCr.class);
                 return;
             }
 
-            handleResponse(transaction, response);
+            handleResponse(transaction.getId(), transaction.getResourceId(), response, TransactionDrCr.class);
 
         } catch (Exception e) {
             log.error("Unexpected error processing transaction: {}", transaction.getId(), e);
-            releaseTransaction(transaction.getId(), false, e.getMessage());
+            releaseTransaction(transaction.getId(), false, e.getMessage(), TransactionDrCr.class);
         }
     }
 
-    private void handleResponse(TransactionDrCr transaction, DebitCreditResponse response) {
+    private void processInwardTransactionCharge(Transactions transaction) {
+        log.info("Processing inward transaction: {}", transaction.getId());
+
+        try {
+            // Validate
+            if (transaction.getBeneficiaryAccountNumber() == null || transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+                log.warn("Invalid inward transaction data: {}", transaction.getId());
+                markAsFailed(transaction.getId(), "Invalid transaction data", Transactions.class);
+                return;
+            }
+
+            double amount = 20;
+
+            TransactionDrCr transactionData = new TransactionDrCr();
+            transactionData.setAmount(20.0);
+            transactionData.setAccountstatus("active");
+            transactionData.setAcctname(transaction.getBeneficiaryAccountNumber());
+            transactionData.setAccountnumber(transaction.getBeneficiaryAccountNumber());
+            transactionData.setDrcr("dr");
+            transactionData.setAcctype("savings");
+            transactionData.setTransactionreference("2103" + (System.currentTimeMillis() / 100));
+            transactionData.setNarration("Charge for inward transfer from " + transaction.getSourceAccountName() + " to " + transaction.getBeneficiaryAccountNumber() + ", a sum of " + transaction.getAmount());
+
+            // ✅ Call CBA
+            DebitCreditResponse response = debitCreditService.debitCredit(
+                    transactionData, amount, 0, ""
+            );
+
+            if (response == null) {
+                log.error("Null response from CBA for transaction: {}", transaction.getId());
+                releaseTransaction(transaction.getId(), false, "Null response from CBA", Transactions.class);
+                return;
+            }
+
+            handleResponse(transaction.getId(), 0, response, Transactions.class);
+
+        } catch (Exception e) {
+            log.error("Unexpected error processing transaction: {}", transaction.getId(), e);
+            releaseTransaction(transaction.getId(), false, e.getMessage(), Transactions.class);
+        }
+    }
+
+    private <T> void handleResponse(String id, int resourceId, DebitCreditResponse response, Class<T> collectionClass) {
         if (response.getCode().equals("200") || response.getCode().equals("201")) {
             // ✅ Mark fully completed
-            markAsCompleted(transaction, response.getMessage());
-            updateTransactionStatus(transaction.getResourceId(), "SUBMITTED", 200);
-            log.info("Transaction successfully sent to CBA: {}", transaction.getId());
+            markAsCompleted(id, response.getMessage(), collectionClass);
+            updateTransactionStatus(resourceId, "SUBMITTED", 200);
+            log.info("Transaction successfully sent to CBA: {}", id);
         } else {
             // ✅ Release lock for retry
-            releaseTransaction(transaction.getId(), false, response.getMessage());
-            updateTransactionStatus(transaction.getResourceId(), response.getMessage(), 100);
-            log.warn("CBA rejected transaction: {} — {}", transaction.getId(), response.getMessage());
+            releaseTransaction(id, false, response.getMessage(), collectionClass);
+            updateTransactionStatus(resourceId, response.getMessage(), 100);
+            log.warn("CBA rejected transaction: {} — {}", id, response.getMessage());
         }
     }
 
     // ✅ Mark as permanently completed
-    private void markAsCompleted(TransactionDrCr transaction, String message) {
-        Query query = new Query(Criteria.where("_id").is(transaction.getId()));
+    private <T> void markAsCompleted(String id, String message, Class<T> collectionClass) {
+        Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update()
                 .set("isUpdatedToCba", true)
                 .set("isProcessing", false)
                 .set("cbaMessage", message)
                 .set("processingStartedAt", null)
                 .set("updated_at", LocalDateTime.now().toString());
-        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+        mongoTemplate.updateFirst(query, update, collectionClass);
     }
 
     // ✅ Mark as failed — allow retry
-    private void releaseTransaction(String id, boolean success, String message) {
+    private <T> void releaseTransaction(String id, boolean success, String message, Class<T> collectionClass) {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update()
                 .set("isProcessing", false)
@@ -679,12 +826,12 @@ public class Cron {
                 .set("cbaMessage", message)
                 .set("processingStartedAt", null)
                 .set("updated_at", LocalDateTime.now().toString());
-        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+        mongoTemplate.updateFirst(query, update, collectionClass);
     }
 
     // ✅ Mark as permanently failed — stop retrying
-    private void markAsFailed(TransactionDrCr transaction, String reason) {
-        Query query = new Query(Criteria.where("_id").is(transaction.getId()));
+    private <T> void markAsFailed(String id, String reason, Class<T> collectionClass) {
+        Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update()
                 .set("isProcessing", false)
                 .set("isUpdatedToCba", false)
@@ -692,7 +839,7 @@ public class Cron {
                 .set("cbaMessage", reason)
                 .set("processingStartedAt", null)
                 .set("updated_at", LocalDateTime.now().toString());
-        mongoTemplate.updateFirst(query, update, TransactionDrCr.class);
+        mongoTemplate.updateFirst(query, update, collectionClass);
     }
 
     private void updateTransactionStatus(Integer resourceId, String note, int status) {
@@ -850,12 +997,13 @@ public class Cron {
     }
 
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel) {
-        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
-        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
+        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessWalletId());
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessWalletId());
 
         if (customersModel.isEmpty()) {
             return null;
         }
+        System.out.println("got here sendPasswordMail");
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
         virtualAccountModel.setCodeExpired(false);
@@ -866,7 +1014,8 @@ public class Cron {
                 .title("Set POS Password")
                 .file("")
                 .message(message)
-                .receiver_email(customersModel.get().getEmail_address())
+//                .receiver_email(customersModel.get().getEmail_address())
+                .receiver_email("abelkelly6022@gmaiil.com")
                 .sendmail(true)
                 .attachment(true)
                 .build();

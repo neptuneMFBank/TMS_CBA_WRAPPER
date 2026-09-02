@@ -49,4 +49,6 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
 
     List<VirtualAccountModel> findByIsSyncToBizAndAccountAdded(Boolean isSyncToBiz, Boolean accountAdded);
+
+    Optional<VirtualAccountModel> findByCustomerUpdateRequired(Boolean customerUpdateRequired);
 }
