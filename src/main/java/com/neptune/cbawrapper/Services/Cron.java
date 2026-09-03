@@ -461,6 +461,10 @@ public class Cron {
                 return;
             }
 
+            if(account.getCustomerUpdateRequired() == null){
+                return;
+            }
+
             if(account.getBizUpdateCount() >= 2){
                 return;
             }
@@ -552,11 +556,7 @@ public class Cron {
                     virtualAccountRepository.save(virtualAccountModel1.get());
                     customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel1.get().getParent_account()).setInitiator("").build());
 
-                    //TODO: create corporate account for POS
-                    Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel1.get().getParent_id(), virtualAccountModel1.get().getParent_account());
-                    sendPasswordMail(virtualAccountModel1.get());
-
-                    System.out.println("response customer updateVirtualAccountToCustomerAsync = " + response);
+                    System.out.println("response customer updateVirtualAccountToCustomerAsync = ");
                 }
 
             System.out.println("ended 1 ============================== updateVirtualAccountToCustomerAsync ");
