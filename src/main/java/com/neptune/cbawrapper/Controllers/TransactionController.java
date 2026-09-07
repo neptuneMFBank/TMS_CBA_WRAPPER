@@ -413,7 +413,7 @@ public class TransactionController {
                     IntraTransfer intraTransfer = IntraTransfer.builder()
                             .customerId(virtualAccountModel.get().getParent_id())
                             .mobilekey("")
-                            .narration("Transfer of " + request.getAmount() + " to " + enquiryResponseModel.get().getAccountName())
+                            .narration("Transfer from" + virtualAccountModel.get().getAccount_name() + "/" +virtualAccountModel.get().getVirtual_account_number() + " to " + enquiryResponseModel.get().getAccountName()+"/"+enquiryResponseModel.get().getAccountNumber())
                             .fromaccount(virtualAccountModel.get().getVirtual_account_number())
                             .fromacctname(virtualAccountModel.get().getAccount_name())
                             .fromaccountstatus("active")
@@ -425,7 +425,7 @@ public class TransactionController {
                             .amount(request.getAmount())
                             .tokenType("")
                             .transactionreference(ref)
-                            .narration(request.getNarration())
+//                            .narration(request.getNarration())
                             .build();
                     System.out.println("intraTransfer = " + intraTransfer);
                     IntraTransferResponseData response = transactionService.intraTransfer(intraTransfer);
