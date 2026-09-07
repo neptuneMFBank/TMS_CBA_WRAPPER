@@ -727,7 +727,7 @@ public class Cron {
                 return;
             }
 
-            double amount = Math.min((0.5 / 100) * transaction.getAmount(), 100);
+            double amount = Math.min((0.5 / 100) * transaction.getAmount(), 100) < 20 ? 20 : Math.min((0.5 / 100) * transaction.getAmount(), 100);
             double amount2 = Math.min((0.3 / 100) * transaction.getAmount(), 20);
 
             // ✅ Call CBA
