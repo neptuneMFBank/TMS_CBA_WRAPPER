@@ -26,6 +26,8 @@ public class VirtualAccountModel {
     private Integer bizUpdateCount;
     private String parent_id;
     private String parent_account;
+    private String otp;
+    private Boolean isOtpUsed;
     private String pin;
     private String business_id;
     private String business_wallet;
@@ -336,6 +338,22 @@ public class VirtualAccountModel {
 
     public void setAccountAdded(Boolean accountAdded) {
         this.accountAdded = accountAdded;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Boolean getOtpUsed() {
+        return isOtpUsed;
+    }
+
+    public void setOtpUsed(Boolean otpUsed) {
+        isOtpUsed = otpUsed;
     }
 
     @Override
