@@ -26,6 +26,8 @@ public class VirtualAccountModel {
     private Integer bizUpdateCount;
     private String parent_id;
     private String parent_account;
+    private String otp;
+    private Boolean isOtpUsed;
     private String pin;
     private String business_id;
     private String business_wallet;
@@ -44,6 +46,12 @@ public class VirtualAccountModel {
     @Field("created_at")
     private String createdAt;
     private String updatedAt;
+    private String adminPin;
+    private String adminPinResetOtp;
+    private String adminPinResetOtpExpiry;
+    private Boolean bypassActive = false;
+    private String bypassExpiry;
+    private String bypassAgentId;
 
     public String getToken_expiry() {
         return token_expiry;
@@ -261,6 +269,54 @@ public class VirtualAccountModel {
         this.codeExpired = codeExpired;
     }
 
+    public String getAdminPin() {
+        return adminPin;
+    }
+
+    public void setAdminPin(String adminPin) {
+        this.adminPin = adminPin;
+    }
+
+    public String getAdminPinResetOtp() {
+        return adminPinResetOtp;
+    }
+
+    public void setAdminPinResetOtp(String adminPinResetOtp) {
+        this.adminPinResetOtp = adminPinResetOtp;
+    }
+
+    public String getAdminPinResetOtpExpiry() {
+        return adminPinResetOtpExpiry;
+    }
+
+    public void setAdminPinResetOtpExpiry(String adminPinResetOtpExpiry) {
+        this.adminPinResetOtpExpiry = adminPinResetOtpExpiry;
+    }
+
+    public Boolean getBypassActive() {
+        return bypassActive;
+    }
+
+    public void setBypassActive(Boolean bypassActive) {
+        this.bypassActive = bypassActive;
+    }
+
+    public String getBypassExpiry() {
+        return bypassExpiry;
+    }
+
+    public void setBypassExpiry(String bypassExpiry) {
+        this.bypassExpiry = bypassExpiry;
+    }
+
+    public String getBypassAgentId() {
+        return bypassAgentId;
+    }
+
+    public void setBypassAgentId(String bypassAgentId) {
+        this.bypassAgentId = bypassAgentId;
+    }
+
     public VirtualAccountModel() {
     }
 
@@ -336,6 +392,22 @@ public class VirtualAccountModel {
 
     public void setAccountAdded(Boolean accountAdded) {
         this.accountAdded = accountAdded;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Boolean getOtpUsed() {
+        return isOtpUsed;
+    }
+
+    public void setOtpUsed(Boolean otpUsed) {
+        isOtpUsed = otpUsed;
     }
 
     @Override

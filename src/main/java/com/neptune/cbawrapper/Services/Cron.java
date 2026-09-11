@@ -24,11 +24,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.net.InetAddress;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -51,6 +53,9 @@ public class Cron {
 
     @Autowired
     private CorePayRestController corePayRestController;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private BillsPayment billsPayment;
@@ -383,10 +388,13 @@ public class Cron {
                             merchantRepository.save(merchantData.get());
                         }
 
-
-                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct());
+                        String token = generateRandom8DigitNumber();
+                        String hashedPassword = passwordEncoder.encode(token);
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct(), hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
+
+                        sendOtpSms(virtualAccountModel1, token);
 
                         Optional<MerchantData> merchantData1 = merchantRepository.findByTerminalId(data.getTerminalId());
 
@@ -411,7 +419,7 @@ public class Cron {
         }
     }
 
-    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data, boolean useAcct) {
+    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data, boolean useAcct, String hashedPassword) {
 
         VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
         virtualAccountModel.setSavingsId(customersModel.getSavingsAccountId());
@@ -419,6 +427,8 @@ public class Cron {
         virtualAccountModel.setAccount_name(data.getParentEntityName() + "_" + data.getTerminalName());
         virtualAccountModel.setEmail(customersModel.getEmailAddress());
         virtualAccountModel.setBvn("");
+        virtualAccountModel.setOtp(hashedPassword);
+        virtualAccountModel.setOtpUsed(false);
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
         virtualAccountModel.setPayBills(true);
@@ -996,6 +1006,39 @@ public class Cron {
         }
     }
 
+    public notification_service.Notifications.NotificationResponse sendOtpSms(VirtualAccountModel virtualAccountModel, String token) {
+        try {
+            if (StringUtils.isBlank(virtualAccountModel.getPhone_number())) {
+                log.warn("Cannot send OTP SMS, phone number is blank for terminal: {}", virtualAccountModel.getTerminalId());
+                return null;
+            }
+
+            String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel.getPhone_number());
+            String message = "Your OTP for POS activation is " + token + ". Do not share this code with anyone.";
+
+            SendNotifications notification = SendNotifications.builder()
+                    .title("POS Activation OTP")
+                    .message(message)
+                    .receiverPhoneNumber(phoneNumber)
+                    .receiverPhoneCountry("234")
+                    .sendtext(true)
+                    .sendmail(false)
+                    .attachment(false)
+                    .file("")
+                    .build();
+
+            return notifications.sendNotification(notification);
+        } catch (Exception e) {
+            log.error("Failed to send OTP SMS for terminal: {}", virtualAccountModel.getTerminalId(), e);
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_otp_sms", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_OTP_SMS");
+            errorLogsRepository.save(errorLogsModel);
+            return null;
+        }
+    }
+
     public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel) {
         System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessWalletId());
         Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessWalletId());
@@ -1267,6 +1310,11 @@ public class Cron {
         } catch (Exception e) {
             log.error("Failed to log error to database", e);
         }
+    }
+
+    public static String generateRandom8DigitNumber() {
+        SecureRandom random = new SecureRandom();
+        return String.format("%08d", random.nextInt(100_000_000));
     }
 }
 
