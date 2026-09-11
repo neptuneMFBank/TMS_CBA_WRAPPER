@@ -55,7 +55,7 @@ public class Cron {
     private CorePayRestController corePayRestController;
 
     @Autowired
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private BillsPayment billsPayment;
@@ -393,6 +393,8 @@ public class Cron {
                         VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct(), hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
+
+                        sendOtpSms(virtualAccountModel1, token);
 
                         Optional<MerchantData> merchantData1 = merchantRepository.findByTerminalId(data.getTerminalId());
 
@@ -1001,6 +1003,39 @@ public class Cron {
             }
 
             System.out.println("DONE");
+        }
+    }
+
+    public notification_service.Notifications.NotificationResponse sendOtpSms(VirtualAccountModel virtualAccountModel, String token) {
+        try {
+            if (StringUtils.isBlank(virtualAccountModel.getPhone_number())) {
+                log.warn("Cannot send OTP SMS, phone number is blank for terminal: {}", virtualAccountModel.getTerminalId());
+                return null;
+            }
+
+            String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel.getPhone_number());
+            String message = "Your OTP for POS activation is " + token + ". Do not share this code with anyone.";
+
+            SendNotifications notification = SendNotifications.builder()
+                    .title("POS Activation OTP")
+                    .message(message)
+                    .receiverPhoneNumber(phoneNumber)
+                    .receiverPhoneCountry("234")
+                    .sendtext(true)
+                    .sendmail(false)
+                    .attachment(false)
+                    .file("")
+                    .build();
+
+            return notifications.sendNotification(notification);
+        } catch (Exception e) {
+            log.error("Failed to send OTP SMS for terminal: {}", virtualAccountModel.getTerminalId(), e);
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_otp_sms", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_OTP_SMS");
+            errorLogsRepository.save(errorLogsModel);
+            return null;
         }
     }
 
