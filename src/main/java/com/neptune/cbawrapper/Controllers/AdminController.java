@@ -186,7 +186,7 @@ public class AdminController {
         }
 
         try {
-            String token = Cron.generateRandom8DigitNumber();
+            String token = Cron.generateRandom6DigitNumber();
             String hashedToken = passwordEncoder.encode(token);
 
             virtualAccountModel.get().setAdminPinResetOtp(hashedToken);
@@ -200,14 +200,21 @@ public class AdminController {
                     .title("Admin PIN Reset OTP")
                     .message(message)
                     .receiverPhoneNumber(phoneNumber)
-                    .receiverPhoneCountry("234")
+                    .receiverPhoneCountry("NG")
                     .sendtext(true)
                     .sendmail(false)
                     .attachment(false)
                     .file("")
                     .build();
 
-            notifications.sendNotification(notification);
+            notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+            log.info("response {} ", response);
+
+            if(response.getCode().equals("200")){
+                virtualAccountModel.get().setMessageSent(true);
+                virtualAccountRepository.save(virtualAccountModel.get());
+            }
 
             logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_OTP_SENT", "SYSTEM", "SUCCESS");
 
@@ -250,6 +257,7 @@ public class AdminController {
             String bypassAgentId = account.getBypassAgentId();
 
             account.setAdminPin(passwordEncoder.encode(request.getNewAdminPin()));
+            account.setUnHashedPin(request.getNewAdminPin());
             account.setBypassActive(false);
             account.setBypassExpiry(null);
             account.setBypassAgentId(null);
@@ -288,6 +296,57 @@ public class AdminController {
         logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "SUCCESS");
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "admin pin reset successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/reset-transaction-pin")
+    public ResponseEntity<ResponseSchema<?>> resetTransactionPin(@RequestBody ResetTransactionPinRequest request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        VirtualAccountModel account = virtualAccountModel.get();
+
+        if(!StringUtils.isBlank(request.getOldTransactionPin())) {
+            if (request.getOldTransactionPin().equals(request.getNewTransactionPin())) {
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Old and new transaction pin cannot be the same", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+            }
+
+            if (!passwordEncoder.matches(request.getOldTransactionPin(), account.getPin())) {
+                logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "FAILED_INVALID_OTP");
+
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "invalid transaction pin", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+            }
+
+            account.setAdminPin(passwordEncoder.encode(request.getNewTransactionPin()));
+            account.setAdminPinResetOtp(null);
+            account.setAdminPinResetOtpExpiry(null);
+            virtualAccountRepository.save(account);
+        }else {
+
+            if (!passwordEncoder.matches(request.getAdminPin(), account.getAdminPin())) {
+                logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "FAILED_INVALID_OTP");
+
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "invalid admin pin", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+            }
+
+            account.setAdminPin(passwordEncoder.encode(request.getNewTransactionPin()));
+            account.setAdminPinResetOtp(null);
+            account.setAdminPinResetOtpExpiry(null);
+            virtualAccountRepository.save(account);
+        }
+
+        logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "SUCCESS");
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Terminal transaction reset successfully", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 

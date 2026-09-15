@@ -23,6 +23,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -388,7 +390,7 @@ public class Cron {
                             merchantRepository.save(merchantData.get());
                         }
 
-                        String token = generateRandom8DigitNumber();
+                        String token = generateRandom6DigitNumber();
                         String hashedPassword = passwordEncoder.encode(token);
                         VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct(), hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
@@ -579,6 +581,83 @@ public class Cron {
             errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_UPDATE");
             errorLogsRepository.save(errorLogsModel);
         }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
+    public void setAdminOtp(){
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findAll();
+
+            String token = generateRandom6DigitNumber();
+            String hashedToken = passwordEncoder.encode(token);
+
+            for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+                if(virtualAccountModel1.getAdminPin() == null) {
+                    log.info("virtual account number without admin pin {} ", virtualAccountModel1.getVirtual_account_number());
+                    virtualAccountModel1.setAdminPin(hashedToken);
+                    virtualAccountModel1.setMessageSent(false);
+                    virtualAccountModel1.setUnHashedPin(token);
+                    virtualAccountRepository.save(virtualAccountModel1);
+
+
+                    String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel1.getPhone_number());
+                    String message = "Your Admin PIN is " + token + ". You can reset it from the settings menu.";
+
+                    SendNotifications notification = SendNotifications.builder()
+                            .title("Admin Access Pin")
+                            .message(message)
+                            .receiverPhoneNumber(phoneNumber)
+                            .receiverPhoneCountry("NG")
+                            .sendtext(true)
+                            .sendmail(false)
+                            .attachment(false)
+                            .file("")
+                            .build();
+
+                    notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+                    log.info("setAdminOtp response {} ", response);
+
+                    if (response.getCode().equals("200")) {
+                        virtualAccountModel1.setMessageSent(true);
+                        virtualAccountRepository.save(virtualAccountModel1);
+                    }
+                }
+            }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
+    public void sendAdminOtp(){
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findByIsMessageSent(false);
+
+        log.info("virtual accounts without pin sms sent {} ", virtualAccountModel.size());
+        for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+            if(virtualAccountModel1.getAdminPin() != null) {
+                String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel1.getPhone_number());
+                String message = "Your Admin PIN is " + virtualAccountModel1.getUnHashedPin() + ". You can reset it from the settings menu.";
+
+                SendNotifications notification = SendNotifications.builder()
+                        .title("Admin Access Pin")
+                        .message(message)
+                        .receiverPhoneNumber(phoneNumber)
+                        .receiverPhoneCountry("NG")
+                        .sendtext(true)
+                        .sendmail(false)
+                        .attachment(false)
+                        .file("")
+                        .build();
+
+                notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+                log.info("sendAdminOtp response {} ", response);
+
+                if (response.getCode().equals("200")) {
+                    virtualAccountModel1.setMessageSent(true);
+                    virtualAccountRepository.save(virtualAccountModel1);
+                }
+            }
+            log.info("");
+        }
+
     }
 
 
@@ -1312,9 +1391,9 @@ public class Cron {
         }
     }
 
-    public static String generateRandom8DigitNumber() {
+    public static String generateRandom6DigitNumber() {
         SecureRandom random = new SecureRandom();
-        return String.format("%08d", random.nextInt(100_000_000));
+        return String.format("%06d", random.nextInt(1_000_000));
     }
 }
 
