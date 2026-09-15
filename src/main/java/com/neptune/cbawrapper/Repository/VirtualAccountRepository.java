@@ -22,6 +22,9 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'virtual_account_number': { $ne: null }, 'is_updated': false }")
     List<VirtualAccountModel> getCustomersNotAddedToCorePay();
 
+    @Query("{ 'adminPin': { $ne: null } }")
+    List<VirtualAccountModel> findByVirtualAccountsByAdminPin();
+
     @Query("{ 'terminalId': {$in: ?0} }")
     List<VirtualAccountModel> findByVirtualAccountsByTerminalId(List<String> terminalId);
 
@@ -49,6 +52,8 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
 
     List<VirtualAccountModel> findByIsSyncToBizAndAccountAdded(Boolean isSyncToBiz, Boolean accountAdded);
+
+    List<VirtualAccountModel> findByIsMessageSent(Boolean isMessageSent);
 
     Optional<VirtualAccountModel> findByCustomerUpdateRequired(Boolean customerUpdateRequired);
 }

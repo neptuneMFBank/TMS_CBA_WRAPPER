@@ -26,6 +26,7 @@ public class VirtualAccountModel {
     private Integer bizUpdateCount;
     private String parent_id;
     private String parent_account;
+    private Boolean isMessageSent = false;
     private String otp;
     private Boolean isOtpUsed;
     private String pin;
@@ -47,6 +48,7 @@ public class VirtualAccountModel {
     private String createdAt;
     private String updatedAt;
     private String adminPin;
+    private String unHashedPin;
     private String adminPinResetOtp;
     private String adminPinResetOtpExpiry;
     private Boolean bypassActive = false;
@@ -408,6 +410,22 @@ public class VirtualAccountModel {
 
     public void setOtpUsed(Boolean otpUsed) {
         isOtpUsed = otpUsed;
+    }
+
+    public Boolean getMessageSent() {
+        return isMessageSent;
+    }
+
+    public void setMessageSent(Boolean messageSent) {
+        isMessageSent = messageSent;
+    }
+
+    public String getUnHashedPin() {
+        return unHashedPin;
+    }
+
+    public void setUnHashedPin(String unHashedPin) {
+        this.unHashedPin = unHashedPin;
     }
 
     @Override
