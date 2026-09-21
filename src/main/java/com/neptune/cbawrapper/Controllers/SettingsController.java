@@ -93,6 +93,8 @@ public class SettingsController {
 
     @GetMapping("/fetch-terminal-menu/{serialNo}")
     public ResponseEntity<ResponseSchema<?>> getMenuData(@PathVariable String serialNo) {
+        System.out.println("request got here log ===================");
+        System.out.println("serialNo = " + serialNo);
         MenuDetails menuDetails = tmsCoreWalletAccount.getTerminalMenus(serialNo);
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "terminal data fetched successfully", menuDetails, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
