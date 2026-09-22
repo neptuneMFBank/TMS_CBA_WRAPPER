@@ -188,6 +188,7 @@ public class AdminController {
         try {
             String token = Cron.generateRandom6DigitNumber();
             String hashedToken = passwordEncoder.encode(token);
+            log.info("token {}", token);
 
             virtualAccountModel.get().setAdminPinResetOtp(hashedToken);
             virtualAccountModel.get().setAdminPinResetOtpExpiry(LocalDateTime.now().plusMinutes(adminPinResetOtpExpiryMinutes).toString());
