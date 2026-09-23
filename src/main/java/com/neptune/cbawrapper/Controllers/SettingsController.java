@@ -122,7 +122,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @PostMapping("/set-pin")
     public ResponseEntity<ResponseSchema<?>> setPin(@RequestBody PinUpdate request) {
-        System.out.println("request = " + request.toString());
+        log.info("request {} ", request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
         if (virtualAccountModel.isEmpty()) {
@@ -146,8 +146,36 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "*")
+    @PostMapping("/create-transaction-pin")
+    public ResponseEntity<ResponseSchema<?>> createTransactionPin(@RequestBody CreateTransactionPin request) {
+        log.info("request {} ", request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "POS user does not exist", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        boolean matches = passwordEncoder.matches(request.getAdminPin(), virtualAccountModel.get().getAdminPin());
+
+        if (!matches) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Unauthorized", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+        }
+
+
+        String hashedPassword = passwordEncoder.encode(request.getTransactionPin());
+        virtualAccountModel.get().setPin(hashedPassword);
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Transaction pin created successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/set-password")
     public ResponseEntity<ResponseSchema<?>> setPassword(@RequestBody PinRequest request) {
+        log.info("request {} ", request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByGenericCode(request.getGenericCode());
 
         if (virtualAccountModel.isEmpty()) {
@@ -431,7 +459,6 @@ public class SettingsController {
     @GetMapping("/get-business-pos")
     public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
         log.info("businessAcct {} ", businessAcct);
-        System.out.println("businessAcct = " + businessAcct);
         List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
         List<String> terminalIds = merchant.stream()
                 .map(MerchantData::getTerminalId)
@@ -447,10 +474,10 @@ public class SettingsController {
 
         for (VirtualAccountModel account : virtualAccountModel) {
             if (account.getVirtual_account_number() != null) {
-                System.out.println("1");
+                log.info("1");
 
-                System.out.println("account.getParent_id() = " + account.getParent_id());
-                System.out.println("account.getVirtual_account_number() = " + account.getVirtual_account_number());
+                log.info("account.getParent_id() {} ", account.getParent_id());
+                log.info("account.getVirtual_account_number() {} ", account.getVirtual_account_number());
 
                 accountData.computeIfAbsent(
                                 account.getParent_id(), k -> new ArrayList<>())
@@ -478,7 +505,7 @@ public class SettingsController {
         Map<String, VirtualAcct> accountMap = new HashMap<>();
 
         for (VirtualAccountModel v : virtualAccounts) {
-            System.out.println("v = " + v.toString());
+            log.info("v {} ", v.toString());
             if (v.getTerminalId() != null && v.getVirtual_account_number() != null) {
                 VirtualAcct virtualAcct = VirtualAcct.builder()
                         .payBills(v.getPayBills())
@@ -492,8 +519,8 @@ public class SettingsController {
         for (MerchantData m : merchants) {
             GetPOSResponse posResponse = new GetPOSResponse();
 
-            System.out.println("accountMap = " + accountMap);
-            System.out.println("m = " + m.toString());
+            log.info("accountMap {} ", accountMap);
+            log.info("m {} ", m.toString());
 
             VirtualAcct posData = accountMap.get(m.getTerminalId());
 
