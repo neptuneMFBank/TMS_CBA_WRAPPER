@@ -204,7 +204,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction")
-    public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcct(@RequestHeader("authToken") String authToken, @Valid @RequestBody String data) {
+    public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
         System.out.println("data = " + data);
         System.out.println("authToken " + authToken);
         ResponseSchema responseData = new ResponseSchema<>();
