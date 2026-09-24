@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -204,7 +205,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction")
-    public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcct(@RequestHeader("authToken") String authToken, @Valid @RequestBody String data) {
+    public DeferredResult<ResponseEntity<ResponseSchema<?>>> creditDebitAcct(@RequestHeader("auth_token") String authToken, @Valid @RequestBody String data) {
         System.out.println("data = " + data);
         System.out.println("authToken " + authToken);
         ResponseSchema responseData = new ResponseSchema<>();
@@ -232,7 +233,7 @@ public class TransactionController {
             errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "account with Terminal id not found", "account with Terminal id not found");
             responseData.setMessage("account with Terminal id not found");
             responseData.setStatus(404);
-            responseData.setTimeStamp(ZonedDateTime.now());
+            responseData.setTimeStamp(ZonedDateTime.now(ZoneOffset.UTC));
             responseData.setData(null);
             return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
         }
