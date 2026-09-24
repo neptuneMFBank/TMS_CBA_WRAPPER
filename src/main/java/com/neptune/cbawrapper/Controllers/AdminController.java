@@ -194,8 +194,18 @@ public class AdminController {
             virtualAccountModel.get().setAdminPinResetOtpExpiry(LocalDateTime.now().plusMinutes(adminPinResetOtpExpiryMinutes).toString());
             virtualAccountRepository.save(virtualAccountModel.get());
 
-            String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel.get().getPhone_number());
+            String phoneNumber = helpers.normalizePhoneNumber(
+                    virtualAccountModel.get().getPhone_number()
+            );
+
+            if (!phoneNumber.startsWith("+234")) {
+                phoneNumber = phoneNumber.startsWith("0")
+                        ? "+234" + phoneNumber.substring(1)
+                        : "+234" + phoneNumber;
+            }
+            log.info("phoneNumber {} ", phoneNumber);
             String message = "Your OTP to reset your Admin PIN is " + token + ". It expires in " + adminPinResetOtpExpiryMinutes + " minutes. Do not share this code with anyone.";
+            log.info("message {} ", message);
 
             SendNotifications notification = SendNotifications.builder()
                     .title("Admin PIN Reset OTP")
