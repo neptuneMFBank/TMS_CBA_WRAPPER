@@ -326,9 +326,7 @@ public class AdminController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
             }
 
-            account.setAdminPin(passwordEncoder.encode(request.getNewTransactionPin()));
-            account.setAdminPinResetOtp(null);
-            account.setAdminPinResetOtpExpiry(null);
+            account.setPin(passwordEncoder.encode(request.getNewTransactionPin()));
             virtualAccountRepository.save(account);
         }else {
 
@@ -339,9 +337,7 @@ public class AdminController {
                 return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
             }
 
-            account.setAdminPin(passwordEncoder.encode(request.getNewTransactionPin()));
-            account.setAdminPinResetOtp(null);
-            account.setAdminPinResetOtpExpiry(null);
+            account.setPin(passwordEncoder.encode(request.getNewTransactionPin()));
             virtualAccountRepository.save(account);
         }
 
