@@ -105,4 +105,21 @@ public class SendNotifications {
         public void setSendtext(boolean sendtext) {
                 this.sendtext = sendtext;
         }
+
+        @Override
+        public String toString() {
+                return "SendNotifications{" +
+                        "title='" + title + '\'' +
+                        ", message='" + message + '\'' +
+                        ", receiverFcmToken='" + receiverFcmToken + '\'' +
+                        ", pushNotify=" + pushNotify +
+                        ", file='" + file + '\'' +
+                        ", receiver_email='" + receiver_email + '\'' +
+                        ", sendmail=" + sendmail +
+                        ", attachment=" + attachment +
+                        ", receiverPhoneNumber='" + receiverPhoneNumber + '\'' +
+                        ", receiverPhoneCountry='" + receiverPhoneCountry + '\'' +
+                        ", sendtext=" + sendtext +
+                        '}';
+        }
 }

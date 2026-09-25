@@ -202,6 +202,7 @@ public class AdminController {
             String message = "Your OTP to reset your Admin PIN is " + token + ". It expires in " + adminPinResetOtpExpiryMinutes + " minutes. Do not share this code with anyone.";
             log.info("message {} ", message);
 
+
             SendNotifications notification = SendNotifications.builder()
                     .title("Admin PIN Reset OTP")
                     .message(message)
