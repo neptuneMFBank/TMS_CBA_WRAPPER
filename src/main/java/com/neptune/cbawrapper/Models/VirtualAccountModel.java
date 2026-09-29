@@ -48,12 +48,39 @@ public class VirtualAccountModel {
     private String createdAt;
     private String updatedAt;
     private String adminPin;
+    private String adminSupportPin;
+    private boolean adminSupportUsed;
+    private String adminSupportExpiry;
     private String unHashedPin;
     private String adminPinResetOtp;
     private String adminPinResetOtpExpiry;
     private Boolean bypassActive = false;
     private String bypassExpiry;
     private String bypassAgentId;
+
+    public String getAdminSupportPin() {
+        return adminSupportPin;
+    }
+
+    public void setAdminSupportPin(String adminSupportPin) {
+        this.adminSupportPin = adminSupportPin;
+    }
+
+    public String getAdminSupportExpiry() {
+        return adminSupportExpiry;
+    }
+
+    public void setAdminSupportExpiry(String adminSupportExpiry) {
+        this.adminSupportExpiry = adminSupportExpiry;
+    }
+
+    public boolean isAdminSupportUsed() {
+        return adminSupportUsed;
+    }
+
+    public void setAdminSupportUsed(boolean adminSupportUsed) {
+        this.adminSupportUsed = adminSupportUsed;
+    }
 
     public String getToken_expiry() {
         return token_expiry;

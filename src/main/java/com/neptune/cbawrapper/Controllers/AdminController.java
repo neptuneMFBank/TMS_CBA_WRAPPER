@@ -33,9 +33,6 @@ public class AdminController {
     @Value("${admin.pin.support.bypass.minutes:6}")
     private long supportBypassMinutes;
 
-    @Value("${admin.pin.support.fallback}")
-    private String adminPinSupportFallback;
-
     private final VirtualAccountRepository virtualAccountRepository;
     private final PasswordEncoder passwordEncoder;
     private final Helpers helpers;
@@ -139,7 +136,20 @@ public class AdminController {
         }
 
         // Internal Neptune Support fallback PIN - grants access on any terminal for field maintenance
-        if (StringUtils.isNotBlank(adminPinSupportFallback) && adminPinSupportFallback.equals(request.getAdminPin())) {
+        if (StringUtils.isNotBlank(virtualAccountModel.get().getAdminSupportPin()) && virtualAccountModel.get().getAdminSupportPin().equals(request.getAdminPin())) {
+            if(virtualAccountModel.get().isAdminSupportUsed()){
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Admin pin already used", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+            }
+
+            if(LocalDateTime.parse(virtualAccountModel.get().getAdminSupportExpiry()).isBefore(LocalDateTime.now())){
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Admin pin expired", "", "", ZonedDateTime.now(), false);
+                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+            }
+
+            virtualAccountModel.get().setAdminSupportUsed(true);
+            virtualAccountRepository.save(virtualAccountModel.get());
+
             logAudit(request.getTerminalId(), "ADMIN_PIN_AUTHENTICATION", "NEPTUNE_SUPPORT_FALLBACK", "SUCCESS");
 
             ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "authenticated successfully", "", "", ZonedDateTime.now(), false);
