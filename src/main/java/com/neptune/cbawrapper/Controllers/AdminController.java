@@ -319,22 +319,22 @@ public class AdminController {
 
         VirtualAccountModel account = virtualAccountModel.get();
 
-        if(!StringUtils.isBlank(request.getOldTransactionPin())) {
-            if (request.getOldTransactionPin().equals(request.getNewTransactionPin())) {
-                ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Old and new transaction pin cannot be the same", "", "", ZonedDateTime.now(), false);
-                return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
-            }
-
-            if (!passwordEncoder.matches(request.getOldTransactionPin(), account.getPin())) {
-                logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "FAILED_INVALID_OTP");
-
-                ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "invalid transaction pin", "", "", ZonedDateTime.now(), false);
-                return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
-            }
-
-            account.setPin(passwordEncoder.encode(request.getNewTransactionPin()));
-            virtualAccountRepository.save(account);
-        }else {
+//        if(!StringUtils.isBlank(request.getOldTransactionPin())) {
+//            if (request.getOldTransactionPin().equals(request.getNewTransactionPin())) {
+//                ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "Old and new transaction pin cannot be the same", "", "", ZonedDateTime.now(), false);
+//                return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+//            }
+//
+//            if (!passwordEncoder.matches(request.getOldTransactionPin(), account.getPin())) {
+//                logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "FAILED_INVALID_OTP");
+//
+//                ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "invalid transaction pin", "", "", ZonedDateTime.now(), false);
+//                return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+//            }
+//
+//            account.setPin(passwordEncoder.encode(request.getNewTransactionPin()));
+//            virtualAccountRepository.save(account);
+//        }else {
 
             if (!passwordEncoder.matches(request.getAdminPin(), account.getAdminPin())) {
                 logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "FAILED_INVALID_OTP");
@@ -345,7 +345,7 @@ public class AdminController {
 
             account.setPin(passwordEncoder.encode(request.getNewTransactionPin()));
             virtualAccountRepository.save(account);
-        }
+//        }
 
         logAudit(request.getTerminalId(), "ADMIN_PIN_RESET_VIA_OTP", "SYSTEM", "SUCCESS");
 
@@ -381,6 +381,56 @@ public class AdminController {
         logAudit(request.getTerminalId(), "SUPPORT_BYPASS_ACTIVATION", request.getSupportAgentId(), "SUCCESS");
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "support bypass activated, expires in " + supportBypassMinutes + " minutes", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/reset-otp-status")
+    public ResponseEntity<ResponseSchema<?>> resetOtpStatus(@RequestBody SupportBypassRequest request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        if (StringUtils.isBlank(request.getSupportAgentId())) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "support agent name/id is required to authorize a bypass", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+        }
+
+        VirtualAccountModel account = virtualAccountModel.get();
+        account.setMessageSent(false);
+        virtualAccountRepository.save(account);
+
+        logAudit(request.getTerminalId(), "RESET_OTP_STATUS", request.getSupportAgentId(), "SUCCESS");
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "otp status reset successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-terminal-details")
+    public ResponseEntity<ResponseSchema<?>> getTerminalDetails(@RequestParam String terminalId) {
+
+        if (StringUtils.isBlank(terminalId)) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "kindly pass a valid terminal ID", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+        }
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(terminalId);
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        TerminalDetails terminalDetails = new TerminalDetails();
+        terminalDetails.setMessageSent(virtualAccountModel.get().getMessageSent());
+
+        logAudit(terminalId, "GET_TERMINAL_DETAILS", "", "SUCCESS");
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Terminal details retrieved successfully", terminalDetails, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
