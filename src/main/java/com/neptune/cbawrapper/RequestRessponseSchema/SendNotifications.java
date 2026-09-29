@@ -14,6 +14,9 @@ public class SendNotifications {
         private String receiver_email;
         private boolean sendmail;
         private boolean attachment;
+        private String receiverPhoneNumber;
+        private String receiverPhoneCountry;
+        private boolean sendtext;
 
         public String getTitle() {
                 return title;
@@ -77,5 +80,46 @@ public class SendNotifications {
 
         public void setAttachment(boolean attachment) {
                 this.attachment = attachment;
+        }
+
+        public String getReceiverPhoneNumber() {
+                return receiverPhoneNumber;
+        }
+
+        public void setReceiverPhoneNumber(String receiverPhoneNumber) {
+                this.receiverPhoneNumber = receiverPhoneNumber;
+        }
+
+        public String getReceiverPhoneCountry() {
+                return receiverPhoneCountry;
+        }
+
+        public void setReceiverPhoneCountry(String receiverPhoneCountry) {
+                this.receiverPhoneCountry = receiverPhoneCountry;
+        }
+
+        public boolean isSendtext() {
+                return sendtext;
+        }
+
+        public void setSendtext(boolean sendtext) {
+                this.sendtext = sendtext;
+        }
+
+        @Override
+        public String toString() {
+                return "SendNotifications{" +
+                        "title='" + title + '\'' +
+                        ", message='" + message + '\'' +
+                        ", receiverFcmToken='" + receiverFcmToken + '\'' +
+                        ", pushNotify=" + pushNotify +
+                        ", file='" + file + '\'' +
+                        ", receiver_email='" + receiver_email + '\'' +
+                        ", sendmail=" + sendmail +
+                        ", attachment=" + attachment +
+                        ", receiverPhoneNumber='" + receiverPhoneNumber + '\'' +
+                        ", receiverPhoneCountry='" + receiverPhoneCountry + '\'' +
+                        ", sendtext=" + sendtext +
+                        '}';
         }
 }

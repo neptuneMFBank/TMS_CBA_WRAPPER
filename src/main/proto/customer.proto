@@ -12,6 +12,12 @@ service CustomerService {
   rpc GetCorporateCustomerByAccount(GetCustomerByAccountRequest) returns (GetCorporateByAccountResponse) {}
   rpc GetCorporateCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCorporateCustomerResponse) {}
   rpc GetCorporateCustomerByTin(GetCorporateCustomerByTinRequest) returns (GetCorporateCustomerResponse) {}
+  rpc ToggleIsPosSettlementAccount(ToggleIsPosSettlementAccountRequest) returns (Empty){}
+}
+
+message ToggleIsPosSettlementAccountRequest {
+  string account_number = 1;
+  string initiator = 2;
 }
 
 message GetCorporateCustomerByTinRequest {
@@ -572,3 +578,5 @@ message CreateCustomerResponse {
   string id = 1;
   string account_number = 2;
 }
+
+message Empty {}

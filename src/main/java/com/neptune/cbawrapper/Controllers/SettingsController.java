@@ -1,6 +1,5 @@
 package com.neptune.cbawrapper.Controllers;
 
-import com.mongodb.client.FindIterable;
 import com.neptune.cba.transaction.balance.BalanceResponse;
 import com.neptune.cba.transaction.balance.BulkBalanceResponse;
 import com.neptune.cbawrapper.Configuration.Helpers;
@@ -12,6 +11,8 @@ import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/settings")
 public class SettingsController {
 
+    private static final Logger log = LoggerFactory.getLogger(SettingsController.class);
     @Value("${pos.settlement.bank.name}")
     private String pos_settlement_bank_name;
 
@@ -91,6 +93,8 @@ public class SettingsController {
 
     @GetMapping("/fetch-terminal-menu/{serialNo}")
     public ResponseEntity<ResponseSchema<?>> getMenuData(@PathVariable String serialNo) {
+        System.out.println("request got here log ===================");
+        System.out.println("serialNo = " + serialNo);
         MenuDetails menuDetails = tmsCoreWalletAccount.getTerminalMenus(serialNo);
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "terminal data fetched successfully", menuDetails, "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
@@ -118,7 +122,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @PostMapping("/set-pin")
     public ResponseEntity<ResponseSchema<?>> setPin(@RequestBody PinUpdate request) {
-        System.out.println("request = " + request.toString());
+        log.info("request {} ", request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(request.getAccount());
 
         if (virtualAccountModel.isEmpty()) {
@@ -142,8 +146,36 @@ public class SettingsController {
     }
 
     @CrossOrigin(origins = "*")
+    @PostMapping("/create-transaction-pin")
+    public ResponseEntity<ResponseSchema<?>> createTransactionPin(@RequestBody CreateTransactionPin request) {
+        log.info("request {} ", request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "POS user does not exist", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        boolean matches = passwordEncoder.matches(request.getAdminPin(), virtualAccountModel.get().getAdminPin());
+
+        if (!matches) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Unauthorized", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.UNAUTHORIZED);
+        }
+
+
+        String hashedPassword = passwordEncoder.encode(request.getTransactionPin());
+        virtualAccountModel.get().setPin(hashedPassword);
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Transaction pin created successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/set-password")
     public ResponseEntity<ResponseSchema<?>> setPassword(@RequestBody PinRequest request) {
+        log.info("request {} ", request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByGenericCode(request.getGenericCode());
 
         if (virtualAccountModel.isEmpty()) {
@@ -299,8 +331,8 @@ public class SettingsController {
                     .ptspCode("Interswitch")
                     .merchantAcctDomicileBankCode(merchantData.get().getMerchantAcctDomicileBankCode())
                     .terminalGroupId("2NEP")
-                    .bvn("")
-                    .useAcct(false)
+                    .bvn(merchantData.get().getBvn())
+                    .useAcct(request.getUseAcct())
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantLgaCode)
                     .agentCode("AG001")
@@ -359,7 +391,7 @@ public class SettingsController {
                     .merchantCategoryCode("5999")
                     .appName(request.getDisplayName())
                     .stateCode(stateCode)
-                    .useAcct(true)
+                    .useAcct(request.getUseAcct())
                     .status("Pending")
                     .gpsLongitude(request.getGpsLongitude())
                     .gpsLatitude(request.getGpsLatitude())
@@ -375,7 +407,7 @@ public class SettingsController {
                     .ptspCode("Interswitch")
                     .merchantAcctDomicileBankCode(getBanks.get().getBankCode())
                     .terminalGroupId("2NEP")
-                    .bvn("")
+                    .bvn(response.getDirectorsInfoList().stream().map(Customer.DirectorData::getBvn).filter(bvn -> !bvn.isBlank()).findFirst().orElse(null))
                     .tin(request.getTin())
                     .merchantAddressLgaCode(merchantLgaCode)
                     .agentCode("AG001")
@@ -415,7 +447,7 @@ public class SettingsController {
         Optional<MerchantData> merchant = helpers.getMerchant(tin);
 
         if(merchant.isEmpty()){
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(401, "Terminal already created for this account", null, "", ZonedDateTime.now(), false);
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "Terminal with tin not found", null, "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
@@ -426,6 +458,7 @@ public class SettingsController {
     @CrossOrigin(origins = "*")
     @GetMapping("/get-business-pos")
     public ResponseEntity<ResponseSchema<?>> getCustomerPOS(@RequestParam String businessAcct) {
+        log.info("businessAcct {} ", businessAcct);
         List<MerchantData> merchant = merchantRepository.findMerchantByBusinessAcct(businessAcct);
         List<String> terminalIds = merchant.stream()
                 .map(MerchantData::getTerminalId)
@@ -441,10 +474,10 @@ public class SettingsController {
 
         for (VirtualAccountModel account : virtualAccountModel) {
             if (account.getVirtual_account_number() != null) {
-                System.out.println("1");
+                log.info("1");
 
-                System.out.println("account.getParent_id() = " + account.getParent_id());
-                System.out.println("account.getVirtual_account_number() = " + account.getVirtual_account_number());
+                log.info("account.getParent_id() {} ", account.getParent_id());
+                log.info("account.getVirtual_account_number() {} ", account.getVirtual_account_number());
 
                 accountData.computeIfAbsent(
                                 account.getParent_id(), k -> new ArrayList<>())
@@ -472,7 +505,7 @@ public class SettingsController {
         Map<String, VirtualAcct> accountMap = new HashMap<>();
 
         for (VirtualAccountModel v : virtualAccounts) {
-            System.out.println("v = " + v.toString());
+            log.info("v {} ", v.toString());
             if (v.getTerminalId() != null && v.getVirtual_account_number() != null) {
                 VirtualAcct virtualAcct = VirtualAcct.builder()
                         .payBills(v.getPayBills())
@@ -486,8 +519,8 @@ public class SettingsController {
         for (MerchantData m : merchants) {
             GetPOSResponse posResponse = new GetPOSResponse();
 
-            System.out.println("accountMap = " + accountMap);
-            System.out.println("m = " + m.toString());
+            log.info("accountMap {} ", accountMap);
+            log.info("m {} ", m.toString());
 
             VirtualAcct posData = accountMap.get(m.getTerminalId());
 
@@ -518,7 +551,7 @@ public class SettingsController {
             posResponse.setInitiateTrans(initiateTrans);
             posResponse.setPayBills(payBills);
             posResponse.setPosLatitude(m.getGpsLatitude());
-            posResponse.setBalance(new BigDecimal(balance).toPlainString());
+            posResponse.setBalance(String.format("%.2f", new BigDecimal(balance)));
             // Match account using terminalId
             posResponse.setPosName(m.getAppName());
             posResponse.setPosAcctNum(acct);

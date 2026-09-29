@@ -29,43 +29,51 @@ public class Notifications {
     private int notif_server_port;
 
     public notification_service.Notifications.NotificationResponse sendNotification(SendNotifications notif) {
+
         ManagedChannel channel = ManagedChannelBuilder.forAddress(notif_server_ip, notif_server_port).usePlaintext().build();
         notification_service.Notifications.NotificationResponse response = null;
+
+        notification_service.Notifications.NotificationRequest request = notification_service.Notifications.NotificationRequest.newBuilder()
+                .setTitle(notif.getTitle())
+                .setMessage(notif.getMessage())
+                .setIcon("")
+                .setNotificationType("")
+                .setMessagePriority("1")
+                .setReceiverPhoneNumber(notif.getReceiverPhoneNumber() == null ? "" : notif.getReceiverPhoneNumber())
+                .setReceiverPhoneCountry(notif.getReceiverPhoneCountry() == null ? "" : notif.getReceiverPhoneCountry())
+                .setReceiverEmail(notif.getReceiver_email() == null ? "" : notif.getReceiver_email())
+                .setReceiverFcmToken(
+                        notif.getReceiverFcmToken() == null ? "" : notif.getReceiverFcmToken()
+                )
+                .setFile(notif.getFile())
+                .setReceiverSocketId("")
+                .setAttachment(notif.isAttachment())
+                .setWebhook(notification_service.Notifications.WebHook.newBuilder()
+                        .setEvent("Transaction notification")
+                        .setUrl("")
+                        .setPayload("")
+                        .build()
+                )
+                .setSendmail(notif.isSendmail())
+                .setSendtext(notif.isSendtext())
+                .setSendwebhook(false)
+                .setPushNotify(true)
+                .setCorporateMail(true)
+                .setExtensiontype("")
+                .build();
+
+        log.info("request {} ", request);
+        log.info("notification data {} ", notif.toString());
         try {
-            notification_service.Notifications.NotificationRequest request = notification_service.Notifications.NotificationRequest.newBuilder()
-                    .setTitle(notif.getTitle())
-                    .setMessage(notif.getMessage())
-                    .setIcon("")
-                    .setNotificationType("")
-                    .setMessagePriority("1")
-                    .setReceiverPhoneNumber("")
-                    .setReceiverPhoneCountry("")
-                    .setReceiverEmail(notif.getReceiver_email())
-                    .setReceiverFcmToken(
-                            notif.getReceiverFcmToken()
-                    )
-                    .setFile(notif.getFile())
-                    .setReceiverSocketId("")
-                    .setAttachment(notif.isAttachment())
-                    .setWebhook(notification_service.Notifications.WebHook.newBuilder()
-                            .setEvent("Transaction notification")
-                            .setUrl("")
-                            .setPayload("")
-                            .build()
-                    )
-                    .setSendmail(notif.isSendmail())
-                    .setSendtext(false)
-                    .setSendwebhook(false)
-                    .setPushNotify(true)
-                    .setCorporateMail(true)
-                    .setExtensiontype("")
-                    .build();
 
             NotificationServiceGrpc.NotificationServiceBlockingStub stub = NotificationServiceGrpc.newBlockingStub(channel);
             response = stub.notify(request); //connection().create3ppUser(request);
+            System.out.println("response = " + response);
         }catch (StatusRuntimeException e) {
+            System.out.println("error 1 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_STATUS_RUNTIME_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } catch (Exception e) {
+            System.out.println("error 2 = " + e.getMessage());
             errorLoggingException.logError("GET_USER_PHONE_EXCEPTION_HANDLER", String.valueOf(e.getCause()), e.getMessage());
         } finally {
             channel.shutdownNow();

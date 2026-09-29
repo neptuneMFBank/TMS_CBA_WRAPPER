@@ -20,6 +20,8 @@ public class TransactionDrCr {
     private String acctname;
     private String drcr;
     private String acctype;
+    private boolean isProcessing = false;
+    private String processingStartedAt;
     private Double amount;
     private String transactionreference;
     private String narration;
@@ -258,7 +260,29 @@ public class TransactionDrCr {
         this.parent_id = parent_id;
     }
 
+    public boolean isProcessing() {
+        return isProcessing;
+    }
 
+    public void setProcessing(boolean processing) {
+        isProcessing = processing;
+    }
+
+    public String getProcessingStartedAt() {
+        return processingStartedAt;
+    }
+
+    public void setProcessingStartedAt(String processingStartedAt) {
+        this.processingStartedAt = processingStartedAt;
+    }
+
+    public boolean isUpdatedToCba() {
+        return isUpdatedToCba;
+    }
+
+    public void setUpdatedToCba(boolean updatedToCba) {
+        isUpdatedToCba = updatedToCba;
+    }
 
     @Override
     public String toString() {
