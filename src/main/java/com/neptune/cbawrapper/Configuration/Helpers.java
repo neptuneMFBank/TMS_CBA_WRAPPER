@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -457,5 +458,10 @@ public class Helpers {
         }
 
         return result;
+    }
+
+    public String generateRandom8DigitNumber() {
+        SecureRandom random = new SecureRandom();
+        return String.format("%08d", random.nextInt(100_000_000));
     }
 }

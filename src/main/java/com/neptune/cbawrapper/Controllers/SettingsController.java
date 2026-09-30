@@ -10,6 +10,7 @@ import com.neptune.cbawrapper.Services.*;
 import com.neptune.cbawrapper.utils.SequenceGenerator;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,7 @@ public class SettingsController {
     private final SequenceGenerator sequenceGenerator;
     private final Helpers helpers;
     private final LgaRepository lgaRepository;
+    private final Notifications notifications;
     private final CustomerService customerService;
     private final StateRepository stateRepository;
     private final TransactionService transactionService;
@@ -73,7 +75,7 @@ public class SettingsController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public SettingsController(TransactionService transactionService, SeederService seederService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
+    public SettingsController(TransactionService transactionService, Notifications notifications, SeederService seederService, Helpers helpers, MerchantExcelService merchantExcelService, SequenceGenerator sequenceGenerator, MerchantRepository merchantRepository, CustomerService customerService, BankRepository bankRepository, LgaRepository lgaRepository, StateRepository stateRepository, TmsCoreWalletAccount tmsCoreWalletAccount, Cron cron, VirtualAccountRepository virtualAccountRepository, PasswordEncoder passwordEncoder, DisputeRepository disputeRepository) {
         this.tmsCoreWalletAccount = tmsCoreWalletAccount;
         this.seederService = seederService;
         this.cron = cron;
@@ -81,6 +83,7 @@ public class SettingsController {
         this.bankRepository = bankRepository;
         this.helpers = helpers;
         this.merchantExcelService = merchantExcelService;
+        this.notifications = notifications;
         this.merchantRepository = merchantRepository;
         this.customerService = customerService;
         this.lgaRepository = lgaRepository;
@@ -169,6 +172,46 @@ public class SettingsController {
         virtualAccountRepository.save(virtualAccountModel.get());
 
         ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "Transaction pin created successfully", "", "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/add-admin-support-pin")
+    public ResponseEntity<ResponseSchema<?>> addAdminSupportPin(@RequestBody AuthenticateAdminPinRequest request) {
+        System.out.println("request = " + request.toString());
+        Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
+
+        if (virtualAccountModel.isEmpty()) {
+            ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+        }
+
+        String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel.get().getPhone_number());
+        String token = helpers.generateRandom8DigitNumber();
+        String message = "Your temporary POS Admin PIN is " + token;
+
+        SendNotifications notification = SendNotifications.builder()
+                .title("Admin Access Pin")
+                .message(message)
+                .receiverPhoneNumber(phoneNumber)
+                .receiverPhoneCountry("NG")
+                .sendtext(true)
+                .sendmail(false)
+                .attachment(false)
+                .file("")
+                .build();
+
+        notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+        log.info("response {} ", response);
+        virtualAccountModel.get().setAdminSupportPin(token);
+        virtualAccountModel.get().setAdminSupportUsed(false);
+        virtualAccountModel.get().setAdminSupportExpiry(LocalDateTime.now().plusHours(24).toString());
+        virtualAccountRepository.save(virtualAccountModel.get());
+
+        logAudit(request.getTerminalId(), "ADMIN_PIN_AUTHENTICATION", "SYSTEM", "SUCCESS");
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successfully added admin pin", "", "", ZonedDateTime.now(), false);
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
@@ -627,5 +670,10 @@ public class SettingsController {
                 .replaceAll("(?i)state", "")   // remove STATE / state
                 .replaceAll("\\s+", " ")       // fix spaces
                 .trim();
+    }
+
+    private void logAudit(String terminalId, String action, String agentIdentifier, String status) {
+        log.info("AUDIT | terminalId={} | action={} | agent={} | status={} | timestamp={}",
+                terminalId, action, agentIdentifier, status, ZonedDateTime.now());
     }
 }
