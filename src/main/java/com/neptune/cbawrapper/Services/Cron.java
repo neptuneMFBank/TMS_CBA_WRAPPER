@@ -593,7 +593,7 @@ public class Cron {
             for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
                 if(virtualAccountModel1.getAdminPin() == null) {
                     log.info("virtual account number without admin pin {} ", virtualAccountModel1.getVirtual_account_number());
-                    virtualAccountModel1.setAdminPin(hashedToken);
+                    virtualAccountModel1.setOtp(hashedToken);
                     virtualAccountModel1.setMessageSent(false);
                     virtualAccountModel1.setUnHashedPin(token);
                     virtualAccountRepository.save(virtualAccountModel1);

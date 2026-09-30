@@ -98,15 +98,15 @@ public class AdminController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        if (!Boolean.TRUE.equals(virtualAccountModel.get().getOtpUsed())) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "setup code has not been verified for this terminal", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
-        }
-
-        if (StringUtils.isNotBlank(virtualAccountModel.get().getAdminPin())) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin has already been set for this terminal", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
-        }
+//        if (!Boolean.TRUE.equals(virtualAccountModel.get().getOtpUsed())) {
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "setup code has not been verified for this terminal", "", "", ZonedDateTime.now(), false);
+//            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (StringUtils.isNotBlank(virtualAccountModel.get().getAdminPin())) {
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin has already been set for this terminal", "", "", ZonedDateTime.now(), false);
+//            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+//        }
 
         if (StringUtils.isBlank(request.getAdminPin()) || !request.getAdminPin().equals(request.getConfirmAdminPin())) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin and confirmation pin do not match", "", "", ZonedDateTime.now(), false);
