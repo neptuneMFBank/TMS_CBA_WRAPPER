@@ -390,7 +390,7 @@ public class Cron {
                             merchantRepository.save(merchantData.get());
                         }
 
-                        String token = generateRandom6DigitNumber();
+                        String token = helpers.generateRandom8DigitNumber();
                         String hashedPassword = passwordEncoder.encode(token);
                         VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct(), hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
@@ -587,7 +587,7 @@ public class Cron {
     public void setAdminOtp(){
         List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findAll();
 
-            String token = generateRandom6DigitNumber();
+            String token = helpers.generateRandom8DigitNumber();
             String hashedToken = passwordEncoder.encode(token);
 
             for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {

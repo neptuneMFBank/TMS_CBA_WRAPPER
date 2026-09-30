@@ -460,7 +460,7 @@ public class Helpers {
         return result;
     }
 
-    public static String generateRandom8DigitNumber() {
+    public String generateRandom8DigitNumber() {
         SecureRandom random = new SecureRandom();
         return String.format("%08d", random.nextInt(100_000_000));
     }

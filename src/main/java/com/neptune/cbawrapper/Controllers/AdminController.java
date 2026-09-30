@@ -54,6 +54,8 @@ public class AdminController {
         System.out.println("request = " + request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
+        String hashedToken = passwordEncoder.encode(request.getOtp());
+        System.out.println("hashedToken = " + hashedToken);
         if (virtualAccountModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
