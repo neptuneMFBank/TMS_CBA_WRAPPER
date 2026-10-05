@@ -591,7 +591,7 @@ public class Cron {
             String hashedToken = passwordEncoder.encode(token);
 
             for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
-                if(virtualAccountModel1.getAdminPin() == null) {
+                if(virtualAccountModel1.getOtp() == null) {
                     log.info("virtual account number without admin pin {} ", virtualAccountModel1.getVirtual_account_number());
                     virtualAccountModel1.setOtp(hashedToken);
                     virtualAccountModel1.setMessageSent(false);
