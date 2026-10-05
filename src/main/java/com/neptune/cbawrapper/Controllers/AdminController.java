@@ -54,6 +54,8 @@ public class AdminController {
         System.out.println("request = " + request.toString());
         Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountByTerminalId(request.getTerminalId());
 
+        String hashedToken = passwordEncoder.encode(request.getOtp());
+        System.out.println("hashedToken = " + hashedToken);
         if (virtualAccountModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "invalid terminal id", "", "", ZonedDateTime.now(), false);
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
@@ -96,15 +98,15 @@ public class AdminController {
             return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
         }
 
-        if (!Boolean.TRUE.equals(virtualAccountModel.get().getOtpUsed())) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "setup code has not been verified for this terminal", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
-        }
-
-        if (StringUtils.isNotBlank(virtualAccountModel.get().getAdminPin())) {
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin has already been set for this terminal", "", "", ZonedDateTime.now(), false);
-            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
-        }
+//        if (!Boolean.TRUE.equals(virtualAccountModel.get().getOtpUsed())) {
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "setup code has not been verified for this terminal", "", "", ZonedDateTime.now(), false);
+//            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (StringUtils.isNotBlank(virtualAccountModel.get().getAdminPin())) {
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin has already been set for this terminal", "", "", ZonedDateTime.now(), false);
+//            return new ResponseEntity<>(responseSchema, HttpStatus.BAD_REQUEST);
+//        }
 
         if (StringUtils.isBlank(request.getAdminPin()) || !request.getAdminPin().equals(request.getConfirmAdminPin())) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(400, "admin pin and confirmation pin do not match", "", "", ZonedDateTime.now(), false);
@@ -412,6 +414,7 @@ public class AdminController {
 
         VirtualAccountModel account = virtualAccountModel.get();
         account.setMessageSent(false);
+        virtualAccountModel.get().setOtpUsed(false);
         virtualAccountRepository.save(account);
 
         logAudit(request.getTerminalId(), "RESET_OTP_STATUS", request.getSupportAgentId(), "SUCCESS");
@@ -436,6 +439,7 @@ public class AdminController {
         }
 
         TerminalDetails terminalDetails = new TerminalDetails();
+        terminalDetails.setOtpUsed(virtualAccountModel.get().getOtpUsed());
         terminalDetails.setMessageSent(virtualAccountModel.get().getMessageSent());
 
         logAudit(terminalId, "GET_TERMINAL_DETAILS", "", "SUCCESS");
