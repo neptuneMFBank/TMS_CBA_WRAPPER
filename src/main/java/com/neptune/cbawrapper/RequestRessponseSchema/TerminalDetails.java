@@ -6,6 +6,7 @@ public class TerminalDetails {
     }
 
     private Boolean isMessageSent = false;
+    private Boolean isOtpUsed;
 
     public Boolean getMessageSent() {
         return isMessageSent;
@@ -13,5 +14,13 @@ public class TerminalDetails {
 
     public void setMessageSent(Boolean messageSent) {
         isMessageSent = messageSent;
+    }
+
+    public Boolean getOtpUsed() {
+        return isOtpUsed;
+    }
+
+    public void setOtpUsed(Boolean otpUsed) {
+        isOtpUsed = otpUsed;
     }
 }

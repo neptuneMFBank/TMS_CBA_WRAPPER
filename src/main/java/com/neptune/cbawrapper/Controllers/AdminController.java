@@ -414,6 +414,7 @@ public class AdminController {
 
         VirtualAccountModel account = virtualAccountModel.get();
         account.setMessageSent(false);
+        virtualAccountModel.get().setOtpUsed(false);
         virtualAccountRepository.save(account);
 
         logAudit(request.getTerminalId(), "RESET_OTP_STATUS", request.getSupportAgentId(), "SUCCESS");
@@ -438,6 +439,7 @@ public class AdminController {
         }
 
         TerminalDetails terminalDetails = new TerminalDetails();
+        terminalDetails.setOtpUsed(virtualAccountModel.get().getOtpUsed());
         terminalDetails.setMessageSent(virtualAccountModel.get().getMessageSent());
 
         logAudit(terminalId, "GET_TERMINAL_DETAILS", "", "SUCCESS");
