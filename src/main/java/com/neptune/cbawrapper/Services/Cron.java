@@ -433,6 +433,7 @@ public class Cron {
         virtualAccountModel.setOtpUsed(false);
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
+        virtualAccountModel.setRsm(data.getStaffId());
         virtualAccountModel.setPayBills(true);
         virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);

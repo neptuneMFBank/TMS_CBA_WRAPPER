@@ -57,6 +57,8 @@ public class VirtualAccountModel {
     private Boolean bypassActive = false;
     private String bypassExpiry;
     private String bypassAgentId;
+    private String status;
+    private String rsm;
 
     public String getAdminSupportPin() {
         return adminSupportPin;
@@ -453,6 +455,22 @@ public class VirtualAccountModel {
 
     public void setUnHashedPin(String unHashedPin) {
         this.unHashedPin = unHashedPin;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRsm() {
+        return rsm;
+    }
+
+    public void setRsm(String rsm) {
+        this.rsm = rsm;
     }
 
     @Override
