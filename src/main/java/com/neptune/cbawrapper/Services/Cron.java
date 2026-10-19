@@ -485,10 +485,7 @@ public class Cron {
 
             System.out.println("response from ebiz update = " + response);
 
-            account.setBizUpdateCount(account.getBizUpdateCount() + 1);
-            if(response.getCode() == 200){
-                account.setSyncToBiz(true);
-            }
+            account.setSyncToBiz(true);
             virtualAccountRepository.save(account);
         }catch (Exception e){
             System.out.println("error = " + e.getMessage());
