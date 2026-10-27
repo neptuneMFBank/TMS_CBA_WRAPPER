@@ -410,7 +410,6 @@ public class Cron {
                         }
                     }
                 }
-//                }
             }
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
