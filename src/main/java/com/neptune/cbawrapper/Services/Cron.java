@@ -481,15 +481,13 @@ public class Cron {
                 return;
             }
 
+            account.setBizUpdateCount(account.getBizUpdateCount() + 1);
+            account.setSyncToBiz(true);
+            virtualAccountRepository.save(account);
+
             CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
 
             System.out.println("response from ebiz update = " + response);
-
-            account.setBizUpdateCount(account.getBizUpdateCount() + 1);
-            if(response.getCode() == 200){
-                account.setSyncToBiz(true);
-            }
-            virtualAccountRepository.save(account);
         }catch (Exception e){
             System.out.println("error = " + e.getMessage());
         }
