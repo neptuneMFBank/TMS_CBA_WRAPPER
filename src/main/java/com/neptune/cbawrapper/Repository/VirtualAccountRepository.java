@@ -56,4 +56,10 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     List<VirtualAccountModel> findByIsMessageSent(Boolean isMessageSent);
 
     Optional<VirtualAccountModel> findByCustomerUpdateRequired(Boolean customerUpdateRequired);
+
+    @Query("{ 'terminalId': { $eq: ?0 } }")
+    List<VirtualAccountModel> findByTerminalIdOrderByAccountNameAsc(String terminalId);
+
+    @Query("{ 'terminalId': { $nin: [null, ''] } }")
+    List<VirtualAccountModel> findByTerminalIdNotNullOrEmptyOrderByAccountNameAsc();
 }

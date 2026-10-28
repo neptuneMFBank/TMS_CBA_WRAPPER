@@ -410,7 +410,6 @@ public class Cron {
                         }
                     }
                 }
-//                }
             }
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
@@ -433,6 +432,7 @@ public class Cron {
         virtualAccountModel.setOtpUsed(false);
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
+        virtualAccountModel.setRsm(data.getStaffId());
         virtualAccountModel.setPayBills(true);
         virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);
@@ -477,19 +477,15 @@ public class Cron {
                 return;
             }
 
-            if(account.getBizUpdateCount() >= 2){
+            if(account.getBizUpdateCount() >= 1){
                 return;
             }
 
-            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
-
-            System.out.println("response from ebiz update = " + response);
-
-            account.setBizUpdateCount(account.getBizUpdateCount() + 1);
-            if(response.getCode() == 200){
-                account.setSyncToBiz(true);
-            }
+            account.setBizUpdateCount(1);
+            account.setSyncToBiz(true);
             virtualAccountRepository.save(account);
+            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
+            System.out.println("response from ebiz update = " + response);
         }catch (Exception e){
             System.out.println("error = " + e.getMessage());
         }

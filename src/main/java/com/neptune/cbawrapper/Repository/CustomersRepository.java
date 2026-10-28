@@ -29,4 +29,7 @@ public interface CustomersRepository extends MongoRepository<CustomersModel, Str
 
     @Query("{ 'account_num': {$eq: ?0} }")
     Optional<CustomersModel> checkForCustomerByAcct(String account_num);
+
+    @Query("{ 'account_num': { $in: ?0 } }")
+    List<CustomersModel> findByAccountNumIn(List<String> accountNumbers);
 }
