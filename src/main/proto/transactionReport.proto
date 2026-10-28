@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+package com.neptune.cba;
+
+option java_multiple_files = true;
+option java_package = "com.neptune.cba.transaction.report";
+
+service ReportService {
+  rpc deposit_count(DepositCountRequest) returns (DepositCountResponse) {
+  }
+  rpc pos_transaction_summary(PosTransactionSummaryRequest) returns (PosTransactionSummaryResponse) {
+  }
+  rpc branch_audit(AuditRequest) returns (AuditResponse) {
+  }
+  rpc echannel_intra_audit(AuditRequest) returns (AuditResponse) {
+  }
+  rpc download_branch_audit(AuditRequest) returns (stream ReportResponse) {
+  }
+  rpc download_echannel_intra_audit(AuditRequest) returns (stream ReportResponse) {
+  }
+  rpc card_transaction_audit(AuditRequest) returns (CardTransactionAuditResponse) {
+  }
+  rpc download_card_transaction_audit(AuditRequest) returns (stream ReportResponse) {
+  }
+
+  // ── Webhook Management ──────────────────────────────────
+  rpc list_webhook_endpoints(WebhookEndpointListRequest) returns (WebhookEndpointListResponse) {
+  }
+  rpc get_webhook_delivery_history(WebhookDeliveryHistoryRequest) returns (WebhookDeliveryHistoryResponse) {
+  }
+  rpc retry_webhook_delivery(RetryWebhookDeliveryRequest) returns (RetryWebhookDeliveryResponse) {
+  }
+  rpc bulk_retry_webhook_deliveries(BulkRetryWebhookRequest) returns (BulkRetryWebhookResponse) {
+  }
+  rpc get_webhook_delivery_detail(WebhookDeliveryDetailRequest) returns (WebhookDeliveryDetailResponse) {
+  }
+}
+
+message DepositCountRequest {
+  string  start_date =2;
+  string  end_date =3;
+}
+message DepositCountResponse {
+  repeated  DepositCount depositCount =1;
+}
+message DepositCount {
+  string product_code =1;
+  int64 record_count =2;
+  double total_amount =3;
+  string product_name =4;
+}
+
+message PosTransactionSummaryRequest {
+  repeated string account_numbers = 1;
+  string start_date = 2;  // yyyy-MM-dd, inclusive
+  string end_date = 3;    // yyyy-MM-dd, inclusive
+}
+message PosTransactionSummaryResponse {
+  repeated PosTransactionSummary summaries = 1;
+}
+message PosTransactionSummary {
+  string account_number = 1;
+  int64 transaction_count = 2;
+  double total_amount = 3;  // sum of absolute transaction amounts (credits)
+  double total_card_charge=4;
+  double total_inward_charge=5;
+  double total_outward_charge=6;
+}
+
+message AuditRequest {
+  string start_date = 1;
+  string end_date = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message AuditRow {
+  string transaction_date_time = 1;
+  string initiator = 2;
+  string authorizer = 3;
+  string account_ledger_number = 4;
+  string account_ledger_name = 5;
+  double amount = 6;
+  string narration = 7;
+  string status = 8;
+  string contra_account = 9;
+  string contra_account_name = 10;
+  string reference_number = 11;
+  string posting_channel = 12;
+  string transaction_status = 13;
+}
+
+message AuditResponse {
+  repeated AuditRow rows = 1;
+  int64 total_items = 2;
+  int32 total_pages = 3;
+  int32 current_page = 4;
+}
+
+message ReportResponse {
+  bytes data_chunk = 1;
+}
+
+message CardTransactionRow {
+  string transaction_date_time = 1;
+  string customer_account_number = 2;
+  string customer_account_name = 3;
+  double amount = 4;
+  string narration = 5;
+  string reference_number = 6;
+  string channel = 7;
+  string transaction_type = 8;
+  string transaction_status = 9;
+}
+
+message CardTransactionAuditResponse {
+  repeated CardTransactionRow rows = 1;
+  int64 total_items = 2;
+  int32 total_pages = 3;
+  int32 current_page = 4;
+}
+
+// ── Webhook Management ──────────────────────────────────────────────────────
+
+// Statuses: PENDING, SENT, DELIVERED, FAILED, SKIPPED (pre-send exception),
+//           STUCK (PENDING > threshold), DEAD (max retries / auth failure),
+//           SUPERSEDED (replaced by retry), DUPLICATE_SUPPRESSED (idempotency)
+
+message WebhookEndpointListRequest {}
+
+message WebhookEndpoint {
+  string id = 1;
+  string url = 2;
+  string event_type = 3;
+  string health_status = 4;
+  double success_rate = 5;
+  string last_delivery_time = 6;
+  int32 failure_count_24h = 7;
+  int32 stuck_count = 8;
+  int32 dead_count = 9;
+  bool decommissioned = 10;
+}
+
+message WebhookEndpointListResponse {
+  repeated WebhookEndpoint endpoints = 1;
+}
+
+message WebhookDeliveryHistoryRequest {
+  string start_date = 1;
+  string end_date = 2;
+  string event_type = 3;
+  string status_filter = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message WebhookDeliveryRow {
+  string id = 1;
+  string endpoint_url = 2;
+  string event_type = 3;
+  int32 http_status_code = 4;
+  string timestamp = 5;
+  int64 latency_ms = 6;
+  string status = 7;
+  int32 attempt_count = 8;
+  string idempotency_key = 9;
+  string parent_delivery_id = 10;
+}
+
+message WebhookDeliveryHistoryResponse {
+  repeated WebhookDeliveryRow rows = 1;
+  int64 total_items = 2;
+  int32 total_pages = 3;
+  int32 current_page = 4;
+}
+
+message RetryWebhookDeliveryRequest {
+  string delivery_id = 1;
+}
+
+message RetryWebhookDeliveryResponse {
+  bool success = 1;
+  string message = 2;
+  string new_delivery_id = 3;
+  bool requires_manual_fix = 4;
+}
+
+message BulkRetryWebhookRequest {
+  string start_date = 1;
+  string end_date = 2;
+  string event_type = 3;
+  bool include_dead = 4;
+  bool include_skipped = 5;
+}
+
+message BulkRetryWebhookResponse {
+  int32 queued_count = 1;
+  int32 skipped_count = 2;
+  int32 blocked_count = 3;
+  string message = 4;
+  string estimated_completion = 5;
+}
+
+message WebhookDeliveryDetailRequest {
+  string delivery_id = 1;
+}
+
+message WebhookDeliveryDetailResponse {
+  string id = 1;
+  string endpoint_url = 2;
+  string event_type = 3;
+  string request_body = 4;
+  string request_headers = 5;
+  string response_body = 6;
+  string response_headers = 7;
+  bool response_truncated = 8;
+  int32 http_status_code = 9;
+  int64 latency_ms = 10;
+  string queued_time = 11;
+  string actual_delivery_time = 12;
+  int32 attempt_count = 13;
+  int32 max_attempts = 14;
+  string next_retry_at = 15;
+  string error_message = 16;
+  string idempotency_key = 17;
+  string status = 18;
+  bool retry_exhausted = 19;
+  bool requires_manual_fix = 20;
+  string parent_delivery_id = 21;
+  string transaction_final_status = 22;
+  bool notification_service_ack = 23;
+}

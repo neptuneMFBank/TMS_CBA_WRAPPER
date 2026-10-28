@@ -15,6 +15,7 @@ public class PendingTerminalData {
     private String businessName;
     private Integer businessSavingsId;
     private String businessWalletId;
+    private String staffId;
 
     public String getParentEntityName() {
         return parentEntityName;
@@ -129,6 +130,14 @@ public class PendingTerminalData {
         this.businessWalletId = businessWalletId;
     }
 
+    public String getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
+    }
+
     @Override
     public String toString() {
         return "PendingTerminalData{" +
@@ -143,6 +152,7 @@ public class PendingTerminalData {
                 ", status='" + status + '\'' +
                 ", parentSavingsId=" + parentSavingsId +
                 ", terminalId='" + terminalId + '\'' +
+                ", staffId='" + staffId + '\'' +
                 '}';
     }
 }
