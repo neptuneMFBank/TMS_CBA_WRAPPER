@@ -22,4 +22,12 @@ public interface MerchantRepository extends MongoRepository<MerchantData, String
     List<MerchantData> findMerchantByBusinessAcct(String businessAcct);
 
     Optional<MerchantData> findFirstByOrderByCreatedAtDesc();
+
+
+    @Query("{ 'terminalId': { $in: ?0 } }")
+    List<MerchantData> findByTerminalIdIn(List<String> terminalId);
+
+
+    @Query("{ 'tin': { $in: ?0 } }")
+    List<MerchantData> findByTinIn(List<String> tin);
 }

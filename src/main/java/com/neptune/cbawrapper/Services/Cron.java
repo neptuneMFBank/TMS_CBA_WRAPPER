@@ -42,6 +42,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -317,9 +318,38 @@ public class Cron {
                 return;
             }
 
+            List<String> tins = customersRepository.getCustomersWithAccountId()
+                    .stream()
+                    .map(CustomersModel::getTin)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            List<MerchantData> merchantData = merchantRepository.findByTinIn(tins);
+
+            Map<String, MerchantData> merchantMap = merchantData.stream()
+                    .filter(merchant -> merchant.getTin() != null)
+                    .collect(Collectors.toMap(
+                            MerchantData::getTin,
+                            Function.identity(),
+                            (existing, replacement) -> existing
+                    ));
+
             List<Data> data1 = customersModels.stream()
-                    .map(customersModel -> new Data(customersModel.getSavingsId(), customersModel.getAccount_num()))
-                    .collect(Collectors.toList());
+                    .filter(customer -> customer.getTin() == null
+                            || !merchantMap.containsKey(customer.getTin()))
+                    .map(customer -> {
+                        MerchantData merchant = merchantMap.get(customer.getTin());
+
+                        String accountNumber = customer.getAccount_num();
+
+                        if (merchant != null && Boolean.TRUE.equals(merchant.getUseAcct())) {
+                            accountNumber = merchant.getBusinessAcct();
+                        }
+
+                        return new Data(customer.getSavingsId(), accountNumber);
+                    })
+                    .toList();
 
             log.info("updateCustomersToCorePay data1: {}", data1);
 
@@ -410,7 +440,6 @@ public class Cron {
                         }
                     }
                 }
-//                }
             }
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_creation", e.getMessage());
@@ -433,6 +462,7 @@ public class Cron {
         virtualAccountModel.setOtpUsed(false);
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
+        virtualAccountModel.setRsm(data.getStaffId());
         virtualAccountModel.setPayBills(true);
         virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);
@@ -477,16 +507,15 @@ public class Cron {
                 return;
             }
 
-            if(account.getBizUpdateCount() >= 2){
+            if(account.getBizUpdateCount() >= 1){
                 return;
             }
 
-            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
-
-            System.out.println("response from ebiz update = " + response);
-
+            account.setBizUpdateCount(1);
             account.setSyncToBiz(true);
             virtualAccountRepository.save(account);
+            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
+            System.out.println("response from ebiz update = " + response);
         }catch (Exception e){
             System.out.println("error = " + e.getMessage());
         }
