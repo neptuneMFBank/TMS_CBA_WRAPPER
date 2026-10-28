@@ -42,6 +42,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -317,9 +318,38 @@ public class Cron {
                 return;
             }
 
+            List<String> tins = customersRepository.getCustomersWithAccountId()
+                    .stream()
+                    .map(CustomersModel::getTin)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            List<MerchantData> merchantData = merchantRepository.findByTinIn(tins);
+
+            Map<String, MerchantData> merchantMap = merchantData.stream()
+                    .filter(merchant -> merchant.getTin() != null)
+                    .collect(Collectors.toMap(
+                            MerchantData::getTin,
+                            Function.identity(),
+                            (existing, replacement) -> existing
+                    ));
+
             List<Data> data1 = customersModels.stream()
-                    .map(customersModel -> new Data(customersModel.getSavingsId(), customersModel.getAccount_num()))
-                    .collect(Collectors.toList());
+                    .filter(customer -> customer.getTin() == null
+                            || !merchantMap.containsKey(customer.getTin()))
+                    .map(customer -> {
+                        MerchantData merchant = merchantMap.get(customer.getTin());
+
+                        String accountNumber = customer.getAccount_num();
+
+                        if (merchant != null && Boolean.TRUE.equals(merchant.getUseAcct())) {
+                            accountNumber = merchant.getBusinessAcct();
+                        }
+
+                        return new Data(customer.getSavingsId(), accountNumber);
+                    })
+                    .toList();
 
             log.info("updateCustomersToCorePay data1: {}", data1);
 
