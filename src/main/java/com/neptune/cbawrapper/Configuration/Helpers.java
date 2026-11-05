@@ -406,7 +406,7 @@ public class Helpers {
                 .findFirst();
 
         if (result.isEmpty()) {
-            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+            System.out.println("Merchant found but all have terminalCreated=true for TIN --------: " + tin);
         }
 
         return result;
@@ -430,7 +430,7 @@ public class Helpers {
         System.out.println("merchantData = " + merchantData.size());
 
         if (result.isEmpty()) {
-            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+            System.out.println("Merchant found but all have terminalCreated=true for TIN +++++++++: " + tin);
         }
 
         return result;
@@ -454,7 +454,7 @@ public class Helpers {
         System.out.println("merchantData = " + merchantData.size());
 
         if (result.isEmpty()) {
-            System.out.println("Merchant found but all have terminalCreated=true for TIN: " + tin);
+            System.out.println("Merchant found but all have terminalCreated=true for TIN: !!!!!!!!!!!" + tin);
         }
 
         return result;
