@@ -1,0 +1,356 @@
+[
+  {
+    "bankCode": "044",
+    "bankName": "Access Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.5,
+        "totalTransactions": 12500,
+        "failedTransactions": 188,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "DEGRADED",
+        "successRate": 89.2,
+        "totalTransactions": 8500,
+        "failedTransactions": 918,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "HEALTHY",
+        "successRate": 97.8,
+        "totalTransactions": 9200,
+        "failedTransactions": 202,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "058",
+    "bankName": "Guaranty Trust Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 99.1,
+        "totalTransactions": 11000,
+        "failedTransactions": 99,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 98.7,
+        "totalTransactions": 7500,
+        "failedTransactions": 98,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "DEGRADED",
+        "successRate": 87.5,
+        "totalTransactions": 6000,
+        "failedTransactions": 750,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "057",
+    "bankName": "Zenith Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 99.3,
+        "totalTransactions": 15000,
+        "failedTransactions": 105,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 98.9,
+        "totalTransactions": 9000,
+        "failedTransactions": 99,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "HEALTHY",
+        "successRate": 97.6,
+        "totalTransactions": 7000,
+        "failedTransactions": 168,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "011",
+    "bankName": "First Bank of Nigeria",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "DEGRADED",
+        "successRate": 88.4,
+        "totalTransactions": 10000,
+        "failedTransactions": 1160,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 97.9,
+        "totalTransactions": 8000,
+        "failedTransactions": 168,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "HEALTHY",
+        "successRate": 98.2,
+        "totalTransactions": 6500,
+        "failedTransactions": 117,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "033",
+    "bankName": "United Bank for Africa",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.8,
+        "totalTransactions": 13000,
+        "failedTransactions": 156,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 98.1,
+        "totalTransactions": 8500,
+        "failedTransactions": 161,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "DEGRADED",
+        "successRate": 91.2,
+        "totalTransactions": 7500,
+        "failedTransactions": 660,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "035",
+    "bankName": "Wema Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 99.0,
+        "totalTransactions": 5000,
+        "failedTransactions": 50,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "DEGRADED",
+        "successRate": 86.5,
+        "totalTransactions": 3000,
+        "failedTransactions": 405,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "232",
+    "bankName": "Sterling Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.4,
+        "totalTransactions": 4500,
+        "failedTransactions": 72,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "HEALTHY",
+        "successRate": 97.5,
+        "totalTransactions": 3500,
+        "failedTransactions": 87,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "214",
+    "bankName": "First City Monument Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.7,
+        "totalTransactions": 4000,
+        "failedTransactions": 52,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 97.8,
+        "totalTransactions": 3200,
+        "failedTransactions": 70,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "050",
+    "bankName": "Ecobank Nigeria",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 97.9,
+        "totalTransactions": 3000,
+        "failedTransactions": 63,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "DEGRADED",
+        "successRate": 89.5,
+        "totalTransactions": 2500,
+        "failedTransactions": 263,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "221",
+    "bankName": "Stanbic IBTC Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.9,
+        "totalTransactions": 5500,
+        "failedTransactions": 61,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 99.2,
+        "totalTransactions": 4500,
+        "failedTransactions": 36,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "070",
+    "bankName": "Fidelity Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.1,
+        "totalTransactions": 3800,
+        "failedTransactions": 72,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Mastercard",
+        "status": "HEALTHY",
+        "successRate": 97.3,
+        "totalTransactions": 2900,
+        "failedTransactions": 78,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "032",
+    "bankName": "Union Bank of Nigeria",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.6,
+        "totalTransactions": 4200,
+        "failedTransactions": 59,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "DEGRADED",
+        "successRate": 90.1,
+        "totalTransactions": 2800,
+        "failedTransactions": 277,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "030",
+    "bankName": "Heritage Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "DOWN",
+        "successRate": 0.0,
+        "totalTransactions": 0,
+        "failedTransactions": 0,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "100",
+    "bankName": "Suntrust Bank",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 98.0,
+        "totalTransactions": 1800,
+        "failedTransactions": 36,
+        "lastChecked": "2026-11-20T15:30:00"
+      },
+      {
+        "scheme": "Visa",
+        "status": "HEALTHY",
+        "successRate": 97.2,
+        "totalTransactions": 1500,
+        "failedTransactions": 42,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  },
+  {
+    "bankCode": "999",
+    "bankName": "Opay",
+    "cardSchemes": [
+      {
+        "scheme": "Verve",
+        "status": "HEALTHY",
+        "successRate": 99.4,
+        "totalTransactions": 20000,
+        "failedTransactions": 120,
+        "lastChecked": "2026-11-20T15:30:00"
+      }
+    ]
+  }
+]
