@@ -1,5 +1,9 @@
 package com.neptune.cbawrapper.Services;
 
+import com.neptune.cba.transaction.balance.BalanceRequest;
+import com.neptune.cba.transaction.balance.BalanceServiceGrpc;
+import com.neptune.cba.transaction.balance.BulkBalanceRequest;
+import com.neptune.cba.transaction.balance.BulkBalanceResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferRequest;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferResponse;
 import com.neptune.cba.transaction.intra_transfer.IntraTransferServiceGrpc;
@@ -13,6 +17,9 @@ import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -92,6 +99,50 @@ public class TransactionService {
         }
     }
 
+    public BulkBalanceResponse getBulkBalance(
+            Map<String, List<String>> accountData,
+            String type,
+            String date
+    ) {
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(transaction_ip, transaction_port)
+                .usePlaintext()
+                .build();
+
+        com.neptune.cba.transaction.balance.BulkBalanceResponse response = null;
+
+        try {
+            BalanceServiceGrpc.BalanceServiceBlockingStub stub =
+                    BalanceServiceGrpc.newBlockingStub(channel);
+
+            // Build BulkBalanceRequest
+            BulkBalanceRequest request = accountData.entrySet().stream()
+                    .flatMap(entry -> entry.getValue().stream()
+                            .map(accountNumber -> BalanceRequest.newBuilder()
+                                    .setAccountId(entry.getKey())
+                                    .setAccountNumber(accountNumber)
+                                    .build()))
+                    .collect(
+                            BulkBalanceRequest::newBuilder,                          // supplier
+                            BulkBalanceRequest.Builder::addBalanceRequest,          // accumulator
+                            (b1, b2) -> b1.addAllBalanceRequest(b2.getBalanceRequestList()) // combiner
+                    )
+                    .setAccType(type)  // set your other fields here
+                    .setDate(date != null ? date : "")
+                    .build();
+
+            System.out.println("request = " + request);
+
+            response = stub.bulkBalance(request);
+
+        } catch (Exception e) {
+            System.out.println("error = " + e.getMessage());
+        } finally {
+            channel.shutdownNow();
+        }
+
+        return response;
+    }
 
     private String safe(String value) {
         return value == null ? "" : value;

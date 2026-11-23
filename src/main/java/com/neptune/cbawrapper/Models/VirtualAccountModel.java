@@ -3,6 +3,7 @@ package com.neptune.cbawrapper.Models;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Document(collection = "virtual_accounts")
@@ -14,16 +15,27 @@ public class VirtualAccountModel {
     private String account_name;
     private String email;
     private String bvn;
+    private Boolean payBills = true;
+    private Boolean initiateTrans = true;
     private String nin;
     private String tin;
     private Boolean is_updated;
+    private Boolean isSyncToBiz = false;
+    private Boolean accountAdded = false;
+    private Boolean customerUpdateRequired = false;
+    private Integer bizUpdateCount;
     private String parent_id;
     private String parent_account;
+    private Boolean isMessageSent = false;
+    private String otp;
+    private Boolean isOtpUsed;
     private String pin;
     private String business_id;
     private String business_wallet;
     private String savingsId;
+    private String customer_product_id;
     private String virtual_account_number;
+    @Field("terminalId")
     private String terminalId;
     private String businessName;
     private Integer businessSavingsId;
@@ -32,8 +44,45 @@ public class VirtualAccountModel {
     private String genericCode;
     private boolean codeExpired;
     private String token_expiry;
-    private String created_at;
-    private String updated_at;
+    @Field("created_at")
+    private String createdAt;
+    private String updatedAt;
+    private String adminPin;
+    private String adminSupportPin;
+    private boolean adminSupportUsed;
+    private String adminSupportExpiry;
+    private String unHashedPin;
+    private String adminPinResetOtp;
+    private String adminPinResetOtpExpiry;
+    private Boolean bypassActive = false;
+    private String bypassExpiry;
+    private String bypassAgentId;
+    private String status;
+    private String rsm;
+
+    public String getAdminSupportPin() {
+        return adminSupportPin;
+    }
+
+    public void setAdminSupportPin(String adminSupportPin) {
+        this.adminSupportPin = adminSupportPin;
+    }
+
+    public String getAdminSupportExpiry() {
+        return adminSupportExpiry;
+    }
+
+    public void setAdminSupportExpiry(String adminSupportExpiry) {
+        this.adminSupportExpiry = adminSupportExpiry;
+    }
+
+    public boolean isAdminSupportUsed() {
+        return adminSupportUsed;
+    }
+
+    public void setAdminSupportUsed(boolean adminSupportUsed) {
+        this.adminSupportUsed = adminSupportUsed;
+    }
 
     public String getToken_expiry() {
         return token_expiry;
@@ -44,19 +93,35 @@ public class VirtualAccountModel {
     }
 
     public String getCreated_at() {
-        return created_at;
+        return createdAt;
     }
 
     public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+        this.createdAt = created_at;
     }
 
     public String getUpdated_at() {
-        return updated_at;
+        return updatedAt;
+    }
+
+    public Integer getBizUpdateCount() {
+        return bizUpdateCount;
+    }
+
+    public void setBizUpdateCount(Integer bizUpdateCount) {
+        this.bizUpdateCount = bizUpdateCount;
+    }
+
+    public Boolean getCustomerUpdateRequired() {
+        return customerUpdateRequired;
+    }
+
+    public void setCustomerUpdateRequired(Boolean customerUpdateRequired) {
+        this.customerUpdateRequired = customerUpdateRequired;
     }
 
     public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
+        this.updatedAt = updated_at;
     }
 
     public String getId() {
@@ -235,6 +300,54 @@ public class VirtualAccountModel {
         this.codeExpired = codeExpired;
     }
 
+    public String getAdminPin() {
+        return adminPin;
+    }
+
+    public void setAdminPin(String adminPin) {
+        this.adminPin = adminPin;
+    }
+
+    public String getAdminPinResetOtp() {
+        return adminPinResetOtp;
+    }
+
+    public void setAdminPinResetOtp(String adminPinResetOtp) {
+        this.adminPinResetOtp = adminPinResetOtp;
+    }
+
+    public String getAdminPinResetOtpExpiry() {
+        return adminPinResetOtpExpiry;
+    }
+
+    public void setAdminPinResetOtpExpiry(String adminPinResetOtpExpiry) {
+        this.adminPinResetOtpExpiry = adminPinResetOtpExpiry;
+    }
+
+    public Boolean getBypassActive() {
+        return bypassActive;
+    }
+
+    public void setBypassActive(Boolean bypassActive) {
+        this.bypassActive = bypassActive;
+    }
+
+    public String getBypassExpiry() {
+        return bypassExpiry;
+    }
+
+    public void setBypassExpiry(String bypassExpiry) {
+        this.bypassExpiry = bypassExpiry;
+    }
+
+    public String getBypassAgentId() {
+        return bypassAgentId;
+    }
+
+    public void setBypassAgentId(String bypassAgentId) {
+        this.bypassAgentId = bypassAgentId;
+    }
+
     public VirtualAccountModel() {
     }
 
@@ -254,5 +367,140 @@ public class VirtualAccountModel {
         this.nin = nin;
         this.parent_id = parent_id;
         this.parent_account = parent_account;
+    }
+
+    public String getCustomer_product_id() {
+        return customer_product_id;
+    }
+
+    public void setCustomer_product_id(String customer_product_id) {
+        this.customer_product_id = customer_product_id;
+    }
+
+    public Boolean getPayBills() {
+        return payBills;
+    }
+
+    public void setPayBills(Boolean payBills) {
+        this.payBills = payBills;
+    }
+
+    public Boolean getInitiateTrans() {
+        return initiateTrans;
+    }
+
+    public void setInitiateTrans(Boolean initiateTrans) {
+        this.initiateTrans = initiateTrans;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Boolean getSyncToBiz() {
+        return isSyncToBiz;
+    }
+
+    public void setSyncToBiz(Boolean syncToBiz) {
+        isSyncToBiz = syncToBiz;
+    }
+
+    public Boolean getAccountAdded() {
+        return accountAdded;
+    }
+
+    public void setAccountAdded(Boolean accountAdded) {
+        this.accountAdded = accountAdded;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Boolean getOtpUsed() {
+        return isOtpUsed;
+    }
+
+    public void setOtpUsed(Boolean otpUsed) {
+        isOtpUsed = otpUsed;
+    }
+
+    public Boolean getMessageSent() {
+        return isMessageSent;
+    }
+
+    public void setMessageSent(Boolean messageSent) {
+        isMessageSent = messageSent;
+    }
+
+    public String getUnHashedPin() {
+        return unHashedPin;
+    }
+
+    public void setUnHashedPin(String unHashedPin) {
+        this.unHashedPin = unHashedPin;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRsm() {
+        return rsm;
+    }
+
+    public void setRsm(String rsm) {
+        this.rsm = rsm;
+    }
+
+    @Override
+    public String toString() {
+        return "VirtualAccountModel{" +
+                "id='" + id + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", account_name='" + account_name + '\'' +
+                ", email='" + email + '\'' +
+                ", bvn='" + bvn + '\'' +
+                ", nin='" + nin + '\'' +
+                ", tin='" + tin + '\'' +
+                ", is_updated=" + is_updated +
+                ", parent_id='" + parent_id + '\'' +
+                ", parent_account='" + parent_account + '\'' +
+                ", pin='" + pin + '\'' +
+                ", business_id='" + business_id + '\'' +
+                ", business_wallet='" + business_wallet + '\'' +
+                ", savingsId='" + savingsId + '\'' +
+                ", virtual_account_number='" + virtual_account_number + '\'' +
+                ", terminalId='" + terminalId + '\'' +
+                ", businessName='" + businessName + '\'' +
+                ", businessSavingsId=" + businessSavingsId +
+                ", businessWalletId='" + businessWalletId + '\'' +
+                ", fcmToken='" + fcmToken + '\'' +
+                ", genericCode='" + genericCode + '\'' +
+                ", codeExpired=" + codeExpired +
+                ", token_expiry='" + token_expiry + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
 }

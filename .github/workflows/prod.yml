@@ -2,7 +2,7 @@ name: build_deploy_aks
 on:
   push:
     branches:
-      - main
+      - prod
     paths-ignore:
       - 'Readme.md'
       - 'README.md'
@@ -53,5 +53,5 @@ jobs:
           git config --global user.name "$GIT_COMMITTER_NAME"
           git config --global user.email "$GIT_COMMITTER_EMAIL"
           git add cbawrapper/values.yaml
-          git commit -m "Update cba-wrapper image tag to ${{ github.sha }}" || echo "No changes to commit"
+          git commit -m "Update cba-wrapper image tag to ${{ github.sha }} ." || echo "No changes to commit"
           git push origin prod || echo "No changes to push"

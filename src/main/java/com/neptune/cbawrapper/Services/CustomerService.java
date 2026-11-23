@@ -41,6 +41,8 @@ public class CustomerService {
     private final ErrorLoggingException errorLoggingException;
 
     public Customer.CreateBulkCorpCustomerResponse createCustomers(List<CustomersModel> customers) {
+        System.out.println("customer_server_ip = " + customer_server_ip);
+        System.out.println("customer_server_port = " + customer_server_port);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.CreateBulkCorpCustomerResponse response = null;
         try {
@@ -278,13 +280,28 @@ public class CustomerService {
         return response;
     }
 
+    public void toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest request){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
+        Customer.Empty response;
+        try {
+            CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
+            response = stub.toggleIsPosSettlementAccount(request);
+            System.out.println("response = " + response);
+        } catch (Exception e) {
+            System.out.println("error from toggleCustomerAcct = " + e.getMessage());
+            throw new RuntimeException(e);
+        }finally {
+            channel.shutdownNow();
+        }
+    }
+
     public Customer.GetCorporateCustomerResponse getCorporateCustomer(String phone){
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.GetCorporateCustomerResponse response;
         try {
-            Customer.GetCustomerByPhoneRequest request = Customer.GetCustomerByPhoneRequest.newBuilder().setPhoneNumber(phone).build();
+            Customer.GetCorporateCustomerByTinRequest request = Customer.GetCorporateCustomerByTinRequest.newBuilder().setTin(phone).build();
             CustomerServiceGrpc.CustomerServiceBlockingStub stub = CustomerServiceGrpc.newBlockingStub(channel);
-            response = stub.getCorporateCustomerByPhone(request);
+            response = stub.getCorporateCustomerByTin(request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }finally {
@@ -294,6 +311,8 @@ public class CustomerService {
     }
 
     public Customer.CreateCustomerProductResponse getCorporateCustomerAcctNum(String customer_id, String accountNum) {
+        log.info("customerId {}", customer_id);
+        log.info("accountNum {}", accountNum);
         String formattedDate = LocalDate.now().toString();
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.CreateCustomerProductResponse response = null;

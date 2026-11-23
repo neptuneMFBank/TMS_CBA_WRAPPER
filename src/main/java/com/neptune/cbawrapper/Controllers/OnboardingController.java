@@ -36,7 +36,6 @@ public class OnboardingController {
     @Value("${spring.profiles.active}")
     private String env;
 
-
     private static final Logger log = LoggerFactory.getLogger(OnboardingController.class);
     private final AuthCredentialsRepository authCredentialsRepository;
     private final AuthenticationService authenticationService;

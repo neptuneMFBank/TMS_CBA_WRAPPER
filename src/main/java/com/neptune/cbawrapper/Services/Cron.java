@@ -9,20 +9,30 @@ import com.neptune.cbawrapper.Repository.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.CategoryServices;
-import com.virtualAccountApplication.createAccount.proto.CreateAccountResponse;
-import com.virtualAccountApplication.createAccount.proto.CreateBulkAccResponse;
 import customers.Customer;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -32,8 +42,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-
 
 @Slf4j
 @Controller
@@ -46,6 +56,9 @@ public class Cron {
 
     @Autowired
     private CorePayRestController corePayRestController;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private BillsPayment billsPayment;
@@ -61,11 +74,14 @@ public class Cron {
     private final CustomerService customerService;
     private final ErrorLogsRepository errorLogsRepository;
     private final Helpers helpers;
+    private final WebhookAPIService webhookAPIService;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final AuthCredentialsRepository authCredentialsRepository;
     private final VirtualAccountService virtualAccountService;
     private final VirtualAccountRepository virtualAccountRepository;
     private final DebitCreditService debitCreditService;
+    private final MerchantRepository merchantRepository;
+    private final TransactionLockService transactionLockService;
     private final CategoriesRepository categoriesRepository;
     private final CategoryServicesRepository categoryServicesRepository;
     private final TransactionCoreController transactionCoreController;
@@ -74,11 +90,14 @@ public class Cron {
     private final BusinessPlatformChargesRepository businessPlatformChargesRepository;
     private final Notifications notifications;
 
-    public Cron(CustomersRepository customersRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
+    public Cron(CustomersRepository customersRepository, TransactionLockService transactionLockService, WebhookAPIService webhookAPIService, MerchantRepository merchantRepository, CategoryServicesRepository categoryServicesRepository, CategoriesRepository categoriesRepository, CbaTransactionRequestsRepository cbaTransactionRequests, CustomerService customerService, ErrorLogsRepository errorLogsRepository, Helpers helpers, AuthCredentialsRepository authCredentialsRepository, VirtualAccountService virtualAccountService, VirtualAccountRepository virtualAccountRepository, DebitCreditService debitCreditService, TransactionCoreController transactionCoreController, PlatformChargeRepository platformChargeRepository, CbaTransactionRequestsRepository cbaTransactionRequestsRepository, BusinessPlatformChargesRepository businessPlatformChargesRepository, AuthCredentialsRepository authCredentialsRepository1, Notifications notifications) {
         this.customersRepository = customersRepository;
         this.customerService = customerService;
         this.errorLogsRepository = errorLogsRepository;
+        this.webhookAPIService = webhookAPIService;
         this.helpers = helpers;
+        this.transactionLockService = transactionLockService;
+        this.merchantRepository = merchantRepository;
         this.categoryServicesRepository = categoryServicesRepository;
         this.categoriesRepository = categoriesRepository;
         this.cbaTransactionRequests = cbaTransactionRequests;
@@ -93,7 +112,7 @@ public class Cron {
         this.notifications = notifications;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void getCustomersFromCorePay() {
         String tin = "";
         try {
@@ -130,6 +149,14 @@ public class Cron {
                 if (StringUtils.isNotBlank(tin) && resultList.contains(tin)) {
                     CustomersModel customersModel2 = getCustomersModel(customersModels, i);
                     customersRepository.save(customersModel2);
+
+                    Optional<MerchantData> merchantData = helpers.getMerchant(tin);
+
+                    if(merchantData.isPresent()) {
+                        merchantData.get().setUploaded(true);
+                        merchantRepository.save(merchantData.get());
+                    }
+
                 } else {
                     ErrorLogsModel errorLogsModel = new ErrorLogsModel(fullName, "TIN is not available");
                     errorLogsModel.setType("CorePay_CREATION");
@@ -246,7 +273,7 @@ public class Cron {
 //
 //    }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     @Transactional
     public void updateCustomerAccountNumFromCba() {
         try {
@@ -281,7 +308,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */7 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateCustomersToCorePay() {
         try {
             List<CustomersModel> customersModels = customersRepository.getCustomersWithAccountId();
@@ -291,9 +318,38 @@ public class Cron {
                 return;
             }
 
+            List<String> tins = customersRepository.getCustomersWithAccountId()
+                    .stream()
+                    .map(CustomersModel::getTin)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            List<MerchantData> merchantData = merchantRepository.findByTinIn(tins);
+
+            Map<String, MerchantData> merchantMap = merchantData.stream()
+                    .filter(merchant -> merchant.getTin() != null)
+                    .collect(Collectors.toMap(
+                            MerchantData::getTin,
+                            Function.identity(),
+                            (existing, replacement) -> existing
+                    ));
+
             List<Data> data1 = customersModels.stream()
-                    .map(customersModel -> new Data(customersModel.getSavingsId(), customersModel.getAccount_num()))
-                    .collect(Collectors.toList());
+                    .filter(customer -> customer.getTin() == null
+                            || !merchantMap.containsKey(customer.getTin()))
+                    .map(customer -> {
+                        MerchantData merchant = merchantMap.get(customer.getTin());
+
+                        String accountNumber = customer.getAccount_num();
+
+                        if (merchant != null && Boolean.TRUE.equals(merchant.getUseAcct())) {
+                            accountNumber = merchant.getBusinessAcct();
+                        }
+
+                        return new Data(customer.getSavingsId(), accountNumber);
+                    })
+                    .toList();
 
             log.info("updateCustomersToCorePay data1: {}", data1);
 
@@ -325,7 +381,7 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void getVirtualTerminalRecords() {
         try {
             List<PendingTerminalData> pendingTerminalData = tmsCoreWalletAccount.getPending();
@@ -349,16 +405,36 @@ public class Cron {
                 Optional<CustomersModel> customersModel = customersModels.stream().filter(customersModel1 -> data.getParentSavingsId().equals(customersModel1.getSavingsId())).findFirst();
                 System.out.println("444444444444444");
                 System.out.println("env = " + env);
-                if (authCredentials.isPresent()) {
-                    if (customersModel.isPresent()) {
-                        Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
-                        System.out.println("55555555555555");
-                        if (virtualAccountModel.isEmpty()) {
-                            System.out.println("66666666666666");
-                            VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), authCredentials, data);
-                            System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
-                            virtualAccountRepository.save(virtualAccountModel1);
+//                if (authCredentials.isPresent()) {
+                if (customersModel.isPresent()) {
+                    Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
+                    System.out.println("55555555555555");
+                    if (virtualAccountModel.isEmpty()) {
+                        System.out.println("66666666666666");
+
+                        // Prefer this terminal's own merchant row, even if it was already marked as created:
+                        // no virtual account exists for this terminal, so that flag can't be relied on here.
+                        Optional<MerchantData> merchantData = merchantRepository.findByTerminalId(data.getTerminalId())
+                                .or(() -> helpers.getMerchant(customersModel.get().getTin()));
+
+                        if (merchantData.isEmpty()) {
+                            log.warn("No available merchant for terminal {}, skipping virtual account creation", data.getTerminalId());
+                            continue;
                         }
+
+                        MerchantData merchant = merchantData.get();
+                        String token = helpers.generateRandom8DigitNumber();
+                        String hashedPassword = passwordEncoder.encode(token);
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, Boolean.TRUE.equals(merchant.getUseAcct()), hashedPassword);
+                        System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
+                        virtualAccountRepository.save(virtualAccountModel1);
+
+                        // Only mark the merchant as used once the virtual account has been saved
+                        merchant.setTerminalCreated(true);
+                        merchant.setUploaded(true);
+                        merchantRepository.save(merchant);
+
+                        sendOtpSms(virtualAccountModel1, token);
                     }
                 }
             }
@@ -371,33 +447,83 @@ public class Cron {
         }
     }
 
-    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, Optional<AuthCredentials> authCredentials, PendingTerminalData data) {
+    private static VirtualAccountModel getVirtualAccountModel(CustomersModel customersModel, PendingTerminalData data, boolean useAcct, String hashedPassword) {
+
         VirtualAccountModel virtualAccountModel = new VirtualAccountModel();
         virtualAccountModel.setSavingsId(customersModel.getSavingsAccountId());
         virtualAccountModel.setPhone_number(customersModel.getContact_phone_number());
         virtualAccountModel.setAccount_name(data.getParentEntityName() + "_" + data.getTerminalName());
         virtualAccountModel.setEmail(customersModel.getEmailAddress());
         virtualAccountModel.setBvn("");
+        virtualAccountModel.setOtp(hashedPassword);
+        virtualAccountModel.setOtpUsed(false);
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
+        virtualAccountModel.setRsm(data.getStaffId());
+        virtualAccountModel.setPayBills(true);
+        virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);
         virtualAccountModel.setTin(customersModel.getTin());
-        virtualAccountModel.setParent_id(customersModel.getId());
+        virtualAccountModel.setParent_id(customersModel.getCba_customer_id());
         virtualAccountModel.setParent_account(customersModel.getAccount_num());
         virtualAccountModel.setBusinessName(data.getBusinessName());
         virtualAccountModel.setBusinessSavingsId(data.getBusinessSavingsId());
         virtualAccountModel.setBusinessWalletId(data.getBusinessWalletId());
         virtualAccountModel.setCreated_at(ZonedDateTime.now().toString());
         virtualAccountModel.setUpdated_at(ZonedDateTime.now().toString());
+        if(useAcct){
+            virtualAccountModel.setCustomerUpdateRequired(true);
+        }
         return virtualAccountModel;
     }
 
-    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
+    public void updateVirtualAcct(){
+        try {
+            System.out.println("got here 1112");
+            List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.findByIsSyncToBizAndAccountAdded(false, true);
+
+            System.out.println("got here 1113");
+            if(virtualAccountModelList.isEmpty()){
+                return;
+            }
+            System.out.println("virtualAccountModelList = " + virtualAccountModelList);
+            System.out.println("got here 1114");
+
+            VirtualAccountModel account = virtualAccountModelList
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+            System.out.println("got here 1115");
+
+            if(account == null){
+                return;
+            }
+
+            if(account.getCustomerUpdateRequired() == null){
+                return;
+            }
+
+            if(account.getBizUpdateCount() >= 1){
+                return;
+            }
+
+            account.setBizUpdateCount(1);
+            account.setSyncToBiz(true);
+            virtualAccountRepository.save(account);
+            CreateBizResponse.BizResponseData response = webhookAPIService.pushEbizUpdate(account);
+            System.out.println("response from ebiz update = " + response);
+        }catch (Exception e){
+            System.out.println("error = " + e.getMessage());
+        }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAccount() {
         try {
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getCustomersWithoutAccountId();
 
-            System.out.println("virtualAccountModel = " + virtualAccountModel);
+            System.out.println("virtualAccountModel = " + virtualAccountModel); // 6047436688
 
             if (virtualAccountModel.isEmpty()) {
                 return;
@@ -406,26 +532,38 @@ public class Cron {
             //TODO: check if POS has already been created for this business with an account number else use the business account number
             Optional<VirtualAccountModel> virtualAccount = virtualAccountRepository.getCustomersWithAccountId(virtualAccountModel.get().getParent_account());
 
-            if(virtualAccount.isEmpty()){
-                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
-                virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
-                virtualAccountRepository.save(virtualAccountModel1);
+            Optional<MerchantData> merchantData = helpers.getMerchant(virtualAccountModel.get().getTin());
+            System.out.println("merchantData = " + merchantData);
 
-                sendPasswordMail(virtualAccountModel.get());
-                return;
+            if(merchantData.isPresent()) {
+                if(Boolean.TRUE.equals(merchantData.get().getUseAcct())) {
+                    if (virtualAccount.isEmpty()) {
+                        VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+                        virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
+                        virtualAccountModel1.setSyncToBiz(false);
+                        virtualAccountModel1.setCustomerUpdateRequired(false);
+                        virtualAccountModel1.setAccountAdded(true);
+                        virtualAccountRepository.save(virtualAccountModel1);
+                        customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel.get().getParent_account()).setInitiator("").build());
+                        sendPasswordMail(virtualAccountModel.get());
+                        return;
+                    }
+                }
             }
 
             //TODO: create corporate account for POS
-            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(),  virtualAccountModel.get().getParent_account());
+            Customer.CreateCustomerProductResponse response = customerService.getCorporateCustomerAcctNum(virtualAccountModel.get().getParent_id(), virtualAccountModel.get().getParent_account());
 
             System.out.println("response = " + response);
-            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
-                VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
-                virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
-                virtualAccountRepository.save(virtualAccountModel1);
+//            if (virtualAccountModel.get().getParent_id().equals(response.getCustomerProductId())) {
+            VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
+            virtualAccountModel1.setVirtual_account_number(response.getAccountNumber());
+            virtualAccountModel1.setSyncToBiz(false);
+            virtualAccountModel1.setAccountAdded(true);
+            virtualAccountModel1.setCustomer_product_id(response.getCustomerProductId());
+            virtualAccountRepository.save(virtualAccountModel1);
 
-                sendPasswordMail(virtualAccountModel.get());
-            }
+            sendPasswordMail(virtualAccountModel.get());
 
         } catch (Exception e) {
             ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
@@ -436,8 +574,117 @@ public class Cron {
         }
     }
 
+    @Scheduled(cron = "*/20 * * * * *")
+    public void updateVirtualAccountToCustomerAsync() {
+        try {
+            System.out.println("started ============================== updateVirtualAccountToCustomerAsync ");
+            Optional<VirtualAccountModel> virtualAccountModel1 = virtualAccountRepository.findByCustomerUpdateRequired(true);
+            System.out.println(" virtualAccountModel updateVirtualAccountToCustomerAsync = " + virtualAccountModel1.toString());
 
-    @Scheduled(cron = "0 */6 * * * *")
+                System.out.println("processing 1 ============================== updateVirtualAccountToCustomerAsync ");
+                if(virtualAccountModel1.get().getCustomerUpdateRequired()){
+                    System.out.println("processing 2 ============================== updateVirtualAccountToCustomerAsync " + virtualAccountModel1.toString());
+                    virtualAccountModel1.get().setVirtual_account_number(virtualAccountModel1.get().getParent_account());
+                    virtualAccountModel1.get().setSyncToBiz(false);
+                    virtualAccountModel1.get().setAccountAdded(true);
+                    virtualAccountModel1.get().setCustomerUpdateRequired(false);
+                    virtualAccountRepository.save(virtualAccountModel1.get());
+                    customerService.toggleCustomerAcct(Customer.ToggleIsPosSettlementAccountRequest.newBuilder().setAccountNumber(virtualAccountModel1.get().getParent_account()).setInitiator("").build());
+
+                    System.out.println("response customer updateVirtualAccountToCustomerAsync = ");
+                }
+
+            System.out.println("ended 1 ============================== updateVirtualAccountToCustomerAsync ");
+
+
+        } catch (Exception e) {
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_update", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_UPDATE");
+            errorLogsRepository.save(errorLogsModel);
+        }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
+    public void setAdminOtp(){
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findAll();
+
+            String token = helpers.generateRandom8DigitNumber();
+            String hashedToken = passwordEncoder.encode(token);
+
+            for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+                if(virtualAccountModel1.getOtp() == null) {
+                    log.info("virtual account number without admin pin {} ", virtualAccountModel1.getVirtual_account_number());
+                    virtualAccountModel1.setOtp(hashedToken);
+                    virtualAccountModel1.setMessageSent(false);
+                    virtualAccountModel1.setUnHashedPin(token);
+                    virtualAccountRepository.save(virtualAccountModel1);
+
+
+                    String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel1.getPhone_number());
+                    String message = "Your Admin PIN is " + token + ". You can reset it from the settings menu.";
+
+                    SendNotifications notification = SendNotifications.builder()
+                            .title("Admin Access Pin")
+                            .message(message)
+                            .receiverPhoneNumber(phoneNumber)
+                            .receiverPhoneCountry("NG")
+                            .sendtext(true)
+                            .sendmail(false)
+                            .attachment(false)
+                            .file("")
+                            .build();
+
+                    notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+                    log.info("setAdminOtp response {} ", response);
+
+                    if (response.getCode().equals("200")) {
+                        virtualAccountModel1.setMessageSent(true);
+                        virtualAccountRepository.save(virtualAccountModel1);
+                    }
+                }
+            }
+    }
+
+    @Scheduled(cron = "*/20 * * * * *")
+    public void sendAdminOtp(){
+        List<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.findByIsMessageSent(false);
+
+        log.info("virtual accounts without pin sms sent {} ", virtualAccountModel.size());
+        for (VirtualAccountModel virtualAccountModel1 : virtualAccountModel) {
+            if(virtualAccountModel1.getAdminPin() != null) {
+                String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel1.getPhone_number());
+                String message = "Your Admin PIN is " + virtualAccountModel1.getUnHashedPin() + ". You can reset it from the settings menu.";
+
+                SendNotifications notification = SendNotifications.builder()
+                        .title("Admin Access Pin")
+                        .message(message)
+                        .receiverPhoneNumber(phoneNumber)
+                        .receiverPhoneCountry("NG")
+                        .sendtext(true)
+                        .sendmail(false)
+                        .attachment(false)
+                        .file("")
+                        .build();
+
+                notification_service.Notifications.NotificationResponse response = notifications.sendNotification(notification);
+
+                log.info("sendAdminOtp response {} ", response);
+
+                if (response.getCode().equals("200")) {
+                    virtualAccountModel1.setMessageSent(true);
+                    virtualAccountRepository.save(virtualAccountModel1);
+                }
+            }
+            log.info("");
+        }
+
+    }
+
+
+    @Scheduled(cron = "*/20 * * * * *")
     public void updateVirtualAccountToCorePay() {
         List<VirtualAccountModel> virtualAccountModelList = virtualAccountRepository.getCustomersNotAddedToCorePay();
 
@@ -462,101 +709,272 @@ public class Cron {
         }
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
+    @SchedulerLock(name = "pushTransactionsToCba", lockAtMostFor = "55s", lockAtLeastFor = "10s")
     public void pushTransactionsToCba() {
-        List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsNotLoggedToCba(false);
+        // ✅ Atomically fetch AND lock in one DB operation
+        List<TransactionDrCr> transactions = fetchAndLockTransactions();
+//        List<Transactions> inwardTransaction = fetchAndLockInwardTransactionCharges();
 
-        System.out.println("transactionDrCr = " + transactionDrCr);
+        if (transactions.isEmpty()) return;
 
-        if(transactionDrCr.isEmpty()){
-            return;
-        }
-
-        for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
-            if (transactionDrCr1.getAccountnumber() != null && transactionDrCr1.getAmount() > 0) {
-
-                if (transactionDrCr1.getResponseCode().equals("00")) {
-
-                    //todo: 1. debit transaction charge from terminal transactionDrCr1.getAccountnumber()) using business_platform-charge repo
-                    //todo: 2. credit charge value from no.1 to business_platform-charge.getAccountnumber())
-
-                    Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByName(transactionDrCr1.getTransaction_platform_id());
-//                    Optional<BusinessPlatformCharges> businessPlatformCharges = businessPlatformChargesRepository.getChargeByBusinessPlatformId(transactionDrCr1.getTransaction_business_platform_id());
-//
-//                    System.out.println("========================================= 1");
-//                    if (businessPlatformCharges.isEmpty()) {
-//                        return;
-//                    }
-
-                    System.out.println("========================================= 2");
-                    if (platformCharges.isPresent()) {
-                        System.out.println("========================================= 3");
-                        //todo: debit platform charge from terminal
-                        String chargeType = platformCharges.get().getChargeType();
-                        double amount = (0.5/100) * transactionDrCr1.getAmount();
-                        if(amount > 100){
-                            amount = 100;
-                        }
-//                        double amount2;
-//
-//                        if (chargeType.equalsIgnoreCase("percentage")) {
-//                            amount = (platformCharges.get().getTotal() / 100) * transactionDrCr1.getAmount();
-//                        } else {
-//                            amount = platformCharges.get().getAmount();
-//                        }
-//
-//                        if (amount > platformCharges.get().getThreshold()) {
-//                            amount = platformCharges.get().getThreshold();
-//                        }
-
-//                        String chargeType2 = businessPlatformCharges.get().getChargeType();
-//                        if (chargeType2.equalsIgnoreCase("percentage")) {
-//                            amount2 = (businessPlatformCharges.get().getAmount() / 100) * amount;
-//                        } else {
-//                            amount2 = businessPlatformCharges.get().getAmount();
-//                        }
-
-//                        if (amount2 > businessPlatformCharges.get().getThreshold()) {
-//                            amount2 = businessPlatformCharges.get().getThreshold();
-//                        }
-
-                        DebitCreditResponse response = debitCreditService.debitCredit(transactionDrCr1, amount, "");
-
-                        if (response != null) {
-                            if (response.getCode().equals("200")) {
-                                String id = transactionDrCr1.getId();
-                                transactionDrCr1.setUpdatedToCba(true);
-                                transactionDrCr1.setCbaMessage(response.getMessage());
-                                transactionDrCr1.setCreated_at(LocalDateTime.now().toString());
-                                transactionDrCr1.setUpdated_at(LocalDateTime.now().toString());
-                                cbaTransactionRequestsRepository.save(transactionDrCr1);
-
-                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                                requestSchema.setNote("SUBMITTED");
-                                requestSchema.setStatus(200);
-                                System.out.println("requestSchema = " + requestSchema);
-                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                                System.out.println("SENT_TO_CBA");
-                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-                            } else {
-                                System.out.println("jjjjjjjj here");
-                                UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
-                                requestSchema.setNote(response.getMessage());
-                                requestSchema.setStatus(100);
-                                System.out.println("kkkkkkkkkkkkk");
-                                Object updateTransactionResponseSchema = transactionCoreController.updateTransaction(transactionDrCr1.getResourceId(), requestSchema);
-                                System.out.println("jjsjsjadj");
-                                System.out.println("NOT_SENT_TO_CBA");
-                                System.out.println("updateTransactionResponseSchema = " + updateTransactionResponseSchema);
-                            }
-                        }
-                    }
-                }
+        transactions.parallelStream().forEach(transaction -> {
+            try {
+                processTransaction(transaction);
+            } catch (Exception e) {
+                log.error("Error processing transaction: {}", transaction.getId(), e);
+                releaseTransaction(transaction.getId(), false, e.getMessage(), TransactionDrCr.class);
             }
+        });
+
+//        if(inwardTransaction.isEmpty()) return;
+//
+//        inwardTransaction.parallelStream().forEach(transaction -> {
+//            try {
+//                processInwardTransactionCharge(transaction);
+//            } catch (Exception e) {
+//                log.error("Error processing transaction: {}", transaction.getId(), e);
+//                releaseTransaction(transaction.getId(), false, e.getMessage(), Transactions.class);
+//            }
+//        });
+    }
+
+    // ✅ Fetch AND lock in a single atomic MongoDB operation
+    private List<TransactionDrCr> fetchAndLockTransactions() {
+        LocalDateTime lockExpiry = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isUpdatedToCba").is(false)
+                        .and("responseCode").is("00")
+                        .andOperator(
+                                new Criteria().orOperator(
+                                        Criteria.where("isProcessing").is(false),
+                                        // ✅ Also recover stale locks automatically
+                                        Criteria.where("processingStartedAt").lt(lockExpiry.toString())
+                                )
+                        )
+        );
+
+        Update update = new Update()
+                .set("isProcessing", true)
+                .set("processingStartedAt", LocalDateTime.now().toString())
+                .set("processingInstance", getInstanceId());
+
+        // ✅ findAndModify is atomic at DB level
+        List<TransactionDrCr> claimed = new ArrayList<>();
+        TransactionDrCr transaction;
+
+        do {
+            transaction = mongoTemplate.findAndModify(
+                    query,
+                    update,
+                    FindAndModifyOptions.options().returnNew(true),
+                    TransactionDrCr.class
+            );
+            if (transaction != null) {
+                claimed.add(transaction);
+            }
+        } while (transaction != null);
+
+        return claimed;
+    }
+
+    // ✅ Fetch AND lock in a single atomic MongoDB operation
+    private List<Transactions> fetchAndLockInwardTransactionCharges() {
+        LocalDateTime lockExpiry = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isUpdatedToCba").is(false)
+                        .andOperator(
+                                new Criteria().orOperator(
+                                        Criteria.where("isProcessing").is(false),
+                                        // ✅ Also recover stale locks automatically
+                                        Criteria.where("processingStartedAt").lt(lockExpiry.toString())
+                                )
+                        )
+        );
+
+        Update update = new Update()
+                .set("isProcessing", true)
+                .set("processingStartedAt", LocalDateTime.now().toString())
+                .set("processingInstance", getInstanceId());
+
+        // ✅ findAndModify is atomic at DB level
+        List<Transactions> claimed = new ArrayList<>();
+        Transactions transaction;
+
+        do {
+            transaction = mongoTemplate.findAndModify(
+                    query,
+                    update,
+                    FindAndModifyOptions.options().returnNew(true),
+                    Transactions.class
+            );
+            if (transaction != null) {
+                claimed.add(transaction);
+            }
+        } while (transaction != null);
+
+        return claimed;
+    }
+
+    private void processTransaction(TransactionDrCr transaction) {
+        log.info("Processing transaction: {}", transaction.getId());
+
+        try {
+            // Validate
+            if (transaction.getAccountnumber() == null || transaction.getAmount() <= 0) {
+                log.warn("Invalid transaction data: {}", transaction.getId());
+                markAsFailed(transaction.getId(), "Invalid transaction data", TransactionDrCr.class);
+                return;
+            }
+
+            // ✅ Get platform charges
+            Optional<PlatformCharges> platformCharges = platformChargeRepository
+                    .getChargeByName(transaction.getTransaction_platform_id());
+
+            if (platformCharges.isEmpty()) {
+                log.warn("No platform charges found: {}", transaction.getId());
+                markAsFailed(transaction.getId(), "No platform charges found", TransactionDrCr.class);
+                return;
+            }
+
+            double amount = Math.min((0.5 / 100) * transaction.getAmount(), 100) < 20 ? 20 : Math.min((0.5 / 100) * transaction.getAmount(), 100);
+            double amount2 = Math.min((0.3 / 100) * transaction.getAmount(), 20);
+
+            // ✅ Call CBA
+            DebitCreditResponse response = debitCreditService.debitCredit(
+                    transaction, amount, amount2, ""
+            );
+
+            if (response == null) {
+                log.error("Null response from CBA for transaction: {}", transaction.getId());
+                releaseTransaction(transaction.getId(), false, "Null response from CBA", TransactionDrCr.class);
+                return;
+            }
+
+            handleResponse(transaction.getId(), transaction.getResourceId(), response, TransactionDrCr.class);
+
+        } catch (Exception e) {
+            log.error("Unexpected error processing transaction: {}", transaction.getId(), e);
+            releaseTransaction(transaction.getId(), false, e.getMessage(), TransactionDrCr.class);
         }
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    private void processInwardTransactionCharge(Transactions transaction) {
+        log.info("Processing inward transaction: {}", transaction.getId());
+
+        try {
+            // Validate
+            if (transaction.getBeneficiaryAccountNumber() == null || transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+                log.warn("Invalid inward transaction data: {}", transaction.getId());
+                markAsFailed(transaction.getId(), "Invalid transaction data", Transactions.class);
+                return;
+            }
+
+            double amount = 20;
+
+            TransactionDrCr transactionData = new TransactionDrCr();
+            transactionData.setAmount(20.0);
+            transactionData.setAccountstatus("active");
+            transactionData.setAcctname(transaction.getBeneficiaryAccountNumber());
+            transactionData.setAccountnumber(transaction.getBeneficiaryAccountNumber());
+            transactionData.setDrcr("dr");
+            transactionData.setAcctype("savings");
+            transactionData.setTransactionreference("2103" + (System.currentTimeMillis() / 100));
+            transactionData.setNarration("Charge for inward transfer from " + transaction.getSourceAccountName() + " to " + transaction.getBeneficiaryAccountNumber() + ", a sum of " + transaction.getAmount());
+
+            // ✅ Call CBA
+            DebitCreditResponse response = debitCreditService.debitCredit(
+                    transactionData, amount, 0, ""
+            );
+
+            if (response == null) {
+                log.error("Null response from CBA for transaction: {}", transaction.getId());
+                releaseTransaction(transaction.getId(), false, "Null response from CBA", Transactions.class);
+                return;
+            }
+
+            handleResponse(transaction.getId(), 0, response, Transactions.class);
+
+        } catch (Exception e) {
+            log.error("Unexpected error processing transaction: {}", transaction.getId(), e);
+            releaseTransaction(transaction.getId(), false, e.getMessage(), Transactions.class);
+        }
+    }
+
+    private <T> void handleResponse(String id, int resourceId, DebitCreditResponse response, Class<T> collectionClass) {
+        if (response.getCode().equals("200") || response.getCode().equals("201")) {
+            // ✅ Mark fully completed
+            markAsCompleted(id, response.getMessage(), collectionClass);
+            updateTransactionStatus(resourceId, "SUBMITTED", 200);
+            log.info("Transaction successfully sent to CBA: {}", id);
+        } else {
+            // ✅ Release lock for retry
+            releaseTransaction(id, false, response.getMessage(), collectionClass);
+            updateTransactionStatus(resourceId, response.getMessage(), 100);
+            log.warn("CBA rejected transaction: {} — {}", id, response.getMessage());
+        }
+    }
+
+    // ✅ Mark as permanently completed
+    private <T> void markAsCompleted(String id, String message, Class<T> collectionClass) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update()
+                .set("isUpdatedToCba", true)
+                .set("isProcessing", false)
+                .set("cbaMessage", message)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, collectionClass);
+    }
+
+    // ✅ Mark as failed — allow retry
+    private <T> void releaseTransaction(String id, boolean success, String message, Class<T> collectionClass) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("isUpdatedToCba", success)
+                .set("cbaMessage", message)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, collectionClass);
+    }
+
+    // ✅ Mark as permanently failed — stop retrying
+    private <T> void markAsFailed(String id, String reason, Class<T> collectionClass) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("isUpdatedToCba", false)
+                .set("failedPermanently", true)
+                .set("cbaMessage", reason)
+                .set("processingStartedAt", null)
+                .set("updated_at", LocalDateTime.now().toString());
+        mongoTemplate.updateFirst(query, update, collectionClass);
+    }
+
+    private void updateTransactionStatus(Integer resourceId, String note, int status) {
+        try {
+            UpdateTransactionRequestSchema requestSchema = new UpdateTransactionRequestSchema();
+            requestSchema.setNote(note);
+            requestSchema.setStatus(status);
+            transactionCoreController.updateTransaction(resourceId, requestSchema);
+        } catch (Exception e) {
+            log.error("Failed to update transaction status for resourceId: {}", resourceId, e);
+        }
+    }
+
+    // ✅ Unique instance ID to track which server processed the transaction
+    private String getInstanceId() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (Exception e) {
+            return UUID.randomUUID().toString();
+        }
+    }
+
+    @Scheduled(cron = "0 */1 * * * *")
     public void checkTransactionStatusOnCba() {
         List<TransactionDrCr> transactionDrCr = cbaTransactionRequestsRepository.findTransactionsLoggedToCba(true);
         for (TransactionDrCr transactionDrCr1 : transactionDrCr) {
@@ -597,13 +1015,32 @@ public class Cron {
         }
     }
 
+    @Scheduled(cron = "0 */5 * * * *")  // every 5 minutes
+    public void recoverStaleLocks() {
+        // Find transactions stuck processing for more than 5 minutes
+        LocalDateTime threshold = LocalDateTime.now().minusMinutes(5);
+
+        Query query = new Query(
+                Criteria.where("isProcessing").is(true)
+                        .and("isUpdatedToCba").is(false)
+                        .and("processingStartedAt").lt(threshold.toString())
+        );
+
+        Update update = new Update()
+                .set("isProcessing", false)
+                .set("processingStartedAt", null);
+
+        mongoTemplate.updateMulti(query, update, TransactionDrCr.class);
+        log.info("Stale locks recovered at {}", LocalDateTime.now());
+    }
+
     @Scheduled(cron = "0 0 0 ? * FRI")
-    public void getCategories(){
+    public void getCategories() {
         Categories getBillsCat = billsPayment.getBillsCategories();
-        if(!getBillsCat.getData().isEmpty()){
+        if (!getBillsCat.getData().isEmpty()) {
             for (DataItems i : getBillsCat.getData()) {
                 Optional<CategoriesModel> categoriesModel = categoriesRepository.findCategory(i.getId(), i.getName());
-                if(categoriesModel.isEmpty()) {
+                if (categoriesModel.isEmpty()) {
                     System.out.println("Kalu");
                     boolean isActive = i.getName().equalsIgnoreCase("Utility Bills") || i.getName().equalsIgnoreCase("Cable TV Bills") || i.getName().equalsIgnoreCase("State Payments") || i.getName().equalsIgnoreCase("Mobile/Recharge");
                     CategoriesModel categories = new CategoriesModel();
@@ -614,7 +1051,7 @@ public class Cron {
                     categories.setLogo("");
                     categories.setPaymentTypeId(3);
                     categories.setValidateNum(true);
-                    if(i.getName().equalsIgnoreCase("Mobile Recharge") || i.getName().equalsIgnoreCase("Airtime and Data") || i.getName().equalsIgnoreCase("Internet Services")){
+                    if (i.getName().equalsIgnoreCase("Mobile Recharge") || i.getName().equalsIgnoreCase("Airtime and Data") || i.getName().equalsIgnoreCase("Internet Services")) {
                         categories.setPaymentTypeId(2);
                         categories.setValidateNum(false);
                     }
@@ -624,16 +1061,16 @@ public class Cron {
 
             List<CategoriesModel> dataItems = categoriesRepository.findCategory(true);
 
-            for (CategoriesModel model : dataItems){
+            for (CategoriesModel model : dataItems) {
                 System.out.println("Philomena");
-                if(model.getActive()) {
+                if (model.getActive()) {
                     System.out.println("Here");
                     CategoryServices getCatServices = billsPayment.getCategoryServices(model.getInterswitchId());
 
                     if (!getCatServices.getData().isEmpty()) {
                         for (DataServices i : getCatServices.getData()) {
                             List<CategoryServicesModel> categoryServicesChecker = categoryServicesRepository.findCategoryService(i.getServiceId(), i.getCategoryName());
-                            if(categoryServicesChecker.isEmpty()) {
+                            if (categoryServicesChecker.isEmpty()) {
                                 System.out.println("Danny");
                                 CategoryServicesModel categoryServicesModel = new CategoryServicesModel();
                                 categoryServicesModel.setServiceName(i.getServiceName());
@@ -671,24 +1108,59 @@ public class Cron {
         }
     }
 
-    public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel){
-        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessSavingsId());
-        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessSavingsId());
+    public notification_service.Notifications.NotificationResponse sendOtpSms(VirtualAccountModel virtualAccountModel, String token) {
+        try {
+            if (StringUtils.isBlank(virtualAccountModel.getPhone_number())) {
+                log.warn("Cannot send OTP SMS, phone number is blank for terminal: {}", virtualAccountModel.getTerminalId());
+                return null;
+            }
 
-        if(customersModel.isEmpty()){
+            String phoneNumber = helpers.normalizePhoneNumber(virtualAccountModel.getPhone_number());
+            String message = "Your OTP for POS activation is " + token + ". Do not share this code with anyone.";
+
+            SendNotifications notification = SendNotifications.builder()
+                    .title("POS Activation OTP")
+                    .message(message)
+                    .receiverPhoneNumber(phoneNumber)
+                    .receiverPhoneCountry("234")
+                    .sendtext(true)
+                    .sendmail(false)
+                    .attachment(false)
+                    .file("")
+                    .build();
+
+            return notifications.sendNotification(notification);
+        } catch (Exception e) {
+            log.error("Failed to send OTP SMS for terminal: {}", virtualAccountModel.getTerminalId(), e);
+            ErrorLogsModel errorLogsModel = new ErrorLogsModel("Virtual_account_otp_sms", e.getMessage());
+            errorLogsModel.setCreatedAt(Instant.now());
+            errorLogsModel.setUpdatedAt(Instant.now());
+            errorLogsModel.setType("CUSTOMER_VIRTUAL_ACCOUNT_OTP_SMS");
+            errorLogsRepository.save(errorLogsModel);
             return null;
         }
+    }
+
+    public notification_service.Notifications.NotificationResponse sendPasswordMail(VirtualAccountModel virtualAccountModel) {
+        System.out.println("virtualAccountModel.getSavingsId() = " + virtualAccountModel.getBusinessWalletId());
+        Optional<CustomersModel> customersModel = helpers.getCustomerBySavingsId(virtualAccountModel.getBusinessWalletId());
+
+        if (customersModel.isEmpty()) {
+            return null;
+        }
+        System.out.println("got here sendPasswordMail");
         String genericCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSSS"));
         virtualAccountModel.setGenericCode(genericCode);
         virtualAccountModel.setCodeExpired(false);
         virtualAccountModel.setToken_expiry(LocalDateTime.now().plusMinutes(10).toString());
         virtualAccountRepository.save(virtualAccountModel);
-        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" +client_url+genericCode + "\" target=\"_blank\">Set Pin</a>";
+        String message = "Kindly click on the link below to activate your POS transaction pin <br /> <a href=\"" + client_url + genericCode + "\" target=\"_blank\">Set Pin</a>";
         SendNotifications notifications1 = SendNotifications.builder()
                 .title("Set POS Password")
                 .file("")
                 .message(message)
-                .receiver_email(customersModel.get().getEmail_address())
+//                .receiver_email(customersModel.get().getEmail_address())
+                .receiver_email("abelkelly6022@gmaiil.com")
                 .sendmail(true)
                 .attachment(true)
                 .build();
@@ -759,7 +1231,7 @@ public class Cron {
     private CustomerCheckResult checkCustomerExists(CustomersModel customer) {
         try {
             Customer.GetCorporateCustomerResponse response =
-                    customerService.getCorporateCustomer(customer.getContact_phone_number());
+                    customerService.getCorporateCustomer(customer.getTin());
 
             if (response.hasCustomer()) {
                 // Extract account number safely
@@ -785,6 +1257,7 @@ public class Cron {
      * Safely extract account number from gRPC response
      */
     private String extractAccountNumber(Customer.GetCorporateCustomerResponse response) {
+
         try {
             if (response.getCustomer().getProductsCount() > 0) {
                 // Use getProducts(0) instead of getProducts(1) - lists are 0-indexed
@@ -864,6 +1337,7 @@ public class Cron {
         }
 
         log.warn("Encountered {} errors during customer creation", errors.size());
+        log.warn("error {}", errors);
 
         List<ErrorLogsModel> errorLogs = errors.stream()
                 .map(error -> {
@@ -938,6 +1412,11 @@ public class Cron {
         } catch (Exception e) {
             log.error("Failed to log error to database", e);
         }
+    }
+
+    public static String generateRandom6DigitNumber() {
+        SecureRandom random = new SecureRandom();
+        return String.format("%06d", random.nextInt(1_000_000));
     }
 }
 

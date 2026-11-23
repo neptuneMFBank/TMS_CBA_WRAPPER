@@ -22,11 +22,17 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'virtual_account_number': { $ne: null }, 'is_updated': false }")
     List<VirtualAccountModel> getCustomersNotAddedToCorePay();
 
+    @Query("{ 'adminPin': { $ne: null } }")
+    List<VirtualAccountModel> findByVirtualAccountsByAdminPin();
+
     @Query("{ 'terminalId': {$in: ?0} }")
     List<VirtualAccountModel> findByVirtualAccountsByTerminalId(List<String> terminalId);
 
     @Query("{ 'terminalId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountByTerminalId(String terminalId);
+
+    @Query("{ 'terminalId': { $in: ?0 } }")
+    List<VirtualAccountModel> findByTerminalIdIn(List<String> terminalId);
 
     @Query("{ 'virtual_account_number': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByAccount(String virtual_account_number);
@@ -37,6 +43,23 @@ public interface VirtualAccountRepository extends MongoRepository<VirtualAccount
     @Query("{ 'businessWalletId': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByBusinessAccount(String businessWalletId);
 
+    @Query("{ 'businessWalletId': { $eq: ?0 } }")
+    List<VirtualAccountModel> findAllByBusinessWalletId(String businessWalletId);
+
     @Query("{ 'parent_account': { $eq: ?0 } }")
     Optional<VirtualAccountModel> getVirtualAccountModelByParentAccount(String parent_account);
+
+    Optional<VirtualAccountModel> findFirstByOrderByCreatedAtDesc();
+
+    List<VirtualAccountModel> findByIsSyncToBizAndAccountAdded(Boolean isSyncToBiz, Boolean accountAdded);
+
+    List<VirtualAccountModel> findByIsMessageSent(Boolean isMessageSent);
+
+    Optional<VirtualAccountModel> findByCustomerUpdateRequired(Boolean customerUpdateRequired);
+
+    @Query("{ 'terminalId': { $eq: ?0 } }")
+    List<VirtualAccountModel> findByTerminalIdOrderByAccountNameAsc(String terminalId);
+
+    @Query("{ 'terminalId': { $nin: [null, ''] } }")
+    List<VirtualAccountModel> findByTerminalIdNotNullOrEmptyOrderByAccountNameAsc();
 }

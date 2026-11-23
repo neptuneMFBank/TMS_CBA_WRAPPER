@@ -11,12 +11,23 @@ import java.util.Optional;
 @Repository
 public interface CbaTransactionRequestsRepository extends MongoRepository<TransactionDrCr, String> {
 
-    @Query("{ 'isUpdatedToCba': {$eq: ?0}, 'type': { $ne: 'charge' } }")
-    List<TransactionDrCr> findTransactionsNotLoggedToCba(boolean isUpdatedToCba);
+    @Query("{ 'isUpdatedToCba': {$eq: ?0}, 'isProcessing': {$eq: ?1}, 'type': { $ne: 'charge' } }")
+    List<TransactionDrCr> findByIsUpdatedToCbaAndIsProcessing(boolean isUpdatedToCba, boolean isProcessing);
 
     @Query("{ 'transactionreference': {$eq: ?0} }")
     Optional<TransactionDrCr> findByRef(String transactionreference);
 
+    @Query("{ 'terminalId': { $in: ?0 }, 'type': { $eq: 'transaction' }, 'drcr': { $eq: 'cr' }, 'created_at': { $gte: ?1, $lt: ?2 } }")
+    List<TransactionDrCr> findCreditTransactionsByTerminalIdsAndDateRange(
+            List<String> terminalIds,
+            String startDate,
+            String endDate
+    );
+
     @Query("{ 'isUpdatedToCba': {$eq: ?0}, 'cbaMessage': { $eq: 'ok' } }")
     List<TransactionDrCr> findTransactionsLoggedToCba(boolean isUpdatedToCba);
+
+    // Add to repository
+    @Query("{ 'isProcessing': true, 'processingStartedAt': { $lt: ?0 }, 'isUpdatedToCba': false }")
+    List<TransactionDrCr> findStuckProcessingTransactions(String thresholdTime);
 }

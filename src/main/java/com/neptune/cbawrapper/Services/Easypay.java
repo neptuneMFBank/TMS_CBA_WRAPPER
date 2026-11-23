@@ -32,7 +32,7 @@ public class Easypay {
     @Value("${grpc.easypay.request.port}")
     private int easy_pay_port;
 
-    public EasyPayResponse transferOutward(EasypayTransactionsModel payload){
+    public EasyPayResponse  transferOutward(EasypayTransactionsModel payload){
         System.out.println("payload = " + payload);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(easy_pay_ip, easy_pay_port).usePlaintext().build();
         EasyPayResponse response = null;

@@ -22,4 +22,12 @@ public interface CorePayRestController {
 
     @PostMapping("/clients")
     CreateCustomerResponse createCustomer(@RequestBody CreateCustomerRequest createCustomerRequest);
+//
+//
+//
+//    @GetMapping("/business/terminals/pending-wallet-sync")
+//    PendingRequestResponse getPending();
+//
+//    @PutMapping("/business/terminals/bulk-wallet-update")
+//    Object postCustomers(@RequestBody CustomerData customerData);
 }

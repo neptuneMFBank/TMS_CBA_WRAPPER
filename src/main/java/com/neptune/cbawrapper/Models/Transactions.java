@@ -42,6 +42,21 @@ public class Transactions {
 
     private BigDecimal amount;
 
+    private BigDecimal charge;
+
+    private String created_at;
+    private String updated_at;
+
+    private boolean isProcessing = false;
+
+    private String processingStartedAt;
+
+    private String processingInstance;
+
+    private String responseCode;
+
+    private boolean isUpdatedToCba;
+
     private String transactionType;
 
     public String getBeneficiaryAccountNumber() {
@@ -138,6 +153,70 @@ public class Transactions {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public BigDecimal getCharge() {
+        return charge;
+    }
+
+    public void setCharge(BigDecimal charge) {
+        this.charge = charge;
+    }
+
+    public boolean isUpdatedToCba() {
+        return isUpdatedToCba;
+    }
+
+    public void setUpdatedToCba(boolean updatedToCba) {
+        isUpdatedToCba = updatedToCba;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public boolean isProcessing() {
+        return isProcessing;
+    }
+
+    public void setProcessing(boolean processing) {
+        isProcessing = processing;
+    }
+
+    public String getProcessingStartedAt() {
+        return processingStartedAt;
+    }
+
+    public void setProcessingStartedAt(String processingStartedAt) {
+        this.processingStartedAt = processingStartedAt;
+    }
+
+    public String getProcessingInstance() {
+        return processingInstance;
+    }
+
+    public void setProcessingInstance(String processingInstance) {
+        this.processingInstance = processingInstance;
+    }
+
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
     public Transactions() {

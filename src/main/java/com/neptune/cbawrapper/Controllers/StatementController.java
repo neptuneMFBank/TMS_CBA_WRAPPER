@@ -65,7 +65,7 @@ public class StatementController {
 
         // Validate customer
         Optional<CustomersModel> customersModel =
-                helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
+                helpers.getCustomerBySavingsId(accountModel.get().getBusinessWalletId());
 
         if (customersModel.isEmpty()) {
             log.warn("Customer not found for account: {}", request.getAcctNo());

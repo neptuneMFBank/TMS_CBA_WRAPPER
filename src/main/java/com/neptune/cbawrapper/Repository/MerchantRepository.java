@@ -1,0 +1,33 @@
+package com.neptune.cbawrapper.Repository;
+
+import com.neptune.cbawrapper.Models.MerchantData;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface MerchantRepository extends MongoRepository<MerchantData, String> {
+    List<MerchantData> findByUploadedFalse();
+
+    List<MerchantData> findBySyncFalse();
+
+    List<MerchantData> findByTin(String tin);
+
+    @Query("{ 'terminalId': { $eq: ?0 } }")
+    Optional<MerchantData> findByTerminalId(String terminalId);
+
+    List<MerchantData> findMerchantByBusinessAcct(String businessAcct);
+
+    Optional<MerchantData> findFirstByOrderByCreatedAtDesc();
+
+
+    @Query("{ 'terminalId': { $in: ?0 } }")
+    List<MerchantData> findByTerminalIdIn(List<String> terminalId);
+
+
+    @Query("{ 'tin': { $in: ?0 } }")
+    List<MerchantData> findByTinIn(List<String> tin);
+}

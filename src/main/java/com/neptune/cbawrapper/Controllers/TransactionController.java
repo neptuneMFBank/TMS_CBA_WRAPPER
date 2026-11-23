@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -62,6 +63,7 @@ public class TransactionController {
     private final TransactionsRepository transactionsRepository;
     private final TransactionCoreController transactionCoreController;
     private final VirtualAccountRepository virtualAccountRepository;
+    private final CustomersRepository customersRepository;
     private final CbaTransactionRequestsRepository cbaTransactionRequests;
     private final ErrorLoggingException errorLoggingException;
     private final PushyAPI pushyAPI;
@@ -138,16 +140,22 @@ public class TransactionController {
                 transactions.setSourceBank(payload.getSourceBank());
                 transactions.setReference(payload.getReference());
                 transactions.setSessionId(payload.getSessionId());
+                transactions.setCharge(BigDecimal.valueOf(20.00));
+                transactions.setUpdatedToCba(false);
                 transactions.setNarration(payload.getNarration());
                 transactions.setDateTime(payload.getDateTime());
                 transactions.setAmount(payload.getAmount());
                 transactions.setTransactionType(payload.getTransactionType());
                 transactions.setEvent(webhookData.getEvent());
+                transactions.setCreated_at(ZonedDateTime.now().toString());
+                transactions.setUpdated_at(ZonedDateTime.now().toString());
             } else {
                 System.out.println("0000000000000000000");
                 transactions = checkIfTransactionWithRefExists.get();
                 transactions.setAmount(payload.getAmount());
                 transactions.setEvent(webhookData.getEvent());
+                transactions.setCreated_at(ZonedDateTime.now().toString());
+                transactions.setUpdated_at(ZonedDateTime.now().toString());
             }
             transactionsRepository.save(transactions);
             String event;
@@ -172,6 +180,7 @@ public class TransactionController {
 
             Optional<VirtualAccountModel> virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByAccount(payload.getBeneficiaryAccountNumber());
             if (virtualAccountModel.isPresent()) {
+                System.out.println("jjjjjjjjjjjjewqdsd");
                 pushyAPI.sendPush(virtualAccountModel.get().getFcmToken(), payload);
 
                 logAllTransactions(null, null, "Webhook", payload);
@@ -209,6 +218,7 @@ public class TransactionController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
         System.out.println("request = " + request);
         request.setDateFormat("dd MMMM yyyy");
         request.setStatus("pending");
@@ -223,7 +233,7 @@ public class TransactionController {
             errorLoggingException.logError("DEBIT_CREDIT_API_REQUEST_2", "account with Terminal id not found", "account with Terminal id not found");
             responseData.setMessage("account with Terminal id not found");
             responseData.setStatus(404);
-            responseData.setTimeStamp(ZonedDateTime.now());
+            responseData.setTimeStamp(ZonedDateTime.now(ZoneOffset.UTC));
             responseData.setData(null);
             return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
         }
@@ -231,6 +241,24 @@ public class TransactionController {
         BalanceResponse balance = debitCreditService.getBalance(virtualAccountModel.get().getVirtual_account_number(), virtualAccountModel.get().getParent_id());
 
         if (request.isBillsPayment() || request.isTransfer()) {
+            if(request.isBillsPayment()) {
+                if (!virtualAccountModel.get().getPayBills()) {
+                    responseData.setMessage("Bills payment have been deactivated");
+                    responseData.setStatus(404);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
+                }
+            }
+            if(request.isTransfer()){
+                if (!virtualAccountModel.get().getInitiateTrans()) {
+                    responseData.setMessage("Outward transfers have been deactivated");
+                    responseData.setStatus(404);
+                    responseData.setTimeStamp(ZonedDateTime.now());
+                    responseData.setData(null);
+                    return immediateResult(new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND));
+                }
+            }
             boolean isAuthenticated = passwordEncoder.matches(request.getPin(), virtualAccountModel.get().getPin());
             if (!isAuthenticated) {
                 responseData.setMessage("Unauthorized");
@@ -338,18 +366,20 @@ public class TransactionController {
 
                 if(request.getMakePayment().getBillType().equalsIgnoreCase("BILLS")) {
                     System.out.println("request.getMakePayment().getBillType()  1 = " + request.getMakePayment().getBillType());
-                    DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
-                            new DeferredResult<>(60_000L, () -> {
-                                ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
-                                        504, "Payment query timed out", null, "", ZonedDateTime.now(), true
-                                );
-                                return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
-                            });
                     System.out.println("makePaymentResponse = " + makePaymentResponse);
                     logAllTransactions(request, platformCharges, "Bills", null);
                     processPaymentAndQuery(
-                            makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType, deferredResult
+                            makePaymentResponse, billsPaymentData, request.getMakePayment().getRequestReference(), billType
                     );
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(
+                            200,
+                            "Bills payment processing",
+                            makePaymentResponse,
+                            "",
+                            ZonedDateTime.now(),
+                            true
+                    );
+                    return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
                 }else {
                     System.out.println("request.getMakePayment().getBillType() 2 = " + request.getMakePayment().getBillType());
                     logAllTransactions(request, platformCharges, "Bills", null);
@@ -384,6 +414,7 @@ public class TransactionController {
                     IntraTransfer intraTransfer = IntraTransfer.builder()
                             .customerId(virtualAccountModel.get().getParent_id())
                             .mobilekey("")
+                            .narration("Transfer from" + virtualAccountModel.get().getAccount_name() + "/" +virtualAccountModel.get().getVirtual_account_number() + " to " + enquiryResponseModel.get().getAccountName()+"/"+enquiryResponseModel.get().getAccountNumber())
                             .fromaccount(virtualAccountModel.get().getVirtual_account_number())
                             .fromacctname(virtualAccountModel.get().getAccount_name())
                             .fromaccountstatus("active")
@@ -395,7 +426,7 @@ public class TransactionController {
                             .amount(request.getAmount())
                             .tokenType("")
                             .transactionreference(ref)
-                            .narration(request.getNarration())
+//                            .narration(request.getNarration())
                             .build();
                     System.out.println("intraTransfer = " + intraTransfer);
                     IntraTransferResponseData response = transactionService.intraTransfer(intraTransfer);
@@ -423,8 +454,8 @@ public class TransactionController {
                 transactionsModel.setOriginatorAccountNumber(virtualAccountModel.get().getVirtual_account_number());
                 transactionsModel.setOriginatorBankVerificationNumber(virtualAccountModel.get().getBvn());
                 transactionsModel.setOriginatorKYCLevel(1);
+                transactionsModel.setOriginatorNarration("Transfer of " + request.getAmount() + " to " + enquiryResponseModel.get().getAccountName());
                 transactionsModel.setNameEnquiryRef(enquiryResponseModel.get().getRef());
-                transactionsModel.setOriginatorNarration(request.getNarration());
                 transactionsModel.setTransactionLocation(request.getTransactionLocation());
                 transactionsModel.setCustomerAccountName(virtualAccountModel.get().getAccount_name());
                 transactionsModel.setCustomerAccountNumber(virtualAccountModel.get().getVirtual_account_number());
@@ -506,24 +537,40 @@ public class TransactionController {
     @GetMapping("/get-balance")
     public ResponseEntity<ResponseSchema<?>> getBalance(@RequestParam String accountNum, @RequestParam String type) {
         try {
+            String account;
+            String account_id = "";
             Optional<VirtualAccountModel> virtualAccountModel;
             if (type.equalsIgnoreCase("virtual_account")) {
                 virtualAccountModel = virtualAccountRepository.getCustomersWithAccountId(accountNum);
+
+                if (virtualAccountModel.isEmpty()) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
+                account_id = virtualAccountModel.get().getParent_id();
             } else if (type.equalsIgnoreCase("business_account")) {
-                virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByBusinessAccount(accountNum);
+                Optional<CustomersModel> customersModel = customersRepository.checkForCustomerByAcct(accountNum);
+
+                if(customersModel.isEmpty()){
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
+
+                account_id = customersModel.get().getCba_customer_id();
             } else {
                 virtualAccountModel = virtualAccountRepository.getVirtualAccountModelByParentAccount(accountNum);
+
+                if (virtualAccountModel.isEmpty()) {
+                    ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
+                    return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
+                }
+                account_id = virtualAccountModel.get().getParent_id();
             }
 
-            if (virtualAccountModel.isEmpty()) {
-                ResponseSchema<?> responseSchema = new ResponseSchema<>(404, "account not found", null, "", ZonedDateTime.now(), false);
-                return new ResponseEntity<>(responseSchema, HttpStatus.NOT_FOUND);
-            }
-
-            BalanceResponse response = debitCreditService.getBalance(accountNum, virtualAccountModel.get().getParent_id());
+            BalanceResponse response = debitCreditService.getBalance(accountNum, account_id);
 
             System.out.println("response = " + response);
-            com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse balanceResponse = new com.neptune.cbawrapper.RequestRessponseSchema.BalanceResponse();
+            BalanceResponseData balanceResponse = new BalanceResponseData();
 
             if (response != null) {
                 double effBal = BigDecimal.valueOf(response.getEffectiveBalance()).setScale(2, RoundingMode.HALF_UP).doubleValue();
@@ -553,6 +600,8 @@ public class TransactionController {
     @Validated
     @GetMapping("/get-transaction-history")
     public ResponseEntity<ResponseSchema<?>> getTransactionHistory(@RequestParam String accountNum, @RequestParam String narration, @RequestParam String start_date, @RequestParam String end_date, @RequestParam int page, @RequestParam int size) {
+        System.out.println("accountNum = " + accountNum + " end_date " + end_date + " start_date " + start_date);
+        System.out.println("page = " + page + " size  " + size);
         HistoryResponse response = historyService.getAcctHistory(accountNum, start_date, narration, end_date, page, size);
 
         System.out.println("response = " + response);
@@ -613,7 +662,7 @@ public class TransactionController {
 
         // Validate customer
         Optional<CustomersModel> customersModel =
-                helpers.getCustomerBySavingsId(accountModel.get().getBusinessSavingsId());
+                helpers.getCustomerBySavingsId(accountModel.get().getBusinessWalletId());
 
         if (customersModel.isEmpty()) {
             ResponseSchema<?> responseSchema = new ResponseSchema<>(
@@ -715,13 +764,12 @@ public class TransactionController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get-transaction-details")
-    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref, @RequestParam String accountNo){
+    public ResponseEntity<ResponseSchema<?>> getTransactionDetails(@RequestParam String ref){
 
         try {
 
             System.out.println("ref = " + ref);
-            System.out.println("accountNo = " + accountNo);
-            transDetailsResponse response = historyService.getTransactionDetails(ref, accountNo);
+            transDetailsResponse response = historyService.getTransactionDetails(ref);
 
             System.out.println("response = " + response);
             if (response == null) {
@@ -805,6 +853,21 @@ public class TransactionController {
         return new ResponseEntity<>(responseSchema, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get-transaction-platform")
+    public ResponseEntity<ResponseSchema<?>> getTransactionPlatform(@RequestParam int platformId){
+        Optional<PlatformCharges> platformCharges = platformChargeRepository.getChargeByPlatformId(platformId);
+
+        if(platformCharges.isEmpty()){
+            errorLoggingException.logError("GET_TRANSACTION_PLATFORM", "Transaction platform with id does not exist", "Transaction with reference does not exist");
+            ResponseSchema<?> responseSchema =  new ResponseSchema<>( 404, "Transaction platform not found", null, "", ZonedDateTime.now(), false);
+            return new ResponseEntity<>(responseSchema, HttpStatus.CONFLICT);
+        }
+
+        ResponseSchema<?> responseSchema = new ResponseSchema<>( 200, "Transaction platform retrieved successfully", platformCharges.get(), "", ZonedDateTime.now(), false);
+        return new ResponseEntity<>(responseSchema, HttpStatus.OK);
+    }
+
     @Async("statementExecutor")
     public CompletableFuture<PrintableOuterClass.StatementOfAccountResponse> generateStateAsync(
             GenerateStatementRequest request,
@@ -832,8 +895,16 @@ public class TransactionController {
             MakePaymentApiResponse makePaymentResponse,
             BillsPaymentData billsPaymentData,
             String requestReference,
-            BillType billType,
-            DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult) {
+            BillType billType
+            ) {
+
+        DeferredResult<ResponseEntity<ResponseSchema<?>>> deferredResult =
+                new DeferredResult<>(60_000L, () -> {
+                    ResponseSchema<?> timeoutResponse = new ResponseSchema<>(
+                            504, "Payment query timed out", null, "", ZonedDateTime.now(), true
+                    );
+                    return new ResponseEntity<>(timeoutResponse, HttpStatus.GATEWAY_TIMEOUT);
+                });
 
         try {
             System.out.println("got here in 1112233 in " + time());
@@ -850,7 +921,7 @@ public class TransactionController {
 
             // Step 4: Call queryBills
             TransactionStatusResponse queryBillsResponse = historyService.getTransactionDetails(TransactionCategory.BILL_PAYMENT, requestReference);
-            BillsAdditionalData billsAdditionalData = null;
+            BillsAdditionalData billsAdditionalData = new BillsAdditionalData();
             if (Optional.ofNullable(queryBillsResponse)
                     .map(TransactionStatusResponse::getAdditionalInfo)
                     .filter(info -> !info.isEmpty())
@@ -876,13 +947,13 @@ public class TransactionController {
             billsPaymentDataRepository.save(billsPaymentData);
 
             // Step 6: Write response back to the waiting HTTP client
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(200, "successful", billsAdditionalData, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.OK));
 
         } catch (Exception e) {
-            log.error("Error processing bills payment", e);
-            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
-            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
+            log.error("Error processing bills payment {}", e.getMessage(), e);
+//            ResponseSchema<?> responseSchema = new ResponseSchema<>(500, e.getMessage(), null, "", ZonedDateTime.now(), true);
+//            deferredResult.setResult(new ResponseEntity<>(responseSchema, HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 

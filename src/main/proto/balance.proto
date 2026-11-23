@@ -14,6 +14,7 @@ service BalanceService {
 message BulkBalanceRequest {
   repeated BalanceRequest balanceRequest =1;
   string acc_type =2; //savings, loan
+  string date =3;
 }
 
 message BulkBalanceResponse {
