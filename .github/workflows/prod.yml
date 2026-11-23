@@ -39,7 +39,7 @@ jobs:
         with:
           repository: NEPTUNE-MFB-CBA/pos-helmchart
           token: ${{ secrets.PAT_TOKEN }}
-          ref: prod
+          ref: main
 
       - name: Update image tag in values.yaml
         run: |
