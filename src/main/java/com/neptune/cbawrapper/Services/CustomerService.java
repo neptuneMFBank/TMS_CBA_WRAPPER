@@ -311,6 +311,8 @@ public class CustomerService {
     }
 
     public Customer.CreateCustomerProductResponse getCorporateCustomerAcctNum(String customer_id, String accountNum) {
+        log.info("customerId {}", customer_id);
+        log.info("accountNum {}", accountNum);
         String formattedDate = LocalDate.now().toString();
         ManagedChannel channel = ManagedChannelBuilder.forAddress(customer_server_ip, customer_server_port).usePlaintext().build();
         Customer.CreateCustomerProductResponse response = null;

@@ -42,6 +42,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -317,9 +318,38 @@ public class Cron {
                 return;
             }
 
+            List<String> tins = customersRepository.getCustomersWithAccountId()
+                    .stream()
+                    .map(CustomersModel::getTin)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            List<MerchantData> merchantData = merchantRepository.findByTinIn(tins);
+
+            Map<String, MerchantData> merchantMap = merchantData.stream()
+                    .filter(merchant -> merchant.getTin() != null)
+                    .collect(Collectors.toMap(
+                            MerchantData::getTin,
+                            Function.identity(),
+                            (existing, replacement) -> existing
+                    ));
+
             List<Data> data1 = customersModels.stream()
-                    .map(customersModel -> new Data(customersModel.getSavingsId(), customersModel.getAccount_num()))
-                    .collect(Collectors.toList());
+                    .filter(customer -> customer.getTin() == null
+                            || !merchantMap.containsKey(customer.getTin()))
+                    .map(customer -> {
+                        MerchantData merchant = merchantMap.get(customer.getTin());
+
+                        String accountNumber = customer.getAccount_num();
+
+                        if (merchant != null && Boolean.TRUE.equals(merchant.getUseAcct())) {
+                            accountNumber = merchant.getBusinessAcct();
+                        }
+
+                        return new Data(customer.getSavingsId(), accountNumber);
+                    })
+                    .toList();
 
             log.info("updateCustomersToCorePay data1: {}", data1);
 
@@ -382,32 +412,29 @@ public class Cron {
                     if (virtualAccountModel.isEmpty()) {
                         System.out.println("66666666666666");
 
-                        Optional<MerchantData> merchantData = helpers.getMerchant(customersModel.get().getTin());
+                        // Prefer this terminal's own merchant row, even if it was already marked as created:
+                        // no virtual account exists for this terminal, so that flag can't be relied on here.
+                        Optional<MerchantData> merchantData = merchantRepository.findByTerminalId(data.getTerminalId())
+                                .or(() -> helpers.getMerchant(customersModel.get().getTin()));
 
-                        if(merchantData.isPresent()) {
-                            merchantData.get().setTerminalCreated(true);
-                            merchantData.get().setUploaded(true);
-                            merchantRepository.save(merchantData.get());
+                        if (merchantData.isEmpty()) {
+                            log.warn("No available merchant for terminal {}, skipping virtual account creation", data.getTerminalId());
+                            continue;
                         }
 
+                        MerchantData merchant = merchantData.get();
                         String token = helpers.generateRandom8DigitNumber();
                         String hashedPassword = passwordEncoder.encode(token);
-                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, merchantData.get().getUseAcct(), hashedPassword);
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, Boolean.TRUE.equals(merchant.getUseAcct()), hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
 
+                        // Only mark the merchant as used once the virtual account has been saved
+                        merchant.setTerminalCreated(true);
+                        merchant.setUploaded(true);
+                        merchantRepository.save(merchant);
+
                         sendOtpSms(virtualAccountModel1, token);
-
-                        Optional<MerchantData> merchantData1 = merchantRepository.findByTerminalId(data.getTerminalId());
-
-                        if(merchantData1.isPresent()) {
-                            if(merchantData1.get().isHasParent()) {
-                                System.out.println("has parent = " + data.getTerminalId());
-                                merchantData1.get().setTerminalCreated(true);
-                                merchantData1.get().setUploaded(true);
-                                merchantRepository.save(merchantData1.get());
-                            }
-                        }
                     }
                 }
             }
@@ -509,7 +536,7 @@ public class Cron {
             System.out.println("merchantData = " + merchantData);
 
             if(merchantData.isPresent()) {
-                if(merchantData.get().getUseAcct()) {
+                if(Boolean.TRUE.equals(merchantData.get().getUseAcct())) {
                     if (virtualAccount.isEmpty()) {
                         VirtualAccountModel virtualAccountModel1 = virtualAccountModel.get();
                         virtualAccountModel1.setVirtual_account_number(virtualAccountModel.get().getParent_account());
