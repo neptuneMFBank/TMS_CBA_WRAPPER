@@ -323,7 +323,8 @@ public class OnboardingController {
         customer.setCompany_address(request.getCompany_address());
         customer.setOfficeId(request.getOfficeId());
         customer.setSms_notification(true);
-        customer.setSavingsId(response.getResourceId());
+        // The savings account is what bulk-wallet-sync updates; older responses without savingsId fall back to resourceId.
+        customer.setSavingsId(response.getSavingsId() != null ? response.getSavingsId() : response.getResourceId());
         customer.setEmail_notification(true);
         customer.setEmail_address(request.getEmailAddress());
         customer.setClientId(response.getClientId());

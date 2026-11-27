@@ -16,6 +16,9 @@ public class TerminalProfile {
     private String walletId;
     private String terminalName;
     private String status;
+    // The owner's settlement account (merchants). Outward transfers from a MERCHANT terminal must go to it.
+    private String settlementAcct;
+    private String settlementBankCode;
 
     public String getId() {
 
