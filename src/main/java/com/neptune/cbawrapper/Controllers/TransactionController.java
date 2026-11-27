@@ -24,6 +24,7 @@ import com.neptune.cbawrapper.RequestRessponseSchema.*;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePayment;
 import com.neptune.cbawrapper.RequestRessponseSchema.BillsPayment.MakePaymentApiResponse;
 import com.neptune.cbawrapper.Services.*;
+import org.apache.commons.lang3.StringUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -266,6 +267,15 @@ public class TransactionController {
                 responseData.setTimeStamp(ZonedDateTime.now());
                 responseData.setData(null);
                 return immediateResult(new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED));
+            }
+        }
+
+        if (request.isTransfer()) {
+            String blockReason = settlementBlockReason(request);
+            if (blockReason != null) {
+                errorLoggingException.logError("SETTLEMENT_ACCOUNT_CHECK", request.getTerminalId(), blockReason);
+                ResponseSchema<?> responseSchema = new ResponseSchema<>(403, blockReason, null, "", ZonedDateTime.now(), false);
+                return immediateResult(new ResponseEntity<>(responseSchema, HttpStatus.FORBIDDEN));
             }
         }
 
@@ -964,6 +974,27 @@ public class TransactionController {
         System.out.println("type = " + type);
         UpdateTransactionResponseSchema responseSchema = helpers.registerTransactionToTMS(request, platformCharges, type, payload);
         System.out.println("responseSchema = " + responseSchema);
+    }
+
+    // Merchants can only transfer outwards to the settlement account set in the TMS, which comes back in the
+    // terminal's settings. If the settings can't be read the transfer is blocked rather than let through.
+    private String settlementBlockReason(CorepayPosTransactionRequest request) {
+        Optional<NameEnquiryResponseModel> enquiry = nameEnquiryResponseRepository.getNameEnquiryById(request.getNameEnquirySessionID());
+        if (enquiry.isEmpty()) {
+            return "Name enquiry not found, kindly try again";
+        }
+        if (StringUtils.isBlank(request.getSerialNo())) {
+            return "serialNo is required for transfers";
+        }
+        TerminalProfile profile = null;
+        try {
+            MenuDetails details = tmsCoreWalletAccount.getTerminalMenus(request.getSerialNo());
+            profile = details == null ? null : details.getTerminalProfile();
+        } catch (Exception e) {
+            log.error("settlement account check: could not fetch settings for serialNo {}: {}", request.getSerialNo(), e.getMessage());
+        }
+        return SettlementAccountGuard.blockReason(profile, request.getTerminalId(),
+                enquiry.get().getAccountNumber(), enquiry.get().getDestinationInstitutionCode());
     }
 
     private DeferredResult<ResponseEntity<ResponseSchema<?>>> immediateResult(ResponseEntity<ResponseSchema<?>> response) {

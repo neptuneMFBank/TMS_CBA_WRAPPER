@@ -11,6 +11,8 @@ public class CreateCustomerResponse {
     private Integer officeId;
     private Integer clientId;
     private Integer resourceId;
+    // The client's default savings account, when one was opened with it. resourceId is the client ID.
+    private Integer savingsId;
 
     public Integer getOfficeId() {
         return officeId;
@@ -34,5 +36,13 @@ public class CreateCustomerResponse {
 
     public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public Integer getSavingsId() {
+        return savingsId;
+    }
+
+    public void setSavingsId(Integer savingsId) {
+        this.savingsId = savingsId;
     }
 }

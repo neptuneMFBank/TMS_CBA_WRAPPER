@@ -59,6 +59,11 @@ public class VirtualAccountModel {
     private String bypassAgentId;
     private String status;
     private String rsm;
+    // The owner's savings account ID in the TMS, used to spot a terminal reassigned to another merchant/agent.
+    private Integer parentSavingsId;
+    // Set when the terminal was reassigned: this account stays with the previous owner and terminalId is cleared.
+    private String reassignedFromTerminalId;
+    private String reassignedAt;
 
     public String getAdminSupportPin() {
         return adminSupportPin;

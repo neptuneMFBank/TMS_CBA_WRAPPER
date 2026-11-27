@@ -409,30 +409,50 @@ public class Cron {
                 if (customersModel.isPresent()) {
                     Optional<VirtualAccountModel> virtualAccountModel = findByVirtualAccountsByTerminalId.stream().filter(virtualAccountModel1 -> data.getTerminalId().equals(virtualAccountModel1.getTerminalId())).findFirst();
                     System.out.println("55555555555555");
-                    if (virtualAccountModel.isEmpty()) {
+                    // A terminal reassigned in the TMS comes back here under its new owner while it still has the
+                    // previous owner's virtual account; it gets a new one linked to the new owner's customer record.
+                    boolean reassigned = virtualAccountModel.isPresent()
+                            && TerminalOwnership.ownerChanged(virtualAccountModel.get(), data, customersModel.get());
+                    if (virtualAccountModel.isEmpty() || reassigned) {
                         System.out.println("66666666666666");
 
                         // Prefer this terminal's own merchant row, even if it was already marked as created:
                         // no virtual account exists for this terminal, so that flag can't be relied on here.
+                        // After a reassignment that row belongs to the previous owner, so it must match the new TIN.
+                        String tin = customersModel.get().getTin();
                         Optional<MerchantData> merchantData = merchantRepository.findByTerminalId(data.getTerminalId())
-                                .or(() -> helpers.getMerchant(customersModel.get().getTin()));
+                                .filter(m -> !reassigned || StringUtils.equals(m.getTin(), tin))
+                                .or(() -> helpers.getMerchant(tin));
 
-                        if (merchantData.isEmpty()) {
+                        // A new terminal needs the merchant row from its POS request. A reassigned terminal already
+                        // exists, so its new owner usually has no unused POS request: its account is built from the
+                        // customer record, taking useAcct from any merchant row the new owner has.
+                        if (merchantData.isEmpty() && !reassigned) {
                             log.warn("No available merchant for terminal {}, skipping virtual account creation", data.getTerminalId());
                             continue;
                         }
+                        boolean useAcct = merchantData.map(m -> Boolean.TRUE.equals(m.getUseAcct()))
+                                .orElseGet(() -> TerminalOwnership.useAcct(merchantRepository.findByTin(tin)));
 
-                        MerchantData merchant = merchantData.get();
+                        if (reassigned) {
+                            log.info("terminal {} reassigned to savings {}, retiring virtual account {}", data.getTerminalId(),
+                                    data.getParentSavingsId(), virtualAccountModel.get().getVirtual_account_number());
+                            TerminalOwnership.retire(virtualAccountModel.get());
+                            virtualAccountRepository.save(virtualAccountModel.get());
+                        }
+
                         String token = helpers.generateRandom8DigitNumber();
                         String hashedPassword = passwordEncoder.encode(token);
-                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, Boolean.TRUE.equals(merchant.getUseAcct()), hashedPassword);
+                        VirtualAccountModel virtualAccountModel1 = getVirtualAccountModel(customersModel.get(), data, useAcct, hashedPassword);
                         System.out.println("virtualAccountModel1 = " + virtualAccountModel1);
                         virtualAccountRepository.save(virtualAccountModel1);
 
                         // Only mark the merchant as used once the virtual account has been saved
-                        merchant.setTerminalCreated(true);
-                        merchant.setUploaded(true);
-                        merchantRepository.save(merchant);
+                        merchantData.ifPresent(merchant -> {
+                            merchant.setTerminalCreated(true);
+                            merchant.setUploaded(true);
+                            merchantRepository.save(merchant);
+                        });
 
                         sendOtpSms(virtualAccountModel1, token);
                     }
@@ -460,6 +480,7 @@ public class Cron {
         virtualAccountModel.setTerminalId(data.getTerminalId());
         virtualAccountModel.setNin("");
         virtualAccountModel.setRsm(data.getStaffId());
+        virtualAccountModel.setParentSavingsId(data.getParentSavingsId());
         virtualAccountModel.setPayBills(true);
         virtualAccountModel.setInitiateTrans(true);
         virtualAccountModel.setIs_updated(false);
